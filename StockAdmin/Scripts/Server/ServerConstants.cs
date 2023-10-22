@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using StockAdmin.Models;
-
-namespace StockAdmin.Scripts.Server;
+﻿namespace StockAdmin.Scripts.Server;
 
 public class ServerConstants
 {
-    public const string ServerAddress = "http://localhost:5000";
+    public const string ServerAddress = "http://188.225.77.116:5000";
 }
