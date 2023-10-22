@@ -1,0 +1,60 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Model"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.AddedModelPage">
+    <Grid>
+        <TextBlock Text="Добавление/Изменение модели" 
+                   FontWeight="Bold" 
+                   FontSize="25"
+                   HorizontalAlignment="Center"
+        />
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Width="250">
+        
+            <TextBox 
+                x:Name="TbTitle" 
+                Watermark="Введите название"
+                HorizontalAlignment="Stretch"
+                Text="{Binding title}"
+                Margin="0 5"
+            />
+        
+            <TextBox 
+                x:Name="TbDescription" 
+                Watermark="Введите описание"
+                HorizontalAlignment="Stretch"
+                Text="{Binding description}"
+            />
+            
+            <TextBox 
+                x:Name="TbCodeVendor" 
+                Watermark="Введите артикул"
+                HorizontalAlignment="Stretch"
+                Margin="0 5"
+                Text="{Binding codeVendor}"
+            />
+            
+            <NumericUpDown 
+                x:Name="NudPercent" 
+                Watermark="Введите наценку"
+                FormatString="0"
+                Minimum="0"
+                Maximum="10000"
+                HorizontalAlignment="Stretch"
+                Value="{Binding percent}"
+            />
+            
+            <Button 
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Отправить"
+                Margin="0 5"
+                Click="SaveChanges"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

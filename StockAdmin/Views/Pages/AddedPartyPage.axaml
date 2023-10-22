@@ -1,0 +1,81 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.AddedPartyPage" x:DataType="models:Party">
+    <Grid>
+        <TextBlock Text="Добавление/Изменение крои" 
+                   FontWeight="Bold" 
+                   FontSize="25"
+                   HorizontalAlignment="Center"
+        />
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Width="250">
+        
+            <ComboBox 
+                x:Name="CmbModel" 
+                PlaceholderText="Выберите модель"
+                HorizontalAlignment="Stretch" 
+                DisplayMemberBinding="{Binding DataType=models:Model, Path=title}"
+                SelectedValueBinding="{Binding DataType=models:Model, Path=id}"
+                SelectedValue="{Binding modelId}"
+                SelectionChanged="SelectModel"
+                Margin="0 5"/>
+        
+            <ComboBox 
+                x:Name="CmbSize" 
+                PlaceholderText="Выберите размер"
+                DisplayMemberBinding="{Binding DataType=models:Size, Path=name}"
+                SelectedValueBinding="{Binding DataType=models:Size, Path=id}"
+                SelectedValue="{Binding sizeId}"
+                HorizontalAlignment="Stretch"/>
+        
+            <CalendarDatePicker 
+                x:Name="DateStart" 
+                Watermark="Выберите дату начала" 
+                SelectedDate="{Binding dateStart}"
+                HorizontalAlignment="Stretch"
+                Margin="0 5"/>
+        
+            <CalendarDatePicker 
+                x:Name="DateEnd"  
+                Watermark="Выберите дату конца" 
+                SelectedDate="{Binding dateEnd}"
+                HorizontalAlignment="Stretch"/>
+        
+            <NumericUpDown 
+                x:Name="Count" 
+                Watermark="Кол-во крой" 
+                Value="{Binding count}"
+                FormatString="0"
+                Minimum="1" 
+                Maximum="10000"
+                Margin="0 5"/>
+        
+            <NumericUpDown 
+                x:Name="CutNumber" 
+                Watermark="Номер крои" 
+                Value="{Binding cutNumber}"
+                FormatString="0"
+                Minimum="1" 
+                Maximum="100"/>
+            
+            <CheckBox 
+                x:Name="Defected" 
+                Content="Забракован?"
+                IsChecked="{Binding isDefected}"
+                Margin="0 5"/>
+            
+            <Button 
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Отправить"
+                Margin="0 5"
+                Click="SaveChanges"/>
+        </StackPanel>
+    </Grid>
+    
+</UserControl>

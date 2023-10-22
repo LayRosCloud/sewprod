@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="StockAdmin/App.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/MainWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/AuthWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/MainContainer.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/AddedClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/AddedModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/AddedPartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

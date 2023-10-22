@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        MinHeight="450" MinWidth="800"
+        x:Class="StockAdmin.Views.MainContainer"
+        WindowStartupLocation="CenterScreen"
+        Title="Главное окно">
+    <Grid Background="#FFF6F6">
+        <Grid.RowDefinitions>
+            <RowDefinition 
+                Height="50"/>
+            <RowDefinition
+                Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid  Margin="20 5"
+               Grid.Row="0"
+        >
+            <Border Background="#1F4172" CornerRadius="10"/>
+            <Border Background="White" CornerRadius="50" Width="35" Margin="3" HorizontalAlignment="Left">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="СВ" FontWeight="Black"/>
+            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                
+                <Button Content="Крои" 
+                        FontWeight="Bold" 
+                        Foreground="LightGray"
+                        Background="Transparent" 
+                        CornerRadius="0"
+                        Click="NavigateToPartyPage"
+                        />
+                <Button Content="Модели" 
+                        FontWeight="Bold" 
+                        Foreground="LightGray"
+                        Background="Transparent"
+                        Click="NavigateToModelPage"
+                        />
+            </StackPanel>
+            <Button Content="Выйти" 
+                    HorizontalAlignment="Right" 
+                    Margin="5" 
+                    Foreground="LightCoral"
+                    Opacity="0.6" 
+                    Background="Transparent"
+                    Click="ExitFromProfile"/>
+        </Grid>
+        <ContentControl x:Name="Frame" Grid.Row="1"/>
+    </Grid>
+</Window>

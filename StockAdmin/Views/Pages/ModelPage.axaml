@@ -1,0 +1,73 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Model"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.ModelPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" 
+                    Orientation="Horizontal">
+            <TextBox Watermark="Поиск..."
+                     Width="200" 
+                     Background="White" />
+        </StackPanel>
+        <TextBlock x:Name="SumText" Grid.Row="0"
+                   HorizontalAlignment="Center"/>
+        <DataGrid 
+            Grid.Row="1" 
+            x:Name="List">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Название" 
+                    Binding="{Binding title}" 
+                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                    Header="Описание" 
+                    Binding="{Binding description}" 
+                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                    Header="Артикул" 
+                    Binding="{Binding codeVendor}" 
+                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                    Header="Наценка модели" 
+                    Binding="{Binding percent}" 
+                    IsReadOnly="True"/>
+                <DataGridTemplateColumn>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Content="✏️" 
+                                    />
+                            <Button Content="🗑️"
+                            />
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Button Grid.Row="1" 
+                Content="+" 
+                Background="DarkRed" 
+                FontWeight="Bold" 
+                Foreground="White" 
+                FontSize="20" 
+                HorizontalAlignment="Right" 
+                Margin=" 10" 
+                VerticalAlignment="Bottom"
+                Width="40"
+                Height="40"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="NavigateToCreatePage"/>
+        </Grid>
+</UserControl>

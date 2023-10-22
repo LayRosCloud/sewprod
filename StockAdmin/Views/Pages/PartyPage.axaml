@@ -1,0 +1,141 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.PartyPage" x:DataType="models:Party">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Watermark="Поиск..." 
+                     Width="200" 
+                     Background="White" />
+        </StackPanel>
+        <DataGrid Grid.Row="1" 
+                  x:Name="List" 
+                  DoubleTapped="NavigateToMoreInformation">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                Header="Модель" 
+                Binding="{Binding model.title}" 
+                IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Человек" 
+                Binding="{Binding person.lastName}" 
+                IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Количество" 
+                Binding="{Binding count}" 
+                IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Размер" 
+                Binding="{Binding size.name}" 
+                IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Дата начала" 
+                Binding="{Binding dateStart, StringFormat={}{0:d}}" 
+                IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Дата конца" 
+                Binding="{Binding dateEnd, StringFormat={}{0:d}}" 
+                IsReadOnly="True"/>
+                
+                <DataGridCheckBoxColumn 
+                Header="Забракована" 
+                Binding="{Binding isDefected}" 
+                IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Номер крои" 
+                Binding="{Binding cutNumber}" 
+                IsReadOnly="True"/>
+                <DataGridTemplateColumn>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Content="✏️" 
+                                    Click="NavigateToEditPage"/>
+                            <Button Content="🗑️" 
+                                    Click="DeleteSelectedItem"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Button Grid.Row="1" 
+            Content="+" 
+            Background="#192655" 
+            FontWeight="Bold" 
+            Foreground="White" 
+            FontSize="20" 
+            HorizontalAlignment="Right" 
+            Margin=" 10" 
+            VerticalAlignment="Bottom"
+            Width="40"
+            Height="40"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Click="NavigateToAddedPartyPage"/>
+        
+        <Grid x:Name="DeletedContainer" 
+              IsVisible="False" 
+              Grid.Row="0" 
+              Grid.RowSpan="2">
+            <Button 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Margin="0" 
+                Padding="0" 
+                BorderThickness="0" Click="SendNoAnswerToDeleteRow">
+            </Button>
+            <Border Background="White" 
+                    Padding="5" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    CornerRadius="10" 
+                    Width="600" 
+                    Height="300">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock 
+                            Text="вы уверены?" 
+                                   FontWeight="Bold" 
+                                   FontSize="40" 
+                                   Foreground="#192655"/>
+                        <TextBlock 
+                                    x:Name="DeletedMessage"
+                                    FontSize="20" 
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    
+                    <Button 
+                        Content="Да" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom" 
+                    Background="Transparent" 
+                    Foreground="Brown"
+                        Click="SendYesAnswerToDeleteRow"/>
+                    
+                    <Button 
+                        Content="Нет" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom" 
+                    FontWeight="Bold" 
+                    Foreground="#192655"
+                        Click="SendNoAnswerToDeleteRow"/>
+                    
+                </Grid>
+                
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
