@@ -22,7 +22,7 @@ public class PersonRepository: IDataReader<Person>,
         List<Person>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
         return response!;
     }
-
+    
     public async Task<Person> GetAsync(int id)
     {
         var httpHandler = new HttpHandler<Person>();
@@ -30,13 +30,13 @@ public class PersonRepository: IDataReader<Person>,
         return response!;
     }
     
-    public async Task<Person?> LoginAsync(Person entity)
+    public async Task<Auth?> LoginAsync(Person entity)
     {
         HttpClient httpClient = new HttpClient();
-        HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}login", entity);
+        HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync($"{ServerConstants.ServerAddress}/v1/auth", entity);
 
-        Person? person = await responseMessage.Content.ReadFromJsonAsync<Person>();
-        return person;
+        Auth? auth = await responseMessage.Content.ReadFromJsonAsync<Auth>();
+        return auth;
     }
     
     public async Task<Person> CreateAsync(Person entity)

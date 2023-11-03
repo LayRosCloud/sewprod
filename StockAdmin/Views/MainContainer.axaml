@@ -36,6 +36,13 @@
                         Background="Transparent"
                         Click="NavigateToModelPage"
                         />
+                
+                <Button Content="Операции" 
+                        FontWeight="Bold" 
+                        Foreground="LightGray"
+                        Background="Transparent"
+                        Click="NavigateToOperationPage"
+                    />
             </StackPanel>
             <Button Content="Выйти" 
                     HorizontalAlignment="Right" 
@@ -45,6 +52,7 @@
                     Background="Transparent"
                     Click="ExitFromProfile"/>
         </Grid>
-        <ContentControl x:Name="Frame" Grid.Row="1"/>
+        <ContentControl x:Name="Frame" 
+                        Grid.Row="1"/>
     </Grid>
 </Window>

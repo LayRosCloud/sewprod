@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages;
 
@@ -11,7 +12,7 @@ public partial class AddedPartyPage : UserControl
 {
     private readonly Party _party;
     private readonly ContentControl _frame;
-    public AddedPartyPage(ContentControl frame) : this(new Party(), frame)
+    public AddedPartyPage(ContentControl frame): this(new Party(), frame)
     {
         
     }
@@ -20,6 +21,7 @@ public partial class AddedPartyPage : UserControl
     {
         InitializeComponent();
         _party = party;
+        _party.personId = ServerConstants.Token.id;
         InitData();
 
         _frame = frame;
@@ -36,8 +38,6 @@ public partial class AddedPartyPage : UserControl
 
     private void SelectModel(object? sender, SelectionChangedEventArgs e)
     {
-        Model model = CmbModel.SelectedItem as Model;
-        CmbSize.ItemsSource = model.sizes;
     }
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)

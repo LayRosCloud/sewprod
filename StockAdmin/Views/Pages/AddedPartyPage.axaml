@@ -25,14 +25,6 @@
                 SelectionChanged="SelectModel"
                 Margin="0 5"/>
         
-            <ComboBox 
-                x:Name="CmbSize" 
-                PlaceholderText="Выберите размер"
-                DisplayMemberBinding="{Binding DataType=models:Size, Path=name}"
-                SelectedValueBinding="{Binding DataType=models:Size, Path=id}"
-                SelectedValue="{Binding sizeId}"
-                HorizontalAlignment="Stretch"/>
-        
             <CalendarDatePicker 
                 x:Name="DateStart" 
                 Watermark="Выберите дату начала" 
@@ -47,27 +39,12 @@
                 HorizontalAlignment="Stretch"/>
         
             <NumericUpDown 
-                x:Name="Count" 
-                Watermark="Кол-во крой" 
-                Value="{Binding count}"
-                FormatString="0"
-                Minimum="1" 
-                Maximum="10000"
-                Margin="0 5"/>
-        
-            <NumericUpDown 
                 x:Name="CutNumber" 
                 Watermark="Номер крои" 
                 Value="{Binding cutNumber}"
                 FormatString="0"
                 Minimum="1" 
                 Maximum="100"/>
-            
-            <CheckBox 
-                x:Name="Defected" 
-                Content="Забракован?"
-                IsChecked="{Binding isDefected}"
-                Margin="0 5"/>
             
             <Button 
                 HorizontalAlignment="Stretch"

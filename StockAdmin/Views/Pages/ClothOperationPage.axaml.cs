@@ -8,27 +8,21 @@ namespace StockAdmin.Views.Pages;
 public partial class ClothOperationPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly Party _party;
-    public ClothOperationPage(Party party, ContentControl frame)
+    private readonly Package _package;
+    public ClothOperationPage(Package package, ContentControl frame)
     {
         InitializeComponent();
-        _party = party;
-        InitData(party);
+        _package = package;
+        InitData(package);
         _frame = frame;
     }
 
-    private async void InitData(Party party)
+    private async void InitData(Package party)
     {
         var repository = new ClothOperationRepository();
         var clothOperations = await repository.GetAllAsync(party.id);
         List.ItemsSource = clothOperations;
         double sum = 0;
-        foreach (var clothOperation in clothOperations)
-        {
-            sum += clothOperation.price.number;
-        }
-
-        SumText.Text = $"Сумма: {sum} с наценкой {sum * (party.model.percent / 100.0) + sum}";
     }
 
     private void BackToPartyPage(object? sender, RoutedEventArgs e)
@@ -38,6 +32,6 @@ public partial class ClothOperationPage : UserControl
 
     private void NavigateToAddedPage(object? sender, RoutedEventArgs e)
     {
-        _frame.Content = new AddedClothOperationPage(_party, _frame);
+        _frame.Content = new AddedClothOperationPage(_package, _frame);
     }
 }

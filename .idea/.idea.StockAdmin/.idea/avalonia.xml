@@ -9,9 +9,11 @@
         <entry key="StockAdmin/Views/MainContainer.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedPartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/OperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
       </map>
     </option>

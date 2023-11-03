@@ -9,18 +9,21 @@ public partial class AddedClothOperationPage : UserControl
 {
     private readonly ClothOperation _clothOperation;
     private readonly ContentControl _frame;
-    private readonly Party _party;
-    public AddedClothOperationPage(Party party, ContentControl frame) : this(party, new ClothOperation(), frame)
+    private readonly Package _package;
+    public AddedClothOperationPage(Package package, ContentControl frame) : this(package, new ClothOperation(), frame)
     {
+        
     }
     
-    public AddedClothOperationPage(Party party, ClothOperation clothOperation, ContentControl frame)
+    public AddedClothOperationPage(Package package, ClothOperation clothOperation, ContentControl frame)
     {
         InitializeComponent();
+        
         _clothOperation = clothOperation;
-        _clothOperation.partyId = party.id;
+        _clothOperation.packageId = package.id;
         _frame = frame;
-        _party = party;
+        _package = package;
+        
         InitData();
     }
 
@@ -49,6 +52,6 @@ public partial class AddedClothOperationPage : UserControl
             await clothOperationRepository.UpdateAsync(_clothOperation);
         }
 
-        _frame.Content = new ClothOperationPage(_party, _frame);
+        _frame.Content = new ClothOperationPage(_package, _frame);
     }
 }

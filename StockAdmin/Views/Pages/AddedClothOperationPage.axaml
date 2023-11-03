@@ -33,6 +33,8 @@
                 SelectedValue="{Binding personId}"
                 HorizontalAlignment="Stretch"
                 />
+            <CalendarDatePicker SelectedDate="{Binding DataType=models:ClothOperation, 
+                Path=dateStart}"/>
             
             <Button 
                 HorizontalAlignment="Stretch"

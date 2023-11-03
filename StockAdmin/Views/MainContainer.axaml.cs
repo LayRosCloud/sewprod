@@ -28,4 +28,9 @@ public partial class MainContainer : Window
     {
         Frame.Content = new ModelPage(Frame);
     }
+
+    private void NavigateToOperationPage(object? sender, RoutedEventArgs e)
+    {
+        Frame.Content = new OperationPage();
+    }
 }

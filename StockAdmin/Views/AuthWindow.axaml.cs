@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views;
 
@@ -67,10 +68,12 @@ public partial class AuthWindow : Window
         PersonRepository repository = new PersonRepository();
         var authPerson = await repository.LoginAsync(person);
         
-        if (authPerson!.email == null)
+        if (authPerson!.token == null)
         {
             throw new AuthException(authMessageError);
         }
+
+        ServerConstants.Token = authPerson;
     }
 
     private void ShowWindow()

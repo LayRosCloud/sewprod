@@ -2,55 +2,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:Class="StockAdmin.Views.Pages.ClothOperationPage" 
-             x:DataType="models:ClothOperation">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="models:Operation"
+             x:Class="StockAdmin.Views.Pages.OperationPage">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <StackPanel Grid.Row="0" 
                     Orientation="Horizontal">
-            <TextBox Watermark="Поиск..."
+            <TextBox Watermark="Поиск..." 
                      Width="200" 
                      Background="White" />
         </StackPanel>
-        <TextBlock x:Name="SumText" Grid.Row="0"
-                   HorizontalAlignment="Center"/>
-        <Button 
-            Grid.Row="0" 
-            HorizontalAlignment="Right" 
-            Content="⬅️" 
-            Click="BackToPartyPage"/>
-        <DataGrid 
-            Grid.Row="1" 
-            x:Name="List">
+        
+        <DataGrid x:Name="List" Grid.Row="1">
             <DataGrid.Columns>
-                <DataGridTextColumn 
-                Header="Операция" 
-                Binding="{Binding operation.name}" 
+                <DataGridTextColumn Header="Название" 
+                Binding="{Binding name}" 
                 IsReadOnly="True"/>
                 
-                <DataGridTextColumn 
-                Header="Человек" 
-                Binding="{Binding person.uid}" 
+                <DataGridTextColumn Header="Описание" 
+                Binding="{Binding description}" 
                 IsReadOnly="True"/>
                 
-                <DataGridTextColumn 
-                Header="Цена" 
-                Binding="{Binding price.number}" 
+                <DataGridTextColumn Header="Цена" 
+                Binding="{Binding priceId}" 
                 IsReadOnly="True"/>
                 
-                <DataGridTextColumn 
-                    Header="Дата начала" 
-                    Binding="{Binding dateStart, StringFormat={}{0:d}}" 
-                    IsReadOnly="True"/>
-                
-                <DataGridCheckBoxColumn Header="Окончена ли" 
-                                        Binding="{Binding isEnded}" 
-                                        IsReadOnly="True"/>
                 <DataGridTemplateColumn>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
@@ -61,13 +43,12 @@
                         </WrapPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
-                
             </DataGrid.Columns>
         </DataGrid>
         
         <Button Grid.Row="1" 
                 Content="+" 
-                Background="DarkRed" 
+                Background="#192655" 
                 FontWeight="Bold" 
                 Foreground="White" 
                 FontSize="20" 
@@ -78,6 +59,6 @@
                 Height="40"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                Click="NavigateToAddedPage"/>
+                />
     </Grid>
 </UserControl>

@@ -10,14 +10,13 @@
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBox Watermark="Поиск..." 
                      Width="200" 
                      Background="White" />
         </StackPanel>
         <DataGrid Grid.Row="1" 
-                  x:Name="List" 
-                  DoubleTapped="NavigateToMoreInformation">
+                  x:Name="List">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                 Header="Модель" 
@@ -30,16 +29,6 @@
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                Header="Количество" 
-                Binding="{Binding count}" 
-                IsReadOnly="True"/>
-                
-                <DataGridTextColumn 
-                Header="Размер" 
-                Binding="{Binding size.name}" 
-                IsReadOnly="True"/>
-                
-                <DataGridTextColumn 
                 Header="Дата начала" 
                 Binding="{Binding dateStart, StringFormat={}{0:d}}" 
                 IsReadOnly="True"/>
@@ -49,15 +38,11 @@
                 Binding="{Binding dateEnd, StringFormat={}{0:d}}" 
                 IsReadOnly="True"/>
                 
-                <DataGridCheckBoxColumn 
-                Header="Забракована" 
-                Binding="{Binding isDefected}" 
-                IsReadOnly="True"/>
-                
                 <DataGridTextColumn 
                 Header="Номер крои" 
                 Binding="{Binding cutNumber}" 
                 IsReadOnly="True"/>
+                
                 <DataGridTemplateColumn>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
@@ -69,6 +54,23 @@
                     </DataTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate x:DataType="models:Party" >
+                    <StackPanel Margin="50 0 0 0">
+                        <Button Content="Добавить" Click="NavigateToAddedPackagesPage"/>
+                        <DataGrid x:Name="ChildList" ItemsSource="{Binding Path=packages}" DoubleTapped="NavigateToMoreInformation">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Размер" Binding="{Binding size.number}"
+                                                    x:DataType="models:Package" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Пачка" Binding="{Binding count}"
+                                                    x:DataType="models:Package" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Пачка" Binding="{Binding isEnded}"
+                                                    x:DataType="models:Package" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
         
         <Button Grid.Row="1" 
@@ -90,6 +92,7 @@
               IsVisible="False" 
               Grid.Row="0" 
               Grid.RowSpan="2">
+            
             <Button 
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 

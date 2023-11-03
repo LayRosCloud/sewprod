@@ -25,9 +25,10 @@ public partial class PartyPage : UserControl
     
     private void NavigateToMoreInformation(object? sender, TappedEventArgs e)
     {
-        if (List.SelectedItem is Party party)
+        DataGrid dataGrid = sender as DataGrid;
+        if (dataGrid.SelectedItem is Package package)
         {
-            var page = new ClothOperationPage(party, _frame);
+            var page = new ClothOperationPage(package, _frame);
             _frame.Content = page;
         }
     }
@@ -68,5 +69,12 @@ public partial class PartyPage : UserControl
     private void SendNoAnswerToDeleteRow(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = false;
+    }
+
+    private void NavigateToAddedPackagesPage(object? sender, RoutedEventArgs e)
+    {
+        var party = (List.SelectedItem as Party)!;
+
+        _frame.Content = new AddedPackagesPage(party, _frame);
     }
 }
