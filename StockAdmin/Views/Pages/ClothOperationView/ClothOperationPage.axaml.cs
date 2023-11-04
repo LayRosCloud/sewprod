@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.ClothOperationView;
 
 public partial class ClothOperationPage : UserControl
 {
@@ -27,11 +27,16 @@ public partial class ClothOperationPage : UserControl
 
     private void BackToPartyPage(object? sender, RoutedEventArgs e)
     {
-        _frame.Content = new PartyPage(_frame);
+        _frame.Content = new PartyView.PartyPage(_frame);
     }
 
     private void NavigateToAddedPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedClothOperationPage(_package, _frame);
+    }
+    
+    public override string ToString()
+    {
+        return "Операции над одеждой";
     }
 }

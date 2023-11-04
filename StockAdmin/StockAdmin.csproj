@@ -8,14 +8,62 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
-
+	<ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+	
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.0" />
         <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0" />
         <PackageReference Include="Avalonia.Desktop" Version="11.0.0" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0" />
         <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.0" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Compile Update="Views\Pages\SizeView\SizePage.axaml.cs">
+        <DependentUpon>SizePage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\ClothOperationView\AddedClothOperationPage.axaml.cs">
+        <DependentUpon>AddedClothOperationPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\ClothOperationView\ClothOperationPage.axaml.cs">
+        <DependentUpon>ClothOperationPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\PartyView\AddedPartyPage.axaml.cs">
+        <DependentUpon>AddedPartyPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\PartyView\PartyPage.axaml.cs">
+        <DependentUpon>PartyPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\ModelView\ModelPage.axaml.cs">
+        <DependentUpon>ModelPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\ModelView\AddedModelPage.axaml.cs">
+        <DependentUpon>AddedModelPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\OperationView\OperationPage.axaml.cs">
+        <DependentUpon>OperationPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\PersonView\PersonPage.axaml.cs">
+        <DependentUpon>PersonPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\PackageView\AddedPackagesPage.axaml.cs">
+        <DependentUpon>AddedPackagesPage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

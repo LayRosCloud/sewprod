@@ -7,14 +7,33 @@
         <entry key="StockAdmin/MainWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/AuthWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/MainContainer.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/MainWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/AddedPartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ClothOperationView/ClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ModelView/AddedModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ModelView/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/OperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/OperationView/OperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PackageView/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PackageView/PackagePage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PartyView/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PartyView/AddedPartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PartyView/PartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PersonPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PersonView/AddedPersonPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PersonView/PersonPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/SizePage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/SizeView/AddedSizePage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/SizeView/AddedTypeOfSizePage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/SizeView/SizePage.axaml" value="StockAdmin/StockAdmin.csproj" />
       </map>
     </option>
   </component>

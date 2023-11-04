@@ -1,20 +1,46 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using StockAdmin.Views.Pages;
+using ModelPage = StockAdmin.Views.Pages.ModelView.ModelPage;
+using OperationPage = StockAdmin.Views.Pages.OperationView.OperationPage;
+using PartyPage = StockAdmin.Views.Pages.PartyView.PartyPage;
+using PersonPage = StockAdmin.Views.Pages.PersonView.PersonPage;
 
 namespace StockAdmin.Views;
 
 public partial class MainContainer : Window
 {
+    private int _currentIndexActive = 0;
     public MainContainer()
     {
         InitializeComponent();
-        Frame.Content = new PartyPage(Frame);
+        Init();
     }
 
-    private void NavigateToPartyPage(object? sender, RoutedEventArgs e)
+    private async void Init()
     {
-        Frame.Content = new PartyPage(Frame);
+        try
+        {
+            var page = new PartyPage(Frame);
+            await page.InitData();
+            Frame.Content = page;
+        }
+        catch (Exception)
+        {
+            ForbiddenContainer.IsVisible = true;
+        }
+    }
+
+    private async void NavigateToPartyPage(object? sender, RoutedEventArgs e)
+    {
+        Button button = sender as Button;
+        var page = new PartyPage(Frame);
+        await page.InitData();
+        Frame.Content = page;
+        
+        SwitchThemeButton(button);
     }
 
     private void ExitFromProfile(object? sender, RoutedEventArgs e)
@@ -26,11 +52,49 @@ public partial class MainContainer : Window
 
     private void NavigateToModelPage(object? sender, RoutedEventArgs e)
     {
+        Button button = sender as Button;
         Frame.Content = new ModelPage(Frame);
+        SwitchThemeButton(button);
     }
 
     private void NavigateToOperationPage(object? sender, RoutedEventArgs e)
     {
-        Frame.Content = new OperationPage();
+        Button button = sender as Button;
+        Frame.Content = new OperationPage(Frame);
+        SwitchThemeButton(button);
+    }
+
+    private void NavigateToSizePage(object? sender, RoutedEventArgs e)
+    {
+        Button button = sender as Button;
+        Frame.Content = new SizePage(Frame);
+        SwitchThemeButton(button);
+    }
+
+    private void NavigateToPersonalPage(object? sender, RoutedEventArgs e)
+    {
+        Button button = sender as Button;
+        Frame.Content = new PersonPage(Frame);
+        SwitchThemeButton(button);
+    }
+
+    private void SwitchThemeButton(Button button)
+    {
+        int index = NavPanel.Children.IndexOf(button);
+        if (index == _currentIndexActive)
+        {
+            return;
+        }
+        Button buttonActive = NavPanel.Children[_currentIndexActive] as Button;
+        StackPanel activePanel = buttonActive.Content as StackPanel;
+        StackPanel panel = button.Content as StackPanel;
+        
+        (panel.Children[0] as Border).Width = 5;
+        (panel.Children[1] as Border).Background = (activePanel.Children[1] as Border).Background;
+        (panel.Children[2] as TextBlock).Foreground = (activePanel.Children[2] as TextBlock).Foreground;
+        (activePanel.Children[0] as Border).Width = 0;
+        (activePanel.Children[1] as Border).Background = new SolidColorBrush(Color.FromRgb(136, 136, 136));
+        (activePanel.Children[2] as TextBlock).Foreground = new SolidColorBrush(Color.FromRgb(136, 136, 136));
+        _currentIndexActive = index;
     }
 }

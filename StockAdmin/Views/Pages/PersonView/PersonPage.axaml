@@ -1,10 +1,11 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.PartyPage" x:DataType="models:Party">
+             x:DataType="models:Person"
+             x:Class="StockAdmin.Views.Pages.PersonView.PersonPage">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -19,58 +20,46 @@
                   x:Name="List">
             <DataGrid.Columns>
                 <DataGridTextColumn 
-                Header="Модель" 
-                Binding="{Binding model.title}" 
+                    Header="Почта" 
+                    Binding="{Binding email}" 
+                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn 
+                Header="Фамилия" 
+                Binding="{Binding lastName}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                Header="Человек" 
-                Binding="{Binding person.lastName}" 
+                Header="Имя" 
+                Binding="{Binding firstName}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                Header="Дата начала" 
-                Binding="{Binding dateStart, StringFormat={}{0:d}}" 
+                Header="Отчество" 
+                Binding="{Binding patronymic}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                Header="Дата конца" 
-                Binding="{Binding dateEnd, StringFormat={}{0:d}}" 
+                Header="Дата рождения" 
+                Binding="{Binding birthDay, StringFormat={}{0:d}}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                Header="Номер крои" 
-                Binding="{Binding cutNumber}" 
+                Header="uid" 
+                Binding="{Binding uid}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTemplateColumn>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
                             <Button Content="✏️" 
-                                    Click="NavigateToEditPage"/>
+                                    />
                             <Button Content="🗑️" 
-                                    Click="DeleteSelectedItem"/>
+                                    />
                         </WrapPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate x:DataType="models:Party" >
-                    <StackPanel Margin="50 0 0 0">
-                        <Button Content="Добавить" Click="NavigateToAddedPackagesPage"/>
-                        <DataGrid x:Name="ChildList" ItemsSource="{Binding Path=packages}" DoubleTapped="NavigateToMoreInformation">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Размер" Binding="{Binding size.number}"
-                                                    x:DataType="models:Package" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Пачка" Binding="{Binding count}"
-                                                    x:DataType="models:Package" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Пачка" Binding="{Binding isEnded}"
-                                                    x:DataType="models:Package" IsReadOnly="True"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
         </DataGrid>
         
         <Button Grid.Row="1" 
@@ -86,7 +75,7 @@
             Height="40"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
-            Click="NavigateToAddedPartyPage"/>
+            Click="NavigateToAddedPersonPage"/>
         
         <Grid x:Name="DeletedContainer" 
               IsVisible="False" 
@@ -98,7 +87,7 @@
                 VerticalAlignment="Stretch" 
                 Margin="0" 
                 Padding="0" 
-                BorderThickness="0" Click="SendNoAnswerToDeleteRow">
+                BorderThickness="0">
             </Button>
             <Border Background="White" 
                     Padding="5" 
@@ -122,22 +111,21 @@
                     
                     <Button 
                         Content="Да" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Bottom" 
-                    Background="Transparent" 
-                    Foreground="Brown"
-                        Click="SendYesAnswerToDeleteRow"/>
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom" 
+                        Background="Transparent" 
+                        Foreground="Brown"
+                        />
                     
                     <Button 
                         Content="Нет" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Bottom" 
-                    FontWeight="Bold" 
-                    Foreground="#192655"
-                        Click="SendNoAnswerToDeleteRow"/>
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom" 
+                        FontWeight="Bold" 
+                        Foreground="#192655"
+                        />
                     
                 </Grid>
-                
             </Border>
         </Grid>
     </Grid>

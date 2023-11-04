@@ -6,9 +6,30 @@
         MinWidth="800" MinHeight="450"
         x:Class="StockAdmin.Views.AuthWindow"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding ElementName=Title, Path=Text}">
-    <Grid Background="#e3e3e3">
-        <StackPanel 
+        Title="{Binding ElementName=Title, Path=Text}" Icon="/Assets/logo.ico">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Background="#1F4172">
+                <StackPanel VerticalAlignment="Center">
+                    <Border Width="100" Height="100" BorderBrush="#Fff" BorderThickness="5" CornerRadius="10">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="АП" FontWeight="Bold" Foreground="#FFF" FontSize="50"/>
+                    </Border>
+                    <TextBlock Text="Административная панель" 
+                               HorizontalAlignment="Center" 
+                               FontSize="25" 
+                               FontWeight="Bold" 
+                               Foreground="#ececec" 
+                               TextWrapping="Wrap"/>
+                    <TextBlock 
+                        Text="Данное приложение необходимо для учета стадий производства в компании ООО Абаканский трикотаж" 
+                        Foreground="White" Margin="5 10" TextWrapping="Wrap" Opacity="0.9"/>
+                </StackPanel>
+            </Border>
+            <StackPanel Grid.Column="1" 
             Width="300" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -42,30 +63,38 @@
                     />
                 </Grid.RowDefinitions>
                 <!--Пара (Текст-текстовое поле) - почта-->
-                <TextBlock 
-                    Grid.Row="0" 
-                    Grid.Column="0" 
-                    Text="Почта:"/>
+                <StackPanel Grid.Row="0" 
+                            Grid.Column="0" 
+                            Orientation="Horizontal">
+                    <Image Source="/Assets/email.png" Width="25"/>
+                    <TextBlock 
+                        Text="Почта:"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+
                 <TextBox 
                     x:Name="Email"
                     Grid.Row="0" 
                     Grid.Column="1"
-                    Text="example@example.com"
+                    Text="anna_fetisova@gmail.com"
                     Watermark="Введите почту*"
                     Margin="1"
                     />
                 
                 <!--Пара (Текст-текстовое поле) - пароль-->
-                <TextBlock 
-                    Grid.Row="1" 
-                    Grid.Column="0"
-                    Text="Пароль:"
-                    />
+                <StackPanel Grid.Row="1" 
+                            Grid.Column="0" 
+                            Orientation="Horizontal">
+                    <Image Source="/Assets/password.png" Width="25"/>
+                    <TextBlock 
+                        Text="Пароль:"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
                 <TextBox 
                     x:Name="Password"
                     Grid.Row="1" 
                     Grid.Column="1" 
-                    Text="1234567890"
+                    Text="uniquePassword"
                     PasswordChar="•"
                     Watermark="Введите пароль*"
                     Margin="1"
@@ -84,6 +113,8 @@
                     />
             </Grid>
         </StackPanel>
+        </Grid>
+        
         
         <Border x:Name="BorderError" 
                 Background="DarkRed"

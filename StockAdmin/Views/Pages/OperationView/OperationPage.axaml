@@ -5,7 +5,7 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="models:Operation"
-             x:Class="StockAdmin.Views.Pages.OperationPage">
+             x:Class="StockAdmin.Views.Pages.OperationView.OperationPage">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>

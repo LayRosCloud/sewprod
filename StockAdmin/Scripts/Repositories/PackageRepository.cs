@@ -15,6 +15,12 @@ public class PackageRepository : IDataReader<Package>, IDataCreator<Package>, ID
         HttpHandler<Package> httpHandler = new HttpHandler<Package>();
         return await httpHandler.GetListFromJsonAsync(EndPoint);
     }
+    
+    public async Task<List<Package>?> GetAllAsync(int partyId)
+    {
+        HttpHandler<Package> httpHandler = new HttpHandler<Package>();
+        return await httpHandler.GetListFromJsonAsync(EndPoint+$"?partyId={partyId}");
+    }
 
     public async Task<Package?> GetAsync(int id)
     {
@@ -31,7 +37,7 @@ public class PackageRepository : IDataReader<Package>, IDataCreator<Package>, ID
     public async Task CreateAsync(List<Package> entities)
     {
         HttpClient client = new HttpClient();
-        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token}");
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.token}");
         await client.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
     }
 

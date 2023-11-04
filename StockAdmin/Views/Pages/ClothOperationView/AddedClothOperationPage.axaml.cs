@@ -3,17 +3,15 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.ClothOperationView;
 
 public partial class AddedClothOperationPage : UserControl
 {
     private readonly ClothOperation _clothOperation;
     private readonly ContentControl _frame;
     private readonly Package _package;
-    public AddedClothOperationPage(Package package, ContentControl frame) : this(package, new ClothOperation(), frame)
-    {
-        
-    }
+    public AddedClothOperationPage(Package package, ContentControl frame) 
+        : this(package, new ClothOperation(), frame) { }
     
     public AddedClothOperationPage(Package package, ClothOperation clothOperation, ContentControl frame)
     {
@@ -52,6 +50,11 @@ public partial class AddedClothOperationPage : UserControl
             await clothOperationRepository.UpdateAsync(_clothOperation);
         }
 
-        _frame.Content = new ClothOperationPage(_package, _frame);
+        _frame.Content = new ClothOperationView.ClothOperationPage(_package, _frame);
+    }
+    
+    public override string ToString()
+    {
+        return "Добавление / Обновление операций над одеждой";
     }
 }

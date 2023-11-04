@@ -6,8 +6,9 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Server;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.PartyView;
 
 public partial class AddedPackagesPage : UserControl
 {
@@ -32,6 +33,7 @@ public partial class AddedPackagesPage : UserControl
         _actionList.Add(Key.Enter, CreateNewTextBox);
         _actionList.Add(Key.Up, NavigateToUp);
         _actionList.Add(Key.Down, NavigateToDown);
+        _actionList.Add(Key.Decimal, RemoveSelectedTextBox);
     }
 
     private async void Init()
@@ -67,7 +69,7 @@ public partial class AddedPackagesPage : UserControl
             {
                 int count = Convert.ToInt32(textBox.Text);
                 Package package = new Package()
-                    { partyId = _party.id, count = count, sizeId = size.id };
+                    { partyId = _party.id, count = count, sizeId = size.id, personId = ServerConstants.Token.id};
                 packages.Add(package);
             }
         }
@@ -83,13 +85,22 @@ public partial class AddedPackagesPage : UserControl
         {
             action.Invoke(sender!);
         }
-
+        
         if (e.Key is (< Key.D0 or > Key.D9) and (< Key.NumPad0 or > Key.NumPad9))
         {
             e.Handled = true;
         }
     }
 
+    private void RemoveSelectedTextBox(object sender)
+    {
+        if (MainPanel.Children.Count != 1 && sender is TextBox textBox)
+        {
+            MainPanel.Children.Remove(textBox);
+            MainPanel.Children[^1].Focus();
+        }
+    }
+    
     private void CreateNewTextBox(object sender)
     {
         TextBox lastText = (MainPanel.Children[^1] as TextBox)!;
@@ -140,5 +151,10 @@ public partial class AddedPackagesPage : UserControl
     {
         TextBox textBox = (sender as TextBox)!;
         return MainPanel.Children.IndexOf(textBox);
+    }
+    
+    public override string ToString()
+    {
+        return "Добавление пачек";
     }
 }

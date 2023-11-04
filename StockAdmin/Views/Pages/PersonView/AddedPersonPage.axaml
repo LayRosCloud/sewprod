@@ -1,0 +1,31 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Person"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.PersonView.AddedPersonPage">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+        <TextBlock Text="Учетная информация" Margin="0 0 0 5"/>
+        <TextBox Text="{Binding email}" 
+                 Watermark="Введите почту*"/>
+        
+        <TextBox Text="{Binding password}" 
+                 Watermark="Введите пароль*"/>
+        
+        <TextBlock Text="Личная информация" Margin="0 10 0 5"/>
+        <TextBox Text="{Binding lastName}"
+                 Watermark="Введите фамилию*"/>
+        <TextBox Text="{Binding firstName}" 
+                 Watermark="Введите имя*"/>
+        <TextBox Text="{Binding patronymic}" 
+                 Watermark="Введите отчество"/>
+        <CalendarDatePicker SelectedDate="{Binding birthDay}"/>
+        
+        <TextBlock Text="Рабочая информация" Margin="0 10 0 5"/>
+        <TextBox Text="{Binding uid}"/>
+        
+        <Button Content="Отправить" Click="SaveChanges"/>
+    </StackPanel>
+</UserControl>

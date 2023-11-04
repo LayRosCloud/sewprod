@@ -63,6 +63,9 @@ public partial class AuthWindow : Window
     {
         const string authMessageError = "Ошибка! Неверная почта или пароль!";
         
+        ServerConstants.Login = email;
+        ServerConstants.Password = password;
+        
         Person person = new Person { email = email, password = password };
 
         PersonRepository repository = new PersonRepository();

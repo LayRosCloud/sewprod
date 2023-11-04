@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.ModelView;
 
 public partial class AddedModelPage : UserControl
 {
@@ -36,6 +36,11 @@ public partial class AddedModelPage : UserControl
             await repository.UpdateAsync(_model);
         }
 
-        _frame.Content = new ModelPage(_frame);
+        _frame.Content = new ModelView.ModelPage(_frame);
+    }
+    
+    public override string ToString()
+    {
+        return "Добавление / Обновление моделей";
     }
 }

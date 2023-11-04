@@ -1,0 +1,126 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.SizePage">
+    <TabControl>
+        <TabItem Header="Размеры" x:DataType="models:Size">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" 
+                            Orientation="Horizontal">
+                    <TextBox Watermark="Поиск..."
+                             Width="200" 
+                             Background="White" />
+                </StackPanel>
+                <DataGrid 
+                    Grid.Row="1" 
+                    x:Name="ListSizes">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                            Header="Название" 
+                            Binding="{Binding name}" 
+                            IsReadOnly="True"/>
+                        
+                        <DataGridTextColumn 
+                            Header="Числовой эквивалент" 
+                            Binding="{Binding number}" 
+                            IsReadOnly="True"/>
+                        
+                        <DataGridTextColumn 
+                            Header="Категория" 
+                            Binding="{Binding age.name}" 
+                            IsReadOnly="True"/>
+                        
+                        <DataGridTemplateColumn>
+                            <DataTemplate>
+                                <WrapPanel Orientation="Horizontal">
+                                    <Button Content="✏️" 
+                                            />
+                                    <Button Content="🗑️"
+                                    />
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <Button Grid.Row="1" 
+                        Content="+" 
+                        Background="#192655" 
+                        FontWeight="Bold" 
+                        Foreground="White" 
+                        FontSize="20" 
+                        HorizontalAlignment="Right" 
+                        Margin=" 10" 
+                        VerticalAlignment="Bottom"
+                        Width="40"
+                        Height="40"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="NavigateToSizePage"/>
+            </Grid>
+        </TabItem>
+        
+        <TabItem Header="Категории размеров" x:DataType="models:Age">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" 
+                            Orientation="Horizontal">
+                    <TextBox Watermark="Поиск..."
+                             Width="200" 
+                             Background="White" />
+                </StackPanel>
+                <DataGrid 
+                    Grid.Row="1" 
+                    x:Name="ListAges">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                            Header="Название" 
+                            Binding="{Binding name}" 
+                            IsReadOnly="True"/>
+                        
+                        <DataGridTextColumn 
+                            Header="Описание" 
+                            Binding="{Binding description}" 
+                            IsReadOnly="True"/>
+                        
+                        <DataGridTemplateColumn Header="Управление">
+                            <DataTemplate>
+                                <WrapPanel Orientation="Horizontal">
+                                    <Button Content="✏️" 
+                                            />
+                                    <Button Content="🗑️"
+                                    />
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <Button Grid.Row="1" 
+                        Content="+" 
+                        Background="#192655" 
+                        FontWeight="Bold" 
+                        Foreground="White" 
+                        FontSize="20" 
+                        HorizontalAlignment="Right" 
+                        Margin=" 10" 
+                        VerticalAlignment="Bottom"
+                        Width="40"
+                        Height="40"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="NavigateToTypeOfSizePage"/>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

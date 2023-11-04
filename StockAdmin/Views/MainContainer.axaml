@@ -6,53 +6,203 @@
         MinHeight="450" MinWidth="800"
         x:Class="StockAdmin.Views.MainContainer"
         WindowStartupLocation="CenterScreen"
-        Title="Главное окно">
-    <Grid Background="#FFF6F6">
+        Title="{Binding ElementName=Frame, Path=Content}" Icon="/Assets/logo.ico">
+    <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition 
+                Width="150"/>
+            <ColumnDefinition
+                Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition 
-                Height="50"/>
-            <RowDefinition
-                Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid  Margin="20 5"
-               Grid.Row="0"
-        >
-            <Border Background="#1F4172" CornerRadius="10"/>
-            <Border Background="White" CornerRadius="50" Width="35" Margin="3" HorizontalAlignment="Left">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="СВ" FontWeight="Black"/>
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Border  Background="#427D9D" Width="35" Height="35" CornerRadius="10" HorizontalAlignment="Left" Margin="5 0">
+                <TextBlock Text="АП" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
             </Border>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                
-                <Button Content="Крои" 
-                        FontWeight="Bold" 
-                        Foreground="LightGray"
-                        Background="Transparent" 
-                        CornerRadius="0"
-                        Click="NavigateToPartyPage"
-                        />
-                <Button Content="Модели" 
-                        FontWeight="Bold" 
-                        Foreground="LightGray"
-                        Background="Transparent"
-                        Click="NavigateToModelPage"
-                        />
-                
-                <Button Content="Операции" 
-                        FontWeight="Bold" 
-                        Foreground="LightGray"
-                        Background="Transparent"
-                        Click="NavigateToOperationPage"
-                    />
-            </StackPanel>
-            <Button Content="Выйти" 
-                    HorizontalAlignment="Right" 
-                    Margin="5" 
-                    Foreground="LightCoral"
-                    Opacity="0.6" 
+            <TextBlock Text="Админ панель" VerticalAlignment="Center" Foreground="#888888" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel x:Name="NavPanel" Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="0 20">
+            <Button 
                     Background="Transparent"
-                    Click="ExitFromProfile"/>
-        </Grid>
-        <ContentControl x:Name="Frame" 
-                        Grid.Row="1"/>
+                    HorizontalAlignment="Stretch"
+                    Click="NavigateToPartyPage"
+                    Margin="0"
+                    CommandParameter="0"
+                    Padding="0"
+                >
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <Border Background="#427D9D" 
+                                VerticalAlignment="Stretch" 
+                                Width="5" 
+                                CornerRadius="10"/>
+                        <Border CornerRadius="100" 
+                                Background="#427D9D" 
+                                Padding="5" 
+                                Margin="5 0 0 0">
+                            <Image Source="/Assets/cutter.png" 
+                                   Width="25"/>
+                        </Border>
+                        <TextBlock Text="Крои"
+                                   Margin="5 0 0 0" 
+                                   Foreground="#427D9D" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Bold" 
+                        />
+                    </StackPanel>
+                </Button>
+                <Button 
+                    Background="Transparent"
+                    HorizontalAlignment="Stretch"
+                    Click="NavigateToModelPage"
+                    Margin="0"
+                    CommandParameter="1"
+                    Padding="0"
+                >
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <Border Background="#427D9D" 
+                                VerticalAlignment="Stretch" 
+                                Width="0" 
+                                CornerRadius="10"/>
+                        <Border CornerRadius="100" 
+                                Background="#888888" 
+                                Padding="5" 
+                                Margin="5 0 0 0">
+                            <Image Source="/Assets/model.png" 
+                                   Width="25"/>
+                        </Border>
+                        <TextBlock Text="Модели"
+                                   Margin="5 0 0 0" 
+                                   Foreground="#888888" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Bold" 
+                        />
+                    </StackPanel>
+                </Button>
+                
+                <Button 
+                        Background="Transparent"
+                        HorizontalAlignment="Stretch"
+                        Click="NavigateToOperationPage"
+                        Margin="0"
+                        CommandParameter="2"
+                        Padding="0"
+                    >
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <Border Background="#427D9D" 
+                                VerticalAlignment="Stretch" 
+                                Width="0" 
+                                CornerRadius="10"/>
+                        <Border CornerRadius="100" 
+                                Background="#888888" 
+                                Padding="5" 
+                                Margin="5 0 0 0">
+                            <Image Source="/Assets/operation.png" 
+                                   Width="25"/>
+                        </Border>
+                        <TextBlock Text="Операции"
+                                   Margin="5 0 0 0" 
+                                   Foreground="#888888" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Bold" 
+                        />
+                    </StackPanel>
+                </Button>
+                
+                <Button 
+                    Background="Transparent"
+                    HorizontalAlignment="Stretch"
+                    Click="NavigateToPersonalPage"
+                    Margin="0"
+                    CommandParameter="3"
+                    Padding="0"
+                >
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <Border Background="#427D9D" 
+                                VerticalAlignment="Stretch" 
+                                Width="0" 
+                                CornerRadius="10"/>
+                        <Border CornerRadius="100" 
+                                Background="#888888" 
+                                Padding="5" 
+                                Margin="5 0 0 0">
+                            <Image Source="/Assets/person.png" 
+                                   Width="25"/>
+                        </Border>
+                        <TextBlock Text="Персонал"
+                                   Margin="5 0 0 0" 
+                                   Foreground="#888888" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Bold" 
+                        />
+                    </StackPanel>
+                </Button>
+                
+                <Button 
+                    Background="Transparent"
+                    HorizontalAlignment="Stretch"
+                    Click="NavigateToSizePage"
+                    Margin="0"
+                    CommandParameter="4"
+                    Padding="0"
+                >
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <Border Background="#427D9D" 
+                                VerticalAlignment="Stretch" 
+                                Width="0" 
+                                CornerRadius="10"/>
+                        <Border CornerRadius="100" 
+                                Background="#888888" 
+                                Padding="5" 
+                                Margin="5 0 0 0">
+                            <Image Source="/Assets/size.png" 
+                                   Width="25"/>
+                        </Border>
+                        <TextBlock Text="Размеры"
+                                   Margin="5 0 0 0" 
+                                   Foreground="#888888" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Bold" 
+                        />
+                    </StackPanel>
+                </Button>
+        </StackPanel>
+        
+        <Button Grid.Row="1" Grid.Column="0" Content="Выйти" 
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Margin="5" 
+                Foreground="LightCoral"
+                Opacity="0.6" 
+                Background="Transparent"
+                Click="ExitFromProfile"/>
+        
+        
+        <Border Grid.Row="0" Grid.Column="1" CornerRadius="5" Background="White" Margin="40 5 0 5 " HorizontalAlignment="Left" Padding="5">
+            <TextBlock Text="{Binding ElementName=Frame, Path=Content}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black"/>
+        </Border>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Border Background="White" CornerRadius="50" Width="35" Height="35" >
+                    <TextBlock Text="СВ" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Border>
+                <TextBlock Text="Степанов Виталий" VerticalAlignment="Center" Margin="10 0"/>
+            </StackPanel>
+        <ContentControl Grid.Column="1" 
+                        Grid.Row="1" 
+                        x:Name="Frame" 
+                        Padding="5"
+                        CornerRadius="10" 
+                        Background="White"/>
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="White" IsVisible="False" x:Name="ForbiddenContainer">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Error 403" FontWeight="Bold" Foreground="Black" FontSize="40"/>
+                <TextBlock Text="У вас недостаточно прав!" Foreground="Black" FontSize="20"/>
+                <TextBlock Text="обратитесь к администратору за объяснениями!" Opacity="0.6" Foreground="Firebrick" FontSize="15"/>
+                
+                <Button Content="Выйти из учетной записи" Click="ExitFromProfile" Margin="0 40 0 0"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace StockAdmin.Models;
 
@@ -10,6 +11,7 @@ public class Person
     public string lastName { get; set; }
     public string firstName { get; set; }
     public string? patronymic { get; set; }
-    public DateTime birthDay { get; set; }
+    public DateTime birthDay { get; set; } = DateTime.Now;
     public string uid { get; set; }
+    public List<Post> posts { get; set; }
 }

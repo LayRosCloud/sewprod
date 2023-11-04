@@ -129,3 +129,8 @@ C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\obj\Debug\net6.0\StockAdmi
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\obj\Debug\net6.0\StockAdmin.csproj.CopyComplete
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\obj\Debug\net6.0\StockAdmin.genruntimeconfig.cache
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\obj\Debug\net6.0\ref\StockAdmin.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\Avalonia.ReactiveUI.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\DynamicData.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\ReactiveUI.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\Splat.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\System.Reactive.dll

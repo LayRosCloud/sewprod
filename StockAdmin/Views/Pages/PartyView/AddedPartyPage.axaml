@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.AddedPartyPage" x:DataType="models:Party">
+             x:Class="StockAdmin.Views.Pages.PartyView.AddedPartyPage" x:DataType="models:Party">
     <Grid>
         <TextBlock Text="Добавление/Изменение крои" 
                    FontWeight="Bold" 
@@ -22,7 +22,6 @@
                 DisplayMemberBinding="{Binding DataType=models:Model, Path=title}"
                 SelectedValueBinding="{Binding DataType=models:Model, Path=id}"
                 SelectedValue="{Binding modelId}"
-                SelectionChanged="SelectModel"
                 Margin="0 5"/>
         
             <CalendarDatePicker 

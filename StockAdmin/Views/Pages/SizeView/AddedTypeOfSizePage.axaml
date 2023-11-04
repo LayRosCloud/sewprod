@@ -1,0 +1,21 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Age"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.SizeView.AddedTypeOfSizePage">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+        
+        <TextBox Text="{Binding name}" 
+                 Watermark="Введите название*"
+        />
+        
+        <TextBox Text="{Binding description}" 
+                 Watermark="Введите описание"
+        />
+        
+        <Button Content="Отправить" Click="SaveChanges"/>
+    </StackPanel>
+</UserControl>

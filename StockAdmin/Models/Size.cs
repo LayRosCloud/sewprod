@@ -4,6 +4,10 @@ public class Size
 {
     public int id { get; set; }
     public string name { get; set; }
-    public int number { get; set; }
+    public string number { get; set; }
     public int ageId { get; set; }
+    
+    public Age age { get; set; }
+
+    public string fullName => $"{age.name} | {number}";
 }

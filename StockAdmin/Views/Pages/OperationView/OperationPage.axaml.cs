@@ -2,11 +2,11 @@
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.OperationView;
 
 public partial class OperationPage : UserControl
 {
-    public OperationPage()
+    public OperationPage(ContentControl frame)
     {
         InitializeComponent();
         Init();
@@ -16,5 +16,10 @@ public partial class OperationPage : UserControl
     {
         IDataReader<Operation> operationRepository = new OperationRepository();
         List.ItemsSource = await operationRepository.GetAllAsync();
+    }
+    
+    public override string ToString()
+    {
+        return "Операции";
     }
 }

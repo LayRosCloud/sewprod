@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.AddedClothOperationPage" x:DataType="models:ClothOperation">
+             x:Class="StockAdmin.Views.Pages.ClothOperationView.AddedClothOperationPage" x:DataType="models:ClothOperation">
         <Grid>
         <TextBlock Text="Добавление/Изменение операции над одеждой" 
                    FontWeight="Bold" 

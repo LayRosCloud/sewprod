@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Views.Pages.PackageView;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.PartyView;
 
 public partial class PartyPage : UserControl
 {
@@ -13,26 +16,15 @@ public partial class PartyPage : UserControl
     public PartyPage(ContentControl frame)
     {
         InitializeComponent();
-        InitData();
         _frame = frame;
     }
     
-    private async void InitData()
+    public async Task InitData()
     {
         var partyRepository = new PartyRepository();
         List.ItemsSource = await partyRepository.GetAllAsync();
     }
-    
-    private void NavigateToMoreInformation(object? sender, TappedEventArgs e)
-    {
-        DataGrid dataGrid = sender as DataGrid;
-        if (dataGrid.SelectedItem is Package package)
-        {
-            var page = new ClothOperationPage(package, _frame);
-            _frame.Content = page;
-        }
-    }
-    
+
     private void NavigateToEditPage(object? sender, RoutedEventArgs e)
     {
         Party party = ((sender as Button)!.DataContext as Party)!;
@@ -63,7 +55,7 @@ public partial class PartyPage : UserControl
         await repository.DeleteAsync(party.id);
         
         DeletedContainer.IsVisible = false;
-        InitData();
+        await InitData();
     }
 
     private void SendNoAnswerToDeleteRow(object? sender, RoutedEventArgs e)
@@ -71,10 +63,16 @@ public partial class PartyPage : UserControl
         DeletedContainer.IsVisible = false;
     }
 
-    private void NavigateToAddedPackagesPage(object? sender, RoutedEventArgs e)
+    private void NavigateToPackagePage(object? sender, TappedEventArgs e)
     {
-        var party = (List.SelectedItem as Party)!;
-
-        _frame.Content = new AddedPackagesPage(party, _frame);
+        if (List.SelectedItem is Party party)
+        {
+            _frame.Content = new PackagePage(_frame, party);
+        }
+    }
+    
+    public override string ToString()
+    {
+        return "Крои";
     }
 }

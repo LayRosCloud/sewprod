@@ -6,4 +6,6 @@ public class ServerConstants
 {
     public const string ServerAddress = "http://localhost:5000";
     public static Auth Token = new Auth();
+    public static string Login = "";
+    public static string Password = "";
 }

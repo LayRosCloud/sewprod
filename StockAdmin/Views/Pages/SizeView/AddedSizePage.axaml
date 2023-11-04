@@ -1,0 +1,27 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Size"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.SizeView.AddedSizePage">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+        
+        <TextBox Text="{Binding name}" 
+                 Watermark="Введите название*"
+        />
+        
+        <TextBox Text="{Binding number}" 
+                 Watermark="Введите числовой эквивалент*"
+                 />
+        
+        <ComboBox x:Name="CbTypes"
+                  DisplayMemberBinding="{Binding DataType=models:Age, Path=name}"
+                  SelectedValueBinding="{Binding DataType=models:Age, Path=id}"
+                  SelectedValue="{Binding ageId}"
+                  />
+        
+        <Button Content="Отправить" Click="SaveChanges"/>
+    </StackPanel>
+</UserControl>

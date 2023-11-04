@@ -5,7 +5,7 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:DataType="models:Model"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.AddedModelPage">
+             x:Class="StockAdmin.Views.Pages.ModelView.AddedModelPage">
     <Grid>
         <TextBlock Text="Добавление/Изменение модели" 
                    FontWeight="Bold" 

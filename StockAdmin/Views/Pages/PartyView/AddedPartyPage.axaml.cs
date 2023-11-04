@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.PartyView;
 
 public partial class AddedPartyPage : UserControl
 {
@@ -36,10 +35,6 @@ public partial class AddedPartyPage : UserControl
         DataContext = _party;
     }
 
-    private void SelectModel(object? sender, SelectionChangedEventArgs e)
-    {
-    }
-
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
         PartyRepository repository = new PartyRepository();
@@ -53,5 +48,10 @@ public partial class AddedPartyPage : UserControl
         }
 
         _frame.Content = new PartyPage(_frame);
+    }
+    
+    public override string ToString()
+    {
+        return "Добавление / Обновление партии";
     }
 }

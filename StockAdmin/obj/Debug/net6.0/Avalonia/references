@@ -15,12 +15,14 @@ C:\Users\betrayal\.nuget\packages\avalonia\11.0.0\ref\net6.0\Avalonia.Metal.dll
 C:\Users\betrayal\.nuget\packages\avalonia\11.0.0\ref\net6.0\Avalonia.MicroCom.dll
 C:\Users\betrayal\.nuget\packages\avalonia.native\11.0.0\lib\net6.0\Avalonia.Native.dll
 C:\Users\betrayal\.nuget\packages\avalonia\11.0.0\ref\net6.0\Avalonia.OpenGL.dll
+C:\Users\betrayal\.nuget\packages\avalonia.reactiveui\11.0.0\lib\net6.0\Avalonia.ReactiveUI.dll
 C:\Users\betrayal\.nuget\packages\avalonia.remote.protocol\11.0.0\lib\net6.0\Avalonia.Remote.Protocol.dll
 C:\Users\betrayal\.nuget\packages\avalonia.skia\11.0.0\lib\net6.0\Avalonia.Skia.dll
 C:\Users\betrayal\.nuget\packages\avalonia.themes.fluent\11.0.0\lib\net6.0\Avalonia.Themes.Fluent.dll
 C:\Users\betrayal\.nuget\packages\avalonia.themes.simple\11.0.0\lib\net6.0\Avalonia.Themes.Simple.dll
 C:\Users\betrayal\.nuget\packages\avalonia.win32\11.0.0\lib\net6.0\Avalonia.Win32.dll
 C:\Users\betrayal\.nuget\packages\avalonia.x11\11.0.0\lib\net6.0\Avalonia.X11.dll
+C:\Users\betrayal\.nuget\packages\dynamicdata\7.9.5\lib\net6.0\DynamicData.dll
 C:\Users\betrayal\.nuget\packages\harfbuzzsharp\2.8.2.3\lib\net6.0\HarfBuzzSharp.dll
 C:\Users\betrayal\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll
 C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.csharp\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
@@ -35,7 +37,9 @@ C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\Mi
 C:\Users\betrayal\.nuget\packages\microsoft.win32.systemevents\6.0.0\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\mscorlib.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\netstandard.dll
+C:\Users\betrayal\.nuget\packages\reactiveui\18.3.1\lib\net6.0\ReactiveUI.dll
 C:\Users\betrayal\.nuget\packages\skiasharp\2.88.3\lib\net6.0\SkiaSharp.dll
+C:\Users\betrayal\.nuget\packages\splat\14.4.1\lib\net6.0\Splat.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.AppContext.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Buffers.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Collections.Concurrent.dll
@@ -116,6 +120,7 @@ C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\Sy
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Numerics.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Numerics.Vectors.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.ObjectModel.dll
+C:\Users\betrayal\.nuget\packages\system.reactive\5.0.0\lib\net5.0\System.Reactive.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Reflection.DispatchProxy.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Reflection.dll
 C:\Users\betrayal\.nuget\packages\microsoft.netcore.app.ref\6.0.19\ref\net6.0\System.Reflection.Emit.dll

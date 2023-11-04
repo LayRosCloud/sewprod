@@ -24,26 +24,47 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/MainContainer.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/AddedClothOperationPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/AddedModelPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ClothOperationView/ClothOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/AddedPackagesPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelView/AddedModelPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/AddedPartyPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelView/ModelPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ClothOperationPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/OperationView/OperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/OperationPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PackageView/AddedPackagesPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PartyPage.axaml]
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PackageView/PackagePage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PartyView/AddedPartyPage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PartyView/PartyPage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PersonView/AddedPersonPage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PersonView/PersonPage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/SizeView/AddedSizePage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/SizeView/AddedTypeOfSizePage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/SizeView/SizePage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

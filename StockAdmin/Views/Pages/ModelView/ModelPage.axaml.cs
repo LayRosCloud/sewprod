@@ -1,11 +1,8 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using StockAdmin.Scripts.Repositories;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.ModelView;
 
 public partial class ModelPage : UserControl
 {
@@ -26,5 +23,10 @@ public partial class ModelPage : UserControl
     private void NavigateToCreatePage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedModelPage(_frame);
+    }
+    
+    public override string ToString()
+    {
+        return "Модели";
     }
 }

@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:Class="StockAdmin.Views.Pages.AddedPackagesPage">
+             x:Class="StockAdmin.Views.Pages.PartyView.AddedPackagesPage">
     <ScrollViewer>
         <StackPanel Width="300">
             <TextBlock x:Name="Title" Text="Добавление пачек"/>
             
             <ComboBox x:Name="CmbSizes" 
                       DisplayMemberBinding="{Binding DataType=models:Size, 
-            Path=number}" 
+            Path=fullName}" 
                       HorizontalAlignment="Stretch"/>
             <TextBlock Text="Пачки"/>
             <StackPanel x:Name="MainPanel" >
