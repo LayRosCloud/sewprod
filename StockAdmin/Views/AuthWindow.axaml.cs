@@ -20,11 +20,16 @@ public partial class AuthWindow : Window
     
     private async void InitData()
     {
+        await InitLinks();
+    }
+
+    private async Task InitLinks()
+    {
         const string networkException = "ошибка подключения...";
         const bool disableLogoBorder = false;
         
         var linkRepository = new LinkRepository();
-        
+
         try
         {
             await linkRepository.GetAllAsync();
@@ -34,7 +39,6 @@ public partial class AuthWindow : Window
         {
             LogoText.Text = networkException;
         }
-        
     }
     
     private async void TryEnterToApplication(object? sender, RoutedEventArgs e)

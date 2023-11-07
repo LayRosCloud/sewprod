@@ -168,6 +168,62 @@
                         />
                     </StackPanel>
                 </Button>
+            <Button 
+                Background="Transparent"
+                HorizontalAlignment="Stretch"
+                Click="NavigateToMaterialPage"
+                Margin="0"
+                CommandParameter="5"
+                Padding="0"
+            >
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Border Background="#427D9D" 
+                            VerticalAlignment="Stretch" 
+                            Width="0" 
+                            CornerRadius="10"/>
+                    <Border CornerRadius="100" 
+                            Background="#888888" 
+                            Padding="5" 
+                            Margin="5 0 0 0">
+                        <Image Source="/Assets/size.png" 
+                               Width="25"/>
+                    </Border>
+                    <TextBlock Text="Материалы"
+                               Margin="5 0 0 0" 
+                               Foreground="#888888" 
+                               VerticalAlignment="Center" 
+                               FontWeight="Bold" 
+                    />
+                </StackPanel>
+            </Button>
+            <Button 
+                Background="Transparent"
+                HorizontalAlignment="Stretch"
+                Click="NavigateToHistoryPage"
+                Margin="0"
+                CommandParameter="6"
+                Padding="0"
+            >
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Border Background="#427D9D" 
+                            VerticalAlignment="Stretch" 
+                            Width="0" 
+                            CornerRadius="10"/>
+                    <Border CornerRadius="100" 
+                            Background="#888888" 
+                            Padding="5" 
+                            Margin="5 0 0 0">
+                        <Image Source="/Assets/size.png" 
+                               Width="25"/>
+                    </Border>
+                    <TextBlock Text="История"
+                               Margin="5 0 0 0" 
+                               Foreground="#888888" 
+                               VerticalAlignment="Center" 
+                               FontWeight="Bold" 
+                    />
+                </StackPanel>
+            </Button>
         </StackPanel>
         
         <Button Grid.Row="1" Grid.Column="0" Content="Выйти" 

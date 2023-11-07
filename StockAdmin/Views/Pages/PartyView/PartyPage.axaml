@@ -14,9 +14,11 @@
             <TextBox Watermark="Поиск..." 
                      Width="200" 
                      Background="White" />
+            <Button x:Name="BtnExport" Click="ExportBarcodes" Content="Экспорт" IsEnabled="False"/>
         </StackPanel>
         <DataGrid Grid.Row="1" 
                   x:Name="List"
+                  SelectionChanged="SelectedItem"
                   DoubleTapped="NavigateToPackagePage">
             
             <DataGrid.Columns>

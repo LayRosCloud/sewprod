@@ -14,7 +14,12 @@
         <entry key="StockAdmin/Views/Pages/AddedPartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPersonPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ClothOperationView/ClothOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/HistoryView/HistoryPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/MaterialView/AddedColorPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/MaterialView/AddedMaterialPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/MaterialView/MaterialsPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelView/AddedModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelView/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
@@ -22,6 +27,7 @@
         <entry key="StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/OperationView/OperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PackageView/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PackageView/EditPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PackageView/PackagePage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PartyView/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />

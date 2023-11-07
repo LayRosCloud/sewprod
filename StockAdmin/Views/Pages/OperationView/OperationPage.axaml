@@ -19,25 +19,36 @@
                      Background="White" />
         </StackPanel>
         
-        <DataGrid x:Name="List" Grid.Row="1">
+        <DataGrid x:Name="List" 
+                  Grid.Row="1"
+                  >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" 
-                Binding="{Binding name}" 
-                IsReadOnly="True"/>
+                                    Binding="{Binding name}" 
+                                    IsReadOnly="True"
+                />
                 
                 <DataGridTextColumn Header="Описание" 
-                Binding="{Binding description}" 
-                IsReadOnly="True"/>
+                                    Binding="{Binding description}" 
+                                    IsReadOnly="True"
+                />
+                <DataGridTextColumn Header="Артикул" 
+                                    Binding="{Binding uid}" 
+                                    IsReadOnly="True"
+                />
                 
                 <DataGridTextColumn Header="Цена" 
-                Binding="{Binding priceId}" 
-                IsReadOnly="True"/>
+                Binding="{Binding price.number}" 
+                IsReadOnly="True"
+                />
                 
                 <DataGridTemplateColumn>
                     <DataTemplate>
-                        <WrapPanel Orientation="Horizontal">
+                        <WrapPanel 
+                            Orientation="Horizontal"
+                            >
                             <Button Content="✏️" 
-                                    />
+                                    Click="NavigateToEditOperationPage"/>
                             <Button Content="🗑️" 
                                     />
                         </WrapPanel>
@@ -59,6 +70,7 @@
                 Height="40"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
+                Click="NavigateToAddedOperationPage"
                 />
     </Grid>
 </UserControl>

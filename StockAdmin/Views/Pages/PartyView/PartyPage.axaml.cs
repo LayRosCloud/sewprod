@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Exports;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.PackageView;
 
@@ -74,5 +76,37 @@ public partial class PartyPage : UserControl
     public override string ToString()
     {
         return "Крои";
+    }
+
+    private async void ExportBarcodes(object? sender, RoutedEventArgs e)
+    {
+        Party party = (List.SelectedItem as Party)!;
+        StringBuilder codeVendorParty = new StringBuilder();
+        codeVendorParty.Append(party.model.codeVendor+ " ");
+        codeVendorParty.Append(party.dateStart.ToString("yy"));
+        
+        var repository = new PackageRepository();
+        List<Package> packages = await repository.GetAllAsync(party.id);
+        List<string> packageCodeVendors = new List<string>();
+        
+        foreach (Package package in packages)
+        {
+            string codeVendor = package.uid;
+            codeVendor += package.color.uid;
+            codeVendor += package.material.uid;
+            codeVendor += package.size.name;
+            packageCodeVendors.Add(codeVendorParty + " " + codeVendor);
+        }
+
+        WordController wordController = new WordController();
+        wordController.AddText("Штрих-коды для товаров");
+        wordController.AddRange(packageCodeVendors, party, packages);
+        wordController.Save(@"D:\file.docx");
+
+    }
+
+    private void SelectedItem(object? sender, SelectionChangedEventArgs e)
+    {
+        BtnExport.IsEnabled = true;
     }
 }

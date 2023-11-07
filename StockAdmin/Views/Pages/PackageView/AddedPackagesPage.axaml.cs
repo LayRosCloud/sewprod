@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
+using StockAdmin.Views.Pages.PackageView;
 
 namespace StockAdmin.Views.Pages.PartyView;
 
@@ -30,7 +32,7 @@ public partial class AddedPackagesPage : UserControl
 
     private void InitActionList()
     {
-        _actionList.Add(Key.Enter, CreateNewTextBox);
+        _actionList.Add(Key.Enter, CreateNewElement);
         _actionList.Add(Key.Up, NavigateToUp);
         _actionList.Add(Key.Down, NavigateToDown);
         _actionList.Add(Key.Decimal, RemoveSelectedTextBox);
@@ -39,7 +41,12 @@ public partial class AddedPackagesPage : UserControl
     private async void Init()
     {
         var repository = new SizeRepository();
+        var repositoryMaterials = new MaterialRepository();
+        var repositoryColors = new ColorRepository();
         CmbSizes.ItemsSource = await repository.GetAllAsync();
+
+        CbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
+        CbColors.ItemsSource = await repositoryColors.GetAllAsync();
     }
     
     private async void TrySaveElements(object? sender, RoutedEventArgs e)
@@ -50,7 +57,7 @@ public partial class AddedPackagesPage : UserControl
         {
             var packagesList = ReadAllPackagesTextBox();
             await packageRepository.CreateAsync(packagesList);
-            _frame.Content = new PartyPage(_frame);
+            _frame.Content = new PackagePage(_frame, _party);
         }
         catch (Exception)
         {
@@ -65,11 +72,25 @@ public partial class AddedPackagesPage : UserControl
 
         foreach (Control control in MainPanel.Children)
         {
-            if (control is TextBox textBox)
+            if (control is StackPanel stackPanel)
             {
-                int count = Convert.ToInt32(textBox.Text);
+                TextBox tbCount = stackPanel.Children[0] as TextBox;
+                ComboBox cbMaterials = stackPanel.Children[1] as ComboBox;
+                ComboBox cbColors = stackPanel.Children[2] as ComboBox;
+                TextBox tbUid = stackPanel.Children[3] as TextBox;
+                
+                int count = Convert.ToInt32(tbCount.Text);
+                Material material = cbMaterials.SelectedItem as Material;
+                Color color = cbColors.SelectedItem as Color;
+                string uid = tbUid.Text;
+                
                 Package package = new Package()
-                    { partyId = _party.id, count = count, sizeId = size.id, personId = ServerConstants.Token.id};
+                    { partyId = _party.id, 
+                        count = count, sizeId = size.id, 
+                        personId = ServerConstants.Token.id, 
+                        materialId = material!.id, 
+                        colorId = color!.id, 
+                        uid = uid!};
                 packages.Add(package);
             }
         }
@@ -96,27 +117,67 @@ public partial class AddedPackagesPage : UserControl
     {
         if (MainPanel.Children.Count != 1 && sender is TextBox textBox)
         {
-            MainPanel.Children.Remove(textBox);
+            MainPanel.Children.Remove(textBox.Parent as StackPanel);
             MainPanel.Children[^1].Focus();
         }
     }
     
-    private void CreateNewTextBox(object sender)
+    private void CreateNewElement(object sender)
     {
-        TextBox lastText = (MainPanel.Children[^1] as TextBox)!;
-        
-        var newTextBox = new TextBox
+        StackPanel stack = (MainPanel.Children[^1] as StackPanel)!;
+        StackPanel grid = new StackPanel()
         {
-            Watermark = NudCount.Watermark,
-            Text = lastText.Text
+            Orientation = stack.Orientation
         };
+        TextBox lastText = stack.Children[0] as TextBox;
+        ComboBox cbComboMaterials = stack.Children[1] as ComboBox;
+        ComboBox cbComboColors = stack.Children[2] as ComboBox;
+        TextBox tbUid = stack.Children[3] as TextBox;
 
-        newTextBox.KeyDown += InputSymbol;
+        var countTextBox = CreateCopyTextBox(lastText);
+        var cbMaterial = CreateCopyComboBox(cbComboMaterials);
+        var cbColor = CreateCopyComboBox(cbComboColors);
+        var uid = CreateCopyTextBox(tbUid);
         
-        MainPanel.Children.Add(newTextBox);
-        newTextBox.Focus();
         
-        newTextBox.SelectionStart = newTextBox.Text!.Length;
+        countTextBox.KeyDown += InputSymbol;
+        
+        grid.Children.Add(countTextBox);
+        grid.Children.Add(cbMaterial);
+        grid.Children.Add(cbColor);
+        grid.Children.Add(uid);
+        
+        MainPanel.Children.Add(grid);
+        countTextBox.Focus();
+        
+        countTextBox.SelectionStart = countTextBox.Text!.Length;
+    }
+
+    private TextBox CreateCopyTextBox(TextBox template)
+    {
+        TextBox textBox = new TextBox()
+        {
+            Watermark = template.Watermark,
+            Text = template.Text,
+            Width = template.Width
+        };
+        return textBox;
+    }
+    
+    private ComboBox CreateCopyComboBox(ComboBox template)
+    {
+        ComboBox comboBox = new ComboBox()
+        {
+            DisplayMemberBinding = template.DisplayMemberBinding,
+            SelectedValueBinding = template.SelectedValueBinding,
+            SelectedValue = template.SelectedValue,
+            ItemsSource = template.ItemsSource,
+            HorizontalAlignment = template.HorizontalAlignment,
+            Width = template.Width
+            
+        };
+        
+        return comboBox;
     }
 
     private void NavigateToUp(object sender)

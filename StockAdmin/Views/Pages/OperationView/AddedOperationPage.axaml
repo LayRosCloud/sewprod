@@ -2,7 +2,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Operation"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.OperationView.AddedOperationPage">
-    Welcome to Avalonia!
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+        
+        <TextBox Text="{Binding name}" 
+                 Watermark="Введите название"
+        />
+        
+        <TextBox Text="{Binding description}" 
+                 Watermark="Введите описание"
+                 />
+        
+        <TextBox Text="{Binding uid}" 
+                 Watermark="Введите артикул"
+        />
+        
+        <AutoCompleteBox x:Name="CbPrices" 
+                         Watermark="Введите цену" 
+                         Text="{Binding price.number}"
+                         ValueMemberBinding="{Binding DataType=models:Price, Path=number}"
+                         TextFilter="{Binding price.number}"
+                         KeyDown="KeyDownOnPriceField"
+                         TextChanged="InputTextInPriceField"/>
+        
+        <Button Click="SaveChanges" Content="Отправить"/>
+    </StackPanel>
 </UserControl>

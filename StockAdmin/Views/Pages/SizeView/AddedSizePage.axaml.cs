@@ -18,7 +18,6 @@ public partial class AddedSizePage : UserControl
         InitializeComponent();
         _frame = frame;
         _size = size;
-        DataContext = _size;
         Init();
     }
 
@@ -26,6 +25,7 @@ public partial class AddedSizePage : UserControl
     {
         AgeRepository repository = new AgeRepository();
         CbTypes.ItemsSource = await repository.GetAllAsync();
+        DataContext = _size;
     }
     
     private async void SaveChanges(object? sender, RoutedEventArgs e)

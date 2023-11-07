@@ -6,10 +6,17 @@
              x:DataType="models:Package" 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.PackagePage">
-    <StackPanel>
-        <Button Content="Добавить" Click="NavigateToAddedPackagesPage"/>
-        <DataGrid x:Name="List" 
-                  DoubleTapped="NavigateToMoreInformation" 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="Finder" 
+                 Watermark="Поиск..." 
+                 HorizontalAlignment="Left"
+                 Width="200"/>
+        <DataGrid Grid.Row="1" x:Name="List" 
+                  DoubleTapped="NavigateToMoreInformation"
                   LoadingRow="LoadRowPackage">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Добавил" 
@@ -24,11 +31,54 @@
                                     Binding="{Binding count}"
                                     IsReadOnly="True"/>
                 
+                <DataGridTextColumn Header="Материал" 
+                                    Binding="{Binding material.name}"
+                                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn Header="Цвет" 
+                                    Binding="{Binding color.name}"
+                                    IsReadOnly="True"/>
+                
+                <DataGridTextColumn Header="Артикул" 
+                                    Binding="{Binding uid}"
+                                    IsReadOnly="True"/>
+                
                 <DataGridCheckBoxColumn Header="Окончена ли" 
                                         Binding="{Binding isEnded}"
                                         x:DataType="models:Package" 
                                         IsReadOnly="True"/>
+                
+                <DataGridCheckBoxColumn Header="Повтор?" 
+                                        Binding="{Binding isRepeat}"
+                                        x:DataType="models:Package" 
+                                        IsReadOnly="True"/>
+                <DataGridTemplateColumn>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Content="✏️" 
+                                    Click="NavigateToEditPage"/>
+                            <Button Content="🗑️" 
+                                    />
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-    </StackPanel>
+        
+        <Button Grid.Row="1" 
+                Content="+" 
+                Background="#192655" 
+                FontWeight="Bold" 
+                Foreground="White" 
+                FontSize="20" 
+                HorizontalAlignment="Right" 
+                Margin=" 10" 
+                VerticalAlignment="Bottom"
+                Width="40"
+                Height="40"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="NavigateToAddedPackagesPage"/>
+        
+    </Grid>
 </UserControl>

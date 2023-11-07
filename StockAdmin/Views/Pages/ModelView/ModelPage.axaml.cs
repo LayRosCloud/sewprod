@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.ModelView;
@@ -28,5 +29,11 @@ public partial class ModelPage : UserControl
     public override string ToString()
     {
         return "Модели";
+    }
+
+    private void NavigateToEditPage(object? sender, RoutedEventArgs e)
+    {
+        Model model = (sender as Button).DataContext as Model;
+        _frame.Content = new AddedModelPage(_frame, model);
     }
 }

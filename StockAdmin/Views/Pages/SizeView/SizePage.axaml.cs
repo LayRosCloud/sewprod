@@ -1,6 +1,7 @@
 ﻿
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.SizeView;
 
@@ -26,7 +27,7 @@ public partial class SizePage : UserControl
     }
 
 
-    private void NavigateToSizePage(object? sender, RoutedEventArgs e)
+    private void NavigateToAddedSizePage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedSizePage(_frame);
     }
@@ -39,5 +40,17 @@ public partial class SizePage : UserControl
     public override string ToString()
     {
         return "Размеры";
+    }
+
+    private void NavigateToEditSizePage(object? sender, RoutedEventArgs e)
+    {
+        Size size = (sender as Button)?.DataContext as Size;
+        _frame.Content = new AddedSizePage(_frame, size);
+    }
+
+    private void NavigateToEditTypeOfSizePage(object? sender, RoutedEventArgs e)
+    {
+        Age age = (sender as Button)?.DataContext as Age;
+        _frame.Content = new AddedTypeOfSizePage(_frame, age);
     }
 }

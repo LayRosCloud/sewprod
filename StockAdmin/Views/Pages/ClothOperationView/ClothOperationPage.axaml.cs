@@ -39,4 +39,23 @@ public partial class ClothOperationPage : UserControl
     {
         return "Операции над одеждой";
     }
+
+    private void NavigateToAddedClothOperationPersonPage(object? sender, RoutedEventArgs e)
+    {
+        ClothOperation clothOperation = (List.SelectedItem as ClothOperation)!;
+        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperation, _package);
+    }
+
+    private void NavigateToEditClothOperationPage(object? sender, RoutedEventArgs e)
+    {
+        ClothOperation clothOperation = (sender as Button).DataContext as ClothOperation;
+        _frame.Content = new AddedClothOperationPage(_package, clothOperation, _frame);
+    }
+
+    private void NavigateToEditClothOperationPersonPage(object? sender, RoutedEventArgs e)
+    {
+        ClothOperation clothOperation = (List.SelectedItem as ClothOperation)!;
+        ClothOperationPerson clothOperationPerson  = (sender as Button).DataContext as ClothOperationPerson;
+        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperation, clothOperationPerson, _package);
+    }
 }

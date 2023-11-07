@@ -44,7 +44,7 @@
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
                             <Button Content="✏️" 
-                                    />
+                                    Click="NavigateToEditPage"/>
                             <Button Content="🗑️"
                             />
                         </WrapPanel>

@@ -10,8 +10,12 @@ public partial class AddedClothOperationPage : UserControl
     private readonly ClothOperation _clothOperation;
     private readonly ContentControl _frame;
     private readonly Package _package;
-    public AddedClothOperationPage(Package package, ContentControl frame) 
-        : this(package, new ClothOperation(), frame) { }
+
+    public AddedClothOperationPage(Package package, ContentControl frame)
+        : this(package, new ClothOperation(), frame)
+    {
+        CbEnded.IsVisible = false;
+    }
     
     public AddedClothOperationPage(Package package, ClothOperation clothOperation, ContentControl frame)
     {
@@ -27,17 +31,15 @@ public partial class AddedClothOperationPage : UserControl
 
     private async void InitData()
     {
-        var personRepository = new PersonRepository();
         var operationRepository = new OperationRepository();
 
-        CmbPerson.ItemsSource = await personRepository.GetAllAsync();
         CmbOperation.ItemsSource = await operationRepository.GetAllAsync();
         DataContext = _clothOperation;
     }
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
-        Operation operation = CmbOperation.SelectedItem as Operation;
+        Operation operation = (CmbOperation.SelectedItem as Operation)!;
         _clothOperation.priceId = operation.priceId;
         var clothOperationRepository = new ClothOperationRepository();
         
@@ -50,7 +52,7 @@ public partial class AddedClothOperationPage : UserControl
             await clothOperationRepository.UpdateAsync(_clothOperation);
         }
 
-        _frame.Content = new ClothOperationView.ClothOperationPage(_package, _frame);
+        _frame.Content = new ClothOperationPage(_package, _frame);
     }
     
     public override string ToString()

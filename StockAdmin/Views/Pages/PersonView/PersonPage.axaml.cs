@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.PersonView;
@@ -31,5 +32,9 @@ public partial class PersonPage : UserControl
         return "Персонал";
     }
 
-    
+    private void NavigateToEditPersonPage(object? sender, RoutedEventArgs e)
+    {
+        Person person = (sender as Button).DataContext as Person;
+        _frame.Content = new AddedPersonPage(_frame, person);
+    }
 }

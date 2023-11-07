@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Package"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.PackageView.EditPackagesPage">
+    <StackPanel Width="300">
+        <ComboBox x:Name="CbMaterials" 
+                  DisplayMemberBinding="{Binding DataType=models:Material, Path=name}"
+                  SelectedValueBinding="{Binding DataType=models:Material, Path=id}"
+                  SelectedValue="{Binding materialId}"
+                  HorizontalAlignment="Stretch"
+        />
+        <ComboBox x:Name="CbColors" 
+                  DisplayMemberBinding="{Binding DataType=models:Color, Path=name}"
+                  SelectedValueBinding="{Binding DataType=models:Color, Path=id}"
+                  SelectedValue="{Binding colorId}"
+                  HorizontalAlignment="Stretch"
+        />
+        <ComboBox x:Name="CbSizes" 
+                  DisplayMemberBinding="{Binding DataType=models:Size, Path=name}"
+                  SelectedValueBinding="{Binding DataType=models:Size, Path=id}"
+                  SelectedValue="{Binding sizeId}"
+                  HorizontalAlignment="Stretch"
+        />
+        <TextBox Text="{Binding uid}" 
+                 Watermark="Введите артикул"/>
+        <NumericUpDown Text="{Binding count}"
+                       Minimum="1"
+                       Maximum="10000"
+                       FormatString="0"
+                       Watermark="Введите количество"/>
+        
+        <CheckBox IsChecked="{Binding isEnded}" 
+                  Content="Закончена операция"/>
+        
+        <CheckBox IsChecked="{Binding isRepeat}" 
+                  Content="Повтор?"/>
+        <Button Click="SaveChanges" Content="Отправить"/>
+    </StackPanel>
+</UserControl>

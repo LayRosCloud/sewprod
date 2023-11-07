@@ -6,26 +6,44 @@
              x:DataType="models:Person"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PersonView.AddedPersonPage">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
-        <TextBlock Text="Учетная информация" Margin="0 0 0 5"/>
-        <TextBox Text="{Binding email}" 
-                 Watermark="Введите почту*"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" 
+                    Orientation="Vertical" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    Width="250">
+            <TextBlock Text="Учетная информация" Margin="0 0 0 5"/>
+            <TextBox x:Name="TbEmail" Text="{Binding email}" 
+                     Watermark="Введите почту*"/>
         
-        <TextBox Text="{Binding password}" 
-                 Watermark="Введите пароль*"/>
+            <TextBox x:Name="TbPassword" Text="{Binding password}" 
+                     Watermark="Введите пароль*" PasswordChar="•"/>
         
-        <TextBlock Text="Личная информация" Margin="0 10 0 5"/>
-        <TextBox Text="{Binding lastName}"
-                 Watermark="Введите фамилию*"/>
-        <TextBox Text="{Binding firstName}" 
-                 Watermark="Введите имя*"/>
-        <TextBox Text="{Binding patronymic}" 
-                 Watermark="Введите отчество"/>
-        <CalendarDatePicker SelectedDate="{Binding birthDay}"/>
+            <TextBlock Text="Личная информация" Margin="0 10 0 5"/>
+            <TextBox Text="{Binding lastName}"
+                     Watermark="Введите фамилию*"/>
         
-        <TextBlock Text="Рабочая информация" Margin="0 10 0 5"/>
-        <TextBox Text="{Binding uid}"/>
+            <TextBox Text="{Binding firstName}" 
+                     Watermark="Введите имя*"/>
         
-        <Button Content="Отправить" Click="SaveChanges"/>
-    </StackPanel>
+            <TextBox Text="{Binding patronymic}" 
+                     Watermark="Введите отчество"/>
+        
+            <CalendarDatePicker SelectedDate="{Binding birthDay}"/>
+        
+            <TextBlock Text="Рабочая информация" Margin="0 10 0 5"/>
+            <TextBox Text="{Binding uid}"/>
+        
+            <Button Content="Отправить" Click="SaveChanges"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="250">
+            <Image x:Name="BarCodeImage"/>
+            <Button Click="SaveCode" Content="Сгенерировать" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+
 </UserControl>

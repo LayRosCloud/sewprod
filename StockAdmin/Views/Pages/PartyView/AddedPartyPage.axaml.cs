@@ -47,7 +47,9 @@ public partial class AddedPartyPage : UserControl
             await repository.UpdateAsync(_party);
         }
 
-        _frame.Content = new PartyPage(_frame);
+        var page = new PartyPage(_frame);
+        await page.InitData();
+        _frame.Content = page;
     }
     
     public override string ToString()

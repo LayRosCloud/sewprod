@@ -16,7 +16,12 @@
             <Border Background="#1F4172">
                 <StackPanel VerticalAlignment="Center">
                     <Border Width="100" Height="100" BorderBrush="#Fff" BorderThickness="5" CornerRadius="10">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="АП" FontWeight="Bold" Foreground="#FFF" FontSize="50"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Text="АП" 
+                                   FontWeight="Bold"
+                                   Foreground="#FFF" 
+                                   FontSize="50"/>
                     </Border>
                     <TextBlock Text="Административная панель" 
                                HorizontalAlignment="Center" 

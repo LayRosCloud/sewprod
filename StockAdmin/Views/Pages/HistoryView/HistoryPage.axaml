@@ -1,0 +1,45 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:History"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.HistoryView.HistoryPage">
+         <Grid>
+             <Grid.RowDefinitions>
+                 <RowDefinition Height="35"/>
+                 <RowDefinition/>
+             </Grid.RowDefinitions>
+             <TextBox x:Name="Finder" Grid.Row="0" Watermark="Поиск..." Text="" TextChanged="FindOnUserName"/>
+             <DataGrid Grid.Row="1" x:Name="List">
+                 <DataGrid.Columns>
+                     <DataGridTextColumn 
+                         Header="Человек"
+                         Binding="{Binding person.lastName}"
+                         IsReadOnly="True"
+                     />
+                     <DataGridTextColumn 
+                         Header="Действие"
+                         Binding="{Binding action.name}"
+                         IsReadOnly="True"
+                     />
+                     <DataGridTextColumn 
+                         Header="Таблица"
+                         Binding="{Binding tableName}"
+                         IsReadOnly="True"
+                     />
+                     <DataGridTextColumn 
+                         Header="Значение"
+                         Binding="{Binding value}"
+                         IsReadOnly="True"
+                     />
+                     <DataGridTextColumn 
+                         Header="Дата"
+                         Binding="{Binding createdAt, StringFormat={}{0:d}}"
+                         IsReadOnly="True"
+                     />
+                 </DataGrid.Columns>
+             </DataGrid>
+         </Grid>
+</UserControl>

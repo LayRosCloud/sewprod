@@ -41,7 +41,7 @@
                             <DataTemplate>
                                 <WrapPanel Orientation="Horizontal">
                                     <Button Content="✏️" 
-                                            />
+                                            Click="NavigateToEditSizePage"/>
                                     <Button Content="🗑️"
                                     />
                                 </WrapPanel>
@@ -63,7 +63,7 @@
                         Height="40"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Click="NavigateToSizePage"/>
+                        Click="NavigateToAddedSizePage"/>
             </Grid>
         </TabItem>
         
@@ -97,7 +97,7 @@
                             <DataTemplate>
                                 <WrapPanel Orientation="Horizontal">
                                     <Button Content="✏️" 
-                                            />
+                                            Click="NavigateToEditTypeOfSizePage"/>
                                     <Button Content="🗑️"
                                     />
                                 </WrapPanel>

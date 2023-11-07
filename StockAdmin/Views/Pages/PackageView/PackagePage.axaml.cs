@@ -1,12 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.PartyView;
+using Color = StockAdmin.Models.Color;
 
 namespace StockAdmin.Views.Pages.PackageView;
 
@@ -39,8 +38,32 @@ public partial class PackagePage : UserControl
         if (row.DataContext is Package package)
         {
             bool isAdmin = package.person.posts.Contains(new Post(){name = "ADMIN"});
-            row.Background = new SolidColorBrush(isAdmin ? Color.Parse("#427D9D") : Color.FromRgb(255, 255, 255));
-            row.Foreground = new SolidColorBrush(isAdmin ? Color.FromRgb(255, 255, 255) : Color.FromRgb(0, 0, 0));
+
+            row.Background = new SolidColorBrush(
+                isAdmin 
+                ? Avalonia.Media.Color.Parse("#427D9D") 
+                : Avalonia.Media.Color.FromRgb(255, 255, 255));
+            
+            row.Foreground = new SolidColorBrush(
+                isAdmin 
+                ? Avalonia.Media.Color.FromRgb(255, 255, 255) 
+                : Avalonia.Media.Color.FromRgb(0, 0, 0));
+            if (package.isEnded)
+            {
+                row.Foreground = new SolidColorBrush(Colors.Black);
+                row.Background = new SolidColorBrush(Colors.White);
+            }
+            else if (package.isRepeat)
+            {
+                row.Foreground = new SolidColorBrush(Colors.White);
+                row.Background = new SolidColorBrush(Avalonia.Media.Color.Parse("#f49e31"));
+                
+            }
+            else if(package.createdAt != package.updatedAt)
+            {
+                row.Foreground = new SolidColorBrush(Colors.White);
+                row.Background = new SolidColorBrush(Avalonia.Media.Color.Parse("#2b2a28"));
+            }
         }
     }
     
@@ -56,5 +79,11 @@ public partial class PackagePage : UserControl
     public override string ToString()
     {
         return "Пачки";
+    }
+
+    private void NavigateToEditPage(object? sender, RoutedEventArgs e)
+    {
+        Package package = (sender as Button).DataContext as Package;
+        _frame.Content = new EditPackagesPage(_frame, package, _party);
     }
 }

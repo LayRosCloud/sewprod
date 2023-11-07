@@ -6,20 +6,45 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:Class="StockAdmin.Views.Pages.PartyView.AddedPackagesPage">
     <ScrollViewer>
-        <StackPanel Width="300">
+        <StackPanel Width="500">
             <TextBlock x:Name="Title" Text="Добавление пачек"/>
             
             <ComboBox x:Name="CmbSizes" 
-                      DisplayMemberBinding="{Binding DataType=models:Size, 
-            Path=fullName}" 
+                      DisplayMemberBinding="{Binding DataType=models:Size, Path=name}" 
                       HorizontalAlignment="Stretch"/>
             <TextBlock Text="Пачки"/>
-            <StackPanel x:Name="MainPanel" >
-                <TextBox x:Name="NudCount" 
-                         KeyDown="InputSymbol"
-                         Focusable="True"
-                         Text=""
-                         Watermark="Введите количество"/>
+            <StackPanel x:Name="MainPanel">
+                <StackPanel Orientation="Horizontal" Width="500">
+                    <TextBox x:Name="NudCount" 
+                             KeyDown="InputSymbol"
+                             Focusable="True"
+                             Text=""
+                             Watermark="Введите количество"
+                             Width="125"
+                             Grid.Column="0"/>
+                    <ComboBox x:Name="CbMaterials" 
+                              DisplayMemberBinding="{Binding DataType=models:Material, Path=name}"
+                              SelectedValueBinding="{Binding DataType=models:Material, Path=id}"
+                              SelectedValue="{Binding DataType=models:Package, Path=materialId}"
+                              PlaceholderText="Выберите материал"
+                              Width="125"
+                              Grid.Column="1"/>
+                    <ComboBox x:Name="CbColors" 
+                              DisplayMemberBinding="{Binding DataType=models:Color, Path=name}"
+                              SelectedValueBinding="{Binding DataType=models:Color, Path=id}"
+                              SelectedValue="{Binding DataType=models:Package, Path=colorId}"
+                              PlaceholderText="Выберите цвет"
+                              HorizontalAlignment="Stretch"
+                              Width="125"
+                              Grid.Column="2"/>
+                    <TextBox x:Name="Text" 
+                             Focusable="True"
+                             Text=""
+                             Width="125"
+                             Watermark="Введите артикул"
+                             Grid.Column="3"/>
+                              
+                </StackPanel>
             </StackPanel>
             
             <Button Content="Сохранить" Click="TrySaveElements"/>

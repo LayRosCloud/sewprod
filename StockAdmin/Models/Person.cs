@@ -13,5 +13,4 @@ public class Person
     public string? patronymic { get; set; }
     public DateTime birthDay { get; set; } = DateTime.Now;
     public string uid { get; set; }
-    public List<Post> posts { get; set; }
 }

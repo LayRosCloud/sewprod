@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using StockAdmin.Views.Pages;
+using StockAdmin.Views.Pages.HistoryView;
+using StockAdmin.Views.Pages.MaterialView;
 using ModelPage = StockAdmin.Views.Pages.ModelView.ModelPage;
 using OperationPage = StockAdmin.Views.Pages.OperationView.OperationPage;
 using PartyPage = StockAdmin.Views.Pages.PartyView.PartyPage;
@@ -96,5 +98,17 @@ public partial class MainContainer : Window
         (activePanel.Children[1] as Border).Background = new SolidColorBrush(Color.FromRgb(136, 136, 136));
         (activePanel.Children[2] as TextBlock).Foreground = new SolidColorBrush(Color.FromRgb(136, 136, 136));
         _currentIndexActive = index;
+    }
+
+    private void NavigateToHistoryPage(object? sender, RoutedEventArgs e)
+    {
+        Frame.Content = new HistoryPage();
+        SwitchThemeButton(sender as Button);
+    }
+
+    private void NavigateToMaterialPage(object? sender, RoutedEventArgs e)
+    {
+        Frame.Content = new MaterialsPage(Frame);
+        SwitchThemeButton(sender as Button);
     }
 }

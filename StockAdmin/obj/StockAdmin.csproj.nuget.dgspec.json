@@ -14,12 +14,14 @@
         "outputPath": "C:\\Users\\betrayal\\RiderProjects\\StockAdmin\\StockAdmin\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\betrayal\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\betrayal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,6 +67,14 @@
             "Avalonia.Themes.Fluent": {
               "target": "Package",
               "version": "[11.0.0, )"
+            },
+            "NPOI": {
+              "target": "Package",
+              "version": "[2.6.2, )"
+            },
+            "Zen.Barcode.Rendering.Framework": {
+              "target": "Package",
+              "version": "[3.1.10729.1, )"
             }
           },
           "imports": [
@@ -78,30 +88,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.19, 6.0.19]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.19, 6.0.19]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.19, 6.0.19]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.19, 6.0.19]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.305\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
