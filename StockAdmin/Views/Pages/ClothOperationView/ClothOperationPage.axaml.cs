@@ -2,6 +2,8 @@
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Views.Pages.PackageView;
+using StockAdmin.Views.Pages.PartyView;
 
 namespace StockAdmin.Views.Pages.ClothOperationView;
 
@@ -27,7 +29,7 @@ public partial class ClothOperationPage : UserControl
 
     private void BackToPartyPage(object? sender, RoutedEventArgs e)
     {
-        _frame.Content = new PartyView.PartyPage(_frame);
+        _frame.Content = new PartyPage(_frame);
     }
 
     private void NavigateToAddedPage(object? sender, RoutedEventArgs e)

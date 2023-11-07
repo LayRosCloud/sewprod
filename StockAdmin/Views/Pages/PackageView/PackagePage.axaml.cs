@@ -59,11 +59,6 @@ public partial class PackagePage : UserControl
                 row.Background = new SolidColorBrush(Avalonia.Media.Color.Parse("#f49e31"));
                 
             }
-            else if(package.createdAt != package.updatedAt)
-            {
-                row.Foreground = new SolidColorBrush(Colors.White);
-                row.Background = new SolidColorBrush(Avalonia.Media.Color.Parse("#2b2a28"));
-            }
         }
     }
     

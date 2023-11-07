@@ -51,7 +51,6 @@ public class WordController
                 Units.ToEMU(200));
             var codeParagraph = AddText(codeVendor);
             codeParagraph.Alignment = ParagraphAlignment.CENTER;
-            
         }
         
     }

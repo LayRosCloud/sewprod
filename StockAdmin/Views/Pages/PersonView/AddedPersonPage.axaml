@@ -36,7 +36,7 @@
             <CalendarDatePicker SelectedDate="{Binding birthDay}"/>
         
             <TextBlock Text="Рабочая информация" Margin="0 10 0 5"/>
-            <TextBox Text="{Binding uid}"/>
+            <TextBox Text="{Binding uid}" Watermark="Введите уник. индентификатор"/>
         
             <Button Content="Отправить" Click="SaveChanges"/>
         </StackPanel>

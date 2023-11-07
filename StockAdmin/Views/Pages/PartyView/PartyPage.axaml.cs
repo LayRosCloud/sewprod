@@ -5,7 +5,9 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using NPOI.XWPF.UserModel;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exports;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.PackageView;
@@ -81,6 +83,18 @@ public partial class PartyPage : UserControl
     private async void ExportBarcodes(object? sender, RoutedEventArgs e)
     {
         Party party = (List.SelectedItem as Party)!;
+        SaveFileDialog dialog = new SaveFileDialog();
+        dialog.Filters.Add(new FileDialogFilter
+        {
+            Extensions = new List<string>(){"docx"},
+            Name = "Word"
+        });
+        dialog.InitialFileName = "file";
+        string? path;
+        if((path = await dialog.ShowAsync(ElementConstants.MainContainer)) == null)
+        {
+            return;
+        }
         StringBuilder codeVendorParty = new StringBuilder();
         codeVendorParty.Append(party.model.codeVendor+ " ");
         codeVendorParty.Append(party.dateStart.ToString("yy"));
@@ -99,9 +113,9 @@ public partial class PartyPage : UserControl
         }
 
         WordController wordController = new WordController();
-        wordController.AddText("Штрих-коды для товаров");
+        wordController.AddText("Штрих-коды для товаров").Alignment = ParagraphAlignment.CENTER;
         wordController.AddRange(packageCodeVendors, party, packages);
-        wordController.Save(@"D:\file.docx");
+        wordController.Save(path);
 
     }
 
