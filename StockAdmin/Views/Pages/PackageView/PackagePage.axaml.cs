@@ -57,7 +57,11 @@ public partial class PackagePage : UserControl
             {
                 row.Foreground = new SolidColorBrush(Colors.White);
                 row.Background = new SolidColorBrush(Avalonia.Media.Color.Parse("#f49e31"));
-                
+            }
+            else if (package.isUpdated)
+            {
+                row.Foreground = new SolidColorBrush(Colors.White);
+                row.Background = new SolidColorBrush(Avalonia.Media.Color.Parse("#282828"));
             }
         }
     }
@@ -80,5 +84,31 @@ public partial class PackagePage : UserControl
     {
         Package package = (sender as Button).DataContext as Package;
         _frame.Content = new EditPackagesPage(_frame, package, _party);
+    }
+    
+    private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new PackageRepository();
+        
+        if (List.SelectedItem is Package package)
+        {
+            await repository.DeleteAsync(package.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+
+    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = false;
+    }
+
+    private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = true;
+        DeletedMessage.Text =
+            "вы действительно уверены, что хотите удалить пачку?" +
+            " Восстановить пачку будет нельзя!";
     }
 }

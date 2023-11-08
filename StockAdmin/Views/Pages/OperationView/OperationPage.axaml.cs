@@ -36,4 +36,30 @@ public partial class OperationPage : UserControl
         Operation operation = (sender as Button).DataContext as Operation;
         _frame.Content = new AddedOperationPage(_frame, operation);
     }
+    
+    private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new OperationRepository();
+        
+        if (List.SelectedItem is Operation operation)
+        {
+            await repository.DeleteAsync(operation.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+
+    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = false;
+    }
+
+    private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = true;
+        DeletedMessage.Text =
+            "вы действительно уверены, что хотите удалить операцию?" +
+            " Восстановить операцию будет нельзя!";
+    }
 }

@@ -36,4 +36,30 @@ public partial class ModelPage : UserControl
         Model model = (sender as Button).DataContext as Model;
         _frame.Content = new AddedModelPage(_frame, model);
     }
+    
+    private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new ModelRepository();
+        
+        if (List.SelectedItem is Model model)
+        {
+            await repository.DeleteAsync(model.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        InitData();
+    }
+
+    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = false;
+    }
+
+    private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = true;
+        DeletedMessage.Text =
+            "вы действительно уверены, что хотите удалить модель?" +
+            " Восстановить модель будет нельзя!";
+    }
 }

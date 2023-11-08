@@ -20,6 +20,7 @@
                   DisplayMemberBinding="{Binding DataType=models:Age, Path=name}"
                   SelectedValueBinding="{Binding DataType=models:Age, Path=id}"
                   SelectedValue="{Binding ageId}"
+                  HorizontalAlignment="Stretch"
                   />
         
         <Button Content="Отправить" Click="SaveChanges"/>

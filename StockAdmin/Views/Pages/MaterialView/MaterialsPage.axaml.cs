@@ -52,4 +52,52 @@ public partial class MaterialsPage : UserControl
         Color color = (sender as Button)?.DataContext as Color;
         _frame.Content = new AddedColorPage(_frame, color);
     }
+    
+    private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new MaterialRepository();
+        
+        if (ListMaterials.SelectedItem is Material material)
+        {
+            await repository.DeleteAsync(material.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+    
+    private async void SendYesAnswerColorOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new ColorRepository();
+        
+        if (ListColors.SelectedItem is Color color)
+        {
+            await repository.DeleteAsync(color.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+
+    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainerMaterial.IsVisible = false;
+        DeletedContainerColor.IsVisible = false;
+    }
+
+    private void ShowDeleteWindowMaterial(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainerMaterial.IsVisible = true;
+        DeletedMessageMaterial.Text =
+            "вы действительно уверены, что хотите удалить материал?" +
+            " Восстановить материал будет нельзя!";
+    }
+    
+    private void ShowDeleteWindowColor(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainerColor.IsVisible = true;
+        DeletedMessageColor.Text =
+            "вы действительно уверены, что хотите удалить цвет?" +
+            " Восстановить цвет будет нельзя!";
+    }
 }

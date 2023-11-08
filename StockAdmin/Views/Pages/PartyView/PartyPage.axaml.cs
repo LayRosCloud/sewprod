@@ -97,7 +97,7 @@ public partial class PartyPage : UserControl
         }
         StringBuilder codeVendorParty = new StringBuilder();
         codeVendorParty.Append(party.model.codeVendor+ " ");
-        codeVendorParty.Append(party.dateStart.ToString("yy"));
+        codeVendorParty.Append(party.dateStart.ToString("yyMM"));
         
         var repository = new PackageRepository();
         List<Package> packages = await repository.GetAllAsync(party.id);
@@ -113,7 +113,8 @@ public partial class PartyPage : UserControl
         }
 
         WordController wordController = new WordController();
-        wordController.AddText("Штрих-коды для товаров").Alignment = ParagraphAlignment.CENTER;
+        XWPFParagraph paragraph = wordController.AddText("Штрих-коды для товаров");
+        paragraph.Alignment = ParagraphAlignment.CENTER;
         wordController.AddRange(packageCodeVendors, party, packages);
         wordController.Save(path);
 

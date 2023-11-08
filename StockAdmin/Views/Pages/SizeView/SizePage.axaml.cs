@@ -53,4 +53,52 @@ public partial class SizePage : UserControl
         Age age = (sender as Button)?.DataContext as Age;
         _frame.Content = new AddedTypeOfSizePage(_frame, age);
     }
+    
+    private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new SizeRepository();
+        
+        if (ListSizes.SelectedItem is Size size)
+        {
+            await repository.DeleteAsync(size.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+    
+    private async void SendYesTypeSizeAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new AgeRepository();
+        
+        if (ListAges.SelectedItem is Age age)
+        {
+            await repository.DeleteAsync(age.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+
+    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainerTypeSize.IsVisible = false;
+        DeletedContainerSize.IsVisible = false;
+    }
+
+    private void ShowDeleteWindowSize(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainerSize.IsVisible = true;
+        DeletedMessageSize.Text =
+            "вы действительно уверены, что хотите удалить размер?" +
+            " Восстановить размер будет нельзя!";
+    }
+    
+    private void ShowDeleteWindowTypeOfSize(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainerTypeSize.IsVisible = true;
+        DeletedMessageTypeSize.Text =
+            "вы действительно уверены, что хотите удалить тип размера?" +
+            " Восстановить тип размера будет нельзя!";
+    }
 }

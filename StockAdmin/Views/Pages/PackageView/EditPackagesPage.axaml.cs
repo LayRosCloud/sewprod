@@ -36,7 +36,7 @@ public partial class EditPackagesPage : UserControl
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
         var repository = new PackageRepository();
-
+        _package.isUpdated = true;
         await repository.UpdateAsync(_package);
 
         _frame.Content = new PackagePage(_frame, _party);

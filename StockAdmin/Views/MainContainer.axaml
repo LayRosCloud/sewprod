@@ -185,7 +185,7 @@
                             Background="#888888" 
                             Padding="5" 
                             Margin="5 0 0 0">
-                        <Image Source="/Assets/size.png" 
+                        <Image Source="/Assets/material.png" 
                                Width="25"/>
                     </Border>
                     <TextBlock Text="Материалы"
@@ -213,7 +213,7 @@
                             Background="#888888" 
                             Padding="5" 
                             Margin="5 0 0 0">
-                        <Image Source="/Assets/size.png" 
+                        <Image Source="/Assets/history.png" 
                                Width="25"/>
                     </Border>
                     <TextBlock Text="История"

@@ -58,7 +58,7 @@
                             <Button Content="✏️" 
                                     Click="NavigateToEditPage"/>
                             <Button Content="🗑️" 
-                                    />
+                                    Click="ShowDeleteWindow"/>
                         </WrapPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
@@ -79,6 +79,56 @@
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 Click="NavigateToAddedPackagesPage"/>
-        
+        <Grid x:Name="DeletedContainer" 
+              IsVisible="False" 
+              Grid.Row="0" 
+              Grid.RowSpan="2">
+            
+            <Border 
+                Background="Black"
+                Opacity="0.8"
+                Margin="0" 
+                Padding="0" 
+                BorderThickness="0"
+            />
+            <Border Background="White" 
+                    Padding="5" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    CornerRadius="10" 
+                    Width="600" 
+                    Height="300">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock 
+                            Text="вы уверены?" 
+                            FontWeight="Bold" 
+                            FontSize="40" 
+                            Foreground="#192655"/>
+                        <TextBlock 
+                            x:Name="DeletedMessage"
+                            FontSize="20" 
+                            TextWrapping="Wrap"/>
+                    </StackPanel>
+                    
+                    <Button 
+                        Content="Да" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom" 
+                        Background="Transparent" 
+                        Foreground="Brown"
+                        Click="SendYesAnswerOnDeleteItem"/>
+                    
+                    <Button 
+                        Content="Нет" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom" 
+                        FontWeight="Bold" 
+                        Foreground="#192655"
+                        Click="SendNoAnswerOnDeleteItem"/>
+                    
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

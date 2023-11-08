@@ -31,7 +31,9 @@ public partial class AddedPersonPage : UserControl
         
         if (_person.id == 0)
         {
-            await personRepository.CreateAsync(_person);
+            Person person = await personRepository.CreateAsync(_person);
+            var permissionRepository = new PermissionRepository();
+            await permissionRepository.CreateAsync(new Permission(){personId = person.id, postId = 3});
         }
         else
         {
@@ -68,10 +70,8 @@ public partial class AddedPersonPage : UserControl
         
         bitmap.Save(stream, ImageFormat.Png);
 
-        // Сбросьте позицию потока на начало
         stream.Seek(0, System.IO.SeekOrigin.Begin);
 
-        // Создайте Avalonia Bitmap из потока
         return new Bitmap(stream);
     }
 }

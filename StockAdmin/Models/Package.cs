@@ -14,11 +14,10 @@ public class Package
     public int count { get; set; }
     public bool isEnded { get; set; }
     public bool isRepeat { get; set; }
+    public bool isUpdated { get; set; }
     public string uid { get; set; }
     public Size size { get; set; }
     public PersonWithPosts person { get; set; }
-    public DateTime createdAt { get; set; }
-    public DateTime updatedAt { get; set; }
     public Material material { get; set; }
     public Color color { get; set; }
 

@@ -37,4 +37,30 @@ public partial class PersonPage : UserControl
         Person person = (sender as Button).DataContext as Person;
         _frame.Content = new AddedPersonPage(_frame, person);
     }
+
+    private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        var repository = new PersonRepository();
+        
+        if (List.SelectedItem is Person person)
+        {
+            await repository.DeleteAsync(person.id);
+        }
+
+        SendNoAnswerOnDeleteItem(sender, e);
+        Init();
+    }
+
+    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = false;
+    }
+
+    private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = true;
+        DeletedMessage.Text =
+            "вы действительно уверены, что хотите удалить пользователя?" +
+            " Восстановить пользователя будет нельзя!";
+    }
 }

@@ -55,7 +55,7 @@
                             <Button Content="✏️" 
                                     Click="NavigateToEditPersonPage"/>
                             <Button Content="🗑️" 
-                                    />
+                                    Click="ShowDeleteWindow"/>
                         </WrapPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
@@ -82,13 +82,13 @@
               Grid.Row="0" 
               Grid.RowSpan="2">
             
-            <Button 
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" 
+            <Border 
+                Background="Black"
+                Opacity="0.8"
                 Margin="0" 
                 Padding="0" 
-                BorderThickness="0">
-            </Button>
+                BorderThickness="0"
+                />
             <Border Background="White" 
                     Padding="5" 
                     HorizontalAlignment="Center" 
@@ -100,13 +100,13 @@
                     <StackPanel>
                         <TextBlock 
                             Text="вы уверены?" 
-                                   FontWeight="Bold" 
-                                   FontSize="40" 
-                                   Foreground="#192655"/>
+                            FontWeight="Bold" 
+                            FontSize="40" 
+                            Foreground="#192655"/>
                         <TextBlock 
-                                    x:Name="DeletedMessage"
-                                    FontSize="20" 
-                                   TextWrapping="Wrap"/>
+                            x:Name="DeletedMessage"
+                            FontSize="20" 
+                            TextWrapping="Wrap"/>
                     </StackPanel>
                     
                     <Button 
@@ -115,7 +115,7 @@
                         VerticalAlignment="Bottom" 
                         Background="Transparent" 
                         Foreground="Brown"
-                        />
+                        Click="SendYesAnswerOnDeleteItem"/>
                     
                     <Button 
                         Content="Нет" 
@@ -123,7 +123,7 @@
                         VerticalAlignment="Bottom" 
                         FontWeight="Bold" 
                         Foreground="#192655"
-                        />
+                        Click="SendNoAnswerOnDeleteItem"/>
                     
                 </Grid>
             </Border>

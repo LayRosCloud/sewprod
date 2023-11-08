@@ -19,10 +19,10 @@ public class ClothOperationRepository: IDataReader<ClothOperation>,
         return response!;
     }
     
-    public async Task<List<ClothOperation>> GetAllAsync(int partyId)
+    public async Task<List<ClothOperation>> GetAllAsync(int packageId)
     {
         var httpHandler = new HttpHandler<ClothOperation>();
-        List<ClothOperation>? response = await httpHandler.GetListFromJsonAsync(EndPoint+$"?partyId={partyId}");
+        List<ClothOperation>? response = await httpHandler.GetListFromJsonAsync(EndPoint+$"?packageId={packageId}");
         return response!;
     }
 
