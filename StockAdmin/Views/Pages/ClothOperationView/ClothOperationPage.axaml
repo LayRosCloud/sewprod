@@ -13,9 +13,10 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" 
                     Orientation="Horizontal">
-            <TextBox Watermark="Поиск..."
+            <TextBox x:Name="Finded" 
+                    Watermark="Поиск..."
                      Width="200" 
-                     Background="White" />
+                     Background="White" TextChanged="TextChanged"/>
         </StackPanel>
         <TextBlock x:Name="SumText" Grid.Row="0"
                    HorizontalAlignment="Center"/>
@@ -23,7 +24,7 @@
             Grid.Row="0" 
             HorizontalAlignment="Right" 
             Content="⬅️" 
-            Click="BackToPartyPage"/>
+            Click="BackToPackagePage"/>
         <DataGrid 
             Grid.Row="1" 
             x:Name="List">
@@ -55,7 +56,7 @@
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate DataType="models:ClothOperation">
-                    <StackPanel>
+                    <StackPanel Margin="0 0 0 10">
                             <Button Content="Добавить" Click="NavigateToAddedClothOperationPersonPage" HorizontalAlignment="Left"/>
                         <DataGrid ItemsSource="{Binding clothOperationPersons}">
                             <DataGrid.Columns>

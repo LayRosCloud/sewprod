@@ -19,9 +19,12 @@
                 SelectedValue="{Binding operationId}"
                 Margin="0 5"
                 />
+            
             <CheckBox x:Name="CbEnded"
                 IsChecked="{Binding isEnded}"
-                Content="Окончена ли?"/>
+                Content="Окончена ли?"
+                />
+            
             <Button 
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"

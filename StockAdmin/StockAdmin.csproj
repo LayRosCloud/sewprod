@@ -21,6 +21,8 @@
         <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.0" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
+        <PackageReference Include="LiveChartsCore" Version="2.0.0-rc2" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
         <PackageReference Include="NPOI" Version="2.6.2" />
         <PackageReference Include="Zen.Barcode.Rendering.Framework" Version="3.1.10729.1" />
     </ItemGroup>
@@ -37,14 +39,6 @@
       </Compile>
       <Compile Update="Views\Pages\ClothOperationView\ClothOperationPage.axaml.cs">
         <DependentUpon>ClothOperationPage.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\Pages\PartyView\AddedPartyPage.axaml.cs">
-        <DependentUpon>AddedPartyPage.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\Pages\PartyView\PartyPage.axaml.cs">
-        <DependentUpon>PartyPage.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
       <Compile Update="Views\Pages\ModelView\ModelPage.axaml.cs">

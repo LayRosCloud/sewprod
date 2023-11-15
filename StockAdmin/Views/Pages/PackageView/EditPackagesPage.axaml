@@ -13,14 +13,8 @@
                   SelectedValue="{Binding materialId}"
                   HorizontalAlignment="Stretch"
         />
-        <ComboBox x:Name="CbColors" 
-                  DisplayMemberBinding="{Binding DataType=models:Color, Path=name}"
-                  SelectedValueBinding="{Binding DataType=models:Color, Path=id}"
-                  SelectedValue="{Binding colorId}"
-                  HorizontalAlignment="Stretch"
-        />
         <ComboBox x:Name="CbSizes" 
-                  DisplayMemberBinding="{Binding DataType=models:Size, Path=name}"
+                  DisplayMemberBinding="{Binding DataType=models:Size, Path=number}"
                   SelectedValueBinding="{Binding DataType=models:Size, Path=id}"
                   SelectedValue="{Binding sizeId}"
                   HorizontalAlignment="Stretch"
@@ -38,6 +32,7 @@
         
         <CheckBox IsChecked="{Binding isRepeat}" 
                   Content="Повтор?"/>
-        <Button Click="SaveChanges" Content="Отправить"/>
+        <Button Click="SaveChanges" 
+                Content="Отправить"/>
     </StackPanel>
 </UserControl>

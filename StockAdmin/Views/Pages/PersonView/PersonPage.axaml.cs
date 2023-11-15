@@ -1,17 +1,30 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Views.Pages.StatisticPeople;
 
 namespace StockAdmin.Views.Pages.PersonView;
 
 public partial class PersonPage : UserControl
 {
     private readonly ContentControl _frame;
+    private readonly FinderController _finderController;
+    private readonly List<Person> _persons;
     
     public PersonPage(ContentControl frame)
     {
         InitializeComponent();
+        _persons = new List<Person>();
+        _finderController = new FinderController(500, () =>
+        {
+            List.ItemsSource = _persons.Where(x => x.lastName.ToLower().Contains(Finder.Text.ToLower())).ToList();
+        });
+        
         _frame = frame;
         Init();
     }
@@ -19,7 +32,8 @@ public partial class PersonPage : UserControl
     private async void Init()
     {
         var personRepository = new PersonRepository();
-        List.ItemsSource = await personRepository.GetAllAsync();
+        _persons.AddRange(await personRepository.GetAllAsync());
+        List.ItemsSource = _persons;
     }
     
     private void NavigateToAddedPersonPage(object? sender, RoutedEventArgs e)
@@ -62,5 +76,15 @@ public partial class PersonPage : UserControl
         DeletedMessage.Text =
             "вы действительно уверены, что хотите удалить пользователя?" +
             " Восстановить пользователя будет нельзя!";
+    }
+
+    private void NavigateToMoreInformation(object? sender, TappedEventArgs e)
+    {
+        _frame.Content = new StatisticPage();
+    }
+
+    private void TextChanged(object? sender, TextChangedEventArgs e)
+    {
+        _finderController.ChangeText();
     }
 }

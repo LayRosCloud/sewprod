@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.SizePage">
+             x:Class="StockAdmin.Views.Pages.SizeView.SizePage">
     <TabControl>
         <TabItem Header="Размеры" x:DataType="models:Size">
             <Grid>
@@ -14,19 +14,17 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" 
                             Orientation="Horizontal">
-                    <TextBox Watermark="Поиск..."
+                    <TextBox x:Name="FinderSize" 
+                             Watermark="Поиск..."
                              Width="200" 
-                             Background="White" />
+                             Background="White"
+                             TextChanged="TextChangedSize"
+                             />
                 </StackPanel>
                 <DataGrid 
                     Grid.Row="1" 
                     x:Name="ListSizes">
                     <DataGrid.Columns>
-                        <DataGridTextColumn 
-                            Header="Название" 
-                            Binding="{Binding name}" 
-                            IsReadOnly="True"/>
-                        
                         <DataGridTextColumn 
                             Header="Числовой эквивалент" 
                             Binding="{Binding number}" 
@@ -126,9 +124,11 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" 
                             Orientation="Horizontal">
-                    <TextBox Watermark="Поиск..."
+                    <TextBox x:Name="FinderTypeOfSizes" 
+                             Watermark="Поиск..."
                              Width="200" 
-                             Background="White" />
+                             Background="White" 
+                             TextChanged="TextChangedTypeOfSize"/>
                 </StackPanel>
                 <DataGrid 
                     Grid.Row="1" 

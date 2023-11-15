@@ -1,9 +1,11 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml.Templates;
 using StockAdmin.Models;
+using StockAdmin.Scripts;
 using StockAdmin.Scripts.Repositories;
-using StockAdmin.Views.Pages.PartyView;
+using StockAdmin.Views.Pages.PackageView;
 
 namespace StockAdmin.Views.Pages.ClothOperationView;
 
@@ -11,12 +13,24 @@ public partial class ClothOperationPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly Package _package;
-    private int _currentIndex = 0;
+    private int _currentIndex;
     private ClothOperationPerson? _clothOperationPerson;
+    
+    private readonly List<ClothOperation> _clothOperations;
+    private readonly FinderController _finderController;
+    
     public ClothOperationPage(Package package, ContentControl frame)
     {
         InitializeComponent();
         _package = package;
+        _clothOperations = new List<ClothOperation>();
+        _finderController = new FinderController(500, () =>
+        {
+            List.ItemsSource = _clothOperations.Where(x=> x.operation.name
+                .ToLower()
+                .Contains(Finded.Text.ToLower().Trim()))
+                .ToList();
+        });
         InitData(package);
         _frame = frame;
     }
@@ -24,23 +38,18 @@ public partial class ClothOperationPage : UserControl
     private async void InitData(Package package)
     {
         var repository = new ClothOperationRepository();
-        var clothOperations = await repository.GetAllAsync(package.id);
-        List.ItemsSource = clothOperations;
+        _clothOperations.AddRange(await repository.GetAllAsync(package.id));
+        List.ItemsSource = _clothOperations;
     }
 
-    private void BackToPartyPage(object? sender, RoutedEventArgs e)
+    private void BackToPackagePage(object? sender, RoutedEventArgs e)
     {
-        _frame.Content = new PartyPage(_frame);
+        _frame.Content = new PackagePage(_frame);
     }
 
     private void NavigateToAddedPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedClothOperationPage(_package, _frame);
-    }
-    
-    public override string ToString()
-    {
-        return "Операции над одеждой";
     }
 
     private void NavigateToAddedClothOperationPersonPage(object? sender, RoutedEventArgs e)
@@ -109,5 +118,13 @@ public partial class ClothOperationPage : UserControl
             " Восстановить операцию над одеждой будет нельзя!";
         _currentIndex = 2;
     }
-    
+    public override string ToString()
+    {
+        return "Операции над одеждой";
+    }
+
+    private void TextChanged(object? sender, TextChangedEventArgs e)
+    {
+        _finderController.ChangeText();
+    }
 }

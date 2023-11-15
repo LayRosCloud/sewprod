@@ -10,7 +10,7 @@ public class Party
     public int personId { get; set; }
     public DateTime dateStart { get; set; } = DateTime.Now;
     public DateTime? dateEnd { get; set; } = DateTime.Now;
-    public int cutNumber { get; set; } = 1;
+    public string cutNumber { get; set; }
     
     public Person person { get; set; }
     public Model model { get; set; }

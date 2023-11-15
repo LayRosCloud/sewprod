@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Package" 
+             x:DataType="models:GroupedPackages" 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.PackagePage">
     <Grid>
@@ -11,58 +11,97 @@
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="Finder" 
+        
+        <TextBox Grid.Row="0" x:Name="Finder" 
                  Watermark="Поиск..." 
                  HorizontalAlignment="Left"
-                 Width="200"/>
+                 Width="200"
+                 TextChanged="TextChanged"/>
+        
         <DataGrid Grid.Row="1" x:Name="List" 
-                  DoubleTapped="NavigateToMoreInformation"
-                  LoadingRow="LoadRowPackage">
+                  RowDetailsVisibilityMode="Visible">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Добавил" 
-                                    Binding="{Binding person.uid}"
-                                    IsReadOnly="True"/>
-                
-                <DataGridTextColumn Header="Размер" 
-                                    Binding="{Binding size.number}"
-                                    IsReadOnly="True"/>
-                
-                <DataGridTextColumn Header="Пачки" 
-                                    Binding="{Binding count}"
-                                    IsReadOnly="True"/>
-                
-                <DataGridTextColumn Header="Материал" 
-                                    Binding="{Binding material.name}"
-                                    IsReadOnly="True"/>
-                
-                <DataGridTextColumn Header="Цвет" 
-                                    Binding="{Binding color.name}"
-                                    IsReadOnly="True"/>
-                
-                <DataGridTextColumn Header="Артикул" 
-                                    Binding="{Binding uid}"
-                                    IsReadOnly="True"/>
-                
-                <DataGridCheckBoxColumn Header="Окончена ли" 
-                                        Binding="{Binding isEnded}"
-                                        x:DataType="models:Package" 
-                                        IsReadOnly="True"/>
-                
-                <DataGridCheckBoxColumn Header="Повтор?" 
-                                        Binding="{Binding isRepeat}"
-                                        x:DataType="models:Package" 
-                                        IsReadOnly="True"/>
-                <DataGridTemplateColumn>
-                    <DataTemplate>
-                        <WrapPanel Orientation="Horizontal">
-                            <Button Content="✏️" 
-                                    Click="NavigateToEditPage"/>
-                            <Button Content="🗑️" 
-                                    Click="ShowDeleteWindow"/>
-                        </WrapPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="ФИО кройщика" Binding="{Binding FullName}" IsReadOnly="True"/>
             </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate x:DataType="models:GroupedPackages">
+                    <StackPanel Margin="10 0 0 10">
+                        <DataGrid ItemsSource="{Binding Packages}" 
+                                  LoadingRow="LoadRowPackage" 
+                                  DoubleTapped="NavigateToMoreInformation">
+                            <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер кроя" 
+                                        Binding="{Binding DataType=models:Package, Path=party.cutNumber}"
+                                        IsReadOnly="True"/>
+                
+                    <DataGridTextColumn Header="Модель" 
+                                        Binding="{Binding DataType=models:Package, Path=party.model.title}"
+                                        IsReadOnly="True"/>
+                    
+                    <DataGridTextColumn Header="Размер" 
+                                        Binding="{Binding DataType=models:Package, Path=size.number}"
+                                        IsReadOnly="True"/>
+                    
+                    <DataGridTextColumn Header="Растовка" 
+                                        Binding="{Binding DataType=models:Package, Path=size.age.name}"
+                                        IsReadOnly="True"/>
+                    
+                    <DataGridTextColumn Header="Добавил" 
+                                        Binding="{Binding DataType=models:Package, Path=person.FullName}"
+                                        IsReadOnly="True"/>
+                    
+                    <DataGridTextColumn Header="Пачки" 
+                                        Binding="{Binding DataType=models:Package, Path=count}"
+                                        IsReadOnly="True"/>
+                    
+                    <DataGridTextColumn Header="Материал"
+                                        Binding="{Binding DataType=models:Package, Path=material.name}"
+                                        IsReadOnly="True"/>
+                    
+                    <DataGridCheckBoxColumn Header="Повтор?" 
+                                            Binding="{Binding isRepeat}"
+                                            x:DataType="models:Package" 
+                                            IsReadOnly="True"/>
+                    
+                    <DataGridCheckBoxColumn Header="Overlock" 
+                                            Binding="{Binding overlockEnded}"
+                                            x:DataType="models:Package" 
+                                            IsReadOnly="True"/>
+                    
+                    <DataGridCheckBoxColumn Header="Универсальная" 
+                                            Binding="{Binding unversalkaEnded}"
+                                            x:DataType="models:Package" 
+                                            IsReadOnly="True"/>
+                    
+                    <DataGridCheckBoxColumn Header="Плоская" 
+                                            Binding="{Binding ploskayaEnded}"
+                                            x:DataType="models:Package" 
+                                            IsReadOnly="True"/>
+                    
+                    <DataGridCheckBoxColumn Header="Глажка" 
+                                            Binding="{Binding glazkaEnded}"
+                                            x:DataType="models:Package" 
+                                            IsReadOnly="True"/>
+                    
+                    <DataGridCheckBoxColumn Header="Склад" 
+                                            Binding="{Binding isEnded}"
+                                            x:DataType="models:Package" 
+                                            IsReadOnly="True"/>
+                    <DataGridTemplateColumn>
+                        <DataTemplate>
+                            <WrapPanel Orientation="Horizontal">
+                                <Button Content="✏️" 
+                                        Click="NavigateToEditPage"/>
+                                <Button Content="🗑️" 
+                                        Click="ShowDeleteWindow"/>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
         
         <Button Grid.Row="1" 

@@ -155,3 +155,7 @@ C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\System.Wi
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\LiveChartsCore.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\LiveChartsCore.SkiaSharpView.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\LiveChartsCore.SkiaSharpView.Avalonia.dll
+C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\SkiaSharp.HarfBuzz.dll

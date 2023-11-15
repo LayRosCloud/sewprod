@@ -24,11 +24,9 @@ public partial class EditPackagesPage : UserControl
     {
         var repository = new SizeRepository();
         var repositoryMaterials = new MaterialRepository();
-        var repositoryColors = new ColorRepository();
         
         CbSizes.ItemsSource = await repository.GetAllAsync();
         CbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
-        CbColors.ItemsSource = await repositoryColors.GetAllAsync();
         DataContext = _package;
     }
 
@@ -38,8 +36,10 @@ public partial class EditPackagesPage : UserControl
         var repository = new PackageRepository();
         _package.isUpdated = true;
         await repository.UpdateAsync(_package);
-
-        _frame.Content = new PackagePage(_frame, _party);
+        
+        //TODO
+        
+        //_frame.Content = new PackagePage(_frame, _party);
     }
 
     public override string ToString()

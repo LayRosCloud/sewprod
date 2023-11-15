@@ -1,18 +1,34 @@
-﻿
+﻿using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts;
 using StockAdmin.Scripts.Repositories;
-using StockAdmin.Views.Pages.SizeView;
 
-namespace StockAdmin.Views.Pages;
+namespace StockAdmin.Views.Pages.SizeView;
 
 public partial class SizePage : UserControl
 {
     private readonly ContentControl _frame;
+    private readonly FinderController _finderSizeController;
+    private readonly FinderController _finderTypeOfSizeController;
+
+    private readonly List<Age> _ages;
+    private readonly List<Size> _sizes;
     public SizePage(ContentControl frame)
     {
         InitializeComponent();
+        _ages = new List<Age>();
+        _sizes = new List<Size>();
+        _finderSizeController = new FinderController(500, () =>
+        {
+            ListSizes.ItemsSource = _sizes.Where(x => x.number.ToLower().Contains(FinderSize.Text.ToLower())).ToList();
+        });
+        _finderTypeOfSizeController = new FinderController(500, () =>
+        {
+            ListAges.ItemsSource = _ages.Where(x => x.name.ToLower().Contains(FinderTypeOfSizes.Text.ToLower())).ToList();
+        });
         _frame = frame;
         Init();
     }
@@ -21,9 +37,10 @@ public partial class SizePage : UserControl
     {
         var sizeRepository = new SizeRepository();
         var ageRepository = new AgeRepository();
-
-        ListSizes.ItemsSource = await sizeRepository.GetAllAsync();
-        ListAges.ItemsSource = await ageRepository.GetAllAsync();
+        _sizes.AddRange(await sizeRepository.GetAllAsync());
+        _ages.AddRange(await ageRepository.GetAllAsync());
+        ListSizes.ItemsSource = _sizes;
+        ListAges.ItemsSource = _ages;
     }
 
 
@@ -100,5 +117,15 @@ public partial class SizePage : UserControl
         DeletedMessageTypeSize.Text =
             "вы действительно уверены, что хотите удалить тип размера?" +
             " Восстановить тип размера будет нельзя!";
+    }
+
+    private void TextChangedSize(object? sender, TextChangedEventArgs e)
+    {
+        _finderSizeController.ChangeText();
+    }
+
+    private void TextChangedTypeOfSize(object? sender, TextChangedEventArgs e)
+    {
+        _finderTypeOfSizeController.ChangeText();
     }
 }

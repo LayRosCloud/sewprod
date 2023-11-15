@@ -33,7 +33,7 @@ public class WordController
         {
             string codeVendor = codeVendors[i];
             Package package = packages[i];
-            var descriptionParagraph = AddText($"модель: {party.model.title}, материал: {package.material.name}, размер: {package.size.name}, цвет: {package.color.name}");
+            var descriptionParagraph = AddText($"модель: {party.model.title}, материал: {package.material.name}");
             descriptionParagraph.Alignment = ParagraphAlignment.CENTER;
             Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
             Image image = barcode.Draw(codeVendor, 200);

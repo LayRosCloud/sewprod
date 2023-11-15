@@ -40,7 +40,7 @@ public partial class AddedClothOperationPage : UserControl
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
         Operation operation = (CmbOperation.SelectedItem as Operation)!;
-        _clothOperation.priceId = operation.priceId;
+        //TODO
         var clothOperationRepository = new ClothOperationRepository();
         
         if (_clothOperation.id == 0)

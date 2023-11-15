@@ -12,12 +12,14 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBox Watermark="Поиск..." 
+            <TextBox x:Name="Finder" 
+                    Watermark="Поиск..." 
                      Width="200" 
-                     Background="White" />
+                     Background="White" TextChanged="TextChanged"/>
         </StackPanel>
         <DataGrid Grid.Row="1" 
-                  x:Name="List">
+                  x:Name="List"
+                  DoubleTapped="NavigateToMoreInformation">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Почта" 

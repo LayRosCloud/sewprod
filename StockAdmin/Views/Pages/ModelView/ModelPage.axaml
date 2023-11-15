@@ -13,9 +13,10 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" 
                     Orientation="Horizontal">
-            <TextBox Watermark="Поиск..."
+            <TextBox x:Name="Finded"
+                Watermark="Поиск..."
                      Width="200" 
-                     Background="White" />
+                     Background="White" TextChanged="TextChanged"/>
         </StackPanel>
         <DataGrid 
             Grid.Row="1" 
@@ -27,18 +28,13 @@
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                    Header="Описание" 
-                    Binding="{Binding description}" 
-                    IsReadOnly="True"/>
-                
-                <DataGridTextColumn 
                     Header="Артикул" 
                     Binding="{Binding codeVendor}" 
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                    Header="Наценка модели" 
-                    Binding="{Binding percent}" 
+                    Header="Цена модели" 
+                    Binding="{Binding price.number}" 
                     IsReadOnly="True"/>
                 <DataGridTemplateColumn>
                     <DataTemplate>

@@ -4,24 +4,20 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
-using StockAdmin.Views.Pages.PackageView;
 
-namespace StockAdmin.Views.Pages.PartyView;
+namespace StockAdmin.Views.Pages.PackageView;
 
 public partial class AddedPackagesPage : UserControl
 {
-    private readonly Party _party;
     private readonly ContentControl _frame;
     private readonly Hashtable _actionList;
     
-    public AddedPackagesPage(Party party, ContentControl frame)
+    public AddedPackagesPage(ContentControl frame)
     {
         InitializeComponent();
-        _party = party;
         _frame = frame;
         _actionList = new Hashtable();
         
@@ -42,11 +38,9 @@ public partial class AddedPackagesPage : UserControl
     {
         var repository = new SizeRepository();
         var repositoryMaterials = new MaterialRepository();
-        var repositoryColors = new ColorRepository();
         CmbSizes.ItemsSource = await repository.GetAllAsync();
-
-        CbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
-        CbColors.ItemsSource = await repositoryColors.GetAllAsync();
+        CmbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
+        
     }
     
     private async void TrySaveElements(object? sender, RoutedEventArgs e)
@@ -57,7 +51,8 @@ public partial class AddedPackagesPage : UserControl
         {
             var packagesList = ReadAllPackagesTextBox();
             await packageRepository.CreateAsync(packagesList);
-            _frame.Content = new PackagePage(_frame, _party);
+            
+            _frame.Content = new PackagePage(_frame);
         }
         catch (Exception)
         {
@@ -74,23 +69,16 @@ public partial class AddedPackagesPage : UserControl
         {
             if (control is StackPanel stackPanel)
             {
-                TextBox tbCount = stackPanel.Children[0] as TextBox;
-                ComboBox cbMaterials = stackPanel.Children[1] as ComboBox;
-                ComboBox cbColors = stackPanel.Children[2] as ComboBox;
-                TextBox tbUid = stackPanel.Children[3] as TextBox;
-                
+                TextBox tbCount = (stackPanel.Children[0] as TextBox)!;
+                ComboBox cbMaterials = (stackPanel.Children[1] as ComboBox)!;
+
                 int count = Convert.ToInt32(tbCount.Text);
                 Material material = cbMaterials.SelectedItem as Material;
-                Color color = cbColors.SelectedItem as Color;
-                string uid = tbUid.Text;
-                
+
                 Package package = new Package()
-                    { partyId = _party.id, 
-                        count = count, sizeId = size.id, 
+                    { count = count, sizeId = size.id, 
                         personId = ServerConstants.Token.id, 
-                        materialId = material!.id, 
-                        colorId = color!.id, 
-                        uid = uid!};
+                        materialId = material!.id, };
                 packages.Add(package);
             }
         }
@@ -129,23 +117,17 @@ public partial class AddedPackagesPage : UserControl
         {
             Orientation = stack.Orientation
         };
+        
         TextBox lastText = stack.Children[0] as TextBox;
         ComboBox cbComboMaterials = stack.Children[1] as ComboBox;
-        ComboBox cbComboColors = stack.Children[2] as ComboBox;
-        TextBox tbUid = stack.Children[3] as TextBox;
 
         var countTextBox = CreateCopyTextBox(lastText);
         var cbMaterial = CreateCopyComboBox(cbComboMaterials);
-        var cbColor = CreateCopyComboBox(cbComboColors);
-        var uid = CreateCopyTextBox(tbUid);
-        
         
         countTextBox.KeyDown += InputSymbol;
         
         grid.Children.Add(countTextBox);
         grid.Children.Add(cbMaterial);
-        grid.Children.Add(cbColor);
-        grid.Children.Add(uid);
         
         MainPanel.Children.Add(grid);
         countTextBox.Focus();
@@ -174,7 +156,6 @@ public partial class AddedPackagesPage : UserControl
             ItemsSource = template.ItemsSource,
             HorizontalAlignment = template.HorizontalAlignment,
             Width = template.Width
-            
         };
         
         return comboBox;

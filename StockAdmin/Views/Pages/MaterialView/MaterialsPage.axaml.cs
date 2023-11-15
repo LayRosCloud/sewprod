@@ -1,8 +1,9 @@
-﻿using Avalonia;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using StockAdmin.Models;
+using StockAdmin.Scripts;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.MaterialView;
@@ -10,9 +11,17 @@ namespace StockAdmin.Views.Pages.MaterialView;
 public partial class MaterialsPage : UserControl
 {
     private readonly ContentControl _frame;
+    private readonly FinderController _finderController;
+    private readonly List<Material> _materials;
+    
     public MaterialsPage(ContentControl frame)
     {
         InitializeComponent();
+        _materials = new List<Material>();
+        _finderController = new FinderController(500, () =>
+        {
+            ListMaterials.ItemsSource = _materials.Where(x => x.name.ToLower().Contains(Finded.Text.ToLower()));
+        });
         _frame = frame;
         Init();
     }
@@ -20,10 +29,8 @@ public partial class MaterialsPage : UserControl
     private async void Init()
     {
         var repositoryMaterial = new MaterialRepository();
-        var repositoryColor = new ColorRepository();
-
-        ListMaterials.ItemsSource = await repositoryMaterial.GetAllAsync();
-        ListColors.ItemsSource = await repositoryColor.GetAllAsync();
+        _materials.AddRange(await repositoryMaterial.GetAllAsync());
+        ListMaterials.ItemsSource = _materials;
     }
     
     public override string ToString()
@@ -36,23 +43,12 @@ public partial class MaterialsPage : UserControl
         _frame.Content = new AddedMaterialPage(_frame);
     }
 
-    private void NavigateToAddedColorPage(object? sender, RoutedEventArgs e)
-    {
-        _frame.Content = new AddedColorPage(_frame);
-    }
-
     private void NavigateToEditMaterialPage(object? sender, RoutedEventArgs e)
     {
         Material material = (sender as Button)?.DataContext as Material;
         _frame.Content = new AddedMaterialPage(_frame, material);
     }
 
-    private void NavigateToEditColorPage(object? sender, RoutedEventArgs e)
-    {
-        Color color = (sender as Button)?.DataContext as Color;
-        _frame.Content = new AddedColorPage(_frame, color);
-    }
-    
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new MaterialRepository();
@@ -66,23 +62,10 @@ public partial class MaterialsPage : UserControl
         Init();
     }
     
-    private async void SendYesAnswerColorOnDeleteItem(object? sender, RoutedEventArgs e)
-    {
-        var repository = new ColorRepository();
-        
-        if (ListColors.SelectedItem is Color color)
-        {
-            await repository.DeleteAsync(color.id);
-        }
-
-        SendNoAnswerOnDeleteItem(sender, e);
-        Init();
-    }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         DeletedContainerMaterial.IsVisible = false;
-        DeletedContainerColor.IsVisible = false;
     }
 
     private void ShowDeleteWindowMaterial(object? sender, RoutedEventArgs e)
@@ -92,12 +75,9 @@ public partial class MaterialsPage : UserControl
             "вы действительно уверены, что хотите удалить материал?" +
             " Восстановить материал будет нельзя!";
     }
-    
-    private void ShowDeleteWindowColor(object? sender, RoutedEventArgs e)
+
+    private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        DeletedContainerColor.IsVisible = true;
-        DeletedMessageColor.Text =
-            "вы действительно уверены, что хотите удалить цвет?" +
-            " Восстановить цвет будет нельзя!";
+        _finderController.ChangeText();
     }
 }

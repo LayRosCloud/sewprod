@@ -6,10 +6,11 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Views.Pages;
 using StockAdmin.Views.Pages.HistoryView;
 using StockAdmin.Views.Pages.MaterialView;
+using StockAdmin.Views.Pages.PackageView;
 using ModelPage = StockAdmin.Views.Pages.ModelView.ModelPage;
 using OperationPage = StockAdmin.Views.Pages.OperationView.OperationPage;
-using PartyPage = StockAdmin.Views.Pages.PartyView.PartyPage;
 using PersonPage = StockAdmin.Views.Pages.PersonView.PersonPage;
+using SizePage = StockAdmin.Views.Pages.SizeView.SizePage;
 
 namespace StockAdmin.Views;
 
@@ -27,8 +28,7 @@ public partial class MainContainer : Window
     {
         try
         {
-            var page = new PartyPage(Frame);
-            await page.InitData();
+            var page = new PackagePage(Frame);
             Frame.Content = page;
         }
         catch (Exception)
@@ -40,8 +40,7 @@ public partial class MainContainer : Window
     private async void NavigateToPartyPage(object? sender, RoutedEventArgs e)
     {
         Button button = sender as Button;
-        var page = new PartyPage(Frame);
-        await page.InitData();
+        var page = new PackagePage(Frame);
         Frame.Content = page;
         
         SwitchThemeButton(button);

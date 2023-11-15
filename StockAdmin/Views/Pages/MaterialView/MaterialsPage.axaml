@@ -3,228 +3,119 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
+             x:DataType="models:Material"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.MaterialView.MaterialsPage">
-        <TabControl>
-        <TabItem Header="Материалы" x:DataType="models:Material">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" 
-                            Orientation="Horizontal">
-                    <TextBox Watermark="Поиск..."
-                             Width="200" 
-                             Background="White" />
-                </StackPanel>
-                <DataGrid 
-                    Grid.Row="1" 
-                    x:Name="ListMaterials">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn 
-                            Header="Название" 
-                            Binding="{Binding name}" 
-                            IsReadOnly="True"/>
-                        
-                        <DataGridTextColumn 
-                            Header="Описание" 
-                            Binding="{Binding description}" 
-                            IsReadOnly="True"/>
-                        
-                        <DataGridTextColumn 
-                            Header="Артикул" 
-                            Binding="{Binding uid}" 
-                            IsReadOnly="True"/>
-                        
-                        <DataGridTemplateColumn>
-                            <DataTemplate>
-                                <WrapPanel Orientation="Horizontal">
-                                    <Button Content="✏️" 
-                                            Click="NavigateToEditMaterialPage"/>
-                                    <Button Content="🗑️"
-                                            Click="ShowDeleteWindowMaterial"/>
-                                </WrapPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" 
+                    Orientation="Horizontal">
+            <TextBox x:Name="Finded"
+                     Watermark="Поиск..."
+                     Width="200" 
+                     Background="White"
+                     TextChanged="TextChanged"/>
+        </StackPanel>
+        <DataGrid 
+            Grid.Row="1" 
+            x:Name="ListMaterials">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Название" 
+                    Binding="{Binding name}" 
+                    IsReadOnly="True"/>
                 
-                <Button Grid.Row="1" 
-                        Content="+" 
-                        Background="#192655" 
-                        FontWeight="Bold" 
-                        Foreground="White" 
-                        FontSize="20" 
-                        HorizontalAlignment="Right" 
-                        Margin=" 10" 
-                        VerticalAlignment="Bottom"
-                        Width="40"
-                        Height="40"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Click="NavigateToAddedMaterialPage"/>
+                <DataGridTextColumn 
+                    Header="Описание" 
+                    Binding="{Binding description}" 
+                    IsReadOnly="True"/>
                 
-                <Grid x:Name="DeletedContainerMaterial" 
-                      IsVisible="False" 
-                      Grid.Row="0" 
-                      Grid.RowSpan="2">
-            
-                    <Border 
-                        Background="Black"
-                        Opacity="0.8"
-                        Margin="0" 
-                        Padding="0" 
-                        BorderThickness="0"
-                    />
-                    <Border Background="White" 
-                            Padding="5" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" 
-                            CornerRadius="10" 
-                            Width="600" 
-                            Height="300">
-                        <Grid>
-                            <StackPanel>
-                                <TextBlock 
-                                    Text="вы уверены?" 
-                                    FontWeight="Bold" 
-                                    FontSize="40" 
-                                    Foreground="#192655"/>
-                                <TextBlock 
-                                    x:Name="DeletedMessageMaterial"
-                                    FontSize="20" 
-                                    TextWrapping="Wrap"/>
-                            </StackPanel>
-                    
-                            <Button 
-                                Content="Да" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Bottom" 
-                                Background="Transparent" 
-                                Foreground="Brown"
-                                Click="SendYesAnswerOnDeleteItem"/>
-                    
-                            <Button 
-                                Content="Нет" 
-                                HorizontalAlignment="Right" 
-                                VerticalAlignment="Bottom" 
-                                FontWeight="Bold" 
-                                Foreground="#192655"
-                                Click="SendNoAnswerOnDeleteItem"/>
-                    
-                        </Grid>
-                    </Border>
-                </Grid>
-            </Grid>
-        </TabItem>
+                <DataGridTextColumn 
+                    Header="Артикул" 
+                    Binding="{Binding uid}" 
+                    IsReadOnly="True"/>
+                
+                <DataGridTemplateColumn>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Content="✏️" 
+                                    Click="NavigateToEditMaterialPage"/>
+                            <Button Content="🗑️"
+                                    Click="ShowDeleteWindowMaterial"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         
-        <TabItem Header="Цвета" x:DataType="models:Color">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" 
-                            Orientation="Horizontal">
-                    <TextBox Watermark="Поиск..."
-                             Width="200" 
-                             Background="White" />
-                </StackPanel>
-                <DataGrid 
-                    Grid.Row="1" 
-                    x:Name="ListColors">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn 
-                            Header="Название" 
-                            Binding="{Binding name}" 
-                            IsReadOnly="True"/>
-                        
-                        <DataGridTextColumn 
-                            Header="Артикул" 
-                            Binding="{Binding uid}" 
-                            IsReadOnly="True"/>
-                        
-                        <DataGridTemplateColumn Header="Управление">
-                            <DataTemplate>
-                                <WrapPanel Orientation="Horizontal">
-                                    <Button Content="✏️" 
-                                            Click="NavigateToEditColorPage"/>
-                                    <Button Content="🗑️"
-                                            Click="ShowDeleteWindowColor"/>
-                                </WrapPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                
-                <Button Grid.Row="1" 
-                        Content="+" 
-                        Background="#192655" 
-                        FontWeight="Bold" 
-                        Foreground="White" 
-                        FontSize="20" 
+        <Button Grid.Row="1" 
+                Content="+" 
+                Background="#192655" 
+                FontWeight="Bold" 
+                Foreground="White" 
+                FontSize="20" 
+                HorizontalAlignment="Right" 
+                Margin=" 10" 
+                VerticalAlignment="Bottom"
+                Width="40"
+                Height="40"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="NavigateToAddedMaterialPage"/>
+        
+        <Grid x:Name="DeletedContainerMaterial" 
+              IsVisible="False" 
+              Grid.Row="0" 
+              Grid.RowSpan="2">
+    
+            <Border 
+                Background="Black"
+                Opacity="0.8"
+                Margin="0" 
+                Padding="0" 
+                BorderThickness="0"
+            />
+            <Border Background="White" 
+                    Padding="5" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    CornerRadius="10" 
+                    Width="600" 
+                    Height="300">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock 
+                            Text="вы уверены?" 
+                            FontWeight="Bold" 
+                            FontSize="40" 
+                            Foreground="#192655"/>
+                        <TextBlock 
+                            x:Name="DeletedMessageMaterial"
+                            FontSize="20" 
+                            TextWrapping="Wrap"/>
+                    </StackPanel>
+            
+                    <Button 
+                        Content="Да" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom" 
+                        Background="Transparent" 
+                        Foreground="Brown"
+                        Click="SendYesAnswerOnDeleteItem"/>
+            
+                    <Button 
+                        Content="Нет" 
                         HorizontalAlignment="Right" 
-                        Margin=" 10" 
-                        VerticalAlignment="Bottom"
-                        Width="40"
-                        Height="40"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Click="NavigateToAddedColorPage"/>
-                
-                <Grid x:Name="DeletedContainerColor" 
-                      IsVisible="False" 
-                      Grid.Row="0" 
-                      Grid.RowSpan="2">
+                        VerticalAlignment="Bottom" 
+                        FontWeight="Bold" 
+                        Foreground="#192655"
+                        Click="SendNoAnswerOnDeleteItem"/>
             
-                    <Border 
-                        Background="Black"
-                        Opacity="0.8"
-                        Margin="0" 
-                        Padding="0" 
-                        BorderThickness="0"
-                    />
-                    <Border Background="White" 
-                            Padding="5" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" 
-                            CornerRadius="10" 
-                            Width="600" 
-                            Height="300">
-                        <Grid>
-                            <StackPanel>
-                                <TextBlock 
-                                    Text="вы уверены?" 
-                                    FontWeight="Bold" 
-                                    FontSize="40" 
-                                    Foreground="#192655"/>
-                                <TextBlock 
-                                    x:Name="DeletedMessageColor"
-                                    FontSize="20" 
-                                    TextWrapping="Wrap"/>
-                            </StackPanel>
-                    
-                            <Button 
-                                Content="Да" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Bottom" 
-                                Background="Transparent" 
-                                Foreground="Brown"
-                                Click="SendYesAnswerColorOnDeleteItem"/>
-                    
-                            <Button 
-                                Content="Нет" 
-                                HorizontalAlignment="Right" 
-                                VerticalAlignment="Bottom" 
-                                FontWeight="Bold" 
-                                Foreground="#192655"
-                                Click="SendNoAnswerOnDeleteItem"/>
-                        </Grid>
-                    </Border>
                 </Grid>
-            </Grid>
-            
-        </TabItem>
-    </TabControl>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

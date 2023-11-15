@@ -7,11 +7,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.AddedModelPage">
     <Grid>
-        <TextBlock Text="Добавление/Изменение модели" 
-                   FontWeight="Bold" 
-                   FontSize="25"
-                   HorizontalAlignment="Center"
-        />
         <StackPanel HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     Width="250">
@@ -23,13 +18,6 @@
                 Text="{Binding title}"
                 Margin="0 5"
             />
-        
-            <TextBox 
-                x:Name="TbDescription" 
-                Watermark="Введите описание"
-                HorizontalAlignment="Stretch"
-                Text="{Binding description}"
-            />
             
             <TextBox 
                 x:Name="TbCodeVendor" 
@@ -39,14 +27,11 @@
                 Text="{Binding codeVendor}"
             />
             
-            <NumericUpDown 
-                x:Name="NudPercent" 
-                Watermark="Введите наценку"
-                FormatString="0"
-                Minimum="0"
-                Maximum="10000"
+            <AutoCompleteBox 
+                x:Name="CbPrice" 
+                Watermark="Введите цену"
                 HorizontalAlignment="Stretch"
-                Value="{Binding percent}"
+                Text="{Binding price.number}"
             />
             
             <Button 

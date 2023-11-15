@@ -14,9 +14,11 @@
         
         <StackPanel Grid.Row="0" 
                     Orientation="Horizontal">
-            <TextBox Watermark="Поиск..." 
+            <TextBox x:Name="Finder" 
+                Watermark="Поиск..." 
                      Width="200" 
-                     Background="White" />
+                     Background="White"
+                     TextChanged="TextChanged"/>
         </StackPanel>
         
         <DataGrid x:Name="List" 
@@ -37,9 +39,9 @@
                                     IsReadOnly="True"
                 />
                 
-                <DataGridTextColumn Header="Цена" 
-                Binding="{Binding price.number}" 
-                IsReadOnly="True"
+                <DataGridTextColumn Header="Процент" 
+                                    Binding="{Binding percent}" 
+                                    IsReadOnly="True"
                 />
                 
                 <DataGridTemplateColumn>

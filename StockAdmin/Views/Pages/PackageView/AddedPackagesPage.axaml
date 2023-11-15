@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:Class="StockAdmin.Views.Pages.PartyView.AddedPackagesPage">
+             x:Class="StockAdmin.Views.Pages.PackageView.AddedPackagesPage">
     <ScrollViewer>
         <StackPanel Width="500">
             <TextBlock x:Name="Title" Text="Добавление пачек"/>
             
             <ComboBox x:Name="CmbSizes" 
-                      DisplayMemberBinding="{Binding DataType=models:Size, Path=name}" 
+                      DisplayMemberBinding="{Binding DataType=models:Size, Path=number}" 
                       HorizontalAlignment="Stretch"/>
             <TextBlock Text="Пачки"/>
             <StackPanel x:Name="MainPanel">
@@ -22,27 +22,13 @@
                              Watermark="Введите количество"
                              Width="125"
                              Grid.Column="0"/>
-                    <ComboBox x:Name="CbMaterials" 
+                    <ComboBox x:Name="CmbMaterials" 
                               DisplayMemberBinding="{Binding DataType=models:Material, Path=name}"
                               SelectedValueBinding="{Binding DataType=models:Material, Path=id}"
                               SelectedValue="{Binding DataType=models:Package, Path=materialId}"
                               PlaceholderText="Выберите материал"
                               Width="125"
                               Grid.Column="1"/>
-                    <ComboBox x:Name="CbColors" 
-                              DisplayMemberBinding="{Binding DataType=models:Color, Path=name}"
-                              SelectedValueBinding="{Binding DataType=models:Color, Path=id}"
-                              SelectedValue="{Binding DataType=models:Package, Path=colorId}"
-                              PlaceholderText="Выберите цвет"
-                              HorizontalAlignment="Stretch"
-                              Width="125"
-                              Grid.Column="2"/>
-                    <TextBox x:Name="Text" 
-                             Focusable="True"
-                             Text=""
-                             Width="125"
-                             Watermark="Введите артикул"
-                             Grid.Column="3"/>
                               
                 </StackPanel>
             </StackPanel>

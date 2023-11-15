@@ -20,13 +20,10 @@
                  Watermark="Введите артикул"
         />
         
-        <AutoCompleteBox x:Name="CbPrices" 
-                         Watermark="Введите цену" 
-                         Text="{Binding price.number}"
-                         ValueMemberBinding="{Binding DataType=models:Price, Path=number}"
-                         TextFilter="{Binding price.number}"
-                         KeyDown="KeyDownOnPriceField"
-                         TextChanged="InputTextInPriceField"/>
+        <TextBox x:Name="TbPercent" Watermark="Введите процент" 
+                 Text="{Binding  Path=percent}"
+                 KeyDown="KeyDownOnPriceField"
+                 />
         
         <Button Click="SaveChanges" Content="Отправить"/>
     </StackPanel>

@@ -11,8 +11,9 @@
                  <RowDefinition Height="35"/>
                  <RowDefinition/>
              </Grid.RowDefinitions>
-             <TextBox x:Name="Finder" Grid.Row="0" Watermark="Поиск..." Text="" TextChanged="FindOnUserName"/>
-             <DataGrid Grid.Row="1" x:Name="List">
+             <TextBox x:Name="Finder" Grid.Row="0" Watermark="Поиск..." Text="" 
+                      TextChanged="FindOnUserName"/>
+             <DataGrid Grid.Row="1" x:Name="List" LoadingRow="LoadRowHistory">
                  <DataGrid.Columns>
                      <DataGridTextColumn 
                          Header="Человек"

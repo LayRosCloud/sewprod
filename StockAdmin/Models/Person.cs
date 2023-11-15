@@ -13,4 +13,6 @@ public class Person
     public string? patronymic { get; set; }
     public DateTime birthDay { get; set; } = DateTime.Now;
     public string uid { get; set; }
+
+    public string FullName => $"{lastName} {firstName?[0]}. {patronymic?[0]}.";
 }
