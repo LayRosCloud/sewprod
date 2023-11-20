@@ -12,33 +12,33 @@ namespace StockAdmin.Views.Pages.ClothOperationView;
 public partial class ClothOperationPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly Package _package;
+    private readonly PackageEntity _packageEntity;
     private int _currentIndex;
-    private ClothOperationPerson? _clothOperationPerson;
+    private ClothOperationPersonEntity? _clothOperationPerson;
     
-    private readonly List<ClothOperation> _clothOperations;
+    private readonly List<ClothOperationEntity> _clothOperations;
     private readonly FinderController _finderController;
     
-    public ClothOperationPage(Package package, ContentControl frame)
+    public ClothOperationPage(PackageEntity packageEntity, ContentControl frame)
     {
         InitializeComponent();
-        _package = package;
-        _clothOperations = new List<ClothOperation>();
+        _packageEntity = packageEntity;
+        _clothOperations = new List<ClothOperationEntity>();
         _finderController = new FinderController(500, () =>
         {
-            List.ItemsSource = _clothOperations.Where(x=> x.operation.name
+            List.ItemsSource = _clothOperations.Where(x=> x.Operation.Name
                 .ToLower()
                 .Contains(Finded.Text.ToLower().Trim()))
                 .ToList();
         });
-        InitData(package);
+        InitData(packageEntity);
         _frame = frame;
     }
     
-    private async void InitData(Package package)
+    private async void InitData(PackageEntity packageEntity)
     {
         var repository = new ClothOperationRepository();
-        _clothOperations.AddRange(await repository.GetAllAsync(package.id));
+        _clothOperations.AddRange(await repository.GetAllAsync(packageEntity.Id));
         List.ItemsSource = _clothOperations;
     }
 
@@ -49,26 +49,26 @@ public partial class ClothOperationPage : UserControl
 
     private void NavigateToAddedPage(object? sender, RoutedEventArgs e)
     {
-        _frame.Content = new AddedClothOperationPage(_package, _frame);
+        _frame.Content = new AddedClothOperationPage(_packageEntity, _frame);
     }
 
     private void NavigateToAddedClothOperationPersonPage(object? sender, RoutedEventArgs e)
     {
-        ClothOperation clothOperation = (List.SelectedItem as ClothOperation)!;
-        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperation, _package);
+        ClothOperationEntity clothOperationEntity = (List.SelectedItem as ClothOperationEntity)!;
+        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperationEntity, _packageEntity);
     }
 
     private void NavigateToEditClothOperationPage(object? sender, RoutedEventArgs e)
     {
-        ClothOperation clothOperation = (sender as Button).DataContext as ClothOperation;
-        _frame.Content = new AddedClothOperationPage(_package, clothOperation, _frame);
+        ClothOperationEntity clothOperationEntity = (sender as Button).DataContext as ClothOperationEntity;
+        _frame.Content = new AddedClothOperationPage(_packageEntity, clothOperationEntity, _frame);
     }
 
     private void NavigateToEditClothOperationPersonPage(object? sender, RoutedEventArgs e)
     {
-        ClothOperation clothOperation = (List.SelectedItem as ClothOperation)!;
-        ClothOperationPerson clothOperationPerson  = (sender as Button).DataContext as ClothOperationPerson;
-        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperation, clothOperationPerson, _package);
+        ClothOperationEntity clothOperationEntity = (List.SelectedItem as ClothOperationEntity)!;
+        ClothOperationPersonEntity clothOperationPersonEntity  = (sender as Button).DataContext as ClothOperationPersonEntity;
+        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperationEntity, clothOperationPersonEntity, _packageEntity);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -79,20 +79,20 @@ public partial class ClothOperationPage : UserControl
         {
             if (_clothOperationPerson != null)
             {
-                await repositoryPerson.DeleteAsync(_clothOperationPerson.id);
+                await repositoryPerson.DeleteAsync(_clothOperationPerson.Id);
             }
         }
         else if(_currentIndex == 2)
         {
-            if (List.SelectedItem is ClothOperation operation)
+            if (List.SelectedItem is ClothOperationEntity operation)
             {
-                await repositoryOperation.DeleteAsync(operation.id);
+                await repositoryOperation.DeleteAsync(operation.Id);
             }
         }
         
 
         SendNoAnswerOnDeleteItem(sender, e);
-        InitData(_package);
+        InitData(_packageEntity);
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -102,7 +102,7 @@ public partial class ClothOperationPage : UserControl
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
     {
-        _clothOperationPerson = (sender as Button).DataContext as ClothOperationPerson;
+        _clothOperationPerson = (sender as Button).DataContext as ClothOperationPersonEntity;
         DeletedContainer.IsVisible = true;
         DeletedMessage.Text =
             "вы действительно уверены, что хотите удалить этого участника операции?" +

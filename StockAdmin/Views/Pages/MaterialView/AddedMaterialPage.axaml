@@ -3,16 +3,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Material"
+             x:DataType="models:MaterialEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.MaterialView.AddedMaterialPage">
     <StackPanel Width="250">
-        <TextBox Text="{Binding name}" 
+        <TextBox x:Name="TbName" Text="{Binding Name}" 
                  Watermark="Введите название"/>
-        <TextBox Text="{Binding description}" 
+        <TextBox x:Name="TbDesc" Text="{Binding Description}" 
                  Watermark="Введите описание"/>
-        <TextBox Text="{Binding uid}" 
+        <TextBox x:Name="TbCodeVendor" Text="{Binding Uid}" 
                  Watermark="Введите артикул"/>
-        <Button Content="Отправить" Click="SaveChanges"/>
+        <Button Content="Отправить" Click="TrySaveChanges"/>
     </StackPanel>
 </UserControl>

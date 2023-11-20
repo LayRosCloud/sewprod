@@ -14,15 +14,15 @@ public partial class PersonPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly FinderController _finderController;
-    private readonly List<Person> _persons;
+    private readonly List<PersonEntity> _persons;
     
     public PersonPage(ContentControl frame)
     {
         InitializeComponent();
-        _persons = new List<Person>();
+        _persons = new List<PersonEntity>();
         _finderController = new FinderController(500, () =>
         {
-            List.ItemsSource = _persons.Where(x => x.lastName.ToLower().Contains(Finder.Text.ToLower())).ToList();
+            List.ItemsSource = _persons.Where(x => x.LastName.ToLower().Contains(Finder.Text.ToLower())).ToList();
         });
         
         _frame = frame;
@@ -48,17 +48,17 @@ public partial class PersonPage : UserControl
 
     private void NavigateToEditPersonPage(object? sender, RoutedEventArgs e)
     {
-        Person person = (sender as Button).DataContext as Person;
-        _frame.Content = new AddedPersonPage(_frame, person);
+        PersonEntity personEntity = (sender as Button).DataContext as PersonEntity;
+        _frame.Content = new AddedPersonPage(_frame, personEntity);
     }
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new PersonRepository();
         
-        if (List.SelectedItem is Person person)
+        if (List.SelectedItem is PersonEntity person)
         {
-            await repository.DeleteAsync(person.id);
+            await repository.DeleteAsync(person.Id);
         }
 
         SendNoAnswerOnDeleteItem(sender, e);

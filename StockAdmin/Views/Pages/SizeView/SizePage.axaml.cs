@@ -14,20 +14,20 @@ public partial class SizePage : UserControl
     private readonly FinderController _finderSizeController;
     private readonly FinderController _finderTypeOfSizeController;
 
-    private readonly List<Age> _ages;
-    private readonly List<Size> _sizes;
+    private readonly List<AgeEntity> _ages;
+    private readonly List<SizeEntity> _sizes;
     public SizePage(ContentControl frame)
     {
         InitializeComponent();
-        _ages = new List<Age>();
-        _sizes = new List<Size>();
+        _ages = new List<AgeEntity>();
+        _sizes = new List<SizeEntity>();
         _finderSizeController = new FinderController(500, () =>
         {
-            ListSizes.ItemsSource = _sizes.Where(x => x.number.ToLower().Contains(FinderSize.Text.ToLower())).ToList();
+            ListSizes.ItemsSource = _sizes.Where(x => x.Number.ToLower().Contains(FinderSize.Text.ToLower())).ToList();
         });
         _finderTypeOfSizeController = new FinderController(500, () =>
         {
-            ListAges.ItemsSource = _ages.Where(x => x.name.ToLower().Contains(FinderTypeOfSizes.Text.ToLower())).ToList();
+            ListAges.ItemsSource = _ages.Where(x => x.Name.ToLower().Contains(FinderTypeOfSizes.Text.ToLower())).ToList();
         });
         _frame = frame;
         Init();
@@ -61,23 +61,23 @@ public partial class SizePage : UserControl
 
     private void NavigateToEditSizePage(object? sender, RoutedEventArgs e)
     {
-        Size size = (sender as Button)?.DataContext as Size;
-        _frame.Content = new AddedSizePage(_frame, size);
+        SizeEntity sizeEntity = (sender as Button)?.DataContext as SizeEntity;
+        _frame.Content = new AddedSizePage(_frame, sizeEntity);
     }
 
     private void NavigateToEditTypeOfSizePage(object? sender, RoutedEventArgs e)
     {
-        Age age = (sender as Button)?.DataContext as Age;
-        _frame.Content = new AddedTypeOfSizePage(_frame, age);
+        AgeEntity ageEntity = (sender as Button)?.DataContext as AgeEntity;
+        _frame.Content = new AddedTypeOfSizePage(_frame, ageEntity);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new SizeRepository();
         
-        if (ListSizes.SelectedItem is Size size)
+        if (ListSizes.SelectedItem is SizeEntity size)
         {
-            await repository.DeleteAsync(size.id);
+            await repository.DeleteAsync(size.Id);
         }
 
         SendNoAnswerOnDeleteItem(sender, e);
@@ -88,9 +88,9 @@ public partial class SizePage : UserControl
     {
         var repository = new AgeRepository();
         
-        if (ListAges.SelectedItem is Age age)
+        if (ListAges.SelectedItem is AgeEntity age)
         {
-            await repository.DeleteAsync(age.id);
+            await repository.DeleteAsync(age.Id);
         }
 
         SendNoAnswerOnDeleteItem(sender, e);

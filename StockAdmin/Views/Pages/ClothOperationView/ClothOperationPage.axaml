@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:Class="StockAdmin.Views.Pages.ClothOperationView.ClothOperationPage" 
-             x:DataType="models:ClothOperation">
+             x:DataType="models:ClothOperationEntity">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -31,17 +31,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Операция" 
-                    Binding="{Binding operation.name}" 
+                    Binding="{Binding Operation.Name}" 
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                     Header="Цена" 
-                    Binding="{Binding price.number}" 
+                    Binding="{Binding Price.Number}" 
                     IsReadOnly="True"/>
                 
                 
                 <DataGridCheckBoxColumn Header="Окончена ли" 
-                                        Binding="{Binding isEnded}" 
+                                        Binding="{Binding IsEnded}" 
                                         IsReadOnly="True"/>
                 <DataGridTemplateColumn>
                     <DataTemplate>
@@ -55,24 +55,24 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
-                <DataTemplate DataType="models:ClothOperation">
+                <DataTemplate DataType="models:ClothOperationEntity">
                     <StackPanel Margin="0 0 0 10">
                             <Button Content="Добавить" Click="NavigateToAddedClothOperationPersonPage" HorizontalAlignment="Left"/>
-                        <DataGrid ItemsSource="{Binding clothOperationPersons}">
+                        <DataGrid ItemsSource="{Binding ClothOperationPersons}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn
                                     Header="Человек"
-                                    Binding="{Binding person.lastName}"
+                                    Binding="{Binding Person.LastName}"
                                     IsReadOnly="True"/>
                                 
                                 <DataGridTextColumn
                                     Header="Дата начала"
-                                    Binding="{Binding dateStart, StringFormat={}{0:d}}"
+                                    Binding="{Binding DateStart, StringFormat={}{0:d}}"
                                     IsReadOnly="True"/>
                                 
                                 <DataGridCheckBoxColumn
                                     Header="Закончена ли"
-                                    Binding="{Binding isEnded}"
+                                    Binding="{Binding IsEnded}"
                                     IsReadOnly="True"/>
                                 <DataGridTemplateColumn>
                                     <DataTemplate>

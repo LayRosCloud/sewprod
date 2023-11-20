@@ -1,8 +1,12 @@
-﻿using Avalonia;
+﻿using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using StockAdmin.Models;
+using StockAdmin.Scripts;
+using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.SizeView;
@@ -10,33 +14,55 @@ namespace StockAdmin.Views.Pages.SizeView;
 public partial class AddedTypeOfSizePage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly Age _age;
+    private readonly AgeEntity _ageEntity;
     public AddedTypeOfSizePage(ContentControl frame)
-        :this(frame, new Age()){}
+        :this(frame, new AgeEntity()){}
     
-    public AddedTypeOfSizePage(ContentControl frame, Age age)
+    public AddedTypeOfSizePage(ContentControl frame, AgeEntity ageEntity)
     {
         InitializeComponent();
         _frame = frame;
-        _age = age;
-        DataContext = _age;
+        _ageEntity = ageEntity;
+        DataContext = _ageEntity;
     }
 
-    private async void SaveChanges(object? sender, RoutedEventArgs e)
+    private async void TrySaveChanges(object? sender, RoutedEventArgs e)
     {
-        AgeRepository ageRepository = new AgeRepository();
-        if (_age.id == 0)
+        try
         {
-            await ageRepository.CreateAsync(_age);
+            CheckFields();
+            await SaveChanges();
+            _frame.Content = new SizePage(_frame);
+        }
+        catch (ValidationException ex)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+
+    }
+
+    private async Task SaveChanges()
+    {
+        var ageRepository = new AgeRepository();
+        if (_ageEntity.Id == 0)
+        {
+            await ageRepository.CreateAsync(_ageEntity);
         }
         else
         {
-            await ageRepository.UpdateAsync(_age);
+            await ageRepository.UpdateAsync(_ageEntity);
         }
-
-        _frame.Content = new SizePage(_frame);
     }
+    
+    private void CheckFields()
+    {
+        string name = TbName.Text!;
+        string description = TbDesc.Text!;
 
+        name.ContainLengthBetweenValues(new LengthVector(1, 30), "Название от 1 до 30 символов");
+        description.ContainLengthBetweenValues(new LengthVector(1, 255), "Описание от 1 до 255 символов");
+    }
+    
     public override string ToString()
     {
         return "Добавление / Обновление типов размеров";

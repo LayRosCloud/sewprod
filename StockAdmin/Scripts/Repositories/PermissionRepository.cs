@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Scripts.Repositories;
 
-public class PermissionRepository : IDataCreator<Permission>
+public class PermissionRepository : IDataCreator<PermissionEntity>
 {
     private const String EndPoint = "/v1/permissions/";
-    public async Task<Permission> CreateAsync(Permission entity)
+    public async Task<PermissionEntity> CreateAsync(PermissionEntity entity)
     {
-        var httpHandler = new HttpHandler<Permission>();
-        Permission? response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
+        var httpHandler = new HttpHandler<PermissionEntity>();
+        PermissionEntity? response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
         return response!;
     }
 }

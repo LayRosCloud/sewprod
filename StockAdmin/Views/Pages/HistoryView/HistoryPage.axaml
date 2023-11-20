@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:History"
+             x:DataType="models:HistoryEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.HistoryView.HistoryPage">
          <Grid>
@@ -17,27 +17,27 @@
                  <DataGrid.Columns>
                      <DataGridTextColumn 
                          Header="Человек"
-                         Binding="{Binding person.lastName}"
+                         Binding="{Binding Person.LastName}"
                          IsReadOnly="True"
                      />
                      <DataGridTextColumn 
                          Header="Действие"
-                         Binding="{Binding action.name}"
+                         Binding="{Binding Action.Name}"
                          IsReadOnly="True"
                      />
                      <DataGridTextColumn 
                          Header="Таблица"
-                         Binding="{Binding tableName}"
+                         Binding="{Binding TableName}"
                          IsReadOnly="True"
                      />
                      <DataGridTextColumn 
                          Header="Значение"
-                         Binding="{Binding value}"
+                         Binding="{Binding Value}"
                          IsReadOnly="True"
                      />
                      <DataGridTextColumn 
                          Header="Дата"
-                         Binding="{Binding createdAt, StringFormat={}{0:d}}"
+                         Binding="{Binding CreatedAt, StringFormat={}{0:d}}"
                          IsReadOnly="True"
                      />
                  </DataGrid.Columns>

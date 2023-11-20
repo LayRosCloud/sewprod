@@ -12,15 +12,15 @@ public partial class MaterialsPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly FinderController _finderController;
-    private readonly List<Material> _materials;
+    private readonly List<MaterialEntity> _materials;
     
     public MaterialsPage(ContentControl frame)
     {
         InitializeComponent();
-        _materials = new List<Material>();
+        _materials = new List<MaterialEntity>();
         _finderController = new FinderController(500, () =>
         {
-            ListMaterials.ItemsSource = _materials.Where(x => x.name.ToLower().Contains(Finded.Text.ToLower()));
+            ListMaterials.ItemsSource = _materials.Where(x => x.Name.ToLower().Contains(Finded.Text.ToLower()));
         });
         _frame = frame;
         Init();
@@ -45,17 +45,17 @@ public partial class MaterialsPage : UserControl
 
     private void NavigateToEditMaterialPage(object? sender, RoutedEventArgs e)
     {
-        Material material = (sender as Button)?.DataContext as Material;
-        _frame.Content = new AddedMaterialPage(_frame, material);
+        MaterialEntity materialEntity = (sender as Button)?.DataContext as MaterialEntity;
+        _frame.Content = new AddedMaterialPage(_frame, materialEntity);
     }
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new MaterialRepository();
         
-        if (ListMaterials.SelectedItem is Material material)
+        if (ListMaterials.SelectedItem is MaterialEntity material)
         {
-            await repository.DeleteAsync(material.id);
+            await repository.DeleteAsync(material.Id);
         }
 
         SendNoAnswerOnDeleteItem(sender, e);

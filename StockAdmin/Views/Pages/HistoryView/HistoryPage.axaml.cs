@@ -14,18 +14,18 @@ namespace StockAdmin.Views.Pages.HistoryView;
 
 public partial class HistoryPage : UserControl
 {
-    private readonly List<History> _histories;
+    private readonly List<HistoryEntity> _histories;
     private readonly FinderController _finderController;
     public HistoryPage()
     {
         InitializeComponent();
-        _histories = new List<History>();
+        _histories = new List<HistoryEntity>();
         _finderController = new FinderController(500, () =>
         {
             string findText = Finder.Text!.Trim().ToLower();
-            List.ItemsSource = _histories.Where(history => history.person.lastName.ToLower().Contains(findText) 
-                                                           || history.person.uid.ToLower().Contains(findText)
-                                                           || history.person.firstName.ToLower().Contains(findText));
+            List.ItemsSource = _histories.Where(history => history.Person.LastName.ToLower().Contains(findText) 
+                                                           || history.Person.Uid.ToLower().Contains(findText)
+                                                           || history.Person.FirstName.ToLower().Contains(findText));
         });
         Init();
     }
@@ -50,9 +50,9 @@ public partial class HistoryPage : UserControl
     private void LoadRowHistory(object? sender, DataGridRowEventArgs e)
     {
         var row = e.Row;
-        if (row.DataContext is History history)
+        if (row.DataContext is HistoryEntity history)
         {
-            switch (history.action.name.ToLower())
+            switch (history.Action.Name.ToLower())
             {
                 case "чтение":
                     row.Background = new SolidColorBrush(Color.FromRgb(149, 192, 160));

@@ -60,10 +60,10 @@ public partial class AddedPackagesPage : UserControl
         }
     }
 
-    private List<Package> ReadAllPackagesTextBox()
+    private List<PackageEntity> ReadAllPackagesTextBox()
     {
-        Size size = (CmbSizes.SelectedItem as Size)!;
-        List<Package> packages = new List<Package>();
+        SizeEntity sizeEntity = (CmbSizes.SelectedItem as SizeEntity)!;
+        List<PackageEntity> packages = new List<PackageEntity>();
 
         foreach (Control control in MainPanel.Children)
         {
@@ -73,13 +73,13 @@ public partial class AddedPackagesPage : UserControl
                 ComboBox cbMaterials = (stackPanel.Children[1] as ComboBox)!;
 
                 int count = Convert.ToInt32(tbCount.Text);
-                Material material = cbMaterials.SelectedItem as Material;
+                MaterialEntity materialEntity = cbMaterials.SelectedItem as MaterialEntity;
 
-                Package package = new Package()
-                    { count = count, sizeId = size.id, 
-                        personId = ServerConstants.Token.id, 
-                        materialId = material!.id, };
-                packages.Add(package);
+                PackageEntity packageEntity = new PackageEntity()
+                    { Count = count, SizeId = sizeEntity.Id, 
+                        PersonId = ServerConstants.Token.Id, 
+                        MaterialId = materialEntity!.Id, };
+                packages.Add(packageEntity);
             }
         }
 

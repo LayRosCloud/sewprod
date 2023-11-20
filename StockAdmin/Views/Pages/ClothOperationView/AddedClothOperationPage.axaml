@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.ClothOperationView.AddedClothOperationPage" x:DataType="models:ClothOperation">
+             x:Class="StockAdmin.Views.Pages.ClothOperationView.AddedClothOperationPage" x:DataType="models:ClothOperationEntity">
         <Grid>
             <StackPanel HorizontalAlignment="Center" 
                         VerticalAlignment="Center" 
@@ -14,14 +14,14 @@
                 x:Name="CmbOperation" 
                 PlaceholderText="Выберите операцию"
                 HorizontalAlignment="Stretch"
-                DisplayMemberBinding="{Binding DataType=models:Operation, Path=name}"
-                SelectedValueBinding="{Binding DataType=models:Operation, Path=id}"
-                SelectedValue="{Binding operationId}"
+                DisplayMemberBinding="{Binding DataType=models:OperationEntity, Path=Name}"
+                SelectedValueBinding="{Binding DataType=models:OperationEntity, Path=Id}"
+                SelectedValue="{Binding OperationId}"
                 Margin="0 5"
                 />
             
             <CheckBox x:Name="CbEnded"
-                IsChecked="{Binding isEnded}"
+                IsChecked="{Binding IsEnded}"
                 Content="Окончена ли?"
                 />
             

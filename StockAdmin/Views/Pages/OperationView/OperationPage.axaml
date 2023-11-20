@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="models:Operation"
+             x:DataType="models:OperationEntity"
              x:Class="StockAdmin.Views.Pages.OperationView.OperationPage">
     <Grid>
         <Grid.RowDefinitions>
@@ -26,21 +26,21 @@
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" 
-                                    Binding="{Binding name}" 
+                                    Binding="{Binding Name}" 
                                     IsReadOnly="True"
                 />
                 
                 <DataGridTextColumn Header="Описание" 
-                                    Binding="{Binding description}" 
+                                    Binding="{Binding Description}" 
                                     IsReadOnly="True"
                 />
                 <DataGridTextColumn Header="Артикул" 
-                                    Binding="{Binding uid}" 
+                                    Binding="{Binding Uid}" 
                                     IsReadOnly="True"
                 />
                 
                 <DataGridTextColumn Header="Процент" 
-                                    Binding="{Binding percent}" 
+                                    Binding="{Binding Percent}" 
                                     IsReadOnly="True"
                 />
                 

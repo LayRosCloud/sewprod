@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace StockAdmin.Scripts.Repositories;
+namespace StockAdmin.Scripts.Repositories.Interfaces;
 
 public interface IDataCreator<TEntity>
 {

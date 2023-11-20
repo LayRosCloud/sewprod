@@ -7,24 +7,24 @@ namespace StockAdmin.Views.Pages.ClothOperationView;
 
 public partial class AddedClothOperationPage : UserControl
 {
-    private readonly ClothOperation _clothOperation;
+    private readonly ClothOperationEntity _clothOperationEntity;
     private readonly ContentControl _frame;
-    private readonly Package _package;
+    private readonly PackageEntity _packageEntity;
 
-    public AddedClothOperationPage(Package package, ContentControl frame)
-        : this(package, new ClothOperation(), frame)
+    public AddedClothOperationPage(PackageEntity packageEntity, ContentControl frame)
+        : this(packageEntity, new ClothOperationEntity(), frame)
     {
         CbEnded.IsVisible = false;
     }
     
-    public AddedClothOperationPage(Package package, ClothOperation clothOperation, ContentControl frame)
+    public AddedClothOperationPage(PackageEntity packageEntity, ClothOperationEntity clothOperationEntity, ContentControl frame)
     {
         InitializeComponent();
         
-        _clothOperation = clothOperation;
-        _clothOperation.packageId = package.id;
+        _clothOperationEntity = clothOperationEntity;
+        _clothOperationEntity.PackageId = packageEntity.Id;
         _frame = frame;
-        _package = package;
+        _packageEntity = packageEntity;
         
         InitData();
     }
@@ -34,25 +34,25 @@ public partial class AddedClothOperationPage : UserControl
         var operationRepository = new OperationRepository();
 
         CmbOperation.ItemsSource = await operationRepository.GetAllAsync();
-        DataContext = _clothOperation;
+        DataContext = _clothOperationEntity;
     }
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
-        Operation operation = (CmbOperation.SelectedItem as Operation)!;
+        OperationEntity operationEntity = (CmbOperation.SelectedItem as OperationEntity)!;
         //TODO
         var clothOperationRepository = new ClothOperationRepository();
         
-        if (_clothOperation.id == 0)
+        if (_clothOperationEntity.Id == 0)
         {
-            await clothOperationRepository.CreateAsync(_clothOperation);
+            await clothOperationRepository.CreateAsync(_clothOperationEntity);
         }
         else
         {
-            await clothOperationRepository.UpdateAsync(_clothOperation);
+            await clothOperationRepository.UpdateAsync(_clothOperationEntity);
         }
 
-        _frame.Content = new ClothOperationPage(_package, _frame);
+        _frame.Content = new ClothOperationPage(_packageEntity, _frame);
     }
     
     public override string ToString()

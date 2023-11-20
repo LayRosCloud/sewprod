@@ -10,22 +10,22 @@ namespace StockAdmin.Views.Pages.ClothOperationView;
 public partial class AddedClothOperationPersonPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly ClothOperationPerson _clothOperationPerson;
-    private readonly Package _package;
+    private readonly ClothOperationPersonEntity _clothOperationPersonEntity;
+    private readonly PackageEntity _packageEntity;
 
-    public AddedClothOperationPersonPage(ContentControl frame, ClothOperation clothOperation, Package package)
-    :this(frame, clothOperation, new ClothOperationPerson(), package)
+    public AddedClothOperationPersonPage(ContentControl frame, ClothOperationEntity clothOperationEntity, PackageEntity packageEntity)
+    :this(frame, clothOperationEntity, new ClothOperationPersonEntity(), packageEntity)
     {
         CbEnded.IsVisible = false;
     }
 
-    public AddedClothOperationPersonPage(ContentControl frame, ClothOperation clothOperation, ClothOperationPerson clothOperationPerson, Package package)
+    public AddedClothOperationPersonPage(ContentControl frame, ClothOperationEntity clothOperationEntity, ClothOperationPersonEntity clothOperationPersonEntity, PackageEntity packageEntity)
     {
         InitializeComponent();
         _frame = frame;
-        _clothOperationPerson = clothOperationPerson;
-        _package = package;
-        _clothOperationPerson.clothOperationId = clothOperation.id;
+        _clothOperationPersonEntity = clothOperationPersonEntity;
+        _packageEntity = packageEntity;
+        _clothOperationPersonEntity.ClothOperationId = clothOperationEntity.Id;
         Init();
     }
 
@@ -33,23 +33,23 @@ public partial class AddedClothOperationPersonPage : UserControl
     {
         PersonRepository repository = new PersonRepository();
         CbClothOperationsPersons.ItemsSource = await repository.GetAllAsync();
-        DataContext = _clothOperationPerson;
+        DataContext = _clothOperationPersonEntity;
     }
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
         var repository = new ClothOperationPersonRepository();
 
-        if (_clothOperationPerson.id == 0)
+        if (_clothOperationPersonEntity.Id == 0)
         {
-            await repository.CreateAsync(_clothOperationPerson);
+            await repository.CreateAsync(_clothOperationPersonEntity);
         }
         else
         {
-            await repository.UpdateAsync(_clothOperationPerson);
+            await repository.UpdateAsync(_clothOperationPersonEntity);
         }
 
-        _frame.Content = new ClothOperationPage(_package, _frame);
+        _frame.Content = new ClothOperationPage(_packageEntity, _frame);
     }
     
     public override string ToString()

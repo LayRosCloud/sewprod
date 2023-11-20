@@ -70,12 +70,12 @@ public partial class AuthWindow : Window
         ServerConstants.Login = email;
         ServerConstants.Password = password;
         
-        Person person = new Person { email = email, password = password };
+        PersonEntity personEntity = new PersonEntity { Email = email, Password = password };
 
         PersonRepository repository = new PersonRepository();
-        var authPerson = await repository.LoginAsync(person);
+        var authPerson = await repository.LoginAsync(personEntity);
         
-        if (authPerson!.token == null)
+        if (authPerson!.Token == null)
         {
             throw new AuthException(authMessageError);
         }

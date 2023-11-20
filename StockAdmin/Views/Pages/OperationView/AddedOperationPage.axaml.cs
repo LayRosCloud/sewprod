@@ -11,32 +11,32 @@ namespace StockAdmin.Views.Pages.OperationView;
 public partial class AddedOperationPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly Operation _operation;
+    private readonly OperationEntity _operationEntity;
 
-    public AddedOperationPage(ContentControl frame) : this(frame, new Operation())
+    public AddedOperationPage(ContentControl frame) : this(frame, new OperationEntity())
     {
         
     }
     
-    public AddedOperationPage(ContentControl frame, Operation operation)
+    public AddedOperationPage(ContentControl frame, OperationEntity operationEntity)
     {
         InitializeComponent();
         _frame = frame;
-        _operation = operation;
-        DataContext = _operation;
+        _operationEntity = operationEntity;
+        DataContext = _operationEntity;
     }
     
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
         var operationRepository = new OperationRepository();
 
-        if (_operation.id == 0)
+        if (_operationEntity.Id == 0)
         {
-            await operationRepository.CreateAsync(_operation);
+            await operationRepository.CreateAsync(_operationEntity);
         }
         else
         {
-            await operationRepository.UpdateAsync(_operation);
+            await operationRepository.UpdateAsync(_operationEntity);
         }
 
         _frame.Content = new OperationPage(_frame);

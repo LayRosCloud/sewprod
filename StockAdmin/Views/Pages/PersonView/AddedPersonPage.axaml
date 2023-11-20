@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Person"
+             x:DataType="models:PersonEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PersonView.AddedPersonPage">
     <Grid>
@@ -11,38 +11,81 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        
         <StackPanel Grid.Column="0" 
                     Orientation="Vertical" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Center" 
                     Width="250">
-            <TextBlock Text="Учетная информация" Margin="0 0 0 5"/>
-            <TextBox x:Name="TbEmail" Text="{Binding email}" 
-                     Watermark="Введите почту*"/>
+            
+            <TextBlock Text="Учетная информация" 
+                       Margin="0 0 0 5" 
+                       FontWeight="Bold"
+                       />
+            
+            <TextBox x:Name="TbEmail" Text="{Binding Email}" 
+                     Watermark="Введите почту*"
+                     />
         
-            <TextBox x:Name="TbPassword" Text="{Binding password}" 
-                     Watermark="Введите пароль*" PasswordChar="•"/>
+            <TextBox x:Name="TbPassword" 
+                     Text="{Binding Password}" 
+                     Watermark="Введите пароль*" PasswordChar="•"
+                     />
         
-            <TextBlock Text="Личная информация" Margin="0 10 0 5"/>
-            <TextBox Text="{Binding lastName}"
-                     Watermark="Введите фамилию*"/>
+            <TextBlock Text="Личная информация" 
+                       Margin="0 10 0 5"
+                       FontWeight="Bold"
+                       />
+            
+            <TextBox x:Name="TbLastName" 
+                     Text="{Binding LastName}"
+                     Watermark="Введите фамилию*"
+                     />
         
-            <TextBox Text="{Binding firstName}" 
-                     Watermark="Введите имя*"/>
+            <TextBox x:Name="TbFirstName" 
+                     Text="{Binding FirstName}" 
+                     Watermark="Введите имя*"
+                     />
         
-            <TextBox Text="{Binding patronymic}" 
-                     Watermark="Введите отчество"/>
+            <TextBox x:Name="TbPatronymic" 
+                     Text="{Binding Patronymic}" 
+                     Watermark="Введите отчество"
+                     />
+            
+            <TextBlock Text="Дата рождения" 
+                       Margin="0 5 0 0"
+                       />
+            
+            <CalendarDatePicker Watermark="Выберите дату рождения" 
+                                SelectedDate="{Binding BirthDay}" 
+                                HorizontalAlignment="Stretch"
+                                />
         
-            <CalendarDatePicker SelectedDate="{Binding birthDay}"/>
-        
-            <TextBlock Text="Рабочая информация" Margin="0 10 0 5"/>
-            <TextBox Text="{Binding uid}" Watermark="Введите уник. индентификатор"/>
+            <TextBlock Text="Рабочая информация" 
+                       Margin="0 10 0 5" 
+                       FontWeight="Bold"
+                       />
+            
+            <TextBox Text="{Binding Uid}" 
+                     Watermark="Введите уник. индентификатор"
+                     />
         
             <Button Content="Отправить" Click="SaveChanges"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="250">
-            <Image x:Name="BarCodeImage"/>
-            <Button Click="SaveCode" Content="Сгенерировать" HorizontalAlignment="Center"/>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+            <Border Width="250" Height="250" 
+                    BorderBrush="#7db5fb" 
+                    BorderThickness="5"
+                    CornerRadius="10">
+                <Image x:Name="BarCodeImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True"/>
+            </Border>
+            <Button Click="GenerateCode" 
+                    Content="Сгенерировать QR-код" 
+                    HorizontalAlignment="Center"/>
+            <Button x:Name="SaveButton" Click="SaveCode" 
+                    Content="Сохранить" 
+                    IsVisible="False"
+                    HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 

@@ -3,25 +3,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Operation"
+             x:DataType="models:OperationEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.OperationView.AddedOperationPage">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
         
-        <TextBox Text="{Binding name}" 
+        <TextBox x:Name="TbName" Text="{Binding Name}" 
                  Watermark="Введите название"
         />
         
-        <TextBox Text="{Binding description}" 
+        <TextBox x:Name="TbDescription" Text="{Binding Description}" 
                  Watermark="Введите описание"
-                 />
+        />
         
-        <TextBox Text="{Binding uid}" 
+        <TextBox x:Name="TbUid" Text="{Binding Uid}" 
                  Watermark="Введите артикул"
         />
         
         <TextBox x:Name="TbPercent" Watermark="Введите процент" 
-                 Text="{Binding  Path=percent}"
+                 Text="{Binding  Path=Percent}"
                  KeyDown="KeyDownOnPriceField"
                  />
         

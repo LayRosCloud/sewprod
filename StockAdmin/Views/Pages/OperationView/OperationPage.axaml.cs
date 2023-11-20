@@ -5,24 +5,25 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
 
 namespace StockAdmin.Views.Pages.OperationView;
 
 public partial class OperationPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly List<Operation> _operations;
+    private readonly List<OperationEntity> _operations;
     private readonly FinderController _finderController;
     
     public OperationPage(ContentControl frame)
     {
         InitializeComponent();
-        _operations = new List<Operation>();
+        _operations = new List<OperationEntity>();
         _finderController = new FinderController(500, () =>
         {
             List.ItemsSource = 
                 _operations
-                    .Where(x => x.name.ToLower().Contains(Finder.Text.ToLower().Trim()))
+                    .Where(x => x.Name.ToLower().Contains(Finder.Text.ToLower().Trim()))
                     .ToList();
         });
         _frame = frame;
@@ -31,7 +32,7 @@ public partial class OperationPage : UserControl
 
     private async void Init()
     {
-        IDataReader<Operation> operationRepository = new OperationRepository();
+        IDataReader<OperationEntity> operationRepository = new OperationRepository();
         _operations.AddRange(await operationRepository.GetAllAsync());
         List.ItemsSource = _operations;
     }
@@ -43,17 +44,17 @@ public partial class OperationPage : UserControl
 
     private void NavigateToEditOperationPage(object? sender, RoutedEventArgs e)
     {
-        Operation operation = (sender as Button).DataContext as Operation;
-        _frame.Content = new AddedOperationPage(_frame, operation);
+        OperationEntity operationEntity = (sender as Button).DataContext as OperationEntity;
+        _frame.Content = new AddedOperationPage(_frame, operationEntity);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new OperationRepository();
         
-        if (List.SelectedItem is Operation operation)
+        if (List.SelectedItem is OperationEntity operation)
         {
-            await repository.DeleteAsync(operation.id);
+            await repository.DeleteAsync(operation.Id);
         }
 
         SendNoAnswerOnDeleteItem(sender, e);

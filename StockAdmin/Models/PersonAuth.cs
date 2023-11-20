@@ -1,7 +1,14 @@
-﻿namespace StockAdmin.Models;
+﻿using System.Text.Json.Serialization;
+using StockAdmin.Scripts.Server;
+
+namespace StockAdmin.Models;
 
 public class PersonAuth
 {
-    public string email { get; set; }
-    public string password { get; set; }
+    [JsonPropertyName(ServerConstants.Person.FieldEmail)] 
+    public string Email { get; set; } = "";
+    
+
+    [JsonPropertyName(ServerConstants.Person.FieldPassword)] 
+    public string Password { get; set; } = "";
 }

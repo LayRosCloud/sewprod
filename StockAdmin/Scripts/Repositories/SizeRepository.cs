@@ -1,48 +1,49 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Scripts.Repositories;
 
-public class SizeRepository: IDataReader<Size>, 
-    IDataCreator<Size>, 
-    IDataPutter<Size>, 
+public class SizeRepository: IDataReader<SizeEntity>, 
+    IDataCreator<SizeEntity>, 
+    IDataPutter<SizeEntity>, 
     IDataDeleted
 {
     private const string EndPoint = "/v1/sizes/";
     
-    public async Task<List<Size>> GetAllAsync()
+    public async Task<List<SizeEntity>> GetAllAsync()
     {
-        var httpHandler = new HttpHandler<Size>();
-        List<Size>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
+        var httpHandler = new HttpHandler<SizeEntity>();
+        List<SizeEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
         return response!;
     }
 
-    public async Task<Size> GetAsync(int id)
+    public async Task<SizeEntity> GetAsync(int id)
     {
-        var httpHandler = new HttpHandler<Size>();
-        Size? response = await httpHandler.GetFromJsonAsync(EndPoint);
+        var httpHandler = new HttpHandler<SizeEntity>();
+        SizeEntity? response = await httpHandler.GetFromJsonAsync(EndPoint);
         return response!;
     }
 
-    public async Task<Size> CreateAsync(Size entity)
+    public async Task<SizeEntity> CreateAsync(SizeEntity entity)
     {
-        var httpHandler = new HttpHandler<Size>();
-        Size? response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
+        var httpHandler = new HttpHandler<SizeEntity>();
+        SizeEntity? response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
         return response!;
     }
 
-    public async Task<Size> UpdateAsync(Size entity)
+    public async Task<SizeEntity> UpdateAsync(SizeEntity entity)
     {
-        var httpHandler = new HttpHandler<Size>();
-        Size? response = await httpHandler.PutAsJsonAsync(EndPoint+entity.id, entity);
+        var httpHandler = new HttpHandler<SizeEntity>();
+        SizeEntity? response = await httpHandler.PutAsJsonAsync(EndPoint+entity.Id, entity);
         return response!;
     }
 
     public async Task DeleteAsync(int id)
     {
-        var httpHandler = new HttpHandler<Size>();
+        var httpHandler = new HttpHandler<SizeEntity>();
         await httpHandler.DeleteAsync(EndPoint+id);
     }
 }

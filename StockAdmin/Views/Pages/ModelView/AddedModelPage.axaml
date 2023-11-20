@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Model"
+             x:DataType="models:ModelEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.AddedModelPage">
     <Grid>
@@ -15,7 +15,7 @@
                 x:Name="TbTitle" 
                 Watermark="Введите название"
                 HorizontalAlignment="Stretch"
-                Text="{Binding title}"
+                Text="{Binding Title}"
                 Margin="0 5"
             />
             
@@ -24,14 +24,14 @@
                 Watermark="Введите артикул"
                 HorizontalAlignment="Stretch"
                 Margin="0 5"
-                Text="{Binding codeVendor}"
+                Text="{Binding CodeVendor}"
             />
             
             <AutoCompleteBox 
                 x:Name="CbPrice" 
                 Watermark="Введите цену"
                 HorizontalAlignment="Stretch"
-                Text="{Binding price.number}"
+                Text="{Binding Price.Number}"
             />
             
             <Button 
@@ -39,7 +39,7 @@
                 HorizontalContentAlignment="Center"
                 Content="Отправить"
                 Margin="0 5"
-                Click="SaveChanges"/>
+                Click="TrySaveChanges"/>
         </StackPanel>
     </Grid>
 </UserControl>

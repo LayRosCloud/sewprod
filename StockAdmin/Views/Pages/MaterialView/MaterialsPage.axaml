@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Material"
+             x:DataType="models:MaterialEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.MaterialView.MaterialsPage">
     <Grid>
@@ -25,17 +25,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Название" 
-                    Binding="{Binding name}" 
+                    Binding="{Binding Name}" 
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                     Header="Описание" 
-                    Binding="{Binding description}" 
+                    Binding="{Binding Description}" 
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                     Header="Артикул" 
-                    Binding="{Binding uid}" 
+                    Binding="{Binding Uid}" 
                     IsReadOnly="True"/>
                 
                 <DataGridTemplateColumn>

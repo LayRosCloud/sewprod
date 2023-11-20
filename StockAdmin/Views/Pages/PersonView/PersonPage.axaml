@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="models:Person"
+             x:DataType="models:PersonEntity"
              x:Class="StockAdmin.Views.Pages.PersonView.PersonPage">
     <Grid>
         <Grid.RowDefinitions>
@@ -23,32 +23,32 @@
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Почта" 
-                    Binding="{Binding email}" 
+                    Binding="{Binding Email}" 
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                 Header="Фамилия" 
-                Binding="{Binding lastName}" 
+                Binding="{Binding LastName}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                 Header="Имя" 
-                Binding="{Binding firstName}" 
+                Binding="{Binding FirstName}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                 Header="Отчество" 
-                Binding="{Binding patronymic}" 
+                Binding="{Binding Patronymic}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                 Header="Дата рождения" 
-                Binding="{Binding birthDay, StringFormat={}{0:d}}" 
+                Binding="{Binding BirthDay, StringFormat={}{0:d}}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
                 Header="uid" 
-                Binding="{Binding uid}" 
+                Binding="{Binding Uid}" 
                 IsReadOnly="True"/>
                 
                 <DataGridTemplateColumn>

@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.SizePage">
     <TabControl>
-        <TabItem Header="Размеры" x:DataType="models:Size">
+        <TabItem Header="Размеры" x:DataType="models:SizeEntity">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
@@ -27,12 +27,12 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn 
                             Header="Числовой эквивалент" 
-                            Binding="{Binding number}" 
+                            Binding="{Binding Number}" 
                             IsReadOnly="True"/>
                         
                         <DataGridTextColumn 
                             Header="Категория" 
-                            Binding="{Binding age.name}" 
+                            Binding="{Binding Age.Name}" 
                             IsReadOnly="True"/>
                         
                         <DataGridTemplateColumn>
@@ -116,7 +116,7 @@
             </Grid>
         </TabItem>
         
-        <TabItem Header="Категории размеров" x:DataType="models:Age">
+        <TabItem Header="Категории размеров" x:DataType="models:AgeEntity">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
@@ -136,12 +136,12 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn 
                             Header="Название" 
-                            Binding="{Binding name}" 
+                            Binding="{Binding Name}" 
                             IsReadOnly="True"/>
                         
                         <DataGridTextColumn 
                             Header="Описание" 
-                            Binding="{Binding description}" 
+                            Binding="{Binding Description}" 
                             IsReadOnly="True"/>
                         
                         <DataGridTemplateColumn Header="Управление">

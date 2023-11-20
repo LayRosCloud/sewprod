@@ -32,17 +32,17 @@ public partial class StatisticPage : UserControl
         get
         {
 
-            var series = new ColumnSeries<Package>()
+            var series = new ColumnSeries<PackageEntity>()
             {
                 Values = new[]
                 {
-                    new Package() { createdAt = new DateTime(2010, 10, 10), personId = 12 },
-                    new Package() { createdAt = new DateTime(2010, 10, 11), personId = 13 },
-                    new Package() { createdAt = new DateTime(2010, 10, 12), personId = 14 },
+                    new PackageEntity() { CreatedAt = new DateTime(2010, 10, 10), PersonId = 12 },
+                    new PackageEntity() { CreatedAt = new DateTime(2010, 10, 11), PersonId = 13 },
+                    new PackageEntity() { CreatedAt = new DateTime(2010, 10, 12), PersonId = 14 },
                 },
                 Mapping = (package, i) =>
                 {
-                    Coordinate point = new Coordinate(i, package.personId);
+                    Coordinate point = new Coordinate(i, package.PersonId);
                     
                     return point;
                 },

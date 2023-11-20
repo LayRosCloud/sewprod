@@ -7,23 +7,30 @@
         x:Class="StockAdmin.Views.MainContainer"
         WindowStartupLocation="CenterScreen"
         Title="{Binding ElementName=Frame, Path=Content}" Icon="/Assets/logo.ico">
-    <Grid Background="LightGray">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition 
-                Width="150"/>
-            <ColumnDefinition
-                Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-            <Border  Background="#427D9D" Width="35" Height="35" CornerRadius="10" HorizontalAlignment="Left" Margin="5 0">
-                <TextBlock Text="АП" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
+    <Grid Background="LightGray" ColumnDefinitions="150, *" RowDefinitions="40, *">
+        
+        <StackPanel Grid.Row="0" 
+                    Grid.Column="0" 
+                    Orientation="Horizontal">
+            
+            <Border  Background="#427D9D" 
+                     Width="35" 
+                     Height="35" 
+                     CornerRadius="10" 
+                     HorizontalAlignment="Left" 
+                     Margin="5 0"
+            >
+                
+                <TextBlock Text="АП" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Foreground="White" 
+                           FontWeight="Bold"
+                           />
             </Border>
             <TextBlock Text="Админ панель" VerticalAlignment="Center" Foreground="#888888" FontWeight="Bold"/>
         </StackPanel>
+        
         <StackPanel x:Name="NavPanel" Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="0 20">
             <Button 
                     Background="Transparent"
@@ -53,6 +60,7 @@
                         />
                     </StackPanel>
                 </Button>
+            
                 <Button 
                     Background="Transparent"
                     HorizontalAlignment="Stretch"
@@ -60,25 +68,31 @@
                     Margin="0"
                     CommandParameter="1"
                     Padding="0"
-                >
-                    <StackPanel Orientation="Horizontal" Margin="0">
+                    >
+                    <StackPanel Orientation="Horizontal" 
+                                Margin="0"
+                                >
+                        
                         <Border Background="#427D9D" 
                                 VerticalAlignment="Stretch" 
                                 Width="0" 
-                                CornerRadius="10"/>
+                                CornerRadius="10"
+                                />
                         <Border CornerRadius="100" 
                                 Background="#888888" 
                                 Padding="5" 
-                                Margin="5 0 0 0">
+                                Margin="5 0 0 0"
+                                >
                             <Image Source="/Assets/model.png" 
-                                   Width="25"/>
+                                   Width="25"
+                                   />
                         </Border>
                         <TextBlock Text="Модели"
                                    Margin="5 0 0 0" 
                                    Foreground="#888888" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Bold" 
-                        />
+                                />
                     </StackPanel>
                 </Button>
                 
@@ -251,14 +265,37 @@
                         Padding="5"
                         CornerRadius="10" 
                         Background="White"/>
-        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="White" IsVisible="False" x:Name="ForbiddenContainer">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Error 403" FontWeight="Bold" Foreground="Black" FontSize="40"/>
-                <TextBlock Text="У вас недостаточно прав!" Foreground="Black" FontSize="20"/>
-                <TextBlock Text="обратитесь к администратору за объяснениями!" Opacity="0.6" Foreground="Firebrick" FontSize="15"/>
+        <Border x:Name="ForbiddenContainer"
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Grid.ColumnSpan="2" 
+                Grid.RowSpan="2"
+                Background="White"
+                IsVisible="False"
+            >
+            
+            <StackPanel VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                        >
+                <TextBlock Text="Error 403" 
+                           FontWeight="Bold" 
+                           Foreground="Black" 
+                           FontSize="40"/>
+                
+                <TextBlock Text="У вас недостаточно прав!" 
+                           Foreground="Black" 
+                           FontSize="20"/>
+                
+                <TextBlock Text="обратитесь к администратору за объяснениями!" 
+                           Opacity="0.6" 
+                           Foreground="Firebrick" 
+                           FontSize="15"/>
                 
                 <Button Content="Выйти из учетной записи" Click="ExitFromProfile" Margin="0 40 0 0"/>
             </StackPanel>
         </Border>
+        
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="ErrorContainer" Grid.Row="1" Width="200" Grid.Column="1" Margin="10">
+        </StackPanel>
     </Grid>
 </Window>

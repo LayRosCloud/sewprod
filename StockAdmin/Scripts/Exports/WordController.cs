@@ -27,13 +27,13 @@ public class WordController
         return paragraph;
     }
 
-    public void AddRange(List<string> codeVendors, Party party, List<Package> packages)
+    public void AddRange(List<string> codeVendors, PartyEntity partyEntity, List<PackageEntity> packages)
     {
         for (int i = 0; i < codeVendors.Count; i++)
         {
             string codeVendor = codeVendors[i];
-            Package package = packages[i];
-            var descriptionParagraph = AddText($"модель: {party.model.title}, материал: {package.material.name}");
+            PackageEntity packageEntity = packages[i];
+            var descriptionParagraph = AddText($"модель: {partyEntity.Model.Title}, материал: {packageEntity.Material.Name}");
             descriptionParagraph.Alignment = ParagraphAlignment.CENTER;
             Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
             Image image = barcode.Draw(codeVendor, 200);

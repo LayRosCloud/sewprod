@@ -30,62 +30,72 @@
                                   LoadingRow="LoadRowPackage" 
                                   DoubleTapped="NavigateToMoreInformation">
                             <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер кроя" 
-                                        Binding="{Binding DataType=models:Package, Path=party.cutNumber}"
-                                        IsReadOnly="True"/>
+                                
+                    
+                                <DataGridTextColumn Header="Номер кроя" 
+                                                    Binding="{Binding DataType=models:PackageEntity, Path=Party.CutNumber}"
+                                                    IsReadOnly="True"/>
+                                
+                                <DataGridTemplateColumn Header="Статус" IsReadOnly="True">
+                                    <DataTemplate>
+                                        <Border Padding="2 5" Margin="5" CornerRadius="10" Background="{Binding DataType=models:PackageEntity, Path=StatusColor}">
+                                            <TextBlock Text="{Binding DataType=models:PackageEntity, Path=Status}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn>
                 
                     <DataGridTextColumn Header="Модель" 
-                                        Binding="{Binding DataType=models:Package, Path=party.model.title}"
+                                        Binding="{Binding DataType=models:PackageEntity, Path=Party.Model.Title}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Размер" 
-                                        Binding="{Binding DataType=models:Package, Path=size.number}"
+                                        Binding="{Binding DataType=models:PackageEntity, Path=Size.Number}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Растовка" 
-                                        Binding="{Binding DataType=models:Package, Path=size.age.name}"
+                                        Binding="{Binding DataType=models:PackageEntity, Path=Size.Age.Name}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Добавил" 
-                                        Binding="{Binding DataType=models:Package, Path=person.FullName}"
+                                        Binding="{Binding DataType=models:PackageEntity, Path=Person.FullName}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Пачки" 
-                                        Binding="{Binding DataType=models:Package, Path=count}"
+                                        Binding="{Binding DataType=models:PackageEntity, Path=Count}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Материал"
-                                        Binding="{Binding DataType=models:Package, Path=material.name}"
+                                        Binding="{Binding DataType=models:PackageEntity, Path=Material.Name}"
                                         IsReadOnly="True"/>
                     
                     <DataGridCheckBoxColumn Header="Повтор?" 
-                                            Binding="{Binding isRepeat}"
-                                            x:DataType="models:Package" 
+                                            Binding="{Binding IsRepeat}"
+                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     
                     <DataGridCheckBoxColumn Header="Overlock" 
-                                            Binding="{Binding overlockEnded}"
-                                            x:DataType="models:Package" 
+                                            Binding="{Binding OverlockEnded}"
+                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     
                     <DataGridCheckBoxColumn Header="Универсальная" 
-                                            Binding="{Binding unversalkaEnded}"
-                                            x:DataType="models:Package" 
+                                            Binding="{Binding UniversalEnded}"
+                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     
                     <DataGridCheckBoxColumn Header="Плоская" 
-                                            Binding="{Binding ploskayaEnded}"
-                                            x:DataType="models:Package" 
+                                            Binding="{Binding FlatEnded}"
+                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     
                     <DataGridCheckBoxColumn Header="Глажка" 
-                                            Binding="{Binding glazkaEnded}"
-                                            x:DataType="models:Package" 
+                                            Binding="{Binding IroningEnded}"
+                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     
                     <DataGridCheckBoxColumn Header="Склад" 
-                                            Binding="{Binding isEnded}"
-                                            x:DataType="models:Package" 
+                                            Binding="{Binding IsEnded}"
+                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     <DataGridTemplateColumn>
                         <DataTemplate>

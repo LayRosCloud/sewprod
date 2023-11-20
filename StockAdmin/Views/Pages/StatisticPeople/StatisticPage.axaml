@@ -6,11 +6,12 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.StatisticPeople.StatisticPage">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ComboBox x:Name="GroupItems"/>
-        <avalonia:CartesianChart Grid.Column="1" x:Name="Chart"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ComboBox Grid.Row="0" 
+            x:Name="GroupItems"/>
+        <avalonia:CartesianChart Grid.Row="1" x:Name="Chart"/>
     </Grid>
 </UserControl>

@@ -8,15 +8,15 @@ namespace StockAdmin.Views.Pages.PackageView;
 public partial class EditPackagesPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly Package _package;
-    private readonly Party _party;
+    private readonly PackageEntity _packageEntity;
+    private readonly PartyEntity _partyEntity;
     
-    public EditPackagesPage(ContentControl frame, Package package, Party party)
+    public EditPackagesPage(ContentControl frame, PackageEntity packageEntity, PartyEntity partyEntity)
     {
         InitializeComponent();
         _frame = frame;
-        _package = package;
-        _party = party;
+        _packageEntity = packageEntity;
+        _partyEntity = partyEntity;
         Init();
     }
     
@@ -27,15 +27,15 @@ public partial class EditPackagesPage : UserControl
         
         CbSizes.ItemsSource = await repository.GetAllAsync();
         CbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
-        DataContext = _package;
+        DataContext = _packageEntity;
     }
 
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
         var repository = new PackageRepository();
-        _package.isUpdated = true;
-        await repository.UpdateAsync(_package);
+        _packageEntity.IsUpdated = true;
+        await repository.UpdateAsync(_packageEntity);
         
         //TODO
         

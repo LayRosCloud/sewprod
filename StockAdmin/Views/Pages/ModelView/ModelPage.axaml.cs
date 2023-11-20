@@ -11,17 +11,18 @@ namespace StockAdmin.Views.Pages.ModelView;
 public partial class ModelPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly List<Model> _models;
+    private readonly List<ModelEntity> _models;
     private readonly FinderController _finderController;
+    
     public ModelPage(ContentControl frame)
     {
         InitializeComponent();
         _frame = frame;
-        _models = new List<Model>();
+        _models = new List<ModelEntity>();
         _finderController = new FinderController(500, () =>
         {
             List.ItemsSource = _models
-                .Where(x => x.title.ToLower().Contains(Finded.Text.ToLower()))
+                .Where(x => x.Title.ToLower().Contains(Finded.Text.ToLower()))
                 .ToList();
         });
         InitData();
@@ -41,21 +42,20 @@ public partial class ModelPage : UserControl
 
     private void NavigateToEditPage(object? sender, RoutedEventArgs e)
     {
-        Model model = (sender as Button).DataContext as Model;
-        _frame.Content = new AddedModelPage(_frame, model);
+        ModelEntity modelEntity = (sender as Button).DataContext as ModelEntity;
+        _frame.Content = new AddedModelPage(_frame, modelEntity);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new ModelRepository();
         
-        if (List.SelectedItem is Model model)
+        if (List.SelectedItem is ModelEntity model)
         {
-            await repository.DeleteAsync(model.id);
+            await repository.DeleteAsync(model.Id);
         }
-
-        SendNoAnswerOnDeleteItem(sender, e);
         InitData();
+        SendNoAnswerOnDeleteItem(sender, e);
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)

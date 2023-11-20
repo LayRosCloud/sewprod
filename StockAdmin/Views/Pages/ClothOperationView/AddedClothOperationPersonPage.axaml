@@ -3,23 +3,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:ClothOperationPerson"
+             x:DataType="models:ClothOperationPersonEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ClothOperationView.AddedClothOperationPersonPage">
     <StackPanel Width="300">
         <ComboBox 
             x:Name="CbClothOperationsPersons"
-            DisplayMemberBinding="{Binding DataType=models:Person, Path=lastName}"
-            SelectedValueBinding="{Binding DataType=models:Person, Path=id}"
-            SelectedValue="{Binding Path=personId}"
+            DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=LastName}"
+            SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
+            SelectedValue="{Binding Path=PersonId}"
             HorizontalAlignment="Stretch"
             />
         
         <CalendarDatePicker
-            SelectedDate="{Binding dateStart}"/>
+            SelectedDate="{Binding DateStart}"/>
 		
 		<CheckBox x:Name="CbEnded"
-                IsChecked="{Binding isEnded}"
+                IsChecked="{Binding IsEnded}"
                 Content="Окончена ли?"/>
 		
         <Button Content="Отправить" Click="SaveChanges"/>

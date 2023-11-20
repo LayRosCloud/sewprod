@@ -3,22 +3,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
-             x:DataType="models:Size"
+             x:DataType="models:SizeEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.AddedSizePage">
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
         
-        <TextBox Text="{Binding number}" 
+        <TextBox x:Name="TbNumber" Text="{Binding Number}" 
                  Watermark="Введите числовой эквивалент*"
         />
         
         <ComboBox x:Name="CbTypes"
-                  DisplayMemberBinding="{Binding DataType=models:Age, Path=name}"
-                  SelectedValueBinding="{Binding DataType=models:Age, Path=id}"
-                  SelectedValue="{Binding ageId}"
+                  DisplayMemberBinding="{Binding DataType=models:AgeEntity, Path=Name}"
+                  SelectedValueBinding="{Binding DataType=models:AgeEntity, Path=Id}"
+                  SelectedValue="{Binding AgeId}"
                   HorizontalAlignment="Stretch"
                   />
         
-        <Button Content="Отправить" Click="SaveChanges"/>
+        <Button Content="Отправить" Click="TrySaveChanges"/>
     </StackPanel>
 </UserControl>

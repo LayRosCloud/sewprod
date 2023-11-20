@@ -2,6 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Views.Pages;
 using StockAdmin.Views.Pages.HistoryView;
@@ -21,10 +22,11 @@ public partial class MainContainer : Window
     {
         InitializeComponent();
         ElementConstants.MainContainer = this;
+        ElementConstants.ErrorController = new ErrorController(ErrorContainer);
         Init();
     }
 
-    private async void Init()
+    private void Init()
     {
         try
         {
@@ -37,7 +39,7 @@ public partial class MainContainer : Window
         }
     }
 
-    private async void NavigateToPartyPage(object? sender, RoutedEventArgs e)
+    private void NavigateToPartyPage(object? sender, RoutedEventArgs e)
     {
         Button button = sender as Button;
         var page = new PackagePage(Frame);
