@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace StockAdmin.Scripts;
+namespace StockAdmin.Scripts.Controllers;
 
 public class CryptoController
 {

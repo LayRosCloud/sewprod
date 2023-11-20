@@ -1,4 +1,5 @@
 ﻿using DynamicData.Kernel;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Views;
 
 namespace StockAdmin.Scripts.Constants;

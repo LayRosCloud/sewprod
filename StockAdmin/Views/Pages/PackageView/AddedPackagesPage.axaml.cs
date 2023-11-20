@@ -36,9 +36,10 @@ public partial class AddedPackagesPage : UserControl
 
     private async void Init()
     {
-        var repository = new SizeRepository();
+        var repository = new AgeRepository();
         var repositoryMaterials = new MaterialRepository();
-        CmbSizes.ItemsSource = await repository.GetAllAsync();
+        
+        CmbAges.ItemsSource = await repository.GetAllAsync();
         CmbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
         
     }
@@ -198,5 +199,22 @@ public partial class AddedPackagesPage : UserControl
     public override string ToString()
     {
         return "Добавление пачек";
+    }
+
+    private void CheckOnPartyAdded(object? sender, RoutedEventArgs e)
+    {
+        PanelSelectedItem.IsVisible = IsNewCut.IsChecked == false;
+    }
+
+    private async void SelectedTypeOfSize(object? sender, SelectionChangedEventArgs e)
+    {
+        if (CmbAges.SelectedItem is AgeEntity entity)
+        {
+            var repository = new SizeRepository();
+
+            CmbSizes.IsVisible = true;
+            CmbSizes.ItemsSource = await repository.GetAllAsync(entity.Id);
+        }
+        
     }
 }

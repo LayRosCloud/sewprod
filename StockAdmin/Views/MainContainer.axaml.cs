@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Views.Pages;
 using StockAdmin.Views.Pages.HistoryView;
 using StockAdmin.Views.Pages.MaterialView;

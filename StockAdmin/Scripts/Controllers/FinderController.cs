@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia.Threading;
 
-namespace StockAdmin.Scripts;
+namespace StockAdmin.Scripts.Controllers;
 
 public class FinderController
 {

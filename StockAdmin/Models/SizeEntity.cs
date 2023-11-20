@@ -11,4 +11,6 @@ public class SizeEntity : Entity
     [JsonPropertyName(ServerConstants.Size.FieldAge)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public AgeEntity? Age { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    public string FullName => $"{Number} {Age?.Name}";
 }

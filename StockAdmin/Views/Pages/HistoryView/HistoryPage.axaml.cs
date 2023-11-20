@@ -7,6 +7,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using Color = Avalonia.Media.Color;
 

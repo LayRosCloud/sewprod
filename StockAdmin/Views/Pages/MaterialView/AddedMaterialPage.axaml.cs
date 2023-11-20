@@ -7,7 +7,9 @@ using StockAdmin.Models;
 using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
+using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.MaterialView;
 

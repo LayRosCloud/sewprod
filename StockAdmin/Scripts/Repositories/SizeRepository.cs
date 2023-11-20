@@ -26,7 +26,14 @@ public class SizeRepository: IDataReader<SizeEntity>,
         SizeEntity? response = await httpHandler.GetFromJsonAsync(EndPoint);
         return response!;
     }
-
+    
+    public async Task<List<SizeEntity>> GetAllAsync(int ageId)
+    {
+        var httpHandler = new HttpHandler<SizeEntity>();
+        List<SizeEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint + "?ageId=" + ageId);
+        return response!;
+    }
+    
     public async Task<SizeEntity> CreateAsync(SizeEntity entity)
     {
         var httpHandler = new HttpHandler<SizeEntity>();

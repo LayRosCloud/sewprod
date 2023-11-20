@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
 
-namespace StockAdmin.Scripts;
+namespace StockAdmin.Scripts.Controllers;
 
 public class ErrorController
 {

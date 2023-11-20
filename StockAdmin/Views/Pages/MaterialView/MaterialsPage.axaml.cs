@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.MaterialView;

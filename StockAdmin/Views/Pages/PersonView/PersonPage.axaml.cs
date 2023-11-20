@@ -5,6 +5,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.StatisticPeople;
 

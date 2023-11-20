@@ -6,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.PackageView;

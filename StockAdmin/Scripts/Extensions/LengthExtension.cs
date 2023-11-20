@@ -1,6 +1,7 @@
 ﻿using StockAdmin.Scripts.Exceptions;
+using StockAdmin.Scripts.Vectors;
 
-namespace StockAdmin.Scripts;
+namespace StockAdmin.Scripts.Extensions;
 
 public static class LengthExtension
 {

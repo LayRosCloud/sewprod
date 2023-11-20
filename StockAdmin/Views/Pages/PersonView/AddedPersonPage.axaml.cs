@@ -10,6 +10,7 @@ using Avalonia.Media.Imaging;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using Zen.Barcode;
 using Image = System.Drawing.Image;

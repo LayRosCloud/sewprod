@@ -10,8 +10,10 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <ComboBox Grid.Row="0" 
             x:Name="GroupItems"/>
+        
         <avalonia:CartesianChart Grid.Row="1" x:Name="Chart"/>
     </Grid>
 </UserControl>
