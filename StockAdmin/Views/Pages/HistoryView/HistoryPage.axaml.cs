@@ -36,6 +36,7 @@ public partial class HistoryPage : UserControl
         HistoryRepository repository = new HistoryRepository();
         _histories.AddRange(await repository.GetAllAsync());
         List.ItemsSource = _histories;
+        LoadingBorder.IsVisible = false;
     }
 
     private void FindOnUserName(object? sender, TextChangedEventArgs e)

@@ -6,20 +6,26 @@
              x:DataType="models:ModelEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.ModelPage">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" 
+    <Grid RowDefinitions="35,*" ColumnDefinitions="*, *">
+        
+        <StackPanel Grid.Column="0" Grid.Row="0" 
                     Orientation="Horizontal">
             <TextBox x:Name="Finded"
                 Watermark="Поиск..."
                      Width="200" 
                      Background="White" TextChanged="TextChanged"/>
         </StackPanel>
-        <DataGrid 
+        
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 Watermark="Поиск..."
+                 HorizontalAlignment="Left"
+                 IsVisible="{Binding ElementName=List, Path=SelectedItem, Converter={StaticResource NotExistConverter}}"
+                 Margin="10 0"
+                 Width="200"/>
+        
+        <DataGrid Grid.Column="0" 
             Grid.Row="1" 
+            SelectionChanged="SelectedModel"
             x:Name="List">
             <DataGrid.Columns>
                 <DataGridTextColumn 
@@ -32,10 +38,6 @@
                     Binding="{Binding CodeVendor}" 
                     IsReadOnly="True"/>
                 
-                <DataGridTextColumn 
-                    Header="Цена модели" 
-                    Binding="{Binding Price.Number}" 
-                    IsReadOnly="True"/>
                 <DataGridTemplateColumn>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
@@ -48,40 +50,84 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <Button Grid.Row="1" 
-                Content="+" 
-                Background="#192655" 
-                FontWeight="Bold" 
-                Foreground="White" 
-                FontSize="20" 
-                HorizontalAlignment="Right" 
-                Margin=" 10" 
-                VerticalAlignment="Bottom"
-                Width="40"
-                Height="40"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
+
+        <Button Grid.Column="0" Grid.Row="1" 
+                Classes="plus"
                 Click="NavigateToCreatePage"/>
-        <Grid x:Name="DeletedContainer" 
+        
+        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="*, *" Margin="10 0">
+            <DataGrid Grid.Row="0" x:Name="Prices">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Число" Binding="{Binding DataType=models:PriceEntity, Path=Number}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <Border x:Name="DisplayedPrices"
+                    Grid.Column="0" 
+                    Grid.Row="0" Background="White" 
+                    IsVisible="{Binding ElementName=List, Path=SelectedItem, 
+                    Converter={StaticResource ExistConverter}}"
+                    BorderThickness="1" 
+                    BorderBrush="Black" CornerRadius="10">
+                <StackPanel HorizontalAlignment="Center" 
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Выберите модель!" 
+                               FontSize="25" 
+                               FontWeight="Bold"
+                               />
+                    <TextBlock Text="После того, как вы выберете модель это сообщение автоматически уберется" 
+                               FontSize="14"
+                               />
+                </StackPanel>
+            </Border>
+            
+            <Grid  Grid.Row="1" Margin="0 10" RowDefinitions="35,*">
+                <TextBox Watermark="Поиск..." 
+                         Grid.Row="0" 
+                         Width="200" 
+                         IsVisible="{Binding ElementName=List, Path=SelectedItem, 
+                         Converter={StaticResource NotExistConverter}}"
+                         HorizontalAlignment="Left"/>
+
+                <DataGrid Grid.Row="1"  x:Name="Operations">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Операция" 
+                                            Binding="{Binding DataType=models:OperationEntity, Path=Name}"
+                                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Описание" 
+                                            Binding="{Binding DataType=models:OperationEntity, Path=Description}"
+                                            IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Border x:Name="DisplayedOperations" 
+                        IsVisible="{Binding ElementName=List, Path=SelectedItem, 
+                        Converter={StaticResource ExistConverter}}" 
+                        Grid.Row="0" 
+                        Grid.RowSpan="2" 
+                        Background="White" 
+                        BorderThickness="1" 
+                        BorderBrush="Black" 
+                        CornerRadius="10">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Выберите модель!" FontSize="25" FontWeight="Bold"/>
+                        <TextBlock Text="После того, как вы выберете модель это сообщение автоматически уберется" FontSize="14"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+        
+        
+        <Grid Grid.Column="0" 
+              x:Name="DeletedContainer" 
+              Grid.ColumnSpan="2"
               IsVisible="False" 
               Grid.Row="0" 
               Grid.RowSpan="2">
             
             <Border 
-                Background="Black"
-                Opacity="0.8"
-                Margin="0" 
-                Padding="0" 
-                BorderThickness="0"
+                Classes="deleteBackground"
             />
-            <Border Background="White" 
-                    Padding="5" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" 
-                    CornerRadius="10" 
-                    Width="600" 
-                    Height="300">
+            <Border Classes="deleteContainer">
                 <Grid>
                     <StackPanel>
                         <TextBlock 
@@ -96,24 +142,29 @@
                     </StackPanel>
                     
                     <Button 
-                        Content="Да" 
-                        HorizontalAlignment="Left" 
-                        VerticalAlignment="Bottom" 
-                        Background="Transparent" 
-                        Foreground="Brown"
+                        Classes="yes"
                         Click="SendYesAnswerOnDeleteItem"/>
                     
                     <Button 
-                        Content="Нет" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Bottom" 
-                        FontWeight="Bold" 
-                        Foreground="#192655"
+                        Classes="no"
                         Click="SendNoAnswerOnDeleteItem"/>
                     
                 </Grid>
             </Border>
         </Grid>
-        
-            </Grid>
+        <Border Grid.Column="0" 
+                Grid.ColumnSpan="2" 
+                x:Name="LoadingBorder" 
+                Grid.Row="0" 
+                Grid.RowSpan="2" 
+                Background="White">
+            <StackPanel HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                <TextBlock Text="Загрузка" 
+                           FontSize="30" 
+                           FontWeight="Bold"/>
+                <TextBlock Text="Пожалуйста подождите"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

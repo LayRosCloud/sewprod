@@ -30,8 +30,11 @@ public partial class MaterialsPage : UserControl
     private async void Init()
     {
         var repositoryMaterial = new MaterialRepository();
+        _materials.Clear();
         _materials.AddRange(await repositoryMaterial.GetAllAsync());
+        ListMaterials.SelectedItem = null;
         ListMaterials.ItemsSource = _materials;
+        LoadingBorder.IsVisible = false;
     }
     
     public override string ToString()

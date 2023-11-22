@@ -12,12 +12,29 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <TextBox Grid.Row="0" x:Name="Finder" 
-                 Watermark="Поиск..." 
-                 HorizontalAlignment="Left"
-                 Width="200"
-                 TextChanged="TextChanged"/>
         
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBox x:Name="Finder" 
+                     Watermark="Поиск..." 
+                     HorizontalAlignment="Left"
+                     Width="200"
+                     TextChanged="TextChanged"/>
+            <TextBlock Text="Выберите месяц: " FontWeight="Bold" Margin="20 0 0 0 " VerticalAlignment="Center"/>
+            <StackPanel x:Name="MonthButtons" Orientation="Horizontal">
+                <Button Content="1" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="2" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="3" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="4" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="5" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="6" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="7" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="8" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="9" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="10" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="11" Margin="5 0 0 0 " Click="ChangeMonth"/>
+                <Button Content="12" Margin="5 0 0 0 " Click="ChangeMonth"/>
+            </StackPanel>
+        </StackPanel>
         <DataGrid Grid.Row="1" x:Name="List" 
                   RowDetailsVisibilityMode="Visible">
             <DataGrid.Columns>
@@ -27,29 +44,37 @@
                 <DataTemplate x:DataType="models:GroupedPackages">
                     <StackPanel Margin="10 0 0 10">
                         <DataGrid ItemsSource="{Binding Packages}" 
-                                  LoadingRow="LoadRowPackage" 
-                                  DoubleTapped="NavigateToMoreInformation">
+                                  DoubleTapped="NavigateToMoreInformation"
+                                  SelectionChanged="SelectedPackage">
+                            <DataGrid.Styles>
+                                <Style Selector="DataGridCell">
+                                    <Setter Property="VerticalAlignment" 
+                                            Value="Top"/>
+                                    <Setter Property="BorderThickness" Value="0 1 0 0"/>
+                                    <Setter Property="BorderBrush" Value="#c1ddf4"/>
+                                </Style>
+                            </DataGrid.Styles>
                             <DataGrid.Columns>
-                                
-                    
                                 <DataGridTextColumn Header="Номер кроя" 
-                                                    Binding="{Binding DataType=models:PackageEntity, Path=Party.CutNumber}"
+                                                    Binding="{Binding Path=Party.CutNumber}"
                                                     IsReadOnly="True"/>
                                 
                                 <DataGridTemplateColumn Header="Статус" IsReadOnly="True">
-                                    <DataTemplate>
-                                        <Border Padding="2 5" Margin="5" CornerRadius="10" Background="{Binding DataType=models:PackageEntity, Path=StatusColor}">
-                                            <TextBlock Text="{Binding DataType=models:PackageEntity, Path=Status}"/>
+                                    <DataTemplate DataType="models:PackageEntity">
+                                        <Border Padding="2 5" Margin="5" Height="35" 
+                                                CornerRadius="10" 
+                                                Background="{Binding Path=StatusColor}">
+                                            <TextBlock Text="{Binding Status}"/>
                                         </Border>
                                     </DataTemplate>
                                 </DataGridTemplateColumn>
                 
                     <DataGridTextColumn Header="Модель" 
-                                        Binding="{Binding DataType=models:PackageEntity, Path=Party.Model.Title}"
+                                        Binding="{Binding Path=Party.Model.Title}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Размер" 
-                                        Binding="{Binding DataType=models:PackageEntity, Path=Size.Number}"
+                                        Binding="{Binding Size.Number}"
                                         IsReadOnly="True"/>
                     
                     <DataGridTextColumn Header="Растовка" 
@@ -72,30 +97,25 @@
                                             Binding="{Binding IsRepeat}"
                                             x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
-                    
-                    <DataGridCheckBoxColumn Header="Overlock" 
-                                            Binding="{Binding OverlockEnded}"
-                                            x:DataType="models:PackageEntity" 
-                                            IsReadOnly="True"/>
-                    
-                    <DataGridCheckBoxColumn Header="Универсальная" 
-                                            Binding="{Binding UniversalEnded}"
-                                            x:DataType="models:PackageEntity" 
-                                            IsReadOnly="True"/>
-                    
-                    <DataGridCheckBoxColumn Header="Плоская" 
-                                            Binding="{Binding FlatEnded}"
-                                            x:DataType="models:PackageEntity" 
-                                            IsReadOnly="True"/>
-                    
-                    <DataGridCheckBoxColumn Header="Глажка" 
-                                            Binding="{Binding IroningEnded}"
-                                            x:DataType="models:PackageEntity" 
-                                            IsReadOnly="True"/>
-                    
+                    <DataGridTemplateColumn Header="Этап">
+                        <DataTemplate DataType="models:PackageEntity">
+                            <ListBox ItemsSource="{Binding CompletedTasks}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" 
+                                                       Opacity="{Binding Opacity}"
+                                                       Foreground="{Binding Foreground}"
+                                                       FontWeight="{Binding StyleFont}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn>
+                                
                     <DataGridCheckBoxColumn Header="Склад" 
                                             Binding="{Binding IsEnded}"
-                                            x:DataType="models:PackageEntity" 
                                             IsReadOnly="True"/>
                     <DataGridTemplateColumn>
                         <DataTemplate>
@@ -115,18 +135,7 @@
         </DataGrid>
         
         <Button Grid.Row="1" 
-                Content="+" 
-                Background="#192655" 
-                FontWeight="Bold" 
-                Foreground="White" 
-                FontSize="20" 
-                HorizontalAlignment="Right" 
-                Margin=" 10" 
-                VerticalAlignment="Bottom"
-                Width="40"
-                Height="40"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
+                Classes="plus"
                 Click="NavigateToAddedPackagesPage"/>
         <Grid x:Name="DeletedContainer" 
               IsVisible="False" 
@@ -134,19 +143,9 @@
               Grid.RowSpan="2">
             
             <Border 
-                Background="Black"
-                Opacity="0.8"
-                Margin="0" 
-                Padding="0" 
-                BorderThickness="0"
+                Classes="deleteBackground"
             />
-            <Border Background="White" 
-                    Padding="5" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" 
-                    CornerRadius="10" 
-                    Width="600" 
-                    Height="300">
+            <Border Classes="deleteContainer">
                 <Grid>
                     <StackPanel>
                         <TextBlock 
@@ -161,23 +160,21 @@
                     </StackPanel>
                     
                     <Button 
-                        Content="Да" 
-                        HorizontalAlignment="Left" 
-                        VerticalAlignment="Bottom" 
-                        Background="Transparent" 
-                        Foreground="Brown"
+                        Classes="yes"
                         Click="SendYesAnswerOnDeleteItem"/>
                     
                     <Button 
-                        Content="Нет" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Bottom" 
-                        FontWeight="Bold" 
-                        Foreground="#192655"
+                        Classes="no"
                         Click="SendNoAnswerOnDeleteItem"/>
                     
                 </Grid>
             </Border>
         </Grid>
+        <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Text="Пожалуйста подождите"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

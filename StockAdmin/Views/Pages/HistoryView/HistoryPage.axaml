@@ -42,5 +42,11 @@
                      />
                  </DataGrid.Columns>
              </DataGrid>
+             <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
+                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                     <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
+                     <TextBlock Text="Пожалуйста подождите"/>
+                 </StackPanel>
+             </Border>
          </Grid>
 </UserControl>

@@ -34,8 +34,10 @@ public partial class OperationPage : UserControl
     private async void Init()
     {
         IDataReader<OperationEntity> operationRepository = new OperationRepository();
+        _operations.Clear();
         _operations.AddRange(await operationRepository.GetAllAsync());
         List.ItemsSource = _operations;
+        LoadingBorder.IsVisible = false;
     }
 
     private void NavigateToAddedOperationPage(object? sender, RoutedEventArgs e)
@@ -56,10 +58,10 @@ public partial class OperationPage : UserControl
         if (List.SelectedItem is OperationEntity operation)
         {
             await repository.DeleteAsync(operation.Id);
+            Init();
         }
 
         SendNoAnswerOnDeleteItem(sender, e);
-        Init();
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)

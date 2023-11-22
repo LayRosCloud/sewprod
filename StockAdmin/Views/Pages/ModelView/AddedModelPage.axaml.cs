@@ -33,9 +33,8 @@ public partial class AddedModelPage : UserControl
         Init();
     }
 
-    private async void Init()
+    private void Init()
     {
-        CbPrice.ItemsSource = await _priceRepository.GetAllAsync();
         DataContext = _modelEntity;
     }
     
@@ -58,24 +57,17 @@ public partial class AddedModelPage : UserControl
     {
         var title = TbTitle.Text!;
         var codeVendor = TbCodeVendor.Text!;
-        String price = CbPrice.Text!;
         title.ContainLengthBetweenValues(new LengthVector(1, 255), "Длина названия от 1 до 255 символов!");
         codeVendor.ContainLengthBetweenValues( new LengthVector(1, 30), "Длина артикула от 1 до 30 символов!");
         var regex = new Regex(@"^\d+$");
         
-        if (!regex.IsMatch(price))
-        {
-            throw new ValidationException("Цена имеет неправильный формат");
-        }
+        //TODO: changed on more prices
     }
 
     private async Task SaveChanges()
     {
         var repository = new ModelRepository();
 
-        PriceEntity priceEntity = await _priceRepository.CreateAsync(new PriceEntity { Date = DateTime.Now, Number = Convert.ToDouble(CbPrice.Text) });
-        _modelEntity.PriceId = priceEntity.Id;
-        
         if (_modelEntity.Id == 0)
         {
             await repository.CreateAsync(_modelEntity);

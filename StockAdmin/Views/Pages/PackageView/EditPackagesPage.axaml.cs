@@ -9,14 +9,12 @@ public partial class EditPackagesPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly PackageEntity _packageEntity;
-    private readonly PartyEntity _partyEntity;
     
-    public EditPackagesPage(ContentControl frame, PackageEntity packageEntity, PartyEntity partyEntity)
+    public EditPackagesPage(ContentControl frame, PackageEntity packageEntity)
     {
         InitializeComponent();
         _frame = frame;
         _packageEntity = packageEntity;
-        _partyEntity = partyEntity;
         Init();
     }
     
@@ -27,6 +25,7 @@ public partial class EditPackagesPage : UserControl
         
         CbSizes.ItemsSource = await repository.GetAllAsync();
         CbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
+        
         DataContext = _packageEntity;
     }
 

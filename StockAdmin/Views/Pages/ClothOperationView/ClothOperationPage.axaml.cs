@@ -25,6 +25,7 @@ public partial class ClothOperationPage : UserControl
         InitializeComponent();
         _packageEntity = packageEntity;
         _clothOperations = new List<ClothOperationEntity>();
+        TitleText.Text = $"{packageEntity.Party?.CutNumber}/{packageEntity.Party?.Person?.Uid} {packageEntity.Size?.Number} {packageEntity.Count}";
         _finderController = new FinderController(500, () =>
         {
             List.ItemsSource = _clothOperations.Where(x=> x.Operation.Name
@@ -39,8 +40,10 @@ public partial class ClothOperationPage : UserControl
     private async void InitData(PackageEntity packageEntity)
     {
         var repository = new ClothOperationRepository();
+        _clothOperations.Clear();
         _clothOperations.AddRange(await repository.GetAllAsync(packageEntity.Id));
         List.ItemsSource = _clothOperations;
+        LoadingBorder.IsVisible = false;
     }
 
     private void BackToPackagePage(object? sender, RoutedEventArgs e)

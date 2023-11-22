@@ -19,7 +19,13 @@ public class PartyRepository: IDataReader<PartyEntity>,
         List<PartyEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
         return response!;
     }
-
+    public async Task<List<PartyEntity>> GetAllAsync(int personId)
+    {
+        var httpHandler = new HttpHandler<PartyEntity>();
+        List<PartyEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint+"?personId="+personId);
+        return response!;
+    }
+    
     public async Task<PartyEntity> GetAsync(int id)
     {
         var httpHandler = new HttpHandler<PartyEntity>();

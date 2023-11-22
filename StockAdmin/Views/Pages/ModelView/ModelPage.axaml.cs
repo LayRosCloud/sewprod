@@ -31,9 +31,12 @@ public partial class ModelPage : UserControl
 
     private async void InitData()
     {
-        ModelRepository repository = new ModelRepository();
+        var repository = new ModelRepository();
+        _models.Clear();
         _models.AddRange(await repository.GetAllAsync());
+        List.SelectedItem = null;
         List.ItemsSource = _models;
+        LoadingBorder.IsVisible = false;
     }
 
     private void NavigateToCreatePage(object? sender, RoutedEventArgs e)
@@ -80,5 +83,15 @@ public partial class ModelPage : UserControl
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
         _finderController.ChangeText();
+    }
+
+    private void SelectedModel(object? sender, SelectionChangedEventArgs e)
+    {
+        if(List.SelectedItem is not ModelEntity model) return;
+        Prices.ItemsSource = model.Prices;
+        Operations.ItemsSource = model.Operations;
+
+        //DisplayedPrices.IsVisible = false;
+        //DisplayedOperations.IsVisible = false;
     }
 }

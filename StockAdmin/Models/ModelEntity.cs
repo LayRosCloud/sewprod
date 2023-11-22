@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Models;
@@ -9,9 +10,12 @@ public class ModelEntity : Entity
     public string Title { get; set; } = "";
     [JsonPropertyName(ServerConstants.Model.FieldCodeVendor)] 
     public string CodeVendor { get; set; } = "";
-    [JsonPropertyName(ServerConstants.Model.FieldPriceId)] 
-    public int PriceId { get; set; }
-    [JsonPropertyName(ServerConstants.Model.FieldPrice)] 
+
+    [JsonPropertyName(ServerConstants.Model.FieldPrice)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public PriceEntity? Price { get; set; }
+    public List<PriceEntity>? Prices { get; set; } = new();
+
+    [JsonPropertyName(ServerConstants.Model.FieldOperations)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public List<OperationEntity>? Operations { get; set; } = new();
 }

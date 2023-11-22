@@ -102,8 +102,8 @@ public abstract class ServerConstants
     {
         public const string FieldTitle = "title";
         public const string FieldCodeVendor = "codeVendor";
-        public const string FieldPriceId = "priceId";
-        public const string FieldPrice = "price";
+        public const string FieldPrice = "prices";
+        public const string FieldOperations = "operations";
     }
     
     public abstract class Material

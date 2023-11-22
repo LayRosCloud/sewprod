@@ -1,12 +1,67 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:StockAdmin.Scripts.Converters"
              x:Class="StockAdmin.App"
              RequestedThemeVariant="Light">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    
+    <Application.Resources>
+         <converters:ExistingObjectConverter x:Key="ExistConverter" />
+         <converters:NotExistingObjectConverter x:Key="NotExistConverter" />
+     </Application.Resources>
              
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <Style Selector="Button.plus">
+            <Setter Property="Content" Value="+"/>
+            <Setter Property="Background" Value="#192655"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        
+        <Style Selector="Button.yes">
+            <Setter Property="Content" Value="Да"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Foreground" Value="Brown"/>
+        </Style>
+        
+        <Style Selector="Button.no">
+            <Setter Property="Content" Value="Нет"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Foreground" Value="#192655"/>
+        </Style>
+        
+        <Style Selector="Border.deleteContainer">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Width" Value="600"/>
+            <Setter Property="Height" Value="300"/>
+        </Style>
+        
+        <Style Selector="Border.deleteBackground">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Opacity" Value="0.4"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
     </Application.Styles>
 
 </Application>

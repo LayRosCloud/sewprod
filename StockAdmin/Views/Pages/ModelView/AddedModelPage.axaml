@@ -7,8 +7,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.AddedModelPage">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" 
                     Width="250">
         
             <TextBox 
@@ -25,13 +28,6 @@
                 HorizontalAlignment="Stretch"
                 Margin="0 5"
                 Text="{Binding CodeVendor}"
-            />
-            
-            <AutoCompleteBox 
-                x:Name="CbPrice" 
-                Watermark="Введите цену"
-                HorizontalAlignment="Stretch"
-                Text="{Binding Price.Number}"
             />
             
             <Button 

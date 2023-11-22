@@ -5,6 +5,7 @@
       <map>
         <entry key="StockAdmin/App.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/MainWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Styles/MainStyles.xaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/AuthWindow.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/MainContainer.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/MainWindow.axaml" value="StockAdmin/StockAdmin.csproj" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Avalonia.Media;
 using StockAdmin.Scripts.Server;
@@ -50,36 +51,20 @@ public class PackageEntity : Entity
         get => _clothOperations;
         set
         {
-            foreach (var clothOperation in value)
+            foreach (var clothOperation in value.OrderBy(x=>x.OperationId))
             {
-                switch (clothOperation.OperationId)
-                {
-                    case 1:
-                        OverlockEnded = clothOperation.IsEnded;
-                        break;
-                    case 2:
-                        UniversalEnded = clothOperation.IsEnded;
-                        break;
-                    case 3:
-                        FlatEnded = clothOperation.IsEnded;
-                        break;
-                    case 4:
-                        IroningEnded = clothOperation.IsEnded;
-                        break;
-                }
+                string operationName = clothOperation.Operation?.Name!;
+                CompletedTasks.Add(clothOperation.IsEnded 
+                    ? OperationTaskEntity.GetCompleted(operationName) 
+                    : OperationTaskEntity.GetNotCompleted(operationName));
             }
 
             _clothOperations = value;
         }
     }
+
     
-    [JsonIgnore] public bool OverlockEnded { get; set; }
-    
-    [JsonIgnore] public bool UniversalEnded { get; set; }
-    
-    [JsonIgnore] public bool FlatEnded { get; set; }
-    
-    [JsonIgnore] public bool IroningEnded { get; set; }
+    public List<OperationTaskEntity> CompletedTasks { get; set; } = new();
 
     [JsonIgnore]
     public SolidColorBrush StatusColor { get; set; } = new(Color.Parse("#EEF5FF"));
@@ -97,7 +82,7 @@ public class PackageEntity : Entity
             
             if (IsRepeat)
             {
-                StatusColor = new SolidColorBrush(Color.Parse("f49e31"));
+                StatusColor = new SolidColorBrush(Color.Parse("#f49e31"));
                 return "Повтор";
             }
             

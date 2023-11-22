@@ -39,8 +39,6 @@ public partial class AddedClothOperationPage : UserControl
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
-        OperationEntity operationEntity = (CmbOperation.SelectedItem as OperationEntity)!;
-        //TODO
         var clothOperationRepository = new ClothOperationRepository();
         
         if (_clothOperationEntity.Id == 0)

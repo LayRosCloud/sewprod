@@ -33,8 +33,11 @@ public partial class PersonPage : UserControl
     private async void Init()
     {
         var personRepository = new PersonRepository();
+        _persons.Clear();
         _persons.AddRange(await personRepository.GetAllAsync());
+        List.SelectedItem = null;
         List.ItemsSource = _persons;
+        LoadingBorder.IsVisible = false;
     }
     
     private void NavigateToAddedPersonPage(object? sender, RoutedEventArgs e)
@@ -60,10 +63,10 @@ public partial class PersonPage : UserControl
         if (List.SelectedItem is PersonEntity person)
         {
             await repository.DeleteAsync(person.Id);
+            Init();
         }
 
         SendNoAnswerOnDeleteItem(sender, e);
-        Init();
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)

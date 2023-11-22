@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -17,10 +18,10 @@ public class PackageRepository : IDataReader<PackageEntity>, IDataCreator<Packag
         return await httpHandler.GetListFromJsonAsync(EndPoint);
     }
     
-    public async Task<List<PackageEntity>?> GetAllAsync(int partyId)
+    public async Task<List<PackageEntity>?> GetAllAsync(int month)
     {
         HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
-        return await httpHandler.GetListFromJsonAsync(EndPoint+$"?partyId={partyId}");
+        return await httpHandler.GetListFromJsonAsync(EndPoint+$"?month={month}");
     }
 
     public async Task<PackageEntity?> GetAsync(int id)
@@ -35,11 +36,20 @@ public class PackageRepository : IDataReader<PackageEntity>, IDataCreator<Packag
         return await httpHandler.PostAsJsonAsync(EndPoint, entity);
     }
     
-    public async Task CreateAsync(List<PackageEntity> entities)
+    public async Task<List<PackageEntity>?> CreateAsync(List<PackageEntity> entities)
     {
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
-        await client.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
+        var response = await client.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            var repository = new PersonRepository();
+            AuthEntity? auth = await repository.LoginAsync(new PersonEntity() { Email = ServerConstants.Login, Password = ServerConstants.Password });
+            ServerConstants.Token = auth!;
+            response = await client.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
+        }
+
+        return await response.Content.ReadFromJsonAsync<List<PackageEntity>?>();
     }
 
     public async Task<PackageEntity?> UpdateAsync(PackageEntity entity)

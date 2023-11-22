@@ -45,16 +45,17 @@
                 FontSize="25"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
+                Margin="0 10"
                 />
             <Grid 
                 >
                 <Grid.ColumnDefinitions
                     >
                     <ColumnDefinition 
-                        Width="0.5*"
+                        Width="*"
                     />
                     <ColumnDefinition 
-                        Width="*"
+                        Width="30"
                     />
                 </Grid.ColumnDefinitions>
             
@@ -66,39 +67,49 @@
                     <RowDefinition
                         Height="*"
                     />
+                    <RowDefinition
+                        Height="*"
+                    />
+                    <RowDefinition
+                        Height="*"
+                    />
                 </Grid.RowDefinitions>
                 <!--Пара (Текст-текстовое поле) - почта-->
-                <StackPanel Grid.Row="0" 
-                            Grid.Column="0" 
-                            Orientation="Horizontal">
-                    <Image Source="/Assets/email.png" Width="25"/>
-                    <TextBlock 
-                        Text="Почта:"
-                        VerticalAlignment="Center"/>
-                </StackPanel>
+                <TextBlock Grid.Column="0" Grid.Row="0" 
+                    Text="почта:"
+                    FontWeight="Bold"
+                    FontSize="18"
+                    VerticalAlignment="Center"/>
 
+                <Image Source="/Assets/email.png" 
+                       Width="25" 
+                       Grid.Row="1" 
+                       Grid.Column="1"
+                       />
+                
                 <TextBox 
                     x:Name="Email"
-                    Grid.Row="0" 
-                    Grid.Column="1"
+                    Grid.Row="1" 
+                    Grid.Column="0"
                     Text="anna_fetisova@gmail.com"
                     Watermark="Введите почту*"
                     Margin="1"
                     />
-                
+                <Image Grid.Row="3" 
+                    Grid.Column="1"  Source="/Assets/password.png" Width="25"/>
+
                 <!--Пара (Текст-текстовое поле) - пароль-->
-                <StackPanel Grid.Row="1" 
-                            Grid.Column="0" 
-                            Orientation="Horizontal">
-                    <Image Source="/Assets/password.png" Width="25"/>
-                    <TextBlock 
-                        Text="Пароль:"
-                        VerticalAlignment="Center"/>
-                </StackPanel>
+                <TextBlock Grid.Row="2" 
+                    Grid.Column="0" 
+                    Text="пароль:"
+                    FontWeight="Bold"
+                    FontSize="18"
+                    VerticalAlignment="Center"
+                    Margin="0 10 0 0 "/>
                 <TextBox 
                     x:Name="Password"
-                    Grid.Row="1" 
-                    Grid.Column="1" 
+                    Grid.Row="3" 
+                    Grid.Column="0" 
                     Text="uniquePassword"
                     PasswordChar="•"
                     Watermark="Введите пароль*"
@@ -115,6 +126,7 @@
                     Content="Войти" 
                     HorizontalAlignment="Right"
                     Click="TryEnterToApplication"
+                    Margin="0 0 30 0 "
                     />
             </Grid>
         </StackPanel>

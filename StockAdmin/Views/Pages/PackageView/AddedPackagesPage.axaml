@@ -5,71 +5,143 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:Class="StockAdmin.Views.Pages.PackageView.AddedPackagesPage">
-    <ScrollViewer>
-        <StackPanel Width="500">
-            <CheckBox x:Name="IsNewCut" Content="Новый крой" IsCheckedChanged="CheckOnPartyAdded"/>
-            
-            <StackPanel 
-                IsVisible="{Binding ElementName=IsNewCut, Path=IsChecked}">
-                <TextBox
-                    x:Name="TbCutNumber"
-                    Watermark="Введите номер кроя"/>
-                <ComboBox
-                    x:Name="CbPersons"
-                    PlaceholderText="Выберите человека" 
-                    HorizontalAlignment="Stretch"/>
-                <ComboBox 
-                    x:Name="CbModels"
-                    PlaceholderText="Выберите модель" 
-                    HorizontalAlignment="Stretch"/>
-                <CalendarDatePicker 
-                    x:Name="CdpDateStart"
-                    Watermark="Введите дату начала" 
-                    HorizontalAlignment="Stretch"/>
-                <CalendarDatePicker 
-                    x:Name="CdpDateEnd"
-                    Watermark="Введите дату конца" 
-                    HorizontalAlignment="Stretch"/>
-            </StackPanel>
-            
-            <StackPanel x:Name="PanelSelectedItem">
-                <ComboBox
-                    PlaceholderText="Выберите крой"/>
-            </StackPanel>
-            
-            <ComboBox x:Name="CmbAges"
-                      DisplayMemberBinding="{Binding DataType=models:AgeEntity, Path=Name}"
-                      HorizontalAlignment="Stretch"
-                      SelectionChanged="SelectedTypeOfSize"
-                      />
-            
-            <ComboBox x:Name="CmbSizes" 
-                      DisplayMemberBinding="{Binding DataType=models:SizeEntity, Path=Number}" 
-                      HorizontalAlignment="Stretch"/>
-            
-            <TextBlock Text="Пачки"/>
-            
-            <StackPanel x:Name="MainPanel">
-                <StackPanel Orientation="Horizontal" Width="500">
-                    <TextBox x:Name="NudCount" 
-                             KeyDown="InputSymbol"
-                             Focusable="True"
-                             Text=""
-                             Watermark="Введите количество"
-                             Width="125"
-                             />
-                    <ComboBox x:Name="CmbMaterials" 
-                              DisplayMemberBinding="{Binding DataType=models:MaterialEntity, Path=Name}"
-                              SelectedValueBinding="{Binding DataType=models:MaterialEntity, Path=Id}"
-                              SelectedValue="{Binding DataType=models:PackageEntity, Path=MaterialId}"
-                              PlaceholderText="Выберите материал"
-                              Width="125"
-                              />
-                              
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <WrapPanel HorizontalAlignment="Left" Margin="0 0 0 20">
+                <Button Content="Сохранить" 
+                        Click="TrySaveElements" 
+                        Background="PaleGreen"
+                        FontWeight="Bold"/>
+                <Button Content="Назад" 
+                        Margin="5 0"
+                        Click="Back"/>
+            </WrapPanel>
+            <CheckBox x:Name="IsNewCut" 
+                      IsChecked="False" 
+                      Content="Новый крой"
+                      IsCheckedChanged="CheckOnPartyAdded"/>
+
+                <StackPanel 
+                    IsVisible="{Binding ElementName=IsNewCut, Path=IsChecked}"
+                    Width="500"
+                    HorizontalAlignment="Left">
+                    <TextBlock Text="Создания кроя" 
+                               FontWeight="Bold" 
+                               FontSize="20"/>
+                    <TextBox
+                        x:Name="TbCutNumber"
+                        Watermark="Введите номер кроя"
+                        Text=""
+                        />
+                    <ComboBox
+                        x:Name="CbPersons"
+                        PlaceholderText="Выберите человека" 
+                        HorizontalAlignment="Stretch"
+                        DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
+                        Margin="0 5 0 0"/>
+                    <ComboBox 
+                        x:Name="CbModels"
+                        PlaceholderText="Выберите модель" 
+                        HorizontalAlignment="Stretch"
+                        DisplayMemberBinding="{Binding DataType=models:ModelEntity, Path=Title}"
+                        Margin="0 5 0 0"/>
+                    <WrapPanel Margin="0 5 0 0">
+                        <CalendarDatePicker 
+                            x:Name="CdpDateStart"
+                            Watermark="Введите дату начала" 
+                            HorizontalAlignment="Stretch"
+                            Width="240" />
+                        
+                        <TextBlock Text=" - " Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        
+                        <CalendarDatePicker 
+                            x:Name="CdpDateEnd"
+                            Watermark="Введите дату конца" 
+                            HorizontalAlignment="Stretch"
+                            Width="240" />
+                    </WrapPanel>
+                    
+                    
                 </StackPanel>
+            
+                <StackPanel x:Name="PanelSelectedItem" Width="500" HorizontalAlignment="Left">
+                    <TextBlock Text="Выбор кроя"
+                               FontWeight="Bold" 
+                               FontSize="20"/>
+                    
+                    <ComboBox x:Name="CmbPersons" 
+                              DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
+                              HorizontalAlignment="Stretch"
+                              Margin="0 0 0 5"
+                              SelectionChanged="SelectedPerson"/>
+                    <ComboBox
+                        x:Name="CbParties"
+                        PlaceholderText="Выберите крой"
+                        IsVisible="False"
+                        HorizontalAlignment="Stretch"
+                        DisplayMemberBinding="{Binding DataType=models:PartyEntity, Path=CutNumber}"/>
+                </StackPanel>
+            
             </StackPanel>
             
-            <Button Content="Сохранить" Click="TrySaveElements"/>
-        </StackPanel>
-    </ScrollViewer>
+            <TabControl Grid.Column="0"  Grid.Row="1">
+                <TabItem Header="Размер">
+                    <StackPanel Width="300" HorizontalAlignment="Left">
+                        <TextBlock Text="Выберите растовку" FontWeight="Bold"/>
+                        <ComboBox x:Name="CmbAges"
+                                  DisplayMemberBinding="{Binding DataType=models:AgeEntity, Path=Name}"
+                                  HorizontalAlignment="Stretch"
+                                  SelectionChanged="SelectedTypeOfSize"
+                                  Margin="0 0 0 5"
+                        />
+                        
+                        <TextBlock x:Name="TblSize" Text="Выберите размер" IsVisible="False" FontWeight="Bold"/>
+                        
+                        <ComboBox x:Name="CmbSizes"
+                                  DisplayMemberBinding="{Binding DataType=models:SizeEntity, Path=Number}"
+                                  IsVisible="False"
+                                  HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </TabItem>
+                
+                <TabItem Header="Пачки">
+                        <Grid RowDefinitions="35,*">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock Text="Количество" Width="250" FontWeight="Bold"/>
+                                <TextBlock Text="Материал" Width="250" FontWeight="Bold"/>
+                            </StackPanel>
+                            <ScrollViewer Grid.Row="1">
+                                <StackPanel x:Name="MainPanel" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Width="500" Margin="0 5 0 0">
+                                        <TextBox x:Name="NudCount" 
+                                                 KeyDown="InputSymbol"
+                                                 Focusable="True"
+                                                 Text=""
+                                                 Watermark="Введите количество"
+                                                 Width="245"
+                                                 Margin="0 0 5 0"
+                                        />
+                                        <ComboBox x:Name="CmbMaterials" 
+                                                  DisplayMemberBinding="{Binding DataType=models:MaterialEntity, Path=Name}"
+                                                  SelectedValueBinding="{Binding DataType=models:MaterialEntity, Path=Id}"
+                                                  SelectedValue="{Binding DataType=models:PackageEntity, Path=MaterialId}"
+                                                  PlaceholderText="Выберите материал"
+                                                  Width="250"
+                                        />
+                                  
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                </TabItem>
+            </TabControl>
+    </Grid>
 </UserControl>

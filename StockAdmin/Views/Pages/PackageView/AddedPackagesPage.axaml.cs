@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using LiveChartsCore.VisualElements;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
+using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.PackageView;
 
@@ -36,52 +42,154 @@ public partial class AddedPackagesPage : UserControl
 
     private async void Init()
     {
-        var repository = new AgeRepository();
-        var repositoryMaterials = new MaterialRepository();
+        var ageRepository = new AgeRepository();
+        var materialRepository = new MaterialRepository();
+
+        var partyRepository = new PartyRepository();
+        var modelRepository = new ModelRepository();
+        var personRepository = new PersonRepository();
         
-        CmbAges.ItemsSource = await repository.GetAllAsync();
-        CmbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
-        
+        CmbAges.ItemsSource = await ageRepository.GetAllAsync();
+        CmbMaterials.ItemsSource = await materialRepository.GetAllAsync();
+        var list = await personRepository.GetAllAsync();
+        CbPersons.ItemsSource = list;
+        CmbPersons.ItemsSource = list;
+        CbModels.ItemsSource = await modelRepository.GetAllAsync();
+        CbParties.ItemsSource = await partyRepository.GetAllAsync();
     }
     
     private async void TrySaveElements(object? sender, RoutedEventArgs e)
     {
-        PackageRepository packageRepository = new PackageRepository();
+        var packageRepository = new PackageRepository();
 
         try
         {
-            var packagesList = ReadAllPackagesTextBox();
-            await packageRepository.CreateAsync(packagesList);
+            PartyEntity partyEntity;
+
+            if (IsNewCut.IsChecked == true)
+            {
+                partyEntity = await CreatePartyAsync();
+            }
+            else
+            {
+                if (CbParties.SelectedItem is not PartyEntity party)
+                {
+                    throw new ValidationException("Выберите крой");
+                }
+
+                partyEntity = party;
+            }
+
+            var packagesList = ReadAllPackagesTextBox(partyEntity);
+            List<PackageEntity>? packageEntities =  await packageRepository.CreateAsync(packagesList);
+            ModelEntity model = CbModels.SelectedItem as ModelEntity;
+            var priceRepository = new PriceRepository();
+            var clothOperationRepository = new ClothOperationRepository();
+            foreach (var package in packageEntities)
+            {
+                foreach (var operation in model.Operations)
+                {
+                    //TODO: сделать, чтобы можно было выбирать цену
+                    PriceEntity price = new PriceEntity()
+                    {
+                        //Number = model.Price!.Number * operation.Percent / 100.0,
+                    };
+
+                    PriceEntity createdPrice = await priceRepository.CreateAsync(price);
+                    
+                    ClothOperationEntity clothOperationEntity = new ClothOperationEntity
+                    {
+                        OperationId = operation.Id,
+                        PriceId = createdPrice.Id,
+                        PackageId = package.Id
+                        
+                    };
+
+                    await clothOperationRepository.CreateAsync(clothOperationEntity);
+                }
+                
+            }
             
+
             _frame.Content = new PackagePage(_frame);
+        }
+        catch (ValidationException ex)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
         catch (Exception)
         {
-            // TODO: ignored
+            ElementConstants.ErrorController.AddErrorMessage("Ошибка! проверьте все поля на ввод");
         }
     }
 
-    private List<PackageEntity> ReadAllPackagesTextBox()
+    private async Task<PartyEntity> CreatePartyAsync()
     {
-        SizeEntity sizeEntity = (CmbSizes.SelectedItem as SizeEntity)!;
-        List<PackageEntity> packages = new List<PackageEntity>();
+        CheckFields();
 
-        foreach (Control control in MainPanel.Children)
+        var repository = new PartyRepository();
+        
+        var model = (CbModels.SelectedItem as ModelEntity)!;
+        var person = (CbPersons.SelectedItem as PersonEntity)!;
+        
+        var partyEntity = new PartyEntity()
         {
-            if (control is StackPanel stackPanel)
-            {
-                TextBox tbCount = (stackPanel.Children[0] as TextBox)!;
-                ComboBox cbMaterials = (stackPanel.Children[1] as ComboBox)!;
+            CutNumber = TbCutNumber.Text!,
+            DateStart = CdpDateStart.SelectedDate!.Value,
+            DateEnd = CdpDateStart.SelectedDate.Value,
+            PersonId = person.Id,
+            ModelId = model.Id
+        };
+        var createdParty = await repository.CreateAsync(partyEntity);
+        return createdParty;
+    }
 
-                int count = Convert.ToInt32(tbCount.Text);
-                MaterialEntity materialEntity = cbMaterials.SelectedItem as MaterialEntity;
+    private void CheckFields()
+    {
+        string cutNumber = TbCutNumber.Text!;
+        cutNumber.ContainLengthBetweenValues(new LengthVector(1, 10), "Артикул партии может быть от 1 до 10 символов");
+        
+        if (CbModels.SelectedItem == null)
+        {
+            throw new ValidationException("Выберите модель!");
+        }
+        
+        if (CbPersons.SelectedItem == null)
+        {
+            throw new ValidationException("Выберите человека кройщика");
+        }
 
-                PackageEntity packageEntity = new PackageEntity()
-                    { Count = count, SizeId = sizeEntity.Id, 
-                        PersonId = ServerConstants.Token.Id, 
-                        MaterialId = materialEntity!.Id, };
-                packages.Add(packageEntity);
-            }
+        if (CdpDateStart.SelectedDate == null)
+        {
+            throw new ValidationException("Выберите дату начала кройки");
+        }
+    }
+    
+    private List<PackageEntity> ReadAllPackagesTextBox(PartyEntity party)
+    {
+        var sizeEntity = (CmbSizes.SelectedItem as SizeEntity)!;
+        var packages = new List<PackageEntity>();
+
+        foreach (var control in MainPanel.Children)
+        {
+            if (control is not StackPanel stackPanel) continue;
+            
+            var tbCount = (stackPanel.Children[0] as TextBox)!;
+            var cbMaterials = (stackPanel.Children[1] as ComboBox)!;
+
+            var count = Convert.ToInt32(tbCount.Text);
+            var materialEntity = cbMaterials.SelectedItem as MaterialEntity;
+
+            var packageEntity = new PackageEntity
+              { 
+                Count = count, 
+                SizeId = sizeEntity.Id, 
+                PersonId = ServerConstants.Token.Id, 
+                MaterialId = materialEntity!.Id,
+                PartyId = party.Id
+              };
+                
+            packages.Add(packageEntity);
         }
 
         return packages;
@@ -113,17 +221,18 @@ public partial class AddedPackagesPage : UserControl
     
     private void CreateNewElement(object sender)
     {
-        StackPanel stack = (MainPanel.Children[^1] as StackPanel)!;
-        StackPanel grid = new StackPanel()
+        var stack = (MainPanel.Children[^1] as StackPanel)!;
+        var grid = new StackPanel()
         {
-            Orientation = stack.Orientation
+            Orientation = stack.Orientation,
+            Margin = stack.Margin
         };
         
-        TextBox lastText = stack.Children[0] as TextBox;
-        ComboBox cbComboMaterials = stack.Children[1] as ComboBox;
+        var lastText = stack.Children[0] as TextBox;
+        var cbComboMaterials = stack.Children[1] as ComboBox;
 
-        var countTextBox = CreateCopyTextBox(lastText);
-        var cbMaterial = CreateCopyComboBox(cbComboMaterials);
+        var countTextBox = CreateCopyTextBox(lastText!);
+        var cbMaterial = CreateCopyComboBox(cbComboMaterials!);
         
         countTextBox.KeyDown += InputSymbol;
         
@@ -138,25 +247,28 @@ public partial class AddedPackagesPage : UserControl
 
     private TextBox CreateCopyTextBox(TextBox template)
     {
-        TextBox textBox = new TextBox()
+        var textBox = new TextBox()
         {
             Watermark = template.Watermark,
             Text = template.Text,
-            Width = template.Width
+            Width = template.Width,
+            Margin = template.Margin
         };
         return textBox;
     }
     
     private ComboBox CreateCopyComboBox(ComboBox template)
     {
-        ComboBox comboBox = new ComboBox()
+        var comboBox = new ComboBox()
         {
             DisplayMemberBinding = template.DisplayMemberBinding,
             SelectedValueBinding = template.SelectedValueBinding,
             SelectedValue = template.SelectedValue,
+            SelectedItem = template.SelectedItem,
             ItemsSource = template.ItemsSource,
             HorizontalAlignment = template.HorizontalAlignment,
-            Width = template.Width
+            Width = template.Width,
+            Margin = template.Margin
         };
         
         return comboBox;
@@ -168,11 +280,13 @@ public partial class AddedPackagesPage : UserControl
         
         if (index > 0)
         {
-            MainPanel.Children[index - 1].Focus();
+            StackPanel stackPanel = MainPanel.Children[index - 1] as StackPanel;
+            stackPanel.Children[0].Focus();
         }
         else
         {
-            MainPanel.Children[^1].Focus();
+            StackPanel stackPanel = MainPanel.Children[^1] as StackPanel;
+            stackPanel.Children[0].Focus();
         }
     }
     
@@ -182,25 +296,22 @@ public partial class AddedPackagesPage : UserControl
         
         if (index < MainPanel.Children.Count - 1)
         {
-            MainPanel.Children[index + 1].Focus();
+            StackPanel stackPanel = MainPanel.Children[index + 1] as StackPanel;
+            stackPanel.Children[0].Focus();
         }
         else
         {
-            MainPanel.Children[0].Focus();
+            StackPanel stackPanel = MainPanel.Children[0] as StackPanel;
+            stackPanel.Children[0].Focus();
         }
     }
 
     private int GetIndexOfElement(object sender)
     {
-        TextBox textBox = (sender as TextBox)!;
-        return MainPanel.Children.IndexOf(textBox);
+        StackPanel stackPanel = (sender as TextBox).Parent as StackPanel;
+        return MainPanel.Children.IndexOf(stackPanel);
     }
     
-    public override string ToString()
-    {
-        return "Добавление пачек";
-    }
-
     private void CheckOnPartyAdded(object? sender, RoutedEventArgs e)
     {
         PanelSelectedItem.IsVisible = IsNewCut.IsChecked == false;
@@ -208,13 +319,32 @@ public partial class AddedPackagesPage : UserControl
 
     private async void SelectedTypeOfSize(object? sender, SelectionChangedEventArgs e)
     {
-        if (CmbAges.SelectedItem is AgeEntity entity)
-        {
-            var repository = new SizeRepository();
-
-            CmbSizes.IsVisible = true;
-            CmbSizes.ItemsSource = await repository.GetAllAsync(entity.Id);
-        }
+        if (CmbAges.SelectedItem is not AgeEntity entity) return;
         
+        var repository = new SizeRepository();
+        
+        CmbSizes.IsVisible = true;
+        TblSize.IsVisible = true;
+        CmbSizes.ItemsSource = await repository.GetAllAsync(entity.Id);
+
+    }
+    
+    public override string ToString()
+    {
+        return "Добавление пачек";
+    }
+
+    private async void SelectedPerson(object? sender, SelectionChangedEventArgs e)
+    {
+        if(CmbPersons.SelectedItem is not PersonEntity personEntity) return;
+        
+        var repository = new PartyRepository();
+        CbParties.IsVisible = true;
+        CbParties.ItemsSource = await repository.GetAllAsync(personEntity.Id);
+    }
+
+    private void Back(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new PackagePage(_frame);
     }
 }
