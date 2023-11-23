@@ -1,6 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.ClothOperationView;
@@ -37,10 +40,39 @@ public partial class AddedClothOperationPage : UserControl
         DataContext = _clothOperationEntity;
     }
 
-    private async void SaveChanges(object? sender, RoutedEventArgs e)
+    private async void TrySaveChanges(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            CheckFields();
+            await SaveChanges();
+            _frame.Content = new ClothOperationPage(_packageEntity, _frame);
+        }
+        catch (ValidationException ex)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+
+    }
+
+    private void CheckFields()
+    {
+        if (CmbOperation.SelectedItem == null)
+        {
+            throw new ValidationException("Выберите операцию");
+        }
+    }
+    
+    private async Task SaveChanges()
     {
         var clothOperationRepository = new ClothOperationRepository();
-        
+        if (CmbOperation.SelectedItem is not OperationEntity operationEntity)
+        {
+            return;
+        }
+        double numberOnPrice = _packageEntity.Party.Price.Number * operationEntity.Percent / 100.0;
+        var price = await new PriceRepository().CreateAsync(new PriceEntity { Number = numberOnPrice });
+        _clothOperationEntity.PriceId = price.Id;
         if (_clothOperationEntity.Id == 0)
         {
             await clothOperationRepository.CreateAsync(_clothOperationEntity);
@@ -49,8 +81,6 @@ public partial class AddedClothOperationPage : UserControl
         {
             await clothOperationRepository.UpdateAsync(_clothOperationEntity);
         }
-
-        _frame.Content = new ClothOperationPage(_packageEntity, _frame);
     }
     
     public override string ToString()

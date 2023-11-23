@@ -10,8 +10,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        
         
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBox x:Name="Finder" 
@@ -19,22 +19,8 @@
                      HorizontalAlignment="Left"
                      Width="200"
                      TextChanged="TextChanged"/>
-            <TextBlock Text="Выберите месяц: " FontWeight="Bold" Margin="20 0 0 0 " VerticalAlignment="Center"/>
-            <StackPanel x:Name="MonthButtons" Orientation="Horizontal">
-                <Button Content="1" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="2" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="3" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="4" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="5" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="6" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="7" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="8" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="9" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="10" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="11" Margin="5 0 0 0 " Click="ChangeMonth"/>
-                <Button Content="12" Margin="5 0 0 0 " Click="ChangeMonth"/>
-            </StackPanel>
         </StackPanel>
+        
         <DataGrid Grid.Row="1" x:Name="List" 
                   RowDetailsVisibilityMode="Visible">
             <DataGrid.Columns>
@@ -64,7 +50,9 @@
                                         <Border Padding="2 5" Margin="5" Height="35" 
                                                 CornerRadius="10" 
                                                 Background="{Binding Path=StatusColor}">
-                                            <TextBlock Text="{Binding Status}"/>
+                                            <TextBlock HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center" 
+                                                       FontWeight="Bold" Text="{Binding Status}"/>
                                         </Border>
                                     </DataTemplate>
                                 </DataGridTemplateColumn>
@@ -133,6 +121,62 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Выберите месяц: " 
+                       VerticalAlignment="Center" 
+                       FontWeight="Bold" 
+                       Margin="10 0 0 0 "/>
+            <StackPanel x:Name="MonthButtons" Orientation="Horizontal">
+                <Button Content="1" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="2" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="3" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="4" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="5" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="6" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="7" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="8" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="9" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="10" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="11" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+                <Button Content="12" 
+                Margin="5 0 0 0 " 
+                Click="ChangeMonth"
+                />
+            </StackPanel>
+        </StackPanel>
         
         <Button Grid.Row="1" 
                 Classes="plus"
@@ -140,7 +184,7 @@
         <Grid x:Name="DeletedContainer" 
               IsVisible="False" 
               Grid.Row="0" 
-              Grid.RowSpan="2">
+              Grid.RowSpan="3">
             
             <Border 
                 Classes="deleteBackground"
@@ -170,7 +214,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
+        <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="3" Background="White">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
                 <TextBlock Text="Пожалуйста подождите"/>

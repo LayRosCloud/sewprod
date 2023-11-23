@@ -7,13 +7,14 @@
              x:Class="StockAdmin.Views.Pages.StatisticPeople.StatisticPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+        <TextBlock x:Name="Text" HorizontalAlignment="Right"/>
         <ComboBox Grid.Row="0" 
             x:Name="GroupItems"/>
         
-        <avalonia:CartesianChart Grid.Row="1" x:Name="Chart"/>
+        <avalonia:CartesianChart Grid.Row="1" 
+                                 x:Name="Chart" />
     </Grid>
 </UserControl>

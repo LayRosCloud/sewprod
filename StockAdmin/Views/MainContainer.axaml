@@ -256,9 +256,9 @@
         </Border>
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Border Background="White" CornerRadius="50" Width="35" Height="35" >
-                    <TextBlock Text="СВ" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock x:Name="ShortName" Text="СВ" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
                 </Border>
-                <TextBlock Text="Степанов Виталий" VerticalAlignment="Center" Margin="10 0"/>
+                <TextBlock x:Name="LongName" Text="Степанов Виталий" VerticalAlignment="Center" Margin="10 0"/>
             </StackPanel>
         <ContentControl Grid.Column="1" 
                         Grid.Row="1" 
@@ -296,7 +296,12 @@
             </StackPanel>
         </Border>
         
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="ErrorContainer" Grid.Row="1" Width="200" Grid.Column="1" Margin="10">
+        <StackPanel HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom" 
+                    x:Name="ErrorContainer" 
+                    Grid.Row="1" 
+                    Width="200"
+                    Grid.Column="1" Margin="10">
         </StackPanel>
     </Grid>
 </Window>

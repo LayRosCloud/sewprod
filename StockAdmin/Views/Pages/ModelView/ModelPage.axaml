@@ -7,8 +7,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.ModelPage">
     <Grid RowDefinitions="35,*" ColumnDefinitions="*, *">
-        
-        <StackPanel Grid.Column="0" Grid.Row="0" 
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" CornerRadius="10" BorderBrush="#427D9D" BorderThickness="1"/>
+        <StackPanel Grid.Column="0" Grid.Row="0"
+                    Margin="5"
                     Orientation="Horizontal">
             <TextBox x:Name="Finded"
                 Watermark="Поиск..."
@@ -22,9 +23,14 @@
                  IsVisible="{Binding ElementName=List, Path=SelectedItem, Converter={StaticResource NotExistConverter}}"
                  Margin="10 0"
                  Width="200"/>
-        
+        <TextBlock Grid.Column="1" Grid.Row="0"
+                   FontSize="18"
+                   IsVisible="{Binding ElementName=List, Path=SelectedItem, Converter={StaticResource NotExistConverter}}"
+                   HorizontalAlignment="Center" 
+                   Text="Цены" FontWeight="Bold"/>
         <DataGrid Grid.Column="0" 
-            Grid.Row="1" 
+            Grid.Row="1"
+            Margin="5 0"
             SelectionChanged="SelectedModel"
             x:Name="List">
             <DataGrid.Columns>
@@ -58,17 +64,28 @@
         <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="*, *" Margin="10 0">
             <DataGrid Grid.Row="0" x:Name="Prices">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Число" Binding="{Binding DataType=models:PriceEntity, Path=Number}"/>
+                    <DataGridTextColumn Header="цена" 
+                                        Binding="{Binding DataType=models:PriceEntity, Path=Number}"/>
+                    <DataGridTemplateColumn>
+                        <DataTemplate DataType="models:PriceEntity">
+                            <StackPanel>
+                                <Button Content="🗑️"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            
+            <Border Grid.Row="0" CornerRadius="10" BorderBrush="#427D9D" BorderThickness="1"/>
+
             <Border x:Name="DisplayedPrices"
                     Grid.Column="0" 
                     Grid.Row="0" Background="White" 
                     IsVisible="{Binding ElementName=List, Path=SelectedItem, 
                     Converter={StaticResource ExistConverter}}"
                     BorderThickness="1" 
-                    BorderBrush="Black" CornerRadius="10">
+                    BorderBrush="Black"
+                    CornerRadius="10">
+                
                 <StackPanel HorizontalAlignment="Center" 
                             VerticalAlignment="Center">
                     <TextBlock Text="Выберите модель!" 
@@ -82,14 +99,29 @@
             </Border>
             
             <Grid  Grid.Row="1" Margin="0 10" RowDefinitions="35,*">
+                <Border Grid.Row="1" 
+                        CornerRadius="10" 
+                        BorderBrush="#427D9D" 
+                        BorderThickness="1"
+                        />
+
                 <TextBox Watermark="Поиск..." 
                          Grid.Row="0" 
                          Width="200" 
                          IsVisible="{Binding ElementName=List, Path=SelectedItem, 
                          Converter={StaticResource NotExistConverter}}"
-                         HorizontalAlignment="Left"/>
+                         HorizontalAlignment="Left"
+                         />
+                
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" 
+                           Text="Операции"
+                           FontSize="18"
+                           IsVisible="{Binding ElementName=List, 
+                           Path=SelectedItem, 
+                           Converter={StaticResource NotExistConverter}}"
+                           FontWeight="Bold"/>
 
-                <DataGrid Grid.Row="1"  x:Name="Operations">
+                <DataGrid Grid.Row="1" x:Name="Operations">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Операция" 
                                             Binding="{Binding DataType=models:OperationEntity, Path=Name}"
@@ -97,6 +129,13 @@
                         <DataGridTextColumn Header="Описание" 
                                             Binding="{Binding DataType=models:OperationEntity, Path=Description}"
                                             IsReadOnly="True"/>
+                        <DataGridTemplateColumn>
+                            <DataTemplate DataType="models:OperationEntity">
+                                <StackPanel>
+                                    <Button Content="🗑️"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Border x:Name="DisplayedOperations" 
@@ -110,12 +149,13 @@
                         CornerRadius="10">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Выберите модель!" FontSize="25" FontWeight="Bold"/>
-                        <TextBlock Text="После того, как вы выберете модель это сообщение автоматически уберется" FontSize="14"/>
+                        <TextBlock Text="После того, как вы выберете модель это сообщение автоматически уберется" 
+                                   FontSize="14"/>
                     </StackPanel>
+                    
                 </Border>
             </Grid>
         </Grid>
-        
         
         <Grid Grid.Column="0" 
               x:Name="DeletedContainer" 

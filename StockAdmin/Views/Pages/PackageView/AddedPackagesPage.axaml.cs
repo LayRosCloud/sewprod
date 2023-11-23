@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using LiveChartsCore.VisualElements;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace StockAdmin.Views.Pages.PackageView;
 
@@ -68,7 +69,7 @@ public partial class AddedPackagesPage : UserControl
 
             if (IsNewCut.IsChecked == true)
             {
-                partyEntity = await CreatePartyAsync();
+                partyEntity = CreateParty();
             }
             else
             {
@@ -80,37 +81,42 @@ public partial class AddedPackagesPage : UserControl
                 partyEntity = party;
             }
 
+            partyEntity = await new PartyRepository().CreateAsync(partyEntity);
             var packagesList = ReadAllPackagesTextBox(partyEntity);
-            List<PackageEntity>? packageEntities =  await packageRepository.CreateAsync(packagesList);
-            ModelEntity model = CbModels.SelectedItem as ModelEntity;
+            
+            if (CbPrices.SelectedItem is not PriceEntity priceEntity)
+            {
+                throw new ValidationException("Выберите цену!");
+            }
+            
+            var packageEntities =  await packageRepository.CreateAsync(packagesList);
+            var model = CbModels.SelectedItem as ModelEntity;
+            
             var priceRepository = new PriceRepository();
             var clothOperationRepository = new ClothOperationRepository();
-            foreach (var package in packageEntities)
+            
+            foreach (var package in packageEntities!)
             {
-                foreach (var operation in model.Operations)
+                foreach (var operation in model!.Operations!)
                 {
-                    //TODO: сделать, чтобы можно было выбирать цену
-                    PriceEntity price = new PriceEntity()
+                    var price = new PriceEntity
                     {
-                        //Number = model.Price!.Number * operation.Percent / 100.0,
+                        Number = priceEntity.Number * operation.Percent / 100.0
                     };
 
-                    PriceEntity createdPrice = await priceRepository.CreateAsync(price);
+                    var createdPrice = await priceRepository.CreateAsync(price);
                     
-                    ClothOperationEntity clothOperationEntity = new ClothOperationEntity
+                    var clothOperationEntity = new ClothOperationEntity
                     {
                         OperationId = operation.Id,
                         PriceId = createdPrice.Id,
                         PackageId = package.Id
-                        
                     };
 
                     await clothOperationRepository.CreateAsync(clothOperationEntity);
                 }
-                
             }
             
-
             _frame.Content = new PackagePage(_frame);
         }
         catch (ValidationException ex)
@@ -123,38 +129,34 @@ public partial class AddedPackagesPage : UserControl
         }
     }
 
-    private async Task<PartyEntity> CreatePartyAsync()
+    private PartyEntity CreateParty()
     {
-        CheckFields();
-
-        var repository = new PartyRepository();
-        
-        var model = (CbModels.SelectedItem as ModelEntity)!;
-        var person = (CbPersons.SelectedItem as PersonEntity)!;
+        (var model, var person, var dateStart, var price, var cutNumber) = CheckFieldsParty();
         
         var partyEntity = new PartyEntity()
         {
-            CutNumber = TbCutNumber.Text!,
-            DateStart = CdpDateStart.SelectedDate!.Value,
-            DateEnd = CdpDateStart.SelectedDate.Value,
+            CutNumber = cutNumber,
+            DateStart = dateStart,
+            DateEnd = CdpDateStart.SelectedDate!.Value,
             PersonId = person.Id,
-            ModelId = model.Id
+            PriceId = price.Id,
+            ModelId = model.Id,
+            Price = price
         };
-        var createdParty = await repository.CreateAsync(partyEntity);
-        return createdParty;
+        return partyEntity;
     }
 
-    private void CheckFields()
+    private (ModelEntity, PersonEntity, DateTime, PriceEntity, string) CheckFieldsParty()
     {
         string cutNumber = TbCutNumber.Text!;
         cutNumber.ContainLengthBetweenValues(new LengthVector(1, 10), "Артикул партии может быть от 1 до 10 символов");
         
-        if (CbModels.SelectedItem == null)
+        if (CbModels.SelectedItem is not ModelEntity modelEntity)
         {
             throw new ValidationException("Выберите модель!");
         }
         
-        if (CbPersons.SelectedItem == null)
+        if (CbPersons.SelectedItem is not PersonEntity personEntity)
         {
             throw new ValidationException("Выберите человека кройщика");
         }
@@ -163,13 +165,24 @@ public partial class AddedPackagesPage : UserControl
         {
             throw new ValidationException("Выберите дату начала кройки");
         }
+        
+        if (CbPrices.SelectedItem is not PriceEntity priceEntity)
+        {
+            throw new ValidationException("Выберите цену!");
+        }
+        
+        return (modelEntity, personEntity, CdpDateStart.SelectedDate.Value, priceEntity, cutNumber);
     }
     
     private List<PackageEntity> ReadAllPackagesTextBox(PartyEntity party)
     {
-        var sizeEntity = (CmbSizes.SelectedItem as SizeEntity)!;
+        if (CmbSizes.SelectedItem is not SizeEntity sizeEntity)
+        {
+            throw new ValidationException("Выберите размер!");
+        }
+        
         var packages = new List<PackageEntity>();
-
+        
         foreach (var control in MainPanel.Children)
         {
             if (control is not StackPanel stackPanel) continue;
@@ -203,8 +216,9 @@ public partial class AddedPackagesPage : UserControl
         {
             action.Invoke(sender!);
         }
-        
-        if (e.Key is (< Key.D0 or > Key.D9) and (< Key.NumPad0 or > Key.NumPad9))
+
+        char k = 'a';
+        if ((e.Key < Key.D0 || e.Key > Key.D9) && (e.Key< Key.NumPad0 || e.Key > Key.NumPad9))
         {
             e.Handled = true;
         }
@@ -212,66 +226,36 @@ public partial class AddedPackagesPage : UserControl
 
     private void RemoveSelectedTextBox(object sender)
     {
-        if (MainPanel.Children.Count != 1 && sender is TextBox textBox)
+        if (MainPanel.Children.Count > 1 && sender is TextBox textBox)
         {
             MainPanel.Children.Remove(textBox.Parent as StackPanel);
-            MainPanel.Children[^1].Focus();
+            (MainPanel.Children[^1] as StackPanel).Children[0].Focus();
         }
     }
     
     private void CreateNewElement(object sender)
     {
-        var stack = (MainPanel.Children[^1] as StackPanel)!;
-        var grid = new StackPanel()
-        {
-            Orientation = stack.Orientation,
-            Margin = stack.Margin
-        };
+        var controller = new ItemControlController();
         
+        var stack = (MainPanel.Children[^1] as StackPanel)!;
         var lastText = stack.Children[0] as TextBox;
         var cbComboMaterials = stack.Children[1] as ComboBox;
-
-        var countTextBox = CreateCopyTextBox(lastText!);
-        var cbMaterial = CreateCopyComboBox(cbComboMaterials!);
+        var countTextBox = controller.CreateTextBox(lastText!, InputSymbol);
         
-        countTextBox.KeyDown += InputSymbol;
+        var containerController = new ContainerController(controller.CreateStackPanel(stack))
+        {
+            Controls =
+            {
+                countTextBox,
+                controller.CreateComboBox(cbComboMaterials!)
+            }
+        };
         
-        grid.Children.Add(countTextBox);
-        grid.Children.Add(cbMaterial);
+        containerController.PushElementsToPanel();
+        containerController.AddPanelToParent(MainPanel);
         
-        MainPanel.Children.Add(grid);
         countTextBox.Focus();
-        
         countTextBox.SelectionStart = countTextBox.Text!.Length;
-    }
-
-    private TextBox CreateCopyTextBox(TextBox template)
-    {
-        var textBox = new TextBox()
-        {
-            Watermark = template.Watermark,
-            Text = template.Text,
-            Width = template.Width,
-            Margin = template.Margin
-        };
-        return textBox;
-    }
-    
-    private ComboBox CreateCopyComboBox(ComboBox template)
-    {
-        var comboBox = new ComboBox()
-        {
-            DisplayMemberBinding = template.DisplayMemberBinding,
-            SelectedValueBinding = template.SelectedValueBinding,
-            SelectedValue = template.SelectedValue,
-            SelectedItem = template.SelectedItem,
-            ItemsSource = template.ItemsSource,
-            HorizontalAlignment = template.HorizontalAlignment,
-            Width = template.Width,
-            Margin = template.Margin
-        };
-        
-        return comboBox;
     }
 
     private void NavigateToUp(object sender)
@@ -281,12 +265,12 @@ public partial class AddedPackagesPage : UserControl
         if (index > 0)
         {
             StackPanel stackPanel = MainPanel.Children[index - 1] as StackPanel;
-            stackPanel.Children[0].Focus();
+            stackPanel!.Children[0].Focus();
         }
         else
         {
             StackPanel stackPanel = MainPanel.Children[^1] as StackPanel;
-            stackPanel.Children[0].Focus();
+            stackPanel!.Children[0].Focus();
         }
     }
     
@@ -323,8 +307,6 @@ public partial class AddedPackagesPage : UserControl
         
         var repository = new SizeRepository();
         
-        CmbSizes.IsVisible = true;
-        TblSize.IsVisible = true;
         CmbSizes.ItemsSource = await repository.GetAllAsync(entity.Id);
 
     }
@@ -339,12 +321,16 @@ public partial class AddedPackagesPage : UserControl
         if(CmbPersons.SelectedItem is not PersonEntity personEntity) return;
         
         var repository = new PartyRepository();
-        CbParties.IsVisible = true;
         CbParties.ItemsSource = await repository.GetAllAsync(personEntity.Id);
     }
 
     private void Back(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new PackagePage(_frame);
+    }
+
+    private void SelectedModel(object? sender, SelectionChangedEventArgs e)
+    {
+        CbPrices.ItemsSource = (CbModels.SelectedItem as ModelEntity).Prices;
     }
 }

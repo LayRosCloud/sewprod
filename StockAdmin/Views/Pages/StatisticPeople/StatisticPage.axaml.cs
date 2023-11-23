@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
+using Avalonia.Input;
 using LiveChartsCore;
 using LiveChartsCore.Kernel;
+using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using StockAdmin.Models;
 
@@ -15,8 +17,7 @@ public partial class StatisticPage : UserControl
         InitializeComponent();
         var items = new List<string>(){"Пачки", "Операции"};
         GroupItems.ItemsSource = items;
-        
-        Chart.Series = new []{Series};
+        Chart.Series = new [] {Series};
         
         List<Axis> xAxes = new List<Axis>
         {
@@ -47,6 +48,10 @@ public partial class StatisticPage : UserControl
                     return point;
                 },
             };
+            series.ChartPointPointerDown += (chart, point) =>
+            {
+                Text.Text = point.Model.PersonId.ToString();
+            };
             return series;
         }
     }
@@ -54,5 +59,12 @@ public partial class StatisticPage : UserControl
     public override string ToString()
     {
         return "Статистика";
+    }
+
+
+
+    private void Chart_OnDataPointerDown(IChartView chart, IEnumerable<ChartPoint> points)
+    {
+        
     }
 }

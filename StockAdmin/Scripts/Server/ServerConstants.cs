@@ -78,6 +78,7 @@ public abstract class ServerConstants
     public abstract class Auth
     {
         public const string FieldToken = "token";
+        public const string FieldPosts = "posts";
     }
     
     public abstract class Permission
@@ -95,6 +96,8 @@ public abstract class ServerConstants
         public const string FieldCutNumber = "cutNumber";
         public const string FieldPerson = "person";
         public const string FieldModel = "model";
+        public const string FieldPriceId = "priceId";
+        public const string FieldPrice = "price";
         public const string FieldPackages = "packages";
     }
     
@@ -148,5 +151,17 @@ public abstract class ServerConstants
         public const string FieldOperation = "operation";
         public const string FieldPrice = "price";
         public const string FieldClothOperationPersons = "clothOperationPersons";
+    }
+    
+    public abstract class ModelOperation
+    {
+        public const string FieldOperationId = "operationId";
+        public const string FieldModelId = "modelId";
+    }
+    
+    public abstract class ModelPrice
+    {
+        public const string FieldModelId = "modelId";
+        public const string FieldPriceId = "priceId";
     }
 }

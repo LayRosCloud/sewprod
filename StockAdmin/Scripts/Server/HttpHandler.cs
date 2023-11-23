@@ -10,6 +10,7 @@ namespace StockAdmin.Scripts.Server;
 
 public class HttpHandler<TEntity>
 {
+    
     public async Task<List<TEntity>?> GetListFromJsonAsync(string point)
     {
         HttpClient httpClient = new HttpClient();

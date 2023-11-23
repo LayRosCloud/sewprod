@@ -15,13 +15,13 @@
             HorizontalAlignment="Stretch"
             />
         
-        <CalendarDatePicker
+        <CalendarDatePicker x:Name="CbDateStart"
             SelectedDate="{Binding DateStart}"/>
 		
 		<CheckBox x:Name="CbEnded"
                 IsChecked="{Binding IsEnded}"
                 Content="Окончена ли?"/>
 		
-        <Button Content="Отправить" Click="SaveChanges"/>
+        <Button Content="Отправить" Click="TrySaveChanges"/>
     </StackPanel>
 </UserControl>

@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
@@ -18,23 +19,39 @@ public partial class AddedModelPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly ModelEntity _modelEntity;
-    private readonly PriceRepository _priceRepository;
 
+    private readonly Hashtable _actionList;
+    
     public AddedModelPage(ContentControl frame) : this(frame, new ModelEntity())
     {
+        
     }
     
     public AddedModelPage(ContentControl frame, ModelEntity modelEntity)
     {
         InitializeComponent();
+        
         _frame = frame;
         _modelEntity = modelEntity;
-        _priceRepository = new PriceRepository();
+        
+        _actionList = new Hashtable();
+        
+        InitActions();
         Init();
     }
 
-    private void Init()
+    private void InitActions()
     {
+        _actionList.Add(Key.Up, "");
+        _actionList.Add(Key.Down, "");
+        _actionList.Add(Key.Enter, CreateNewElement);
+        _actionList.Add(Key.Decimal, DestroyPriceTextBox);
+    }
+    
+    private async void Init()
+    {
+        var repository = new OperationRepository();
+        CbOperations.ItemsSource = await repository.GetAllAsync();
         DataContext = _modelEntity;
     }
     
@@ -42,14 +59,20 @@ public partial class AddedModelPage : UserControl
     {
         try
         {
+            var operations = GetOperations();
+            var prices = GetPrices();
             CheckFields();
-            await SaveChanges();
+            await SaveChanges(operations, prices);
 
             _frame.Content = new ModelPage(_frame);
         }
         catch (ValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Непредвиденная ошибка");
         }
     }
 
@@ -59,18 +82,79 @@ public partial class AddedModelPage : UserControl
         var codeVendor = TbCodeVendor.Text!;
         title.ContainLengthBetweenValues(new LengthVector(1, 255), "Длина названия от 1 до 255 символов!");
         codeVendor.ContainLengthBetweenValues( new LengthVector(1, 30), "Длина артикула от 1 до 30 символов!");
-        var regex = new Regex(@"^\d+$");
-        
-        //TODO: changed on more prices
     }
+    
+    private List<PriceEntity> GetPrices()
+    {
+        var prices = new List<PriceEntity>();
+            
+        for (int i = 0; i < PricePanel.Children.Count - 1; i++)
+        {
+            if(PricePanel.Children[i] is TextBox textBox)
+            {
+                prices.Add(new PriceEntity{Number = Convert.ToDouble(textBox.Text)});
+            }
+            else
+            {
+                throw new ValidationException("Введите в каждое поле цену");
+            }
+        }
 
-    private async Task SaveChanges()
+        return prices;
+        }
+    
+    private List<OperationEntity> GetOperations()
+    {
+        var operations = new List<OperationEntity>();
+        
+        for (int index = 0; index < OperationsPanel.Children.Count - 1; index++)
+        {
+            ComboBox comboBox = (OperationsPanel.Children[index] as StackPanel).Children[0] as ComboBox;
+            if (comboBox.SelectedItem is OperationEntity entity)
+            {
+                operations.Add(entity);
+            }
+            else
+            {
+                throw new ValidationException("Выберите все операции!");
+            }
+        }
+
+        return operations;
+        }
+
+    private async Task SaveChanges(List<OperationEntity> operations, List<PriceEntity> prices)
     {
         var repository = new ModelRepository();
 
         if (_modelEntity.Id == 0)
         {
-            await repository.CreateAsync(_modelEntity);
+            var model = await repository.CreateAsync(_modelEntity);
+            var operationRepository = new ModelOperationRepository();
+            var priceRepository = new PriceRepository();
+            var modelPriceRepository = new ModelPriceRepository();
+            foreach (var operation in operations)
+            {
+                var modelOperation = new ModelOperationEntity()
+                {
+                    ModelId = model.Id,
+                    OperationId = operation.Id
+                };
+                
+                await operationRepository.CreateAsync(modelOperation);
+            }
+
+            foreach (var price in prices)
+            {
+                var createdPrice = await priceRepository.CreateAsync(price);
+                var modelPrice = new ModelPriceEntity()
+                {
+                    PriceId = createdPrice.Id,
+                    ModelId = model.Id
+                };
+
+                await modelPriceRepository.CreateAsync(modelPrice);
+            }
         }
         else
         {
@@ -81,5 +165,106 @@ public partial class AddedModelPage : UserControl
     public override string ToString()
     {
         return "Добавление / Обновление моделей";
+    }
+
+    private void InputSymbol(object? sender, KeyEventArgs e)
+    {
+        var key = e.Key;
+        object? actionObj = _actionList[key];
+        if (actionObj is Action<object?> action)
+        {
+            action.Invoke(sender!);
+        }
+
+        if (e.Key is (< Key.D0 or > Key.D9) and (< Key.NumPad0 or > Key.NumPad9) 
+            && e.Key != Key.Oem2 
+            && e.Key != Key.OemComma 
+            && e.Key != Key.OemPeriod )
+        {
+            e.Handled = true;
+        }
+    }
+    
+    private void CreateNewElement(object? sender)
+    {
+        var controller = new ItemControlController();
+        
+        var lastText = PricePanel.Children[^1] as TextBox;
+        var countTextBox = controller.CreateTextBox(lastText!, InputSymbol);
+        
+        var containerController = new ContainerController(PricePanel)
+        {
+            Controls =
+            {
+                countTextBox,
+            }
+        };
+        countTextBox.TextChanged += ReplaceOnNormalDoubleDigit;
+        containerController.PushElementsToPanel();
+        
+        countTextBox.Focus();
+        countTextBox.SelectionStart = countTextBox.Text!.Length;
+    }
+
+    private void DestroyPriceTextBox(object? sender)
+    {
+        if (PricePanel.Children.Count <= 1)
+        {
+            return;
+        }
+        PricePanel.Children.Remove(sender as TextBox);
+        (PricePanel.Children[^1] as TextBox).Focus();
+    }
+    
+    private void AddOperationControl(object? sender, RoutedEventArgs e)
+    {
+        var parent = (sender as Button)?.Parent as StackPanel;
+        var insidePanel = parent!.Children[^2] as StackPanel;
+        
+        var controller = new ItemControlController();
+        var containerController = new ContainerController(controller.CreateStackPanel(insidePanel!))
+        {
+            Controls =
+            {
+                controller.CreateComboBox(insidePanel!.Children[0] as ComboBox),
+                controller.CreateButton(insidePanel.Children[1] as Button, DeleteCurrentOperationItem)
+            }
+        };
+        
+        containerController.PushElementsToPanel();
+        
+        containerController.AddPanelToParent(parent, parent.Children.Count - 1);
+    }
+
+    private void DeleteCurrentOperationItem(object? sender, RoutedEventArgs e)
+    {
+        var currentStackPanel = (sender as Button)?.Parent as StackPanel;
+        var parent = currentStackPanel!.Parent as StackPanel;
+        if (parent?.Children.Count - 1 > 1)
+        {
+            parent.Children.Remove(currentStackPanel);
+        }
+    }
+
+    private void ReplaceOnNormalDoubleDigit(object? sender, TextChangedEventArgs e)
+    {
+        if(sender is not TextBox textBox) return;
+
+        string text = textBox.Text!;
+        text = text.ToLower();
+        const char letterOnChange = ',';
+
+        char[] letterOnChanged = { '.', 'ю', 'б', '<', '>', '/', '?' };
+        foreach (char character in letterOnChanged)
+        {
+            text = text.Replace(character, letterOnChange);
+        }
+
+        textBox.Text = text;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new ModelPage(_frame);
     }
 }

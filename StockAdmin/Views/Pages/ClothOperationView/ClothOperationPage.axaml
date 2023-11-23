@@ -6,32 +6,30 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:Class="StockAdmin.Views.Pages.ClothOperationView.ClothOperationPage" 
              x:DataType="models:ClothOperationEntity">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="35,*" ColumnDefinitions="*, *">
         <StackPanel Grid.Row="0" 
                     Orientation="Horizontal">
-            <TextBox x:Name="Finded" 
+            <TextBox x:Name="Finded"
                     Watermark="Поиск..."
                      Width="200" 
                      Background="White" TextChanged="TextChanged"/>
         </StackPanel>
-        <WrapPanel Grid.Row="0" 
+        <WrapPanel Grid.Column="0" Grid.Row="0" 
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center">
             <TextBlock x:Name="TitleText" 
                        FontWeight="Bold" FontSize="20"/>
-            <Button 
-                HorizontalAlignment="Right" 
-                Content="⬅️" 
-                Click="BackToPackagePage"/>
         </WrapPanel>
-
-        <DataGrid 
+        
+        <Button Grid.Column="1" Grid.Row="0" 
+                               HorizontalAlignment="Right" 
+                               Content="⬅️" 
+                               Click="BackToPackagePage"/>
+        
+        <DataGrid Grid.Column="0" 
             Grid.Row="1" 
-            x:Name="List">
+            x:Name="List" 
+            SelectionChanged="SelectedClothOperation">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Операция" 
@@ -42,7 +40,6 @@
                     Header="Цена" 
                     Binding="{Binding Price.Number}" 
                     IsReadOnly="True"/>
-                
                 
                 <DataGridCheckBoxColumn Header="Окончена ли" 
                                         Binding="{Binding IsEnded}" 
@@ -58,52 +55,66 @@
                     </DataTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate DataType="models:ClothOperationEntity">
-                    <StackPanel Margin="0 0 0 10">
-                            <Button Content="Добавить" Click="NavigateToAddedClothOperationPersonPage" HorizontalAlignment="Left"/>
-                        <DataGrid ItemsSource="{Binding ClothOperationPersons}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn
-                                    Header="Человек"
-                                    Binding="{Binding Person.LastName}"
-                                    IsReadOnly="True"/>
-                                
-                                <DataGridTextColumn
-                                    Header="Дата начала"
-                                    Binding="{Binding DateStart, StringFormat={}{0:d}}"
-                                    IsReadOnly="True"/>
-                                
-                                <DataGridCheckBoxColumn
-                                    Header="Закончена ли"
-                                    Binding="{Binding IsEnded}"
-                                    IsReadOnly="True"/>
-                                <DataGridTemplateColumn>
-                                    <DataTemplate>
-                                        <WrapPanel Orientation="Horizontal">
-                                            <Button Content="✏️" 
-                                                    Click="NavigateToEditClothOperationPersonPage"/>
-                                            <Button Content="🗑️" 
-                                                    Click="ShowDeleteWindow"/>
-                                        </WrapPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        <Button Grid.Column="0" Grid.Row="1" 
+                Click="NavigateToAddedPage" 
+                Classes="plus"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10 0 0 0">
+            <DataGrid x:Name="ListPersons">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="Человек"
+                        Binding="{Binding DataType=models:ClothOperationPersonEntity, Path=Person.LastName}"
+                        IsReadOnly="True"/>
+                                
+                    <DataGridTextColumn
+                        Header="Дата начала"
+                        Binding="{Binding DataType=models:ClothOperationPersonEntity, Path=DateStart, StringFormat={}{0:d}}"
+                        IsReadOnly="True"/>
+                                
+                    <DataGridCheckBoxColumn
+                        Header="Закончена ли"
+                        Binding="{Binding DataType=models:ClothOperationPersonEntity, Path= IsEnded}"
+                        IsReadOnly="True"/>
+                    <DataGridTemplateColumn>
+                        <DataTemplate>
+                            <WrapPanel Orientation="Horizontal">
+                                <Button Content="✏️" 
+                                        Click="NavigateToEditClothOperationPersonPage"/>
+                                <Button Content="🗑️" 
+                                        Click="ShowDeleteWindow"/>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
         
-        <Button Grid.Row="1" 
-                Classes="plus"
-                Click="NavigateToAddedPage"/>
+        <Button Grid.Column="1" Grid.Row="1" 
+                Click="NavigateToAddedClothOperationPersonPage" 
+                Classes="plus"/>
         
-        <Grid x:Name="DeletedContainer" 
+        <Border Grid.Row="1" 
+                Grid.Column="1" 
+                IsVisible="{Binding ElementName=List, Path=SelectedItem, Converter={StaticResource ExistConverter}}"
+                CornerRadius="10" 
+                BorderThickness="2"
+                Background="White"
+                BorderBrush="#427D9D"
+                >
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Выберите операцию над одеждой!" FontSize="25" FontWeight="Bold"/>
+                <TextBlock Text="После того, как вы выберете операцию на одеждой это сообщение автоматически уберется" 
+                           FontSize="14"/>
+            </StackPanel>
+        </Border>
+        
+        
+        <Grid Grid.Column="0" x:Name="DeletedContainer" 
               IsVisible="False" 
               Grid.Row="0" 
               Grid.RowSpan="2">
-            
             <Border 
                 Classes="deleteBackground"
             />
@@ -132,7 +143,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
+        <Border Grid.Column="0" Grid.ColumnSpan="2" x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
                 <TextBlock Text="Пожалуйста подождите"/>

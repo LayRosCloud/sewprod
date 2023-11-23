@@ -19,8 +19,7 @@
                   SelectedValue="{Binding SizeId}"
                   HorizontalAlignment="Stretch"
         />
-        <TextBox Text="{Binding Uid}" 
-                 Watermark="Введите артикул"/>
+        
         <NumericUpDown Text="{Binding Count}"
                        Minimum="1"
                        Maximum="10000"

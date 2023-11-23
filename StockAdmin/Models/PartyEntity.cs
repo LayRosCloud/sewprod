@@ -14,6 +14,9 @@ public class PartyEntity : Entity
     [JsonPropertyName(ServerConstants.Party.FieldPersonId)] 
     public int PersonId { get; set; }
     
+    [JsonPropertyName(ServerConstants.Party.FieldPriceId)] 
+    public int PriceId { get; set; }
+    
     [JsonPropertyName(ServerConstants.Party.FieldDateStart)] 
     public DateTime DateStart { get; set; } = DateTime.Now;
     
@@ -29,7 +32,11 @@ public class PartyEntity : Entity
     [JsonPropertyName(ServerConstants.Party.FieldModel)] 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ModelEntity? Model { get; set; }
-
+    
+    [JsonPropertyName(ServerConstants.Party.FieldPrice)] 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public PriceEntity? Price { get; set; }
+    
     [JsonPropertyName(ServerConstants.Party.FieldPackages)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<PackageEntity>? Packages { get; set; }

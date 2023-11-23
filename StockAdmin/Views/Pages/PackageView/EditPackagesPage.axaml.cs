@@ -14,7 +14,9 @@ public partial class EditPackagesPage : UserControl
     {
         InitializeComponent();
         _frame = frame;
+        
         _packageEntity = packageEntity;
+        
         Init();
     }
     
@@ -36,9 +38,7 @@ public partial class EditPackagesPage : UserControl
         _packageEntity.IsUpdated = true;
         await repository.UpdateAsync(_packageEntity);
         
-        //TODO
-        
-        //_frame.Content = new PackagePage(_frame, _party);
+        _frame.Content = new PackagePage(_frame);
     }
 
     public override string ToString()

@@ -8,12 +8,22 @@
              x:Class="StockAdmin.Views.Pages.ModelView.AddedModelPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="150"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Left" 
                     Width="250">
-        
+            <WrapPanel>
+                <Button
+                    Content="Сохранить"
+                    Margin="0 5"
+                    Click="TrySaveChanges"/>
+                <Button
+                    Content="Закрыть"
+                    Margin="0 5"
+                    Click="CloseCurrentPage"/>
+            </WrapPanel>
+            
             <TextBox 
                 x:Name="TbTitle" 
                 Watermark="Введите название"
@@ -29,13 +39,37 @@
                 Margin="0 5"
                 Text="{Binding CodeVendor}"
             />
-            
-            <Button 
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                Content="Отправить"
-                Margin="0 5"
-                Click="TrySaveChanges"/>
         </StackPanel>
+        
+        <TabControl Grid.Row="1">
+            
+            <TabItem Header="Цены">
+                <ScrollViewer>
+                    <StackPanel x:Name="PricePanel" Width="300" HorizontalAlignment="Left">
+                        <TextBox Watermark="Введите цену" Text="" 
+                                 KeyDown="InputSymbol" 
+                                 Margin="0 2 0 0" 
+                                 TextChanged="ReplaceOnNormalDoubleDigit"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            
+            <TabItem Header="Операции">
+                <ScrollViewer>
+                    <StackPanel x:Name="OperationsPanel" Width="300" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 2"
+                                    HorizontalAlignment="Stretch">
+                            <ComboBox x:Name="CbOperations"
+                                      DisplayMemberBinding="{Binding DataType=models:OperationEntity, Path=Name}"
+                                      Margin="0 0 2 0"
+                                      Width="280"/>
+                            <Button Content="x" Click="DeleteCurrentOperationItem"/>
+                        </StackPanel>
+                        <Button Content="Добавить" Click="AddOperationControl"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

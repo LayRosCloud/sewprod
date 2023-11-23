@@ -21,9 +21,6 @@ public class PackageEntity : Entity
     [JsonPropertyName(ServerConstants.Package.FieldIsRepeat)] public bool IsRepeat { get; set; }
     [JsonPropertyName(ServerConstants.Package.FieldIsUpdated)] public bool IsUpdated { get; set; }
 
-    [JsonPropertyName(ServerConstants.Package.FieldUid)]
-    public string Uid { get; set; } = "";
-    
     [JsonPropertyName(ServerConstants.Package.FieldSize)] 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public SizeEntity? Size { get; set; }
@@ -63,11 +60,11 @@ public class PackageEntity : Entity
         }
     }
 
-    
+    [JsonIgnore]
     public List<OperationTaskEntity> CompletedTasks { get; set; } = new();
 
     [JsonIgnore]
-    public SolidColorBrush StatusColor { get; set; } = new(Color.Parse("#EEF5FF"));
+    public SolidColorBrush StatusColor { get; set; } = new(Color.FromRgb(238, 245, 255));
     
     [JsonIgnore]
     public string Status
@@ -76,28 +73,29 @@ public class PackageEntity : Entity
         {
             if (IsEnded)
             {
-                StatusColor = new SolidColorBrush(Color.Parse("#95c0a0"));
+                StatusColor = new SolidColorBrush(Color.FromRgb(149, 192, 160));
                 return "Закончена";
             }
             
             if (IsRepeat)
             {
-                StatusColor = new SolidColorBrush(Color.Parse("#f49e31"));
+                StatusColor = new SolidColorBrush(Color.FromRgb(244, 158, 49));
                 return "Повтор";
             }
             
             bool isAdmin = Person!.Posts.Contains(new PostEntity() { Name = "ADMIN" });
             if (isAdmin)
             {
-                StatusColor = new SolidColorBrush(Color.Parse("#7db5fb"));
-                return "Добавлена администратором";
+                StatusColor = new SolidColorBrush(Color.FromRgb(125, 181, 251));
+                return "Добавлена админом";
             }
             
             if (IsUpdated)
             {
-                StatusColor = new SolidColorBrush(Color.Parse("#282828"));
+                StatusColor = new SolidColorBrush(Color.FromRgb(40, 40, 40));
                 return "Обновлена";
             }
+            
 
             return "Добавлена кройщиком";
         }

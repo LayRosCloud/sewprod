@@ -56,7 +56,7 @@
                        Margin="0 5 0 0"
                        />
             
-            <CalendarDatePicker Watermark="Выберите дату рождения" 
+            <CalendarDatePicker x:Name="CdpBirthDay" Watermark="Выберите дату рождения" 
                                 SelectedDate="{Binding BirthDay}" 
                                 HorizontalAlignment="Stretch"
                                 />
@@ -66,11 +66,15 @@
                        FontWeight="Bold"
                        />
             
-            <TextBox Text="{Binding Uid}" 
+            <TextBox x:Name="TbUid" Text="{Binding Uid}" 
                      Watermark="Введите уник. индентификатор"
                      />
+            
+            <CheckBox x:Name="IsCutter"
+                     Content="Кройщик"
+            />
         
-            <Button Content="Отправить" Click="SaveChanges"/>
+            <Button Content="Отправить" Click="TrySaveChanges"/>
         </StackPanel>
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
             <Border Width="250" Height="250" 

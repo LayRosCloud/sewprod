@@ -30,7 +30,7 @@
                 HorizontalContentAlignment="Center"
                 Content="Отправить"
                 Margin="0 5"
-                Click="SaveChanges"/>
+                Click="TrySaveChanges"/>
         </StackPanel>
     </Grid>
 </UserControl>

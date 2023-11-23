@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Exceptions;
+using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.OperationView;
 
@@ -26,7 +31,31 @@ public partial class AddedOperationPage : UserControl
         DataContext = _operationEntity;
     }
     
-    private async void SaveChanges(object? sender, RoutedEventArgs e)
+    private async void TrySaveChanges(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            CheckFields();
+            await SaveChanges();
+            _frame.Content = new OperationPage(_frame);
+
+        }
+        catch (ValidationException ex)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+
+    }
+
+    private void CheckFields()
+    {
+        TbName.Text!.ContainLengthBetweenValues(new LengthVector(1, 30), "Название от 1 до 30 символов");
+        TbDescription.Text!.ContainLengthBetweenValues(new LengthVector(1, 255), "Описание от 1 до 255 символов");
+        TbUid.Text!.ContainLengthBetweenValues(new LengthVector(1, 5), "Артикул от 1 до 5 символов");
+        TbPercent.Text!.ContainLengthBetweenValues(new LengthVector(1, 10), "Введите процент!");
+    }
+    
+    private async Task SaveChanges()
     {
         var operationRepository = new OperationRepository();
 
@@ -38,9 +67,6 @@ public partial class AddedOperationPage : UserControl
         {
             await operationRepository.UpdateAsync(_operationEntity);
         }
-
-        _frame.Content = new OperationPage(_frame);
-
     }
     
     public override string ToString()

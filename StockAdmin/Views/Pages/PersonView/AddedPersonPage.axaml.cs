@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Security.Cryptography;
@@ -11,7 +12,9 @@ using StockAdmin.Models;
 using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Vectors;
 using Zen.Barcode;
 using Image = System.Drawing.Image;
 
@@ -33,22 +36,57 @@ public partial class AddedPersonPage : UserControl
         DataContext = _personEntity;
     }
 
-    private async void SaveChanges(object? sender, RoutedEventArgs e)
+    private async void TrySaveChanges(object? sender, RoutedEventArgs e)
     {
-        PersonRepository personRepository = new PersonRepository();
-        
+        try
+        {
+            CheckFields();
+            await SaveChanges();
+            _frame.Content = new PersonPage(_frame);
+        }
+        catch (ValidationException ex)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Почта или индентификатор повторяются!");
+        }
+    }
+    
+    private async Task SaveChanges()
+    {
+        var personRepository = new PersonRepository();
+        var permissionRepository = new PermissionRepository();
+
         if (_personEntity.Id == 0)
         {
-            PersonEntity personEntity = await personRepository.CreateAsync(_personEntity);
-            var permissionRepository = new PermissionRepository();
-            await permissionRepository.CreateAsync(new PermissionEntity(){PersonId = personEntity.Id, PostId = 3});
+            var personEntity = await personRepository.CreateAsync(_personEntity);
+            
+            if (IsCutter.IsChecked == true)
+            {
+                await permissionRepository.CreateAsync(new PermissionEntity{PersonId = personEntity.Id, PostId = 3});
+            }
         }
         else
         {
             await personRepository.UpdateAsync(_personEntity);
         }
 
-        _frame.Content = new PersonPage(_frame);
+    }
+
+    private void CheckFields()
+    {
+        TbEmail.Text!.ContainLengthBetweenValues(new LengthVector(1, 50), "Почта от 1 до 50 символов");
+        TbPassword.Text!.ContainLengthBetweenValues(new LengthVector(1, 30), "Пароль от 1 до 30 символов");
+        TbLastName.Text!.ContainLengthBetweenValues(new LengthVector(1, 40), "Фамилия от 1 до 40 символов");
+        TbFirstName.Text!.ContainLengthBetweenValues(new LengthVector(1, 40), "Имя от 1 до 40 символов");
+        if (CdpBirthDay.SelectedDate == null)
+        {
+            throw new ValidationException("Выберите дату рождения!");
+        }
+
+        TbUid.Text!.ContainLengthBetweenValues(new LengthVector(1, 20), "Индентификатор от 1 до 20 символов");
     }
     
     public override string ToString()

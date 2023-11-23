@@ -90,8 +90,5 @@ public partial class ModelPage : UserControl
         if(List.SelectedItem is not ModelEntity model) return;
         Prices.ItemsSource = model.Prices;
         Operations.ItemsSource = model.Operations;
-
-        //DisplayedPrices.IsVisible = false;
-        //DisplayedOperations.IsVisible = false;
     }
 }

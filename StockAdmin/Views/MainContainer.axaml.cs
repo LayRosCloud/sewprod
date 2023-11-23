@@ -2,9 +2,11 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using StockAdmin.Models;
 using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Views.Pages;
 using StockAdmin.Views.Pages.HistoryView;
 using StockAdmin.Views.Pages.MaterialView;
@@ -24,20 +26,22 @@ public partial class MainContainer : Window
         InitializeComponent();
         ElementConstants.MainContainer = this;
         ElementConstants.ErrorController = new ErrorController(ErrorContainer);
+        const int indexOnFirstLetter = 0;
+        ShortName.Text = $"{ServerConstants.Token.LastName[indexOnFirstLetter]}{ServerConstants.Token.FirstName[indexOnFirstLetter]}";
+        LongName.Text = $"{ServerConstants.Token.LastName} {ServerConstants.Token.FirstName}";
+        if (!ServerConstants.Token.Posts!.Contains(new PostEntity() { Name = "ADMIN" }))
+        {
+            ForbiddenContainer.IsVisible = true;
+        }
         Init();
     }
 
     private void Init()
     {
-        try
-        {
-            var page = new PackagePage(Frame);
-            Frame.Content = page;
-        }
-        catch (Exception)
-        {
-            ForbiddenContainer.IsVisible = true;
-        }
+        if (ForbiddenContainer.IsVisible) return;
+        
+        var page = new PackagePage(Frame);
+        Frame.Content = page;
     }
 
     private void NavigateToPartyPage(object? sender, RoutedEventArgs e)

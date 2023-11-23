@@ -18,14 +18,17 @@ public partial class PackagePage : UserControl
     private readonly List<PackageEntity> _parties;
     private readonly FinderController _finderController;
     private PackageEntity? _package;
+    private int currentIndexBtn = 0;
     public PackagePage(ContentControl frame)
     {
         InitializeComponent();
         _parties = new List<PackageEntity>();
         _finderController = new FinderController(500,  () =>
         {
-            var list = _parties.Where(x => x.Party.Person.LastName.ToLower()
-                .Contains(Finder.Text.ToLower()));
+            string text = Finder.Text!.ToLower().Trim();
+            var list = _parties.Where(x => 
+                x.Party.Person.LastName.ToLower()
+                .Contains(text) || x.Party.CutNumber.ToLower().Contains(text));
             List.ItemsSource = GroupPackages(list);
         });
         _frame = frame;
@@ -89,8 +92,8 @@ public partial class PackagePage : UserControl
 
     private void NavigateToEditPage(object? sender, RoutedEventArgs e)
     {
-        PackageEntity packageEntity = (sender as Button).DataContext as PackageEntity;
-        _frame.Content = new EditPackagesPage(_frame, packageEntity);
+        if((sender as Button).DataContext is not PackageEntity package) return;
+        _frame.Content = new EditPackagesPage(_frame, package);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -123,12 +126,17 @@ public partial class PackagePage : UserControl
     {
         _finderController.ChangeText();
     }
-
+    
     private async void ChangeMonth(object? sender, RoutedEventArgs e)
     {
         Button button = (sender as Button)!;
-        SelectButton(MonthButtons.Children.IndexOf(button));
-        await InitAsync(Convert.ToInt32(button.Content));
+        int index = Convert.ToInt32(button.Content);
+        if (currentIndexBtn == index)
+        {
+            return;
+        }
+        SelectButton(index - 1);
+        await InitAsync(currentIndexBtn);
     }
 
     private void SelectedPackage(object? sender, SelectionChangedEventArgs e)
@@ -138,13 +146,16 @@ public partial class PackagePage : UserControl
 
     private void SelectButton(int index)
     {
+        currentIndexBtn = index + 1;
+
         foreach (Button button in MonthButtons.Children)
         {
             button.Background = new SolidColorBrush(Color.Parse("#c1ddf4"));
             button.FontWeight = FontWeight.Regular;
         }
-
-        (MonthButtons.Children[index] as Button).Background = new SolidColorBrush(Color.Parse("#95c0a0"));
-        (MonthButtons.Children[index] as Button).FontWeight = FontWeight.Bold;
+        if(MonthButtons.Children[index] is not Button monthSelected) return;
+        
+        monthSelected.Background = new SolidColorBrush(Color.Parse("#95c0a0"));
+        monthSelected.FontWeight = FontWeight.Bold;
     }
 }

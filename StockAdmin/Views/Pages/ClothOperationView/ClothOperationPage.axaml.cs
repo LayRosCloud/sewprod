@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.PackageView;
@@ -39,6 +39,11 @@ public partial class ClothOperationPage : UserControl
     
     private async void InitData(PackageEntity packageEntity)
     {
+        await InitAsync(packageEntity);
+    }
+
+    private async Task InitAsync(PackageEntity packageEntity)
+    {
         var repository = new ClothOperationRepository();
         _clothOperations.Clear();
         _clothOperations.AddRange(await repository.GetAllAsync(packageEntity.Id));
@@ -65,14 +70,14 @@ public partial class ClothOperationPage : UserControl
     private void NavigateToEditClothOperationPage(object? sender, RoutedEventArgs e)
     {
         ClothOperationEntity clothOperationEntity = (sender as Button).DataContext as ClothOperationEntity;
-        _frame.Content = new AddedClothOperationPage(_packageEntity, clothOperationEntity, _frame);
+        _frame.Content = new AddedClothOperationPage(_packageEntity, clothOperationEntity!, _frame);
     }
 
     private void NavigateToEditClothOperationPersonPage(object? sender, RoutedEventArgs e)
     {
         ClothOperationEntity clothOperationEntity = (List.SelectedItem as ClothOperationEntity)!;
         ClothOperationPersonEntity clothOperationPersonEntity  = (sender as Button).DataContext as ClothOperationPersonEntity;
-        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperationEntity, clothOperationPersonEntity, _packageEntity);
+        _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperationEntity, clothOperationPersonEntity!, _packageEntity);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -91,12 +96,13 @@ public partial class ClothOperationPage : UserControl
             if (List.SelectedItem is ClothOperationEntity operation)
             {
                 await repositoryOperation.DeleteAsync(operation.Id);
+                
+                await InitAsync(_packageEntity);
+                List.SelectAll();
             }
         }
         
-
         SendNoAnswerOnDeleteItem(sender, e);
-        InitData(_packageEntity);
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -130,5 +136,10 @@ public partial class ClothOperationPage : UserControl
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
         _finderController.ChangeText();
+    }
+
+    private void SelectedClothOperation(object? sender, SelectionChangedEventArgs e)
+    {
+        ListPersons.ItemsSource = (List.SelectedItem as ClothOperationEntity).ClothOperationPersons;
     }
 }
