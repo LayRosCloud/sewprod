@@ -56,4 +56,9 @@ public partial class AddedModelOperationPage : UserControl
 
         return operationEntity;
     }
+    
+    public override string ToString()
+    {
+        return "Добавление операции в модель";
+    }
 }

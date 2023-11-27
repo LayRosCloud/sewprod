@@ -26,12 +26,12 @@
                     x:Name="ListSizes">
                     <DataGrid.Columns>
                         <DataGridTextColumn 
-                            Header="Числовой эквивалент" 
+                            Header="Значение" 
                             Binding="{Binding Number}" 
                             IsReadOnly="True"/>
                         
                         <DataGridTextColumn 
-                            Header="Категория" 
+                            Header="Растовка" 
                             Binding="{Binding Age.Name}" 
                             IsReadOnly="True"/>
                         
@@ -87,7 +87,7 @@
             </Grid>
         </TabItem>
         
-        <TabItem Header="Категории размеров" x:DataType="models:AgeEntity">
+        <TabItem Header="Растовки" x:DataType="models:AgeEntity">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>

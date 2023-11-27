@@ -53,7 +53,12 @@ public partial class AddedModelPricePage : UserControl
             throw new ValidationException("Введите цену!");
         }
     }
-    
+
+    public override string ToString()
+    {
+        return "Добавление цены в модель";
+    }
+
     private void InputSymbol(object? sender, KeyEventArgs e)
     {
         if (e.Key is (< Key.D0 or > Key.D9) and (< Key.NumPad0 or > Key.NumPad9) 
