@@ -49,10 +49,10 @@
                                     <DataTemplate DataType="models:PackageEntity">
                                         <Border Padding="2 5" Margin="5" Height="35" 
                                                 CornerRadius="10" 
-                                                Background="{Binding Path=StatusColor}">
+                                                Background="{Binding Path=Status.Color}">
                                             <TextBlock HorizontalAlignment="Center" 
                                                        VerticalAlignment="Center" 
-                                                       FontWeight="Bold" Text="{Binding Status}"/>
+                                                       FontWeight="Bold" Text="{Binding Status.Name}"/>
                                         </Border>
                                     </DataTemplate>
                                 </DataGridTemplateColumn>

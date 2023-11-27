@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Avalonia.Media;
+using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Models;
@@ -63,41 +64,35 @@ public class PackageEntity : Entity
     [JsonIgnore]
     public List<OperationTaskEntity> CompletedTasks { get; set; } = new();
 
-    [JsonIgnore]
-    public SolidColorBrush StatusColor { get; set; } = new(Color.FromRgb(238, 245, 255));
     
     [JsonIgnore]
-    public string Status
+    public Status Status
     {
         get
         {
             if (IsEnded)
             {
-                StatusColor = new SolidColorBrush(Color.FromRgb(149, 192, 160));
-                return "Закончена";
+                return new Status("Закончена", Color.FromRgb(149, 192, 160));
             }
             
             if (IsRepeat)
             {
-                StatusColor = new SolidColorBrush(Color.FromRgb(244, 158, 49));
-                return "Повтор";
+                return new Status("Повтор", Color.FromRgb(244, 158, 49));
             }
             
             bool isAdmin = Person!.Posts.Contains(new PostEntity() { Name = "ADMIN" });
             if (isAdmin)
             {
-                StatusColor = new SolidColorBrush(Color.FromRgb(125, 181, 251));
-                return "Добавлена админом";
+                return new Status("Добавлена админом", Color.FromRgb(125, 181, 251));
             }
             
             if (IsUpdated)
             {
-                StatusColor = new SolidColorBrush(Color.FromRgb(40, 40, 40));
-                return "Обновлена";
+                return new Status("Обновлена", Color.FromRgb(40, 40, 40));
             }
             
 
-            return "Добавлена кройщиком";
+            return new Status("Обновлена", Color.FromRgb(200, 200, 200));
         }
     }
 }

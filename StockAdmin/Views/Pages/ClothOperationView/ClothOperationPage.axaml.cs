@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.PackageView;
 
@@ -14,7 +15,7 @@ public partial class ClothOperationPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly PackageEntity _packageEntity;
-    private int _currentIndex;
+    private ListSelected _currentIndex;
     private ClothOperationPersonEntity? _clothOperationPerson;
     
     private readonly List<ClothOperationEntity> _clothOperations;
@@ -84,14 +85,14 @@ public partial class ClothOperationPage : UserControl
     {
         var repositoryPerson = new ClothOperationPersonRepository();
         var repositoryOperation = new ClothOperationRepository();
-        if (_currentIndex == 1)
+        if (_currentIndex == ListSelected.First)
         {
             if (_clothOperationPerson != null)
             {
                 await repositoryPerson.DeleteAsync(_clothOperationPerson.Id);
             }
         }
-        else if(_currentIndex == 2)
+        else if(_currentIndex == ListSelected.Second)
         {
             if (List.SelectedItem is ClothOperationEntity operation)
             {
@@ -117,7 +118,8 @@ public partial class ClothOperationPage : UserControl
         DeletedMessage.Text =
             "вы действительно уверены, что хотите удалить этого участника операции?" +
             " Восстановить участника операции будет нельзя!";
-        _currentIndex = 1;
+        
+        _currentIndex = ListSelected.First;
     }
 
     private void ShowDeleteWindowClothOperation(object? sender, RoutedEventArgs e)
@@ -126,7 +128,8 @@ public partial class ClothOperationPage : UserControl
         DeletedMessage.Text =
             "вы действительно уверены, что хотите удалить операцию над одеждой?" +
             " Восстановить операцию над одеждой будет нельзя!";
-        _currentIndex = 2;
+        
+        _currentIndex = ListSelected.Second;
     }
     public override string ToString()
     {

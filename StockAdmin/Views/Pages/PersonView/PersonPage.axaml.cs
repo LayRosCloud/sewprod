@@ -84,7 +84,10 @@ public partial class PersonPage : UserControl
 
     private void NavigateToMoreInformation(object? sender, TappedEventArgs e)
     {
-        _frame.Content = new StatisticPage();
+        if (List.SelectedItem is PersonEntity person)
+        {
+            _frame.Content = new StatisticPage(person);
+        }
     }
 
     private void TextChanged(object? sender, TextChangedEventArgs e)

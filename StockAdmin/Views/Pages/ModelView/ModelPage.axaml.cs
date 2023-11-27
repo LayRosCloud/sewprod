@@ -3,8 +3,8 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.ModelView;
@@ -14,7 +14,7 @@ public partial class ModelPage : UserControl
     private readonly ContentControl _frame;
     private readonly List<ModelEntity> _models;
     private readonly FinderController _finderController;
-    
+    private ListSelected _currentSelectedList;
     public ModelPage(ContentControl frame)
     {
         InitializeComponent();
@@ -53,11 +53,30 @@ public partial class ModelPage : UserControl
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new ModelRepository();
-        
-        if (List.SelectedItem is ModelEntity model)
+        var modelPricesRepository = new ModelPriceRepository();
+        var modelOperationRepository = new ModelOperationRepository();
+        switch (_currentSelectedList)
         {
-            await repository.DeleteAsync(model.Id);
+            case ListSelected.First:
+                if (List.SelectedItem is ModelEntity model)
+                {
+                    await repository.DeleteAsync(model.Id);
+                }
+                break;
+            case ListSelected.Second:
+                if (Operations.SelectedItem is OperationEntity operation)
+                {
+                    await modelOperationRepository.DeleteAsync(operation.ModelOperation!.Id);
+                }
+                break;
+            case ListSelected.Third:
+                if (Prices.SelectedItem is PriceEntity price)
+                {
+                    await modelPricesRepository.DeleteAsync(price.ModelPrice!.Id);
+                }
+                break;
         }
+        
         InitData();
         SendNoAnswerOnDeleteItem(sender, e);
     }
@@ -73,11 +92,7 @@ public partial class ModelPage : UserControl
         DeletedMessage.Text =
             "вы действительно уверены, что хотите удалить модель?" +
             " Восстановить модель будет нельзя!";
-    }
-    
-    public override string ToString()
-    {
-        return "Модели";
+        _currentSelectedList = ListSelected.First;
     }
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
@@ -88,7 +103,47 @@ public partial class ModelPage : UserControl
     private void SelectedModel(object? sender, SelectionChangedEventArgs e)
     {
         if(List.SelectedItem is not ModelEntity model) return;
+        
         Prices.ItemsSource = model.Prices;
         Operations.ItemsSource = model.Operations;
+    }
+
+    private void ShowDeleteWindowOperation(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = true;
+        DeletedMessage.Text =
+            "вы действительно уверены, что хотите удалить операцию над моделью?" +
+            " Восстановить операцию над моделью будет нельзя!";
+        _currentSelectedList = ListSelected.Second;
+    }
+
+    private void ShowDeleteWindowPrice(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = true;
+        DeletedMessage.Text =
+            "вы действительно уверены, что хотите удалить цену над моделью?" +
+            " Восстановить цену над моделью будет нельзя!";
+        _currentSelectedList = ListSelected.Third;
+    }
+    
+    public override string ToString()
+    {
+        return "Модели";
+    }
+
+    private void NavigateToAddedOperationPage(object? sender, RoutedEventArgs e)
+    {
+        if (List.SelectedItem is ModelEntity modelEntity)
+        {
+            _frame.Content = new AddedModelOperationPage(_frame, modelEntity);
+        }
+    }
+
+    private void NavigateToAddedPricePage(object? sender, RoutedEventArgs e)
+    {
+        if (List.SelectedItem is ModelEntity modelEntity)
+        {
+            _frame.Content = new AddedModelPricePage(_frame, modelEntity);
+        }
     }
 }

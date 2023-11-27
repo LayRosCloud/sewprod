@@ -8,7 +8,12 @@ public class PriceEntity : Entity
 {
     [JsonPropertyName(ServerConstants.Price.FieldNumber)] 
     public double Number { get; set; }
+    
     [JsonPropertyName(ServerConstants.Price.FieldDate)] 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public DateTime Date { get; set; } = DateTime.Now;
+    
+    [JsonPropertyName(ServerConstants.Price.FieldModelPrice)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ModelPriceEntity? ModelPrice { get; set; }
 }

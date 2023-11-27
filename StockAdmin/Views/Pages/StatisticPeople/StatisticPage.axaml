@@ -5,16 +5,35 @@
              xmlns:avalonia="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.StatisticPeople.StatisticPage">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock x:Name="Text" HorizontalAlignment="Right"/>
-        <ComboBox Grid.Row="0" 
-            x:Name="GroupItems"/>
+    <Grid RowDefinitions="35, *" ColumnDefinitions="*, 200">
+        <TextBlock Grid.Column="0" 
+                   Grid.Row="0" 
+                   x:Name="Text" 
+                   Margin="20 0"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Right"/>
+        <ComboBox Grid.Column="0" Grid.Row="0" 
+            x:Name="GroupItems"
+            SelectionChanged="GroupItems_OnSelectionChanged"/>
         
-        <avalonia:CartesianChart Grid.Row="1" 
-                                 x:Name="Chart" />
+        <avalonia:CartesianChart Grid.Column="0" Grid.Row="1" 
+                                 x:Name="Chart" 
+                                 />
+        
+        <TextBlock x:Name="Title" 
+                   Grid.Row="0" 
+                   Grid.Column="1"
+                   Text=""
+                   FontWeight="Bold"/>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock x:Name="Description" 
+                       Text=""
+            />
+            <TextBlock x:Name="Result" 
+                       FontWeight="Bold"
+                       Text=""
+            />
+        </StackPanel>
+        
     </Grid>
 </UserControl>

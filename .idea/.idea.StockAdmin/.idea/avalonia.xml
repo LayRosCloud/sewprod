@@ -22,7 +22,9 @@
         <entry key="StockAdmin/Views/Pages/MaterialView/AddedMaterialPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/MaterialView/MaterialsPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ModelView/AddedModelOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelView/AddedModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/ModelView/AddedModelPricePage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/ModelView/ModelPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/OperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />

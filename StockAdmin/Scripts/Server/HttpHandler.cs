@@ -87,7 +87,7 @@ public class HttpHandler<TEntity>
     
     public async Task DeleteAsync(string point)
     {
-        HttpClient httpClient = new HttpClient();
+        var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
 
         var responseMessage = await httpClient.DeleteAsync($"{ServerConstants.ServerAddress}{point}");
@@ -98,8 +98,6 @@ public class HttpHandler<TEntity>
             httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
             await httpClient.DeleteAsync($"{ServerConstants.ServerAddress}{point}");
         }
-
-
     }
 
     private async Task RefreshToken(HttpResponseMessage responseMessage)

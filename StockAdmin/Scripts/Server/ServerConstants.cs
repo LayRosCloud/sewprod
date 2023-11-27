@@ -52,6 +52,7 @@ public abstract class ServerConstants
     {
         public const string FieldNumber = "number";
         public const string FieldDate = "date";
+        public const string FieldModelPrice = "ModelPrice";
     }
 
     public abstract class Operation
@@ -60,6 +61,7 @@ public abstract class ServerConstants
         public const string FieldDescription = "description";
         public const string FieldUid = "uid";
         public const string FieldPercent = "percent";
+        public const string FieldModelOperation = "ModelOperation";
     }
 
     public abstract class Size
@@ -140,6 +142,7 @@ public abstract class ServerConstants
         public const string FieldDateStart = "dateStart";
         public const string FieldIsEnded = "isEnded";
         public const string FieldPerson = "person";
+        public const string FieldClothOperation = "clothOperation";
     }
     
     public abstract class ClothOperation

@@ -18,4 +18,8 @@ public class ClothOperationPersonEntity : Entity
     [JsonPropertyName(ServerConstants.ClothOperationPerson.FieldPerson)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public PersonEntity? Person { get; set; }
+    
+    [JsonPropertyName(ServerConstants.ClothOperationPerson.FieldClothOperation)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ClothOperationEntity? ClothOperation { get; set; }
 }

@@ -37,12 +37,14 @@
                 <DataGridTextColumn 
                     Header="Название" 
                     Binding="{Binding Title}" 
-                    IsReadOnly="True"/>
+                    IsReadOnly="True"
+                    />
                 
                 <DataGridTextColumn 
                     Header="Артикул" 
                     Binding="{Binding CodeVendor}" 
-                    IsReadOnly="True"/>
+                    IsReadOnly="True"
+                    />
                 
                 <DataGridTemplateColumn>
                     <DataTemplate>
@@ -69,14 +71,16 @@
                     <DataGridTemplateColumn>
                         <DataTemplate DataType="models:PriceEntity">
                             <StackPanel>
-                                <Button Content="🗑️"/>
+                                <Button Content="🗑️" Click="ShowDeleteWindowPrice"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Border Grid.Row="0" CornerRadius="10" BorderBrush="#427D9D" BorderThickness="1"/>
-
+            <Button Grid.Row="0" 
+                    Classes="plus"
+                    Click="NavigateToAddedPricePage"/>
             <Border x:Name="DisplayedPrices"
                     Grid.Column="0" 
                     Grid.Row="0" Background="White" 
@@ -132,12 +136,17 @@
                         <DataGridTemplateColumn>
                             <DataTemplate DataType="models:OperationEntity">
                                 <StackPanel>
-                                    <Button Content="🗑️"/>
+                                    <Button Content="🗑️" Click="ShowDeleteWindowOperation"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                
+                <Button Grid.Row="1" 
+                        Classes="plus"
+                        Click="NavigateToAddedOperationPage"/>
+                
                 <Border x:Name="DisplayedOperations" 
                         IsVisible="{Binding ElementName=List, Path=SelectedItem, 
                         Converter={StaticResource ExistConverter}}" 

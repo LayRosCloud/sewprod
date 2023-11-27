@@ -16,7 +16,14 @@ public class ClothOperationPersonRepository : IDataReader<ClothOperationPersonEn
         List<ClothOperationPersonEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
         return response!;
     }
-
+    
+    public async Task<List<ClothOperationPersonEntity>> GetAllAsync(int personId)
+    {
+        var httpHandler = new HttpHandler<ClothOperationPersonEntity>();
+        List<ClothOperationPersonEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint+"?personId="+personId);
+        return response!;
+    }
+    
     public async Task<ClothOperationPersonEntity> GetAsync(int id)
     {
         var httpHandler = new HttpHandler<ClothOperationPersonEntity>();
