@@ -53,8 +53,10 @@ public partial class AddedPackagesPage : UserControl
         CmbAges.ItemsSource = await ageRepository.GetAllAsync();
         CmbMaterials.ItemsSource = await materialRepository.GetAllAsync();
         var list = await personRepository.GetAllAsync();
+        
         CbPersons.ItemsSource = list;
         CmbPersons.ItemsSource = list;
+        
         CbModels.ItemsSource = await modelRepository.GetAllAsync();
         CbParties.ItemsSource = await partyRepository.GetAllAsync();
     }
@@ -66,35 +68,36 @@ public partial class AddedPackagesPage : UserControl
         try
         {
             PartyEntity partyEntity;
+            PriceEntity priceEntity;
 
             if (IsNewCut.IsChecked == true)
             {
                 partyEntity = CreateParty();
+                priceEntity = partyEntity.Price!;
+                partyEntity = await new PartyRepository().CreateAsync(partyEntity);
             }
             else
             {
-                if (CbParties.SelectedItem is not PartyEntity party)
+                if (CbParties.SelectedItem is PartyEntity party)
                 {
-                    throw new ValidationException("Выберите крой");
+                    partyEntity = party;
+                    priceEntity = party.Price;
                 }
-
-                partyEntity = party;
+                else
+                {
+                    throw new Scripts.Exceptions.ValidationException("Ошибка! Крой не выбран");
+                }
             }
 
-            partyEntity = await new PartyRepository().CreateAsync(partyEntity);
+            LoadingBorder.IsVisible = true;
             var packagesList = ReadAllPackagesTextBox(partyEntity);
-            
-            if (CbPrices.SelectedItem is not PriceEntity priceEntity)
-            {
-                throw new ValidationException("Выберите цену!");
-            }
-            
-            var packageEntities =  await packageRepository.CreateAsync(packagesList);
-            var model = CbModels.SelectedItem as ModelEntity;
-            
+
+            var packageEntities = await packageRepository.CreateAsync(packagesList);
+            var model = IsNewCut.IsChecked == true ? CbModels.SelectedItem as ModelEntity : partyEntity.Model;
+
             var priceRepository = new PriceRepository();
             var clothOperationRepository = new ClothOperationRepository();
-            
+
             foreach (var package in packageEntities!)
             {
                 foreach (var operation in model!.Operations!)
@@ -105,7 +108,7 @@ public partial class AddedPackagesPage : UserControl
                     };
 
                     var createdPrice = await priceRepository.CreateAsync(price);
-                    
+
                     var clothOperationEntity = new ClothOperationEntity
                     {
                         OperationId = operation.Id,
@@ -116,7 +119,7 @@ public partial class AddedPackagesPage : UserControl
                     await clothOperationRepository.CreateAsync(clothOperationEntity);
                 }
             }
-            
+
             _frame.Content = new PackagePage(_frame);
         }
         catch (ValidationException ex)
@@ -126,6 +129,10 @@ public partial class AddedPackagesPage : UserControl
         catch (Exception)
         {
             ElementConstants.ErrorController.AddErrorMessage("Ошибка! проверьте все поля на ввод");
+        }
+        finally
+        {
+            LoadingBorder.IsVisible = false;
         }
     }
 

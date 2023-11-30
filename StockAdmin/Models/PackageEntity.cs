@@ -10,17 +10,29 @@ namespace StockAdmin.Models;
 
 public class PackageEntity : Entity
 {
-    private List<ClothOperationEntity> _clothOperations = new();
-
-    [JsonPropertyName(ServerConstants.Package.FieldPartyId)] public int PartyId { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    private List<ClothOperationEntity> _clothOperations;
     
-    [JsonPropertyName(ServerConstants.Package.FieldSizeId)] public int SizeId { get; set; }
-    [JsonPropertyName(ServerConstants.Package.FieldPersonId)] public int PersonId { get; set; }
-    [JsonPropertyName(ServerConstants.Package.FieldMaterialId)] public int MaterialId { get; set; }
-    [JsonPropertyName(ServerConstants.Package.FieldCount)] public int Count { get; set; }
-    [JsonPropertyName(ServerConstants.Package.FieldIsEnded)] public bool IsEnded { get; set; }
-    [JsonPropertyName(ServerConstants.Package.FieldIsRepeat)] public bool IsRepeat { get; set; }
-    [JsonPropertyName(ServerConstants.Package.FieldIsUpdated)] public bool IsUpdated { get; set; }
+    [JsonPropertyName(ServerConstants.Package.FieldPartyId)] 
+    public int PartyId { get; set; }
+    
+    [JsonPropertyName(ServerConstants.Package.FieldSizeId)] 
+    public int SizeId { get; set; }
+    [JsonPropertyName(ServerConstants.Package.FieldPersonId)] 
+    public int PersonId { get; set; }
+    [JsonPropertyName(ServerConstants.Package.FieldMaterialId)] 
+    public int MaterialId { get; set; }
+
+    [JsonPropertyName(ServerConstants.Package.FieldCount)]
+    public int Count { get; set; } = 0;
+
+    [JsonPropertyName(ServerConstants.Package.FieldIsEnded)]
+    public bool IsEnded { get; set; } = false;
+    [JsonPropertyName(ServerConstants.Package.FieldIsRepeat)] 
+    public bool IsRepeat { get; set; } = false;
+
+    [JsonPropertyName(ServerConstants.Package.FieldIsUpdated)]
+    public bool IsUpdated { get; set; } = false;
 
     [JsonPropertyName(ServerConstants.Package.FieldSize)] 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -61,15 +73,15 @@ public class PackageEntity : Entity
         }
     }
 
-    [JsonIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public List<OperationTaskEntity> CompletedTasks { get; set; } = new();
-
     
-    [JsonIgnore]
-    public Status Status
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    public Status? Status
     {
         get
         {
+            
             if (IsEnded)
             {
                 return new Status("Закончена", Color.FromRgb(149, 192, 160));
@@ -79,12 +91,20 @@ public class PackageEntity : Entity
             {
                 return new Status("Повтор", Color.FromRgb(244, 158, 49));
             }
-            
-            bool isAdmin = Person!.Posts.Contains(new PostEntity() { Name = "ADMIN" });
-            if (isAdmin)
+
+            try
             {
-                return new Status("Добавлена админом", Color.FromRgb(125, 181, 251));
+                bool isAdmin = Person!.Posts.Contains(new PostEntity() { Name = "ADMIN" });
+                if (isAdmin)
+                {
+                    return new Status("Добавлена админом", Color.FromRgb(125, 181, 251));
+                }
             }
+            catch (Exception)
+            {
+                //ignored
+            }
+            
             
             if (IsUpdated)
             {
@@ -92,7 +112,8 @@ public class PackageEntity : Entity
             }
             
 
-            return new Status("Обновлена", Color.FromRgb(200, 200, 200));
+            return new Status("Добавлена кройщиком", Color.FromRgb(200, 200, 200));
         }
+        private set {}
     }
 }

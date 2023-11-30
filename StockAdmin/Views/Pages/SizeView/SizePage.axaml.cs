@@ -36,12 +36,14 @@ public partial class SizePage : UserControl
 
     private async void Init()
     {
+        LoadingBorder.IsVisible = true;
         var sizeRepository = new SizeRepository();
         var ageRepository = new AgeRepository();
         _sizes.AddRange(await sizeRepository.GetAllAsync());
         _ages.AddRange(await ageRepository.GetAllAsync());
         ListSizes.ItemsSource = _sizes;
         ListAges.ItemsSource = _ages;
+        LoadingBorder.IsVisible = false;
     }
 
 

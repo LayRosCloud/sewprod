@@ -1,8 +1,12 @@
+using System;
+using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
@@ -11,11 +15,35 @@ namespace StockAdmin.Views;
 
 public partial class AuthWindow : Window
 {
+    private const string FileName = "au_data.dat";
     public AuthWindow()
     {
         InitializeComponent();
-        
+        ReadFile();
         InitData();
+    }
+
+    private async void ReadFile()
+    {
+        try
+        {
+            var controller = new CryptoController();
+            using var reader = new StreamReader(FileName);
+            string sentence = await reader.ReadToEndAsync();
+            string decoded = controller.DecodeAndDecrypt(sentence);
+            string[] keysValueEmailAndPassword = decoded.Split("\r|\r");
+        
+            string email = keysValueEmailAndPassword[0].Split(':')[1].Trim();
+            string password = keysValueEmailAndPassword[1].Split(':')[1].Trim();
+            
+            IsRememberMe.IsChecked = true;
+            Email.Text = email;
+            Password.Text = password;
+        }
+        catch(Exception)
+        {
+            // ignored
+        }
     }
     
     private async void InitData()
@@ -49,12 +77,25 @@ public partial class AuthWindow : Window
         try
         {
             await CheckEmailAndPassword(email, password);
+            if (IsRememberMe.IsChecked == true)
+            {
+                SaveEmailAndPasswordToFile(email, password);
+            }
             ShowWindow();
         }
         catch (AuthException ex)
         {
             SendErrorMessage(ex.Message);
         }
+    }
+
+    private async void SaveEmailAndPasswordToFile(string email, string password)
+    {
+        var controller = new CryptoController();
+        string cryptText = controller.EncryptText($"email: {email}\r|\rpassword: {password}");
+
+        await using var writer = new StreamWriter(FileName, false);
+        await writer.WriteAsync(cryptText);
     }
 
     private void SendErrorMessage(string message)

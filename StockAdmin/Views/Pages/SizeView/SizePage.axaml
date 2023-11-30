@@ -5,7 +5,8 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.SizePage">
-    <TabControl>
+    <Grid>
+        <TabControl>
         <TabItem Header="Размеры" x:DataType="models:SizeEntity">
             <Grid>
                 <Grid.RowDefinitions>
@@ -168,4 +169,12 @@
             </Grid>
         </TabItem>
     </TabControl>
+        <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Text="Пожалуйста подождите"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+    
 </UserControl>

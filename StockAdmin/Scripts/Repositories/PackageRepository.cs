@@ -45,7 +45,7 @@ public class PackageRepository : IDataReader<PackageEntity>, IDataCreator<Packag
     {
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
-        var response = await client.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
+        var response = await client.PostAsJsonAsync<List<PackageEntity>>($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
             var repository = new PersonRepository();

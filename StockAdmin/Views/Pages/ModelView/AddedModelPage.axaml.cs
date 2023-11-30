@@ -74,6 +74,10 @@ public partial class AddedModelPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage("Непредвиденная ошибка");
         }
+        finally
+        {
+            LoadingBorder.IsVisible = false;
+        }
     }
 
     private void CheckFields()
@@ -125,8 +129,9 @@ public partial class AddedModelPage : UserControl
 
     private async Task SaveChanges(List<OperationEntity> operations, List<PriceEntity> prices)
     {
+        
         var repository = new ModelRepository();
-
+        LoadingBorder.IsVisible = true;
         if (_modelEntity.Id == 0)
         {
             var model = await repository.CreateAsync(_modelEntity);

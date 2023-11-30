@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,12 +10,12 @@ namespace StockAdmin.Scripts.Controllers;
 public class CryptoController
 {
     private const string Key = "pSzVXzprWJwFALNR";
-    
-    
+
+
     public string EncryptText(string text)
     {
-        string encryptedText = Encrypt(text, Key);
-        
+        string encryptedText = Encrypt(text);
+
         return encryptedText;
     }
 
@@ -20,38 +23,42 @@ public class CryptoController
     {
         const string validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder keyBuilder = new StringBuilder();
-        
+
         Random rnd = new Random();
-        
+
         while (keyBuilder.Length < length)
         {
             keyBuilder.Append(validChars[rnd.Next(validChars.Length)]);
         }
-        
+
         return keyBuilder.ToString();
     }
-    private string Encrypt(string text, string key)
+
+    private string Encrypt(string text)
     {
-        using Aes aesAlg = Aes.Create();
-        aesAlg.Key = Encoding.UTF8.GetBytes(key);
-        aesAlg.GenerateIV();
-
-        ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-        byte[] cipherText;
-        using (var msEncrypt = new System.IO.MemoryStream())
+        try
         {
-            using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-            {
-                using (var swEncrypt = new System.IO.StreamWriter(csEncrypt))
-                {
-                    swEncrypt.Write(text);
-                }
-                cipherText = msEncrypt.ToArray();
-            }
+            byte[] encData_byte = new byte[text.Length];
+            encData_byte = Encoding.UTF8.GetBytes(text);
+            string encodedData = Convert.ToBase64String(encData_byte);
+            return encodedData;
         }
+        catch (Exception ex)
+        {
+            throw new Exception("Error in base64Encode" + ex.Message);
+        }
+    }
 
-        return Convert.ToBase64String(aesAlg.IV) + ":" + Convert.ToBase64String(cipherText);
+    public string DecodeAndDecrypt(string strIn)
+    {
+        UTF8Encoding encoder = new UTF8Encoding();
+        Decoder utf8Decode = encoder.GetDecoder();
+        byte[] todecode_byte = Convert.FromBase64String(strIn);
+        int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+        char[] decoded_char = new char[charCount];
+        utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+        string result = new String(decoded_char);
+        return result;
     }
     
 }
