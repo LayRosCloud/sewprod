@@ -43,7 +43,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             >
-            <TextBlock
+                <TextBlock
                 Name="Title"
                 Text="Авторизация"
                 FontSize="25"
@@ -220,7 +220,37 @@
             </StackPanel>
         </Border>
         
-        
+        <Border x:Name="ForbiddenContainer"
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Grid.ColumnSpan="2" 
+                Grid.RowSpan="2"
+                Background="White"
+                IsVisible="False"
+        >
+            
+            <StackPanel VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+            >
+                <TextBlock Text="Error 403" 
+                           FontWeight="Bold" 
+                           Foreground="Black" 
+                           FontSize="40"/>
+                
+                <TextBlock Text="У вас недостаточно прав!" 
+                           Foreground="Black" 
+                           FontSize="20"/>
+                
+                <TextBlock Text="обратитесь к администратору за объяснениями!" 
+                           Opacity="0.6" 
+                           Foreground="Firebrick" 
+                           FontSize="15"/>
+                
+                <Button Content="Выйти из учетной записи" 
+                        Click="DisableWindow" 
+                        Margin="0 40 0 0"/>
+            </StackPanel>
+        </Border>
     </Grid>
     
 </Window>

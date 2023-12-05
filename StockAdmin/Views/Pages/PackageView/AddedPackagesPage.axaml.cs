@@ -135,7 +135,8 @@ public partial class AddedPackagesPage : UserControl
             LoadingBorder.IsVisible = false;
         }
     }
-
+    
+    
     private PartyEntity CreateParty()
     {
         (var model, var person, var dateStart, var price, var cutNumber) = CheckFieldsParty();
@@ -204,7 +205,7 @@ public partial class AddedPackagesPage : UserControl
               { 
                 Count = count, 
                 SizeId = sizeEntity.Id, 
-                PersonId = ServerConstants.Token.Id, 
+                PersonId = ServerConstants.AuthorizationUser.Id, 
                 MaterialId = materialEntity!.Id,
                 PartyId = party.Id
               };
@@ -223,8 +224,7 @@ public partial class AddedPackagesPage : UserControl
         {
             action.Invoke(sender!);
         }
-
-        char k = 'a';
+        
         if ((e.Key < Key.D0 || e.Key > Key.D9) && (e.Key< Key.NumPad0 || e.Key > Key.NumPad9))
         {
             e.Handled = true;

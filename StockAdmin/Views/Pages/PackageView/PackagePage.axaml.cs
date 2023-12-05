@@ -17,20 +17,15 @@ public partial class PackagePage : UserControl
     private readonly ContentControl _frame;
     private readonly List<PackageEntity> _parties;
     private readonly FinderController _finderController;
+    
     private PackageEntity? _package;
-    private int currentIndexBtn = 0;
+    private int _currentIndexBtn = 0;
+    
     public PackagePage(ContentControl frame)
     {
         InitializeComponent();
         _parties = new List<PackageEntity>();
-        _finderController = new FinderController(500,  () =>
-        {
-            string text = Finder.Text!.ToLower().Trim();
-            var list = _parties.Where(x => 
-                x.Party.Person.LastName.ToLower()
-                .Contains(text) || x.Party.CutNumber.ToLower().Contains(text));
-            List.ItemsSource = GroupPackages(list);
-        });
+        _finderController = new FinderController(500,  FilteringArray);
         _frame = frame;
         Init();
     }
@@ -40,15 +35,27 @@ public partial class PackagePage : UserControl
         SelectButton(DateTime.Now.Month - 1);
         await InitAsync(DateTime.Now.Month);
     }
-
+    
     private async Task InitAsync(int month)
     {
-        LoadingBorder.IsVisible = true;
-        var repository = new PackageRepository();
-        _parties.Clear();
-        _parties.AddRange((await repository.GetAllAsync(month))!);
-        List.ItemsSource = GroupPackages(_parties);
-        LoadingBorder.IsVisible = false;
+        var loadingController = new LoadingController<PackageEntity>(LoadingBorder);
+        
+        await loadingController.FetchDataAsync(async () =>
+        {
+            var repository = new PackageRepository();
+            _parties.Clear();
+            _parties.AddRange((await repository.GetAllAsync(month))!);
+            List.ItemsSource = GroupPackages(_parties);
+        });
+    }
+
+    private void FilteringArray()
+    {
+        string text = Finder.Text!.ToLower().Trim();
+        var list = _parties.Where(x => 
+            x.Party.Person.LastName.ToLower()
+                .Contains(text) || x.Party.CutNumber.ToLower().Contains(text));
+        List.ItemsSource = GroupPackages(list);
     }
     
     private void NavigateToAddedPackagesPage(object? sender, RoutedEventArgs e)
@@ -105,21 +112,12 @@ public partial class PackagePage : UserControl
             await repository.DeleteAsync(_package.Id);
             Init();
         }
-
-        SendNoAnswerOnDeleteItem(sender, e);
     }
     
-    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
-    {
-        DeletedContainer.IsVisible = false;
-    }
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
-            "вы действительно уверены, что хотите удалить пачку?" +
-            " Восстановить пачку будет нельзя!";
     }
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
@@ -131,12 +129,12 @@ public partial class PackagePage : UserControl
     {
         Button button = (sender as Button)!;
         int index = Convert.ToInt32(button.Content);
-        if (currentIndexBtn == index)
+        if (_currentIndexBtn == index)
         {
             return;
         }
         SelectButton(index - 1);
-        await InitAsync(currentIndexBtn);
+        await InitAsync(_currentIndexBtn);
     }
 
     private void SelectedPackage(object? sender, SelectionChangedEventArgs e)
@@ -146,7 +144,7 @@ public partial class PackagePage : UserControl
 
     private void SelectButton(int index)
     {
-        currentIndexBtn = index + 1;
+        _currentIndexBtn = index + 1;
 
         foreach (Button button in MonthButtons.Children)
         {

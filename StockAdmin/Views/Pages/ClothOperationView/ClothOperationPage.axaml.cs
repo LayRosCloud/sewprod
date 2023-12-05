@@ -27,13 +27,7 @@ public partial class ClothOperationPage : UserControl
         _packageEntity = packageEntity;
         _clothOperations = new List<ClothOperationEntity>();
         TitleText.Text = $"{packageEntity.Party?.CutNumber}/{packageEntity.Party?.Person?.Uid} {packageEntity.Size?.Number} {packageEntity.Count}";
-        _finderController = new FinderController(500, () =>
-        {
-            List.ItemsSource = _clothOperations.Where(x=> x.Operation.Name
-                .ToLower()
-                .Contains(Finded.Text.ToLower().Trim()))
-                .ToList();
-        });
+        _finderController = new FinderController(500, FilteringArrayOnText);
         InitData(packageEntity);
         _frame = frame;
     }
@@ -45,13 +39,23 @@ public partial class ClothOperationPage : UserControl
 
     private async Task InitAsync(PackageEntity packageEntity)
     {
-        var repository = new ClothOperationRepository();
-        _clothOperations.Clear();
-        _clothOperations.AddRange(await repository.GetAllAsync(packageEntity.Id));
-        List.ItemsSource = _clothOperations;
-        LoadingBorder.IsVisible = false;
+        var loadingController = new LoadingController<ClothOperationEntity>(LoadingBorder);
+        await loadingController.FetchDataAsync(async () =>
+        {
+            var repository = new ClothOperationRepository();
+            _clothOperations.Clear();
+            _clothOperations.AddRange(await repository.GetAllAsync(packageEntity.Id));
+            List.ItemsSource = _clothOperations;
+        });
     }
 
+    private void FilteringArrayOnText()
+    {
+        List.ItemsSource = _clothOperations.Where(x=> x.Operation.Name
+                .ToLower()
+                .Contains(Finded.Text.ToLower().Trim()))
+            .ToList();
+    }
     private void BackToPackagePage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new PackagePage(_frame);
@@ -90,6 +94,8 @@ public partial class ClothOperationPage : UserControl
             if (_clothOperationPerson != null)
             {
                 await repositoryPerson.DeleteAsync(_clothOperationPerson.Id);
+                await InitAsync(_packageEntity);
+                List.SelectAll();
             }
         }
         else if(_currentIndex == ListSelected.Second)
@@ -100,6 +106,7 @@ public partial class ClothOperationPage : UserControl
                 
                 await InitAsync(_packageEntity);
                 List.SelectAll();
+
             }
         }
         
@@ -115,7 +122,7 @@ public partial class ClothOperationPage : UserControl
     {
         _clothOperationPerson = (sender as Button).DataContext as ClothOperationPersonEntity;
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
+        DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить этого участника операции?" +
             " Восстановить участника операции будет нельзя!";
         
@@ -125,7 +132,7 @@ public partial class ClothOperationPage : UserControl
     private void ShowDeleteWindowClothOperation(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
+        DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить операцию над одеждой?" +
             " Восстановить операцию над одеждой будет нельзя!";
         

@@ -27,19 +27,13 @@ public partial class MainContainer : Window
         ElementConstants.MainContainer = this;
         ElementConstants.ErrorController = new ErrorController(ErrorContainer);
         const int indexOnFirstLetter = 0;
-        ShortName.Text = $"{ServerConstants.Token.LastName[indexOnFirstLetter]}{ServerConstants.Token.FirstName[indexOnFirstLetter]}";
-        LongName.Text = $"{ServerConstants.Token.LastName} {ServerConstants.Token.FirstName}";
-        if (!ServerConstants.Token.Posts!.Contains(new PostEntity() { Name = "ADMIN" }))
-        {
-            ForbiddenContainer.IsVisible = true;
-        }
+        ShortName.Text = $"{ServerConstants.AuthorizationUser.LastName[indexOnFirstLetter]}{ServerConstants.AuthorizationUser.FirstName[indexOnFirstLetter]}";
+        LongName.Text = $"{ServerConstants.AuthorizationUser.LastName} {ServerConstants.AuthorizationUser.FirstName}";
         Init();
     }
 
     private void Init()
     {
-        if (ForbiddenContainer.IsVisible) return;
-        
         var page = new PackagePage(Frame);
         Frame.Content = page;
     }

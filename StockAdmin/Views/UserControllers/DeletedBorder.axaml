@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.UserControllers.DeletedBorder"
+             x:Name="Root">
+    <Grid x:Name="DeletedContainer" 
+          >
+            
+        <Border 
+            Classes="deleteBackground"
+        />
+        <Border Classes="deleteContainer">
+            <Grid>
+                <StackPanel>
+                    <TextBlock 
+                        Text="{Binding ElementName=Root, Path=Title}" 
+                        FontWeight="Bold" 
+                        FontSize="40" 
+                        Foreground="#192655"/>
+                    <TextBlock 
+                        FontSize="20"
+                        Text="{Binding ElementName=Root, Path=Text}"
+                        TextWrapping="Wrap"/>
+                </StackPanel>
+                    
+                <Button 
+                    Classes="yes"
+                    Click="SendYesOnAnswerDelete"/>
+                    
+                <Button
+                    Classes="no"
+                    Click="SendNoOnAnswerDelete"/>
+                    
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

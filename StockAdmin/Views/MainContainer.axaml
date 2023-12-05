@@ -7,8 +7,13 @@
         x:Class="StockAdmin.Views.MainContainer"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Title="{Binding ElementName=Frame, Path=Content}" Icon="/Assets/logo.ico">
-    <Grid Background="LightGray" ColumnDefinitions="150, *" RowDefinitions="40, *">
+        Title="{Binding ElementName=Frame, 
+        Path=Content}" 
+        Icon="/Assets/logo.ico"
+        >
+    <Grid Background="LightGray" 
+          ColumnDefinitions="150, *" 
+          RowDefinitions="40, *">
         
         <StackPanel Grid.Row="0" 
                     Grid.Column="0" 
@@ -29,10 +34,17 @@
                            FontWeight="Bold"
                            />
             </Border>
-            <TextBlock Text="Админ панель" VerticalAlignment="Center" Foreground="#888888" FontWeight="Bold"/>
+            <TextBlock Text="Админ панель" 
+                       VerticalAlignment="Center" 
+                       Foreground="#888888" 
+                       FontWeight="Bold"/>
         </StackPanel>
         
-        <StackPanel x:Name="NavPanel" Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="0 20">
+        <StackPanel x:Name="NavPanel" 
+                    Grid.Row="1" 
+                    Grid.Column="0" 
+                    Orientation="Vertical" 
+                    Margin="0 20">
             <Button 
                     Background="Transparent"
                     HorizontalAlignment="Stretch"
@@ -46,6 +58,7 @@
                                 VerticalAlignment="Stretch" 
                                 Width="5" 
                                 CornerRadius="10"/>
+                        
                         <Border CornerRadius="100" 
                                 Background="#427D9D" 
                                 Padding="5" 
@@ -53,6 +66,7 @@
                             <Image Source="/Assets/cutter.png" 
                                    Width="25"/>
                         </Border>
+                        
                         <TextBlock Text="Крои"
                                    Margin="5 0 0 0" 
                                    Foreground="#427D9D" 
@@ -79,6 +93,7 @@
                                 Width="0" 
                                 CornerRadius="10"
                                 />
+                        
                         <Border CornerRadius="100" 
                                 Background="#888888" 
                                 Padding="5" 
@@ -86,14 +101,17 @@
                                 >
                             <Image Source="/Assets/model.png" 
                                    Width="25"
-                                   />
+                            />
+                            
                         </Border>
+                        
                         <TextBlock Text="Модели"
                                    Margin="5 0 0 0" 
                                    Foreground="#888888" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Bold" 
                                 />
+                        
                     </StackPanel>
                 </Button>
                 
@@ -251,14 +269,36 @@
                 Click="ExitFromProfile"/>
         
         
-        <Border Grid.Row="0" Grid.Column="1" CornerRadius="5" Background="White" Margin="40 5 0 5 " HorizontalAlignment="Left" Padding="5">
-            <TextBlock Text="{Binding ElementName=Frame, Path=Content}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black"/>
+        <Border Grid.Row="0" Grid.Column="1" 
+                CornerRadius="5" 
+                Background="White" 
+                Margin="40 5 0 5 " 
+                HorizontalAlignment="Left" 
+                Padding="5">
+            
+            <TextBlock Text="{Binding ElementName=Frame, Path=Content}" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       FontWeight="Black"/>
         </Border>
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Border Background="White" CornerRadius="50" Width="35" Height="35" >
-                    <TextBlock x:Name="ShortName" Text="СВ" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+            <StackPanel Grid.Row="0" 
+                        Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
+                <Border Background="White" 
+                        CornerRadius="50" 
+                        Width="35" 
+                        Height="35" >
+                    <TextBlock x:Name="ShortName" 
+                               Text="СВ" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               FontWeight="Bold"/>
                 </Border>
-                <TextBlock x:Name="LongName" Text="Степанов Виталий" VerticalAlignment="Center" Margin="10 0"/>
+                <TextBlock x:Name="LongName" 
+                           Text="Степанов Виталий" 
+                           VerticalAlignment="Center" 
+                           Margin="10 0"/>
             </StackPanel>
         <ContentControl Grid.Column="1" 
                         Grid.Row="1" 
@@ -266,35 +306,8 @@
                         Padding="5"
                         CornerRadius="10" 
                         Background="White"/>
-        <Border x:Name="ForbiddenContainer"
-                Grid.Column="0" 
-                Grid.Row="0" 
-                Grid.ColumnSpan="2" 
-                Grid.RowSpan="2"
-                Background="White"
-                IsVisible="False"
-            >
-            
-            <StackPanel VerticalAlignment="Center" 
-                        HorizontalAlignment="Center"
-                        >
-                <TextBlock Text="Error 403" 
-                           FontWeight="Bold" 
-                           Foreground="Black" 
-                           FontSize="40"/>
-                
-                <TextBlock Text="У вас недостаточно прав!" 
-                           Foreground="Black" 
-                           FontSize="20"/>
-                
-                <TextBlock Text="обратитесь к администратору за объяснениями!" 
-                           Opacity="0.6" 
-                           Foreground="Firebrick" 
-                           FontSize="15"/>
-                
-                <Button Content="Выйти из учетной записи" Click="ExitFromProfile" Margin="0 40 0 0"/>
-            </StackPanel>
-        </Border>
+        
+
         
         <StackPanel HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 

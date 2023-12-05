@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
+             xmlns:userControllers="clr-namespace:StockAdmin.Views.UserControllers"
              x:Class="StockAdmin.Views.Pages.ClothOperationView.ClothOperationPage" 
              x:DataType="models:ClothOperationEntity">
     <Grid RowDefinitions="35,*" ColumnDefinitions="*, *">
@@ -110,44 +111,15 @@
             </StackPanel>
         </Border>
         
-        
-        <Grid Grid.Column="0" x:Name="DeletedContainer" 
-              IsVisible="False" 
-              Grid.Row="0" 
-              Grid.RowSpan="2">
-            <Border 
-                Classes="deleteBackground"
-            />
-            <Border Classes="deleteContainer">
-                <Grid>
-                    <StackPanel>
-                        <TextBlock 
-                            Text="вы уверены?" 
-                            FontWeight="Bold" 
-                            FontSize="40" 
-                            Foreground="#192655"/>
-                        <TextBlock 
-                            x:Name="DeletedMessage"
-                            FontSize="20" 
-                            TextWrapping="Wrap"/>
-                    </StackPanel>
-                    
-                    <Button 
-                        Classes="yes"
-                        Click="SendYesAnswerOnDeleteItem"/>
-                    
-                    <Button 
-                        Classes="no"
-                        Click="SendNoAnswerOnDeleteItem"/>
-                    
-                </Grid>
-            </Border>
-        </Grid>
-        <Border Grid.Column="0" Grid.ColumnSpan="2" x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="2" Background="White">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
-                <TextBlock Text="Пожалуйста подождите"/>
-            </StackPanel>
-        </Border>
+        <userControllers:DeletedBorder Grid.Column="0" Grid.ColumnSpan="2" x:Name="DeletedContainer" 
+                                       IsVisible="False" 
+                                       Grid.Row="0" 
+                                       Grid.RowSpan="2" 
+                                       ClickOnAnswerYes="SendYesAnswerOnDeleteItem"
+        />
+        <userControllers:LoadingBorder Grid.Column="0" Grid.ColumnSpan="2" x:Name="LoadingBorder" 
+                                       Grid.Row="0" 
+                                       Grid.RowSpan="2"
+        />
     </Grid>
 </UserControl>

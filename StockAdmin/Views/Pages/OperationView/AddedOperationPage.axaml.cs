@@ -9,6 +9,7 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Validations;
 using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.OperationView;
@@ -71,13 +72,17 @@ public partial class AddedOperationPage : UserControl
     
     public override string ToString()
     {
+        //TODO: в константы
         return "Добавление / Обновление операции";
     }
 
-    private void KeyDownOnPriceField(object? sender, KeyEventArgs e)
+    private void KeyDownOnPercentField(object? sender, KeyEventArgs e)
     {
+        NumberValidation numberValidation = new NumberValidation();
+        
+        //TODO: в отдельный класс
         Key key = e.Key;
-        if (key < Key.D0 || e.Key> Key.D9 && e.Key < Key.NumPad0 || e.Key> Key.NumPad9)
+        if (numberValidation.AddNumberValidation().AddPointValidation().Validate(key))
         {
             e.Handled = true;
         }

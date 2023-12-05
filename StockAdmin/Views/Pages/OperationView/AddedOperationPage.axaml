@@ -22,7 +22,7 @@
         
         <TextBox x:Name="TbPercent" Watermark="Введите процент"
                  Text="{Binding  Path=Percent}"
-                 KeyDown="KeyDownOnPriceField"
+                 KeyDown="KeyDownOnPercentField"
                  />
         
         <Button Click="TrySaveChanges" Content="Отправить"/>

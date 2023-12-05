@@ -15,7 +15,7 @@ public class OperationEntity : Entity
     [JsonPropertyName(ServerConstants.Operation.FieldUid)]
     public string Uid { get; set; } = "";
     [JsonPropertyName(ServerConstants.Operation.FieldPercent)] 
-    public int Percent { get; set; }
+    public double Percent { get; set; }
     
     [JsonPropertyName(ServerConstants.Operation.FieldModelOperation)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] 

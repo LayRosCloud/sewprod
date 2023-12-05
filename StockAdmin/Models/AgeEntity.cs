@@ -10,4 +10,6 @@ public class AgeEntity : Entity
 
     [JsonPropertyName(ServerConstants.Age.FieldDescription)]
     public string Description { get; set; } = "";
+
+    [JsonIgnore] public string? FullName => Name + " " + Description;
 }

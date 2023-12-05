@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
@@ -30,7 +32,7 @@ public partial class AddedSizePage : UserControl
     private async void Init()
     {
         AgeRepository repository = new AgeRepository();
-        CbTypes.ItemsSource = await repository.GetAllAsync();
+        CbTypes.ItemsSource = (await repository.GetAllAsync()).OrderBy(x=>x.Name);
         DataContext = _sizeEntity;
     }
     
@@ -79,4 +81,5 @@ public partial class AddedSizePage : UserControl
     {
         return "Добавление / Обновление размеров";
     }
+    
 }

@@ -7,6 +7,7 @@ using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Validations;
 
 namespace StockAdmin.Views.Pages.ModelView;
 
@@ -61,10 +62,8 @@ public partial class AddedModelPricePage : UserControl
 
     private void InputSymbol(object? sender, KeyEventArgs e)
     {
-        if (e.Key is (< Key.D0 or > Key.D9) and (< Key.NumPad0 or > Key.NumPad9) 
-            && e.Key != Key.Oem2 
-            && e.Key != Key.OemComma 
-            && e.Key != Key.OemPeriod )
+        NumberValidation validation = new NumberValidation();
+        if (validation.AddNumberValidation().AddPointValidation().Validate(e.Key))
         {
             e.Handled = true;
         }

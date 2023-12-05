@@ -14,13 +14,13 @@ public class HttpHandler<TEntity>
     public async Task<List<TEntity>?> GetListFromJsonAsync(string point)
     {
         HttpClient httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
         var responseMessage = await httpClient.GetAsync($"{ServerConstants.ServerAddress}{point}");
         if (responseMessage.IsSuccessStatusCode == false)
         {
             await RefreshToken(responseMessage);
             httpClient.DefaultRequestHeaders.Remove("Authorization");
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
             responseMessage = await httpClient.GetAsync($"{ServerConstants.ServerAddress}{point}");
         }
         return await responseMessage.Content.ReadFromJsonAsync<List<TEntity>>();
@@ -29,14 +29,14 @@ public class HttpHandler<TEntity>
     public async Task<TEntity?> GetFromJsonAsync(string point)
     {
         HttpClient httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
 
         var responseMessage = await httpClient.GetAsync($"{ServerConstants.ServerAddress}{point}");
         if (responseMessage.IsSuccessStatusCode == false)
         {
             await RefreshToken(responseMessage);
             httpClient.DefaultRequestHeaders.Remove("Authorization");
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
             responseMessage = await httpClient.GetAsync($"{ServerConstants.ServerAddress}{point}");
         }
         return await responseMessage.Content.ReadFromJsonAsync<TEntity>();
@@ -46,9 +46,9 @@ public class HttpHandler<TEntity>
     {
         HttpClient httpClient = new HttpClient();
         
-        if (ServerConstants.Token != null)
+        if (ServerConstants.AuthorizationUser != null)
         {
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
         }
 
 
@@ -58,7 +58,7 @@ public class HttpHandler<TEntity>
         {
             await RefreshToken(responseMessage);
             httpClient.DefaultRequestHeaders.Remove("Authorization");
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
             responseMessage = 
                 await httpClient.PostAsJsonAsync($"{ServerConstants.ServerAddress}{point}", entity);
             
@@ -69,7 +69,7 @@ public class HttpHandler<TEntity>
     public async Task<TEntity?> PutAsJsonAsync(string point, TEntity entity)
     {
         HttpClient httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
 
         var responseMessage = await httpClient.PutAsJsonAsync($"{ServerConstants.ServerAddress}{point}", entity);
         
@@ -77,7 +77,7 @@ public class HttpHandler<TEntity>
         {
             await RefreshToken(responseMessage);
             httpClient.DefaultRequestHeaders.Remove("Authorization");
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
             responseMessage =
                 await httpClient.PutAsJsonAsync($"{ServerConstants.ServerAddress}{point}", entity);
         }
@@ -88,14 +88,14 @@ public class HttpHandler<TEntity>
     public async Task DeleteAsync(string point)
     {
         var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
 
         var responseMessage = await httpClient.DeleteAsync($"{ServerConstants.ServerAddress}{point}");
         if (responseMessage.IsSuccessStatusCode == false)
         {
             await RefreshToken(responseMessage);
             httpClient.DefaultRequestHeaders.Remove("Authorization");
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.Token.Token}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
             await httpClient.DeleteAsync($"{ServerConstants.ServerAddress}{point}");
         }
     }
@@ -106,7 +106,7 @@ public class HttpHandler<TEntity>
         {
             var repository = new PersonRepository();
             AuthEntity? auth = await repository.LoginAsync(new PersonEntity() { Email = ServerConstants.Login, Password = ServerConstants.Password });
-            ServerConstants.Token = auth!;
+            ServerConstants.AuthorizationUser = auth!;
         }
     }
 }

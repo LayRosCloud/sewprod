@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
+             xmlns:userControllers="clr-namespace:StockAdmin.Views.UserControllers"
              x:DataType="models:GroupedPackages" 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.PackagePage">
@@ -181,44 +182,14 @@
         <Button Grid.Row="1" 
                 Classes="plus"
                 Click="NavigateToAddedPackagesPage"/>
-        <Grid x:Name="DeletedContainer" 
-              IsVisible="False" 
-              Grid.Row="0" 
-              Grid.RowSpan="3">
-            
-            <Border 
-                Classes="deleteBackground"
-            />
-            <Border Classes="deleteContainer">
-                <Grid>
-                    <StackPanel>
-                        <TextBlock 
-                            Text="вы уверены?" 
-                            FontWeight="Bold" 
-                            FontSize="40" 
-                            Foreground="#192655"/>
-                        <TextBlock 
-                            x:Name="DeletedMessage"
-                            FontSize="20" 
-                            TextWrapping="Wrap"/>
-                    </StackPanel>
-                    
-                    <Button 
-                        Classes="yes"
-                        Click="SendYesAnswerOnDeleteItem"/>
-                    
-                    <Button 
-                        Classes="no"
-                        Click="SendNoAnswerOnDeleteItem"/>
-                    
-                </Grid>
-            </Border>
-        </Grid>
-        <Border x:Name="LoadingBorder" Grid.Row="0" Grid.RowSpan="3" Background="White">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Загрузка" FontSize="30" FontWeight="Bold"/>
-                <TextBlock Text="Пожалуйста подождите"/>
-            </StackPanel>
-        </Border>
+        <userControllers:DeletedBorder x:Name="DeletedContainer" 
+                                       IsVisible="False" 
+                                       Grid.Row="0" 
+                                       Text="Вы действительно хотите удалить эту пачку? Восстановить будет невозможно!"
+                                       Grid.RowSpan="3" 
+                                       ClickOnAnswerYes="SendYesAnswerOnDeleteItem"/>
+        <userControllers:LoadingBorder x:Name="LoadingBorder" 
+                                       Grid.Row="0" 
+                                       Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

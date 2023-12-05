@@ -11,6 +11,7 @@ using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Validations;
 using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.ModelView;
@@ -176,15 +177,13 @@ public partial class AddedModelPage : UserControl
     {
         var key = e.Key;
         object? actionObj = _actionList[key];
+        NumberValidation validation = new NumberValidation();
         if (actionObj is Action<object?> action)
         {
             action.Invoke(sender!);
         }
 
-        if (e.Key is (< Key.D0 or > Key.D9) and (< Key.NumPad0 or > Key.NumPad9) 
-            && e.Key != Key.Oem2 
-            && e.Key != Key.OemComma 
-            && e.Key != Key.OemPeriod )
+        if (validation.AddPointValidation().AddNumberValidation().Validate(e.Key))
         {
             e.Handled = true;
         }

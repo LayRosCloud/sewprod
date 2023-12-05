@@ -7,13 +7,14 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.AddedTypeOfSizePage">
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
-        
+        <TextBlock Text="Введите название*" FontWeight="Bold"/>
         <TextBox x:Name="TbName" Text="{Binding Name}" 
                  Watermark="Введите название*"
         />
         
+        <TextBlock Text="Введите описание*" FontWeight="Bold" Margin="0 10 0 0 "/>
         <TextBox x:Name="TbDesc" Text="{Binding Description}" 
-                 Watermark="Введите описание"
+                 Watermark="Введите описание*"
         />
         
         <Button Content="Отправить" Click="TrySaveChanges"/>

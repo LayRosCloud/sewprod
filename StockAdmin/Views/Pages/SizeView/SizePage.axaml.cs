@@ -20,33 +20,43 @@ public partial class SizePage : UserControl
     public SizePage(ContentControl frame)
     {
         InitializeComponent();
+        
         _ages = new List<AgeEntity>();
         _sizes = new List<SizeEntity>();
-        _finderSizeController = new FinderController(500, () =>
-        {
-            ListSizes.ItemsSource = _sizes.Where(x => x.Number.ToLower().Contains(FinderSize.Text.ToLower())).ToList();
-        });
-        _finderTypeOfSizeController = new FinderController(500, () =>
-        {
-            ListAges.ItemsSource = _ages.Where(x => x.Name.ToLower().Contains(FinderTypeOfSizes.Text.ToLower())).ToList();
-        });
+        
+        _finderSizeController = new FinderController(500, SortingArraySizes);
+        _finderTypeOfSizeController = new FinderController(500, SortingArrayTypes);
+        
         _frame = frame;
+        
         Init();
     }
 
     private async void Init()
     {
-        LoadingBorder.IsVisible = true;
-        var sizeRepository = new SizeRepository();
-        var ageRepository = new AgeRepository();
-        _sizes.AddRange(await sizeRepository.GetAllAsync());
-        _ages.AddRange(await ageRepository.GetAllAsync());
-        ListSizes.ItemsSource = _sizes;
-        ListAges.ItemsSource = _ages;
-        LoadingBorder.IsVisible = false;
+        var loadingSizes = new LoadingController<SizeEntity>(LoadingBorder,
+            new DataController<SizeEntity>(new SizeRepository(), _sizes, ListSizes));
+        var loadingTypes = new LoadingController<AgeEntity>(LoadingBorder,
+            new DataController<AgeEntity>(new AgeRepository(), _ages, ListAges));
+        
+        await loadingSizes.FetchDataAsync();
+        await loadingTypes.FetchDataAsync();
     }
 
-
+    private void SortingArraySizes()
+    {
+        ListSizes.ItemsSource = _sizes
+            .Where(x => x.Number.ToLower().Contains(FinderSize.Text.ToLower()))
+            .ToList();
+    }
+    
+    private void SortingArrayTypes()
+    {
+        ListAges.ItemsSource = _ages
+            .Where(x => x.Name.ToLower().Contains(FinderTypeOfSizes.Text.ToLower()))
+            .ToList();
+    }
+    
     private void NavigateToAddedSizePage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedSizePage(_frame);
@@ -64,14 +74,32 @@ public partial class SizePage : UserControl
 
     private void NavigateToEditSizePage(object? sender, RoutedEventArgs e)
     {
-        SizeEntity sizeEntity = (sender as Button)?.DataContext as SizeEntity;
-        _frame.Content = new AddedSizePage(_frame, sizeEntity);
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.DataContext is not SizeEntity size)
+        {
+            return;
+        }
+        
+        _frame.Content = new AddedSizePage(_frame, size);
     }
 
     private void NavigateToEditTypeOfSizePage(object? sender, RoutedEventArgs e)
     {
-        AgeEntity ageEntity = (sender as Button)?.DataContext as AgeEntity;
-        _frame.Content = new AddedTypeOfSizePage(_frame, ageEntity);
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.DataContext is not AgeEntity age)
+        {
+            return;
+        }
+        
+        _frame.Content = new AddedTypeOfSizePage(_frame, age);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -82,8 +110,6 @@ public partial class SizePage : UserControl
         {
             await repository.DeleteAsync(size.Id);
         }
-
-        SendNoAnswerOnDeleteItem(sender, e);
         Init();
     }
     
@@ -95,31 +121,17 @@ public partial class SizePage : UserControl
         {
             await repository.DeleteAsync(age.Id);
         }
-
-        SendNoAnswerOnDeleteItem(sender, e);
         Init();
     }
-
-    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
-    {
-        DeletedContainerTypeSize.IsVisible = false;
-        DeletedContainerSize.IsVisible = false;
-    }
-
+    
     private void ShowDeleteWindowSize(object? sender, RoutedEventArgs e)
     {
-        DeletedContainerSize.IsVisible = true;
-        DeletedMessageSize.Text =
-            "вы действительно уверены, что хотите удалить размер?" +
-            " Восстановить размер будет нельзя!";
+        DeletedBorderSize.IsVisible = true;
     }
     
     private void ShowDeleteWindowTypeOfSize(object? sender, RoutedEventArgs e)
     {
-        DeletedContainerTypeSize.IsVisible = true;
-        DeletedMessageTypeSize.Text =
-            "вы действительно уверены, что хотите удалить тип размера?" +
-            " Восстановить тип размера будет нельзя!";
+        DeletedBorder.IsVisible = true;
     }
 
     private void TextChangedSize(object? sender, TextChangedEventArgs e)

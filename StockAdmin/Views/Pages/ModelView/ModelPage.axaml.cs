@@ -20,25 +20,24 @@ public partial class ModelPage : UserControl
         InitializeComponent();
         _frame = frame;
         _models = new List<ModelEntity>();
-        _finderController = new FinderController(500, () =>
-        {
-            List.ItemsSource = _models
-                .Where(x => x.Title.ToLower().Contains(Finded.Text.ToLower()))
-                .ToList();
-        });
+        _finderController = new FinderController(500, FilteringArrayOnText);
         InitData();
     }
 
     private async void InitData()
     {
-        var repository = new ModelRepository();
-        _models.Clear();
-        _models.AddRange(await repository.GetAllAsync());
-        List.SelectedItem = null;
-        List.ItemsSource = _models;
-        LoadingBorder.IsVisible = false;
+        var dataController = new DataController<ModelEntity>(new ModelRepository(), _models, List);
+        var loadingController = new LoadingController<ModelEntity>(LoadingBorder, dataController);
+        await loadingController.FetchDataAsync();
     }
 
+    private void FilteringArrayOnText()
+    {
+        List.ItemsSource = _models
+            .Where(x => x.Title.ToLower().Contains(Finded.Text.ToLower()))
+            .ToList();
+    }
+    
     private void NavigateToCreatePage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedModelPage(_frame);
@@ -46,8 +45,16 @@ public partial class ModelPage : UserControl
 
     private void NavigateToEditPage(object? sender, RoutedEventArgs e)
     {
-        ModelEntity modelEntity = (sender as Button).DataContext as ModelEntity;
-        _frame.Content = new AddedModelPage(_frame, modelEntity);
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.DataContext is not ModelEntity model)
+        {
+            return;
+        }
+        _frame.Content = new AddedModelPage(_frame, model);
     }
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -89,7 +96,7 @@ public partial class ModelPage : UserControl
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
+        DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить модель?" +
             " Восстановить модель будет нельзя!";
         _currentSelectedList = ListSelected.First;
@@ -111,7 +118,7 @@ public partial class ModelPage : UserControl
     private void ShowDeleteWindowOperation(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
+        DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить операцию над моделью?" +
             " Восстановить операцию над моделью будет нельзя!";
         _currentSelectedList = ListSelected.Second;
@@ -120,7 +127,7 @@ public partial class ModelPage : UserControl
     private void ShowDeleteWindowPrice(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
+        DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить цену над моделью?" +
             " Восстановить цену над моделью будет нельзя!";
         _currentSelectedList = ListSelected.Third;

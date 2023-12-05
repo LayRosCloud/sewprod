@@ -7,17 +7,16 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.AddedSizePage">
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
-        
+        <TextBlock Text="Введите размер*" FontWeight="Bold"/>
         <TextBox x:Name="TbNumber" Text="{Binding Number}" 
                  Watermark="Введите числовой эквивалент*"
         />
         
-        <ComboBox x:Name="CbTypes"
-                  DisplayMemberBinding="{Binding DataType=models:AgeEntity, Path=Name}"
-                  SelectedValueBinding="{Binding DataType=models:AgeEntity, Path=Id}"
-                  SelectedValue="{Binding AgeId}"
+        <TextBlock Text="Выберите ростовку*" FontWeight="Bold" Margin="0 10 0 0 "/>
+        <AutoCompleteBox x:Name="CbTypes"
+                  ValueMemberBinding="{Binding DataType=models:AgeEntity, Path=FullName}"
                   HorizontalAlignment="Stretch"
-                  />
+        />
         
         <Button Content="Отправить" Click="TrySaveChanges"/>
     </StackPanel>

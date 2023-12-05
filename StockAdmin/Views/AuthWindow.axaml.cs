@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -33,8 +32,8 @@ public partial class AuthWindow : Window
             string decoded = controller.DecodeAndDecrypt(sentence);
             string[] keysValueEmailAndPassword = decoded.Split("\r|\r");
         
-            string email = keysValueEmailAndPassword[0].Split(':')[1].Trim();
-            string password = keysValueEmailAndPassword[1].Split(':')[1].Trim();
+            var email = keysValueEmailAndPassword[0].Split(':')[1].Trim();
+            var password = keysValueEmailAndPassword[1].Split(':')[1].Trim();
             
             IsRememberMe.IsChecked = true;
             Email.Text = email;
@@ -81,6 +80,7 @@ public partial class AuthWindow : Window
             {
                 SaveEmailAndPasswordToFile(email, password);
             }
+            
             ShowWindow();
         }
         catch (AuthException ex)
@@ -111,9 +111,9 @@ public partial class AuthWindow : Window
         ServerConstants.Login = email;
         ServerConstants.Password = password;
         
-        PersonEntity personEntity = new PersonEntity { Email = email, Password = password };
+        var personEntity = new PersonEntity { Email = email, Password = password };
 
-        PersonRepository repository = new PersonRepository();
+        var repository = new PersonRepository();
         var authPerson = await repository.LoginAsync(personEntity);
         
         if (authPerson!.Token == null)
@@ -121,12 +121,12 @@ public partial class AuthWindow : Window
             throw new AuthException(authMessageError);
         }
 
-        ServerConstants.Token = authPerson;
+        ServerConstants.AuthorizationUser = authPerson;
     }
 
     private void ShowWindow()
     {
-        MainContainer container = new MainContainer();
+        var container = new MainContainer();
         container.Show();
         Close();
     }
@@ -136,5 +136,10 @@ public partial class AuthWindow : Window
         const bool disableBorderError = false;
         
         BorderError.IsVisible = disableBorderError;
+    }
+
+    private void DisableWindow(object? sender, RoutedEventArgs e)
+    {
+        ForbiddenContainer.IsVisible = false;
     }
 }

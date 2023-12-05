@@ -20,26 +20,26 @@ public partial class OperationPage : UserControl
     {
         InitializeComponent();
         _operations = new List<OperationEntity>();
-        _finderController = new FinderController(500, () =>
-        {
-            List.ItemsSource = 
-                _operations
-                    .Where(x => x.Name.ToLower().Contains(Finder.Text.ToLower().Trim()))
-                    .ToList();
-        });
+        _finderController = new FinderController(500, FilteringArrayOnText);
         _frame = frame;
         Init();
     }
 
     private async void Init()
     {
-        IDataReader<OperationEntity> operationRepository = new OperationRepository();
-        _operations.Clear();
-        _operations.AddRange(await operationRepository.GetAllAsync());
-        List.ItemsSource = _operations;
-        LoadingBorder.IsVisible = false;
+        var dataController = new DataController<OperationEntity>(new OperationRepository(), _operations, List);
+        var loadingController = new LoadingController<OperationEntity>(LoadingBorder, dataController);
+        await loadingController.FetchDataAsync();
     }
 
+    private void FilteringArrayOnText()
+    {
+        List.ItemsSource = 
+            _operations
+                .Where(x => x.Name.ToLower().Contains(Finder.Text.ToLower().Trim()))
+                .ToList();
+    }
+    
     private void NavigateToAddedOperationPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedOperationPage(_frame);
@@ -60,21 +60,11 @@ public partial class OperationPage : UserControl
             await repository.DeleteAsync(operation.Id);
             Init();
         }
-
-        SendNoAnswerOnDeleteItem(sender, e);
-    }
-
-    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
-    {
-        DeletedContainer.IsVisible = false;
     }
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
-            "вы действительно уверены, что хотите удалить операцию?" +
-            " Восстановить операцию будет нельзя!";
     }
 
     private void TextChanged(object? sender, TextChangedEventArgs e)

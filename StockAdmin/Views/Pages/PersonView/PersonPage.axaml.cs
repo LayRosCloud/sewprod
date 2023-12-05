@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.StatisticPeople;
@@ -21,10 +20,7 @@ public partial class PersonPage : UserControl
     {
         InitializeComponent();
         _persons = new List<PersonEntity>();
-        _finderController = new FinderController(500, () =>
-        {
-            List.ItemsSource = _persons.Where(x => x.LastName.ToLower().Contains(Finder.Text.ToLower())).ToList();
-        });
+        _finderController = new FinderController(500, FilteringArrayOnText);
         
         _frame = frame;
         Init();
@@ -32,14 +28,16 @@ public partial class PersonPage : UserControl
     
     private async void Init()
     {
-        var personRepository = new PersonRepository();
-        _persons.Clear();
-        _persons.AddRange(await personRepository.GetAllAsync());
-        List.SelectedItem = null;
-        List.ItemsSource = _persons;
-        LoadingBorder.IsVisible = false;
+        var dataController = new DataController<PersonEntity>(new PersonRepository(), _persons, List);
+        var loadingController = new LoadingController<PersonEntity>(LoadingBorder, dataController);
+        await loadingController.FetchDataAsync();
     }
-    
+
+    private void FilteringArrayOnText()
+    {
+        List.ItemsSource = 
+            _persons.Where(x => x.LastName.ToLower().Contains(Finder.Text.ToLower())).ToList();
+    }
     private void NavigateToAddedPersonPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedPersonPage(_frame);
@@ -65,21 +63,11 @@ public partial class PersonPage : UserControl
             await repository.DeleteAsync(person.Id);
             Init();
         }
-
-        SendNoAnswerOnDeleteItem(sender, e);
-    }
-
-    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
-    {
-        DeletedContainer.IsVisible = false;
     }
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = true;
-        DeletedMessage.Text =
-            "вы действительно уверены, что хотите удалить пользователя?" +
-            " Восстановить пользователя будет нельзя!";
     }
 
     private void NavigateToMoreInformation(object? sender, TappedEventArgs e)

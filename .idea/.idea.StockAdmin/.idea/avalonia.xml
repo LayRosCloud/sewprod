@@ -44,6 +44,9 @@
         <entry key="StockAdmin/Views/Pages/SizeView/AddedTypeOfSizePage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/SizeView/SizePage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/StatisticPeople/StatisticPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/UserControllers/CustomControl.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/UserControllers/DeletedBorder.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/UserControllers/LoadingBorder.axaml" value="StockAdmin/StockAdmin.csproj" />
       </map>
     </option>
   </component>

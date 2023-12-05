@@ -18,23 +18,21 @@ public partial class MaterialsPage : UserControl
     public MaterialsPage(ContentControl frame)
     {
         InitializeComponent();
+        
         _materials = new List<MaterialEntity>();
-        _finderController = new FinderController(500, () =>
-        {
-            ListMaterials.ItemsSource = _materials.Where(x => x.Name.ToLower().Contains(Finded.Text.ToLower()));
-        });
+        _finderController = new FinderController(500, FilteringArrayOnText);
         _frame = frame;
+        
         Init();
     }
 
     private async void Init()
     {
-        var repositoryMaterial = new MaterialRepository();
-        _materials.Clear();
-        _materials.AddRange(await repositoryMaterial.GetAllAsync());
-        ListMaterials.SelectedItem = null;
-        ListMaterials.ItemsSource = _materials;
-        LoadingBorder.IsVisible = false;
+        var dataController =
+            new DataController<MaterialEntity>(new MaterialRepository(), _materials, ListMaterials);
+        
+        var loadingController = new LoadingController<MaterialEntity>(LoadingBorder, dataController);
+        await loadingController.FetchDataAsync();
     }
     
     public override string ToString()
@@ -42,6 +40,10 @@ public partial class MaterialsPage : UserControl
         return "Материалы";
     }
 
+    private void FilteringArrayOnText()
+    {
+        ListMaterials.ItemsSource = _materials.Where(x => x.Name.ToLower().Contains(Finded.Text.ToLower()));
+    }
     private void NavigateToAddedMaterialPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedMaterialPage(_frame);
@@ -49,35 +51,35 @@ public partial class MaterialsPage : UserControl
 
     private void NavigateToEditMaterialPage(object? sender, RoutedEventArgs e)
     {
-        MaterialEntity materialEntity = (sender as Button)?.DataContext as MaterialEntity;
-        _frame.Content = new AddedMaterialPage(_frame, materialEntity);
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.DataContext is not MaterialEntity material)
+        {
+            return;
+        }
+        
+        _frame.Content = new AddedMaterialPage(_frame, material);
     }
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new MaterialRepository();
-        
-        if (ListMaterials.SelectedItem is MaterialEntity material)
-        {
-            await repository.DeleteAsync(material.Id);
-        }
 
-        SendNoAnswerOnDeleteItem(sender, e);
+        if (ListMaterials.SelectedItem is not MaterialEntity material)
+        {
+            return;
+        }
+        
+        await repository.DeleteAsync(material.Id);
         Init();
     }
     
-
-    private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
-    {
-        DeletedContainerMaterial.IsVisible = false;
-    }
-
     private void ShowDeleteWindowMaterial(object? sender, RoutedEventArgs e)
     {
-        DeletedContainerMaterial.IsVisible = true;
-        DeletedMessageMaterial.Text =
-            "вы действительно уверены, что хотите удалить материал?" +
-            " Восстановить материал будет нельзя!";
+        DeletedContainer.IsVisible = true;
     }
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
