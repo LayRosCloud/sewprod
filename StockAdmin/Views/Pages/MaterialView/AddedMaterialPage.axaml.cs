@@ -76,6 +76,6 @@ public partial class AddedMaterialPage : UserControl
 
     public override string ToString()
     {
-        return "Добавление / Обновление материала";
+        return PageTitles.AddMaterial;
     }
 }

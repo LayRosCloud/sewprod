@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 
@@ -37,7 +38,7 @@ public partial class MaterialsPage : UserControl
     
     public override string ToString()
     {
-        return "Материалы";
+        return PageTitles.Material;
     }
 
     private void FilteringArrayOnText()

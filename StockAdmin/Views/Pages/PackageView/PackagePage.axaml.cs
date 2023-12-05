@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 
@@ -94,7 +95,7 @@ public partial class PackagePage : UserControl
     
     public override string ToString()
     {
-        return "Пачки";
+        return PageTitles.Package;
     }
 
     private void NavigateToEditPage(object? sender, RoutedEventArgs e)

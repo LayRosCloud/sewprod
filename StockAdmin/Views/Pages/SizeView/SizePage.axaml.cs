@@ -3,7 +3,7 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 
@@ -69,7 +69,7 @@ public partial class SizePage : UserControl
     
     public override string ToString()
     {
-        return "Размеры";
+        return PageTitles.Size;
     }
 
     private void NavigateToEditSizePage(object? sender, RoutedEventArgs e)

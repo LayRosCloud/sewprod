@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.StatisticPeople;
@@ -45,7 +46,7 @@ public partial class PersonPage : UserControl
     
     public override string ToString()
     {
-        return "Персонал";
+        return PageTitles.Person;
     }
 
     private void NavigateToEditPersonPage(object? sender, RoutedEventArgs e)

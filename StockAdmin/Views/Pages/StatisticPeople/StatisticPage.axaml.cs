@@ -9,6 +9,8 @@ using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.StatisticPeople;
@@ -16,14 +18,14 @@ namespace StockAdmin.Views.Pages.StatisticPeople;
 public partial class StatisticPage : UserControl
 {
     private readonly List<PackageEntity> _packages;
-    private readonly List<ClothOperationPersonEntity> _clothOperations;
+    private readonly List<ClothOperationPersonEntity> _clothOperationPersons;
     public StatisticPage(PersonEntity person)
     {
         InitializeComponent();
         var items = new List<string> { "Пачки", "Операции" };
         
         _packages = new List<PackageEntity>();
-        _clothOperations = new List<ClothOperationPersonEntity>();
+        _clothOperationPersons = new List<ClothOperationPersonEntity>();
         Text.Text = person.FullName;
         GroupItems.ItemsSource = items;
         GroupItems.SelectedIndex = 1;
@@ -34,8 +36,21 @@ public partial class StatisticPage : UserControl
     {
         var repository = new ClothOperationPersonRepository();
         var packageRepository = new PackageRepository();
-        
-        _clothOperations.AddRange(await repository.GetAllAsync(personId));
+        var list = await repository.GetAllAsync(personId);
+        double fullSum = 0;
+        foreach (var item in list)
+        {
+            DateTime now = DateTime.Now;
+            DateTime firstDay = new DateTime(now.Year, now.Month, 1);
+            DateTime lastDay = new DateTime(now.Year, now.Month, 1).AddMonths(1).AddDays(-1);
+            if (item.DateStart >= firstDay && item.DateStart <= lastDay && item.IsEnded)
+            {
+                _clothOperationPersons.Add(item);
+                fullSum += item.ClothOperation.Price.Number;
+            }
+        }
+
+        FullSum.Text = "Полная сумма: " + fullSum.ToString("F2");
         _packages.AddRange(await packageRepository.GetAllAsync(DateTime.Now.Month, personId));
 
         SetClothOperations();
@@ -74,7 +89,7 @@ public partial class StatisticPage : UserControl
 
     private void SetClothOperations()
     {
-        var entities = _clothOperations.Where(x => x.IsEnded).GroupBy(x => x.DateStart.ToShortDateString()).ToList();
+        var entities = _clothOperationPersons.Where(x => x.IsEnded).GroupBy(x => x.DateStart.ToShortDateString()).ToList();
         
         var series = new ColumnSeries<IGrouping<string, ClothOperationPersonEntity>>()
         {
@@ -104,18 +119,22 @@ public partial class StatisticPage : UserControl
     private void SeriesOnChartPointPointerDown(IChartView chart, ChartPoint<IGrouping<string, ClothOperationPersonEntity>, RoundedRectangleGeometry, LabelGeometry>? point)
     {
         Title.Text = point.Model.Key;
-        var builder = new StringBuilder();
+        
         double sum = 0;
-        foreach (var entity in point.Model)
+        
+        var walletOperations =  new List<WalletOperation>();
+        foreach (var entity in _clothOperationPersons)
         {
-            builder.Append(entity.ClothOperation.Operation.Name + " ");
-            builder.Append(entity.ClothOperation.Price.Number.ToString("F2"));
-            builder.Append("\n");
+            walletOperations.Add(new WalletOperation()
+            {
+                Name = entity.ClothOperation.Operation.Name,
+                Cost = entity.ClothOperation.Price.Number
+            });
             sum += entity.ClothOperation.Price.Number;
         }
 
         Result.Text = sum.ToString("F2") + " Р.";
-        Description.Text = builder.ToString();
+        List.ItemsSource =walletOperations;
         
     }
     
@@ -126,18 +145,15 @@ public partial class StatisticPage : UserControl
         double sum = 0;
         foreach (var entity in point.Model)
         {
-            builder.Append(entity.Party!.CutNumber + "\t");
-            builder.Append(entity.Party.Price!.Number.ToString("F2"));
-            builder.Append("\n");
             sum += entity.Party.Price!.Number;
         }
         Result.Text = sum.ToString("F2") + " Р.";
-        Description.Text = builder.ToString();
+        //Description.Text = builder.ToString();
     }
 
     public override string ToString()
     {
-        return "Статистика";
+        return PageTitles.Statistic;
     }
 
     private void GroupItems_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -154,7 +170,7 @@ public partial class StatisticPage : UserControl
          }
 
          Title.Text = "";
-         Description.Text = "";
+         List.ItemsSource = null;
          Result.Text = "";
     }
 }

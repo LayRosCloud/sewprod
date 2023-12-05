@@ -91,7 +91,7 @@ public partial class AddedPersonPage : UserControl
     
     public override string ToString()
     {
-        return "Добавление / Обновление персонала";
+        return PageTitles.AddPerson;
     }
 
     private void GenerateCode(object? sender, RoutedEventArgs e)

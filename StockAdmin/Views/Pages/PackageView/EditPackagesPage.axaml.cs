@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.PackageView;
@@ -43,6 +44,6 @@ public partial class EditPackagesPage : UserControl
 
     public override string ToString()
     {
-        return "Изменение пачки";
+        return PageTitles.EditPackage;
     }
 }

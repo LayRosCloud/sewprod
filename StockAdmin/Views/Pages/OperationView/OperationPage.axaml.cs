@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
@@ -74,6 +75,6 @@ public partial class OperationPage : UserControl
     
     public override string ToString()
     {
-        return "Операции";
+        return PageTitles.Operation;
     }
 }

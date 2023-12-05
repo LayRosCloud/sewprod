@@ -72,15 +72,13 @@ public partial class AddedOperationPage : UserControl
     
     public override string ToString()
     {
-        //TODO: в константы
-        return "Добавление / Обновление операции";
+        return PageTitles.AddOperation;
     }
 
     private void KeyDownOnPercentField(object? sender, KeyEventArgs e)
     {
-        NumberValidation numberValidation = new NumberValidation();
+        var numberValidation = new NumberValidation();
         
-        //TODO: в отдельный класс
         Key key = e.Key;
         if (numberValidation.AddNumberValidation().AddPointValidation().Validate(key))
         {

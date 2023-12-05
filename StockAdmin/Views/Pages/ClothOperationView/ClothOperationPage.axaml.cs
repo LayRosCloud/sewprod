@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
@@ -140,7 +141,7 @@ public partial class ClothOperationPage : UserControl
     }
     public override string ToString()
     {
-        return "Операции над одеждой";
+        return PageTitles.ClothOperation;
     }
 
     private void TextChanged(object? sender, TextChangedEventArgs e)

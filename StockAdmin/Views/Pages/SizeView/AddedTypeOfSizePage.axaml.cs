@@ -67,6 +67,6 @@ public partial class AddedTypeOfSizePage : UserControl
     
     public override string ToString()
     {
-        return "Добавление / Обновление типов размеров";
+        return PageTitles.AddAge;
     }
 }

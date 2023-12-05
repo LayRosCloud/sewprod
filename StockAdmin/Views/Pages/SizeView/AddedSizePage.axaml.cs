@@ -79,7 +79,7 @@ public partial class AddedSizePage : UserControl
     
     public override string ToString()
     {
-        return "Добавление / Обновление размеров";
+        return PageTitles.AddSize;
     }
     
 }

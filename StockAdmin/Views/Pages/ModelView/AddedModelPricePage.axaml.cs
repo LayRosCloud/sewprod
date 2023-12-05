@@ -57,7 +57,7 @@ public partial class AddedModelPricePage : UserControl
 
     public override string ToString()
     {
-        return "Добавление цены в модель";
+        return PageTitles.AddModelPrice;
     }
 
     private void InputSymbol(object? sender, KeyEventArgs e)

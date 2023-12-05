@@ -59,6 +59,6 @@ public partial class AddedModelOperationPage : UserControl
     
     public override string ToString()
     {
-        return "Добавление операции в модель";
+        return PageTitles.AddModelOperation;
     }
 }

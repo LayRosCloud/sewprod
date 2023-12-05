@@ -3,6 +3,7 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
@@ -135,7 +136,7 @@ public partial class ModelPage : UserControl
     
     public override string ToString()
     {
-        return "Модели";
+        return PageTitles.Model;
     }
 
     private void NavigateToAddedOperationPage(object? sender, RoutedEventArgs e)

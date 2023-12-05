@@ -170,7 +170,7 @@ public partial class AddedModelPage : UserControl
     
     public override string ToString()
     {
-        return "Добавление / Обновление моделей";
+        return PageTitles.AddModel;
     }
 
     private void InputSymbol(object? sender, KeyEventArgs e)
@@ -259,7 +259,7 @@ public partial class AddedModelPage : UserControl
         const char letterOnChange = ',';
 
         char[] letterOnChanged = { '.', 'ю', 'б', '<', '>', '/', '?' };
-        foreach (char character in letterOnChanged)
+        foreach (var character in letterOnChanged)
         {
             text = text.Replace(character, letterOnChange);
         }

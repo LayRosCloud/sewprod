@@ -320,7 +320,7 @@ public partial class AddedPackagesPage : UserControl
     
     public override string ToString()
     {
-        return "Добавление пачек";
+        return PageTitles.AddPackage;
     }
 
     private async void SelectedPerson(object? sender, SelectionChangedEventArgs e)

@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using StockAdmin.Models;
 using StockAdmin.Scripts;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using Color = Avalonia.Media.Color;
@@ -57,7 +58,7 @@ public partial class HistoryPage : UserControl
 
     public override string ToString()
     {
-        return "История действий";
+        return PageTitles.History;
     }
 
     private void LoadRowHistory(object? sender, DataGridRowEventArgs e)

@@ -86,6 +86,6 @@ public partial class AddedClothOperationPersonPage : UserControl
     
     public override string ToString()
     {
-        return "Добавление / Обновление участника операции";
+        return PageTitles.AddClothOperationPerson;
     }
 }

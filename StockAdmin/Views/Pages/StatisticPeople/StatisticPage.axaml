@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:records="clr-namespace:StockAdmin.Scripts.Records"
              xmlns:avalonia="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.StatisticPeople.StatisticPage">
@@ -19,16 +20,33 @@
         <avalonia:CartesianChart Grid.Column="0" Grid.Row="1" 
                                  x:Name="Chart" 
                                  />
-        
+        <TextBlock x:Name="FullSum" 
+                   Grid.Row="0" 
+                   Grid.Column="0"
+                   Text=""
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontWeight="Bold"/>
         <TextBlock x:Name="Title" 
                    Grid.Row="0" 
                    Grid.Column="1"
                    Text=""
                    FontWeight="Bold"/>
+        
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock x:Name="Description" 
-                       Text=""
-            />
+            
+            <DataGrid x:Name="List" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="Название"
+                        Binding="{Binding DataType=records:WalletOperation, Path=Name}"
+                        IsReadOnly="True"/>
+                    <DataGridTextColumn
+                        Header="Название"
+                        Binding="{Binding DataType=records:WalletOperation, Path=Cost}"
+                        IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <TextBlock x:Name="Result" 
                        FontWeight="Bold"
                        Text=""
