@@ -1,6 +1,9 @@
-﻿namespace StockAdmin.Scripts.Constants;
+﻿using Avalonia.Media;
 
-public class ColorConstants
+namespace StockAdmin.Scripts.Constants;
+
+public abstract class ColorConstants
 {
-    //TODO: Add color constants
+    public static readonly SolidColorBrush Blue = new(Color.FromRgb(193, 221, 244));
+    public static readonly SolidColorBrush Green = new(Color.FromRgb(149, 192, 160));
 }

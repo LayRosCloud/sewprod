@@ -24,8 +24,8 @@ public partial class SizePage : UserControl
         _ages = new List<AgeEntity>();
         _sizes = new List<SizeEntity>();
         
-        _finderSizeController = new FinderController(500, SortingArraySizes);
-        _finderTypeOfSizeController = new FinderController(500, SortingArrayTypes);
+        _finderSizeController = new FinderController(TimeConstants.Ticks, SortingArraySizes);
+        _finderTypeOfSizeController = new FinderController(TimeConstants.Ticks, SortingArrayTypes);
         
         _frame = frame;
         

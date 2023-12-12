@@ -16,6 +16,7 @@ public partial class ClothOperationPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly PackageEntity _packageEntity;
+    
     private ListSelected _currentIndex;
     private ClothOperationPersonEntity? _clothOperationPerson;
     
@@ -25,11 +26,16 @@ public partial class ClothOperationPage : UserControl
     public ClothOperationPage(PackageEntity packageEntity, ContentControl frame)
     {
         InitializeComponent();
+        
         _packageEntity = packageEntity;
         _clothOperations = new List<ClothOperationEntity>();
-        TitleText.Text = $"{packageEntity.Party?.CutNumber}/{packageEntity.Party?.Person?.Uid} {packageEntity.Size?.Number} {packageEntity.Count}";
-        _finderController = new FinderController(500, FilteringArrayOnText);
+        
+        TitleText.Text 
+            = $"{packageEntity.Party?.CutNumber}/{packageEntity.Party?.Person?.Uid} {packageEntity.Size?.Number} {packageEntity.Count}";
+        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
+        
         InitData(packageEntity);
+        
         _frame = frame;
     }
     
@@ -52,9 +58,10 @@ public partial class ClothOperationPage : UserControl
 
     private void FilteringArrayOnText()
     {
+        var text = Finded.Text.ToLower().Trim();
         List.ItemsSource = _clothOperations.Where(x=> x.Operation.Name
                 .ToLower()
-                .Contains(Finded.Text.ToLower().Trim()))
+                .Contains(text))
             .ToList();
     }
     private void BackToPackagePage(object? sender, RoutedEventArgs e)
@@ -81,8 +88,8 @@ public partial class ClothOperationPage : UserControl
 
     private void NavigateToEditClothOperationPersonPage(object? sender, RoutedEventArgs e)
     {
-        ClothOperationEntity clothOperationEntity = (List.SelectedItem as ClothOperationEntity)!;
-        ClothOperationPersonEntity clothOperationPersonEntity  = (sender as Button).DataContext as ClothOperationPersonEntity;
+        var clothOperationEntity = (List.SelectedItem as ClothOperationEntity)!;
+        var clothOperationPersonEntity  = (sender as Button).DataContext as ClothOperationPersonEntity;
         _frame.Content = new AddedClothOperationPersonPage(_frame, clothOperationEntity, clothOperationPersonEntity!, _packageEntity);
     }
     
@@ -90,24 +97,31 @@ public partial class ClothOperationPage : UserControl
     {
         var repositoryPerson = new ClothOperationPersonRepository();
         var repositoryOperation = new ClothOperationRepository();
-        if (_currentIndex == ListSelected.First)
+        switch (_currentIndex)
         {
-            if (_clothOperationPerson != null)
+            case ListSelected.First:
             {
-                await repositoryPerson.DeleteAsync(_clothOperationPerson.Id);
-                await InitAsync(_packageEntity);
-                List.SelectAll();
-            }
-        }
-        else if(_currentIndex == ListSelected.Second)
-        {
-            if (List.SelectedItem is ClothOperationEntity operation)
-            {
-                await repositoryOperation.DeleteAsync(operation.Id);
-                
-                await InitAsync(_packageEntity);
-                List.SelectAll();
+                if (_clothOperationPerson != null)
+                {
+                    await repositoryPerson.DeleteAsync(_clothOperationPerson.Id);
+                    await InitAsync(_packageEntity);
+                    List.SelectAll();
+                }
 
+                break;
+            }
+            case ListSelected.Second:
+            {
+                if (List.SelectedItem is ClothOperationEntity operation)
+                {
+                    await repositoryOperation.DeleteAsync(operation.Id);
+                
+                    await InitAsync(_packageEntity);
+                    List.SelectAll();
+
+                }
+
+                break;
             }
         }
         
@@ -139,6 +153,7 @@ public partial class ClothOperationPage : UserControl
         
         _currentIndex = ListSelected.Second;
     }
+    
     public override string ToString()
     {
         return PageTitles.ClothOperation;

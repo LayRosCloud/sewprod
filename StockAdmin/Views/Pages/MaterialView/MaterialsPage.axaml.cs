@@ -21,7 +21,7 @@ public partial class MaterialsPage : UserControl
         InitializeComponent();
         
         _materials = new List<MaterialEntity>();
-        _finderController = new FinderController(500, FilteringArrayOnText);
+        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
         _frame = frame;
         
         Init();

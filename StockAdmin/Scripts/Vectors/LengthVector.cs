@@ -1,4 +1,5 @@
-﻿namespace StockAdmin.Scripts.Vectors;
+﻿
+namespace StockAdmin.Scripts.Vectors;
 
 public struct LengthVector
 {

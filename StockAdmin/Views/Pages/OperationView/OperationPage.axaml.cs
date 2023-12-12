@@ -21,7 +21,7 @@ public partial class OperationPage : UserControl
     {
         InitializeComponent();
         _operations = new List<OperationEntity>();
-        _finderController = new FinderController(500, FilteringArrayOnText);
+        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
         _frame = frame;
         Init();
     }

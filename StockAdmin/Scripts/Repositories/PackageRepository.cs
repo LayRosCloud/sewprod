@@ -17,17 +17,26 @@ public class PackageRepository : IDataReader<PackageEntity>, IDataCreator<Packag
         HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
         return await httpHandler.GetListFromJsonAsync(EndPoint);
     }
-    public async Task<List<PackageEntity>?> GetAllAsync(int month, int personId = 0)
+    public async Task<List<PackageEntity>?> GetAllAsync(int month)
     {
         HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
-        if (personId == 0)
-        {
-            return await httpHandler.GetListFromJsonAsync(EndPoint + $"?month={month}");
-        }
-        
-        return await httpHandler.GetListFromJsonAsync(EndPoint + $"?month={month}&personId={personId}");
-        
+
+        return await httpHandler.GetListFromJsonAsync(EndPoint + $"?month={month}");
     }
+    public async Task<List<PackageEntity>?> GetAllAsync(int month, int personId)
+    {
+        HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
+
+        return await httpHandler.GetListFromJsonAsync(EndPoint + $"?month={month}&personId={personId}");
+    }
+    
+    public async Task<List<PackageEntity>?> GetAllOnPartyAsync(int partyId)
+    {
+        HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
+
+        return await httpHandler.GetListFromJsonAsync(EndPoint + $"?partyId={partyId}");
+    }
+    
 
     public async Task<PackageEntity?> GetAsync(int id)
     {
@@ -45,7 +54,7 @@ public class PackageRepository : IDataReader<PackageEntity>, IDataCreator<Packag
     {
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerConstants.AuthorizationUser.Token}");
-        var response = await client.PostAsJsonAsync<List<PackageEntity>>($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
+        var response = await client.PostAsJsonAsync($"{ServerConstants.ServerAddress}{EndPoint}range", entities);
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
             var repository = new PersonRepository();

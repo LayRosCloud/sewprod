@@ -21,7 +21,7 @@ public partial class ModelPage : UserControl
         InitializeComponent();
         _frame = frame;
         _models = new List<ModelEntity>();
-        _finderController = new FinderController(500, FilteringArrayOnText);
+        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
         InitData();
     }
 

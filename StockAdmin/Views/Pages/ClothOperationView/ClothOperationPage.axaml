@@ -8,7 +8,8 @@
              x:Class="StockAdmin.Views.Pages.ClothOperationView.ClothOperationPage" 
              x:DataType="models:ClothOperationEntity">
     <Grid RowDefinitions="35,*" ColumnDefinitions="*, *">
-        <StackPanel Grid.Row="0" 
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="0" 
                     Orientation="Horizontal">
             <TextBox x:Name="Finded"
                     Watermark="Поиск..."
@@ -104,8 +105,11 @@
                 Background="White"
                 BorderBrush="#427D9D"
                 >
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Выберите операцию над одеждой!" FontSize="25" FontWeight="Bold"/>
+            <StackPanel HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                <TextBlock Text="Выберите операцию над одеждой!" 
+                           FontSize="25" 
+                           FontWeight="Bold"/>
                 <TextBlock Text="После того, как вы выберете операцию на одеждой это сообщение автоматически уберется" 
                            FontSize="14"/>
             </StackPanel>

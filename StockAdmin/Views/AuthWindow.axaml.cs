@@ -72,7 +72,7 @@ public partial class AuthWindow : Window
     {
         string email = Email.Text!.ToLower().Trim();
         string password = Password.Text!;
-        
+
         try
         {
             await CheckEmailAndPassword(email, password);
@@ -80,12 +80,16 @@ public partial class AuthWindow : Window
             {
                 SaveEmailAndPasswordToFile(email, password);
             }
-            
+
             ShowWindow();
         }
         catch (AuthException ex)
         {
             SendErrorMessage(ex.Message);
+        }
+        catch (Exception)
+        {
+            SendErrorMessage("Неправильный логин или пароль!");
         }
     }
 

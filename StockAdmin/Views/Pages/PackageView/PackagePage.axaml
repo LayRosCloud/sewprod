@@ -4,16 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:StockAdmin.Models"
              xmlns:userControllers="clr-namespace:StockAdmin.Views.UserControllers"
-             x:DataType="models:GroupedPackages" 
+             x:DataType="models:PackageEntity" 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.PackagePage">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition/>
-            <RowDefinition Height="35"/>
-        </Grid.RowDefinitions>
-        
+    <Grid RowDefinitions="35,*,35">
+
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBox x:Name="Finder" 
                      Watermark="Поиск..." 
@@ -21,106 +16,119 @@
                      Width="200"
                      TextChanged="TextChanged"/>
         </StackPanel>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ComboBox x:Name="CbPerson"
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" 
+                      DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
+                      Width="300"
+                      SelectionChanged="SelectPerson"
+            />
+            <ComboBox x:Name="CbParties"
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" 
+                      DisplayMemberBinding="{Binding DataType=models:PartyEntity, Path=CutNumber}"
+                      Width="300"
+                      SelectionChanged="SelectParty"
+            />
+        </StackPanel>
         
-        <DataGrid Grid.Row="1" x:Name="List" 
-                  RowDetailsVisibilityMode="Visible">
+        
+        <DataGrid Grid.Row="1"
+                  x:Name="List"
+                  DoubleTapped="NavigateToMoreInformation"
+                  SelectionChanged="SelectedPackage"
+                  >
+            <DataGrid.Styles>
+                <Style Selector="DataGridCell">
+                    <Setter Property="VerticalAlignment" 
+                            Value="Top"/>
+                    <Setter Property="BorderThickness" Value="0 1 0 0"/>
+                    <Setter Property="BorderBrush" Value="#c1ddf4"/>
+                </Style>
+            </DataGrid.Styles>
+            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО кройщика" Binding="{Binding FullName}" IsReadOnly="True"/>
-            </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate x:DataType="models:GroupedPackages">
-                    <StackPanel Margin="10 0 0 10">
-                        <DataGrid ItemsSource="{Binding Packages}" 
-                                  DoubleTapped="NavigateToMoreInformation"
-                                  SelectionChanged="SelectedPackage">
-                            <DataGrid.Styles>
-                                <Style Selector="DataGridCell">
-                                    <Setter Property="VerticalAlignment" 
-                                            Value="Top"/>
-                                    <Setter Property="BorderThickness" Value="0 1 0 0"/>
-                                    <Setter Property="BorderBrush" Value="#c1ddf4"/>
-                                </Style>
-                            </DataGrid.Styles>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Номер кроя" 
-                                                    Binding="{Binding Path=Party.CutNumber}"
-                                                    IsReadOnly="True"/>
-                                
-                                <DataGridTemplateColumn Header="Статус" IsReadOnly="True">
-                                    <DataTemplate DataType="models:PackageEntity">
-                                        <Border Padding="2 5" Margin="5" Height="35" 
-                                                CornerRadius="10" 
-                                                Background="{Binding Path=Status.Color}">
-                                            <TextBlock HorizontalAlignment="Center" 
-                                                       VerticalAlignment="Center" 
-                                                       FontWeight="Bold" Text="{Binding Status.Name}"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Номер кроя" 
+                                    Binding="{Binding Path=Party.CutNumber}"
+                                    IsReadOnly="True"/>
                 
-                    <DataGridTextColumn Header="Модель" 
-                                        Binding="{Binding Path=Party.Model.Title}"
+                <DataGridTemplateColumn Header="Статус" 
+                                        IsReadOnly="True"
+                                        >
+                    <DataTemplate DataType="models:PackageEntity">
+                        <Border Padding="2 5"
+                                Margin="5" 
+                                Height="35" 
+                                CornerRadius="10" 
+                                Background="{Binding Path=Status.Color}">
+                            
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" 
+                                       FontWeight="Bold" Text="{Binding Status.Name}"/>
+                        </Border>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Модель" 
+                                    Binding="{Binding Path=Party.Model.Title}"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Размер" 
+                                    Binding="{Binding Size.Number}"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Растовка" 
+                                    Binding="{Binding DataType=models:PackageEntity, Path=Size.Age.Name}"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Добавил" 
+                                    Binding="{Binding DataType=models:PackageEntity, Path=Person.FullName}"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Пачки" 
+                                    Binding="{Binding DataType=models:PackageEntity, Path=Count}"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Материал"
+                                    Binding="{Binding DataType=models:PackageEntity, Path=Material.Name}"
+                                    IsReadOnly="True"/>
+
+                <DataGridCheckBoxColumn Header="Повтор?" 
+                                        Binding="{Binding IsRepeat}"
+                                        x:DataType="models:PackageEntity" 
                                         IsReadOnly="True"/>
-                    
-                    <DataGridTextColumn Header="Размер" 
-                                        Binding="{Binding Size.Number}"
+                <DataGridTemplateColumn Header="Этап">
+                    <DataTemplate DataType="models:PackageEntity">
+                        <ListBox ItemsSource="{Binding CompletedTasks}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Opacity="{Binding Opacity}"
+                                                   Foreground="{Binding Foreground}"
+                                                   FontWeight="{Binding StyleFont}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="Склад" 
+                                        Binding="{Binding IsEnded}"
                                         IsReadOnly="True"/>
-                    
-                    <DataGridTextColumn Header="Растовка" 
-                                        Binding="{Binding DataType=models:PackageEntity, Path=Size.Age.Name}"
-                                        IsReadOnly="True"/>
-                    
-                    <DataGridTextColumn Header="Добавил" 
-                                        Binding="{Binding DataType=models:PackageEntity, Path=Person.FullName}"
-                                        IsReadOnly="True"/>
-                    
-                    <DataGridTextColumn Header="Пачки" 
-                                        Binding="{Binding DataType=models:PackageEntity, Path=Count}"
-                                        IsReadOnly="True"/>
-                    
-                    <DataGridTextColumn Header="Материал"
-                                        Binding="{Binding DataType=models:PackageEntity, Path=Material.Name}"
-                                        IsReadOnly="True"/>
-                    
-                    <DataGridCheckBoxColumn Header="Повтор?" 
-                                            Binding="{Binding IsRepeat}"
-                                            x:DataType="models:PackageEntity" 
-                                            IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Этап">
-                        <DataTemplate DataType="models:PackageEntity">
-                            <ListBox ItemsSource="{Binding CompletedTasks}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Name}" 
-                                                       Opacity="{Binding Opacity}"
-                                                       Foreground="{Binding Foreground}"
-                                                       FontWeight="{Binding StyleFont}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn>
-                                
-                    <DataGridCheckBoxColumn Header="Склад" 
-                                            Binding="{Binding IsEnded}"
-                                            IsReadOnly="True"/>
-                    <DataGridTemplateColumn>
-                        <DataTemplate>
-                            <WrapPanel Orientation="Horizontal">
-                                <Button Content="✏️" 
-                                        Click="NavigateToEditPage"/>
-                                <Button Content="🗑️" 
-                                        Click="ShowDeleteWindow"/>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+                <DataGridTemplateColumn Header="Управление">
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            
+                            <Button Content="✏️" 
+                                    Click="NavigateToEditPage"/>
+                            <Button Content="🗑️"
+                                    Click="ShowDeleteWindow"/>
+                        </WrapPanel>
+                    </DataTemplate>
+    </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Выберите месяц: " 
@@ -129,53 +137,60 @@
                        Margin="10 0 0 0 "/>
             <StackPanel x:Name="MonthButtons" Orientation="Horizontal">
                 <Button Content="1" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
                 <Button Content="2" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
                 <Button Content="3" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
                 <Button Content="4" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
                 <Button Content="5" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="6" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="7" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="8" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="9" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="10" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="11" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
+                
                 <Button Content="12" 
-                Margin="5 0 0 0 " 
-                Click="ChangeMonth"
-                />
+                        Margin="5 0 0 0 " 
+                        Click="ChangeMonth"
+                        />
             </StackPanel>
         </StackPanel>
         

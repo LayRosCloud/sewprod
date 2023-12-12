@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 
@@ -35,7 +34,7 @@ public class LoadingController<TEntity>
         _panel.IsVisible = false;
     }
     
-    public async Task FetchDataAsync([NotNull] Func<Task> action)
+    public async Task FetchDataAsync(Func<Task> action)
     {
         _panel.IsVisible = true;
         await action.Invoke();
