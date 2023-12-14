@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,17 +18,23 @@ public partial class PackagePage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly List<PackageEntity> _packages;
-    private readonly FinderController _finderController;
-    
+    private readonly DelayFinder _delayFinder;
+    private readonly Hashtable _partyEntities;
+
+    private const string AllElements = "Все крои";
     private PackageEntity? _package;
     private int _currentIndexBtn = 0;
     
     public PackagePage(ContentControl frame)
     {
         InitializeComponent();
+        
+        _partyEntities = new Hashtable();
+        
         _packages = new List<PackageEntity>();
-        _finderController = new FinderController(TimeConstants.Ticks,  FilteringArray);
+        _delayFinder = new DelayFinder(TimeConstants.Ticks,  FilteringArray);
         _frame = frame;
+        
         Init();
     }
 
@@ -42,33 +49,24 @@ public partial class PackagePage : UserControl
         var loadingController = new LoadingController<PartyEntity>(LoadingBorder);
         await loadingController.FetchDataAsync( async () =>
         {
-            var repository = new PartyRepository();
             var personRepository = new PersonRepository();
             
-            var post = new PostEntity { Name = "CUTTER" };
+            var post = new PostEntity { Name = PostEntity.CutterName };
             
             CbPerson.ItemsSource = (await personRepository.GetAllAsync())
                 .Where(x => x.Posts.Contains(post))
                 .ToList();
             
             CbPerson.SelectedIndex = 0;
-            
-            var personEntity = CbPerson.SelectedItem as PersonEntity;
-            
-            var list = await repository.GetAllAsync(personEntity!.Id);
-            
-            CbParties.ItemsSource = FindBetweenDate(list);
-            
-            CbParties.SelectedIndex = 0;
         });
     }
 
     private void FilteringArray()
     {
         string text = Finder.Text!.ToLower().Trim();
-        var list = _packages.Where(x => 
-            x.Party.Person.LastName.ToLower()
-                .Contains(text) || x.Party.CutNumber.ToLower().Contains(text));
+        var list = _packages
+            .Where(x => x.Party.CutNumber.ToLower().Contains(text) 
+                        || x.Person.FullName.Trim().ToLower().Contains(text));
         List.ItemsSource = list;
     }
     
@@ -104,7 +102,7 @@ public partial class PackagePage : UserControl
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new PackageRepository();
-
+        
         if (_package == null)
         {
             return;
@@ -121,7 +119,7 @@ public partial class PackagePage : UserControl
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
     
     private async void ChangeMonth(object? sender, RoutedEventArgs e)
@@ -133,12 +131,8 @@ public partial class PackagePage : UserControl
             return;
         }
         SelectButton(index - 1);
-        var personEntity = CbPerson.SelectedItem as PersonEntity;
-        var repository = new PartyRepository();
-        var list = await repository.GetAllAsync(personEntity.Id);
-            
-        CbParties.ItemsSource = FindBetweenDate(list);
-        CbParties.SelectedIndex = 0;
+        
+        await GetOnPersonIdParties();
     }
 
     private void SelectedPackage(object? sender, SelectionChangedEventArgs e)
@@ -150,19 +144,21 @@ public partial class PackagePage : UserControl
     {
         _currentIndexBtn = index + 1;
 
-        foreach (var control in MonthButtons.Children)
+        foreach (var button in MonthButtons.Children.Cast<Button?>())
         {
-            var button = (Button)control;
             button.Background = ColorConstants.Blue;
             button.FontWeight = FontWeight.Regular;
         }
-        if(MonthButtons.Children[index] is not Button monthSelected) return;
+
+        if (MonthButtons.Children[index] is not Button monthSelected)
+        {
+            return;
+        }
 
         monthSelected.Background = ColorConstants.Green;
         monthSelected.FontWeight = FontWeight.Bold;
     }
-
-
+    
     private async void SelectParty(object? sender, SelectionChangedEventArgs e)
     {
         if (CbParties.SelectedItem is not PartyEntity partyEntity)
@@ -170,35 +166,83 @@ public partial class PackagePage : UserControl
             List.ItemsSource = null;
             return;
         }
+        List.ItemsSource = null;
         var loadingController = new LoadingController<PackageEntity>(LoadingBorder);
         await loadingController.FetchDataAsync(async () =>
         {
-            var repository = new PackageRepository();
+            
             _packages.Clear();
-            var list = await repository.GetAllOnPartyAsync(partyEntity.Id);
-            foreach (var item in list)
-            {
-                item.Party = partyEntity;
-                _packages.Add(item);
-            }
+            var list = await GetPackagesListFromApiOnPartyCutNumber(partyEntity);
+            
+            _packages.AddRange(FilteringPackages(list));
             List.ItemsSource = _packages;
         });
     }
 
+    private async Task<IEnumerable<PackageEntity>> GetPackagesListFromApiOnPartyCutNumber(PartyEntity partyEntity)
+    {
+        var repository = new PackageRepository();
+        var list = new List<PackageEntity>();
+        
+        if (partyEntity.CutNumber == AllElements)
+        {
+            list.AddRange(await repository.GetAllAsync());
+        }
+        else
+        {
+            list.AddRange(await repository.GetAllOnPartyAsync(partyEntity.Id));
+        }
+
+        return list;
+    }
+    
+    private IEnumerable<PackageEntity> FilteringPackages(IEnumerable<PackageEntity> list)
+    {
+        var sortedArray = new List<PackageEntity>();
+        foreach (var package in list)
+        {
+            if (_partyEntities[package.PartyId] is not PartyEntity party)
+            {
+                continue;
+            }
+                
+            package.Party = party;
+            sortedArray.Add(package);
+        }
+        
+        return sortedArray;
+    }
+    
     private async void SelectPerson(object? sender, SelectionChangedEventArgs e)
     { 
-        PersonEntity personEntity = CbPerson.SelectedItem as PersonEntity;
         var loadingController = new LoadingController<PartyEntity>(LoadingBorder);
         await loadingController.FetchDataAsync(async () =>
         {
-            var repository = new PartyRepository();
-            var list = await repository.GetAllAsync(personEntity.Id);
-            
-            CbParties.ItemsSource = FindBetweenDate(list);
-            
-            CbParties.SelectedIndex = 0;
+            await GetOnPersonIdParties();
         });
     }
+
+    private async Task GetOnPersonIdParties()
+    {
+        var personEntity = CbPerson.SelectedItem as PersonEntity;
+        _partyEntities.Clear();
+        var repository = new PartyRepository();
+        
+        var list = await repository.GetAllAsync(personEntity!.Id);
+        var sortedArray = new List<PartyEntity> { new() {CutNumber = AllElements} };
+
+        sortedArray.AddRange(FindBetweenDate(list));
+
+        foreach (var item in sortedArray)
+        {
+            _partyEntities.Add(item.Id, item);
+        }
+        CbParties.ItemsSource = sortedArray;
+        Parties.ItemsSource = sortedArray;
+            
+        CbParties.SelectedIndex = 0;
+    }
+    
     private IEnumerable<PartyEntity> FindBetweenDate(IEnumerable<PartyEntity> parties)
     {
         var now = DateTime.Now;
@@ -208,7 +252,13 @@ public partial class PackagePage : UserControl
         var sortingArray = parties
             .Where(item => item.DateStart >= first && item.DateStart <= last)
             .ToList();
-
+        
         return sortingArray;
+    }
+    
+    private void ChangeVisibilityParties(object? sender, RoutedEventArgs e)
+    {
+        PartiesGrid.IsVisible = !PartiesGrid.IsVisible;
+        PartiesBackground.IsVisible = !PartiesBackground.IsVisible;
     }
 }

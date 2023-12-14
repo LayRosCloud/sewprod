@@ -14,14 +14,14 @@ public partial class ModelPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly List<ModelEntity> _models;
-    private readonly FinderController _finderController;
+    private readonly DelayFinder _delayFinder;
     private ListSelected _currentSelectedList;
     public ModelPage(ContentControl frame)
     {
         InitializeComponent();
         _frame = frame;
         _models = new List<ModelEntity>();
-        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         InitData();
     }
 
@@ -105,7 +105,7 @@ public partial class ModelPage : UserControl
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
 
     private void SelectedModel(object? sender, SelectionChangedEventArgs e)

@@ -13,7 +13,7 @@ namespace StockAdmin.Views.Pages.MaterialView;
 public partial class MaterialsPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly FinderController _finderController;
+    private readonly DelayFinder _delayFinder;
     private readonly List<MaterialEntity> _materials;
     
     public MaterialsPage(ContentControl frame)
@@ -21,7 +21,7 @@ public partial class MaterialsPage : UserControl
         InitializeComponent();
         
         _materials = new List<MaterialEntity>();
-        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         _frame = frame;
         
         Init();
@@ -85,6 +85,6 @@ public partial class MaterialsPage : UserControl
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
 }

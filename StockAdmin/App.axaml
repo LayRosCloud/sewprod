@@ -12,6 +12,7 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        
         <Style Selector="Button.plus">
             <Setter Property="Content" Value="+ добавить"/>
             <Setter Property="Background" Value="#192655"/>
@@ -26,6 +27,22 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         
+        <Style Selector="Button.background">
+            <Setter Property="Content" Value=""/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector="Button.background:pointerover">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+        <Style Selector="Button.background:pressed">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
         <Style Selector="Button.yes">
             <Setter Property="Content" Value="Да"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>

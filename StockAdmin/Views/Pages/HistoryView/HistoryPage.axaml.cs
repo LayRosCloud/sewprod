@@ -18,13 +18,13 @@ namespace StockAdmin.Views.Pages.HistoryView;
 public partial class HistoryPage : UserControl
 {
     private readonly List<HistoryEntity> _histories;
-    private readonly FinderController _finderController;
+    private readonly DelayFinder _delayFinder;
     private readonly Hashtable _colors;
     public HistoryPage()
     {
         InitializeComponent();
         _histories = new List<HistoryEntity>();
-        _finderController = new FinderController(500, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(500, FilteringArrayOnText);
         
         _colors = new Hashtable
         {
@@ -53,7 +53,7 @@ public partial class HistoryPage : UserControl
     }
     private void FindOnUserName(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
 
     public override string ToString()

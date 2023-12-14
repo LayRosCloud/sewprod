@@ -1,0 +1,40 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.UserControllers.MenuButton"
+             x:Name="Root">
+    <Button
+        Background="Transparent"
+        HorizontalAlignment="Stretch"
+        Margin="0"
+        CommandParameter="0"
+        Padding="0"
+        Click="ButtonClick"
+    >
+        <StackPanel Orientation="Horizontal" Margin="0">
+            <Border x:Name="LineSelected" Background="#427D9D" 
+                    VerticalAlignment="Stretch" 
+                    Width="5" 
+                    CornerRadius="10"/>
+                        
+            <Border x:Name="BorderImage" CornerRadius="100" 
+                    Background="#427D9D" 
+                    Padding="5" 
+                    Margin="5 0 0 0">
+                <Image Source="{Binding ElementName=Root, Path=Source}" 
+                       Width="25"/>
+            </Border>
+                        
+            <TextBlock x:Name="ButtonText" Text="{Binding ElementName=Root, Path=Text}"
+                       Margin="5 0 0 0" 
+                       Foreground="#427D9D"
+                       VerticalAlignment="Center" 
+                       FontWeight="Bold" 
+            />
+        </StackPanel>
+    </Button>
+
+</UserControl>

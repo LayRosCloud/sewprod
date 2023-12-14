@@ -14,7 +14,6 @@ namespace StockAdmin.Views;
 
 public partial class AuthWindow : Window
 {
-    private const string FileName = "au_data.dat";
     public AuthWindow()
     {
         InitializeComponent();
@@ -24,25 +23,11 @@ public partial class AuthWindow : Window
 
     private async void ReadFile()
     {
-        try
-        {
-            var controller = new CryptoController();
-            using var reader = new StreamReader(FileName);
-            string sentence = await reader.ReadToEndAsync();
-            string decoded = controller.DecodeAndDecrypt(sentence);
-            string[] keysValueEmailAndPassword = decoded.Split("\r|\r");
-        
-            var email = keysValueEmailAndPassword[0].Split(':')[1].Trim();
-            var password = keysValueEmailAndPassword[1].Split(':')[1].Trim();
-            
-            IsRememberMe.IsChecked = true;
-            Email.Text = email;
-            Password.Text = password;
-        }
-        catch(Exception)
-        {
-            // ignored
-        }
+        (string email, string password, bool isRememberMe) = await AuthController.ReadFromFileEmailAndPasswordAsync();
+         
+        Email.Text = email;
+        Password.Text = password;
+        IsRememberMe.IsChecked = isRememberMe;
     }
     
     private async void InitData()
@@ -70,15 +55,20 @@ public partial class AuthWindow : Window
     
     private async void TryEnterToApplication(object? sender, RoutedEventArgs e)
     {
+        const string wrongEmailOrPasswordExceptionMessage = "Неправильный логин или пароль!";
+        
         string email = Email.Text!.ToLower().Trim();
         string password = Password.Text!;
 
         try
         {
-            await CheckEmailAndPassword(email, password);
+            var authController = new AuthController(email, password);
+            await authController.CheckEmailAndPasswordAsync();
+            authController.SaveInConstants();
+            
             if (IsRememberMe.IsChecked == true)
             {
-                SaveEmailAndPasswordToFile(email, password);
+                await authController.SaveEmailAndPasswordToFileAsync();
             }
 
             ShowWindow();
@@ -89,17 +79,8 @@ public partial class AuthWindow : Window
         }
         catch (Exception)
         {
-            SendErrorMessage("Неправильный логин или пароль!");
+            SendErrorMessage(wrongEmailOrPasswordExceptionMessage);
         }
-    }
-
-    private async void SaveEmailAndPasswordToFile(string email, string password)
-    {
-        var controller = new CryptoController();
-        string cryptText = controller.EncryptText($"email: {email}\r|\rpassword: {password}");
-
-        await using var writer = new StreamWriter(FileName, false);
-        await writer.WriteAsync(cryptText);
     }
 
     private void SendErrorMessage(string message)
@@ -108,25 +89,6 @@ public partial class AuthWindow : Window
         BorderError.IsVisible = true;
     }
     
-    private async Task CheckEmailAndPassword(string email, string password)
-    {
-        const string authMessageError = "Ошибка! Неверная почта или пароль!";
-        
-        ServerConstants.Login = email;
-        ServerConstants.Password = password;
-        
-        var personEntity = new PersonEntity { Email = email, Password = password };
-
-        var repository = new PersonRepository();
-        var authPerson = await repository.LoginAsync(personEntity);
-        
-        if (authPerson!.Token == null)
-        {
-            throw new AuthException(authMessageError);
-        }
-
-        ServerConstants.AuthorizationUser = authPerson;
-    }
 
     private void ShowWindow()
     {

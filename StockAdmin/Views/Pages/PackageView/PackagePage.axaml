@@ -16,7 +16,8 @@
                      Width="200"
                      TextChanged="TextChanged"/>
         </StackPanel>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ComboBox x:Name="CbPerson"
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Center" 
@@ -31,7 +32,7 @@
                       Width="300"
                       SelectionChanged="SelectParty"
             />
-        </StackPanel>
+        </WrapPanel>
         
         
         <DataGrid Grid.Row="1"
@@ -197,6 +198,57 @@
         <Button Grid.Row="1" 
                 Classes="plus"
                 Click="NavigateToAddedPackagesPage"/>
+        
+        <Button Grid.Row="0" Content="Крои" 
+                HorizontalAlignment="Right" 
+                Click="ChangeVisibilityParties"/>
+        
+        <Button Grid.Row="1" Grid.RowSpan="2" x:Name="PartiesBackground"
+                Classes="background"
+                Click="ChangeVisibilityParties"/>
+        
+        <Border x:Name="PartiesGrid" 
+                IsVisible="False" 
+                Background="White" 
+                BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Row="1" 
+                Grid.RowSpan="2" 
+                HorizontalAlignment="Right" 
+                Width="700"
+                CornerRadius="10"
+                >
+            
+            <DataGrid x:Name="Parties">
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
+                        Header="Номер кроя"
+                        Binding="{Binding DataType=models:PartyEntity, Path=CutNumber}"
+                        IsReadOnly="True"
+                        />
+                    <DataGridTextColumn 
+                        Header="Название модели"
+                        Binding="{Binding DataType=models:PartyEntity, Path=Model.Title}"
+                        IsReadOnly="True"
+                    />
+                    <DataGridTextColumn 
+                        Header="Сделал крой"
+                        Binding="{Binding DataType=models:PartyEntity, Path=Person.FullName}"
+                        IsReadOnly="True"
+                    />
+                    <DataGridTextColumn 
+                        Header="Дата начала"
+                        Binding="{Binding DataType=models:PartyEntity, Path= DateStart}"
+                        IsReadOnly="True"
+                    />
+                    <DataGridTextColumn 
+                        Header="Дата окончания"
+                        Binding="{Binding DataType=models:PartyEntity, Path= DateEnd}"
+                        IsReadOnly="True"
+                    />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
         <userControllers:DeletedBorder x:Name="DeletedContainer" 
                                        IsVisible="False" 
                                        Grid.Row="0" 
@@ -205,6 +257,6 @@
                                        ClickOnAnswerYes="SendYesAnswerOnDeleteItem"/>
         <userControllers:LoadingBorder x:Name="LoadingBorder" 
                                        Grid.Row="0" 
-                                       Grid.RowSpan="2"/>
+                                       Grid.RowSpan="3"/>
     </Grid>
 </UserControl>

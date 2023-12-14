@@ -21,7 +21,7 @@ public partial class ClothOperationPage : UserControl
     private ClothOperationPersonEntity? _clothOperationPerson;
     
     private readonly List<ClothOperationEntity> _clothOperations;
-    private readonly FinderController _finderController;
+    private readonly DelayFinder _delayFinder;
     
     public ClothOperationPage(PackageEntity packageEntity, ContentControl frame)
     {
@@ -32,7 +32,7 @@ public partial class ClothOperationPage : UserControl
         
         TitleText.Text 
             = $"{packageEntity.Party?.CutNumber}/{packageEntity.Party?.Person?.Uid} {packageEntity.Size?.Number} {packageEntity.Count}";
-        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         
         InitData(packageEntity);
         
@@ -161,7 +161,7 @@ public partial class ClothOperationPage : UserControl
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
 
     private void SelectedClothOperation(object? sender, SelectionChangedEventArgs e)

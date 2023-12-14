@@ -90,5 +90,11 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/DeletedBorder.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/LimitedTextBox.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/LoadingBorder.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/MenuButton.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

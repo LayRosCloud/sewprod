@@ -6,7 +6,7 @@
              xmlns:avalonia="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.StatisticPeople.StatisticPage">
-    <Grid RowDefinitions="35, *" ColumnDefinitions="*, 200">
+    <Grid RowDefinitions="35, *" ColumnDefinitions="*, 350">
         <TextBlock Grid.Column="0" 
                    Grid.Row="0" 
                    x:Name="Text" 
@@ -42,7 +42,7 @@
                         Binding="{Binding DataType=records:WalletOperation, Path=Name}"
                         IsReadOnly="True"/>
                     <DataGridTextColumn
-                        Header="Название"
+                        Header="Цена"
                         Binding="{Binding DataType=records:WalletOperation, Path=Cost}"
                         IsReadOnly="True"/>
                 </DataGrid.Columns>

@@ -14,14 +14,14 @@ namespace StockAdmin.Views.Pages.PersonView;
 public partial class PersonPage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly FinderController _finderController;
+    private readonly DelayFinder _delayFinder;
     private readonly List<PersonEntity> _persons;
     
     public PersonPage(ContentControl frame)
     {
         InitializeComponent();
         _persons = new List<PersonEntity>();
-        _finderController = new FinderController(500, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(500, FilteringArrayOnText);
         
         _frame = frame;
         Init();
@@ -81,6 +81,6 @@ public partial class PersonPage : UserControl
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
 }

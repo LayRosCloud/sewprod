@@ -1,16 +1,15 @@
 using System;
+using System.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Server;
-using StockAdmin.Views.Pages;
 using StockAdmin.Views.Pages.HistoryView;
 using StockAdmin.Views.Pages.MaterialView;
 using StockAdmin.Views.Pages.PackageView;
+using StockAdmin.Views.UserControllers;
 using ModelPage = StockAdmin.Views.Pages.ModelView.ModelPage;
 using OperationPage = StockAdmin.Views.Pages.OperationView.OperationPage;
 using PersonPage = StockAdmin.Views.Pages.PersonView.PersonPage;
@@ -21,96 +20,65 @@ namespace StockAdmin.Views;
 public partial class MainContainer : Window
 {
     private int _currentIndexActive = 0;
+    private readonly Hashtable _hashtable;
+    
     public MainContainer()
     {
         InitializeComponent();
         ElementConstants.MainContainer = this;
         ElementConstants.ErrorController = new ErrorController(ErrorContainer);
+        _hashtable = new Hashtable();
+
         const int indexOnFirstLetter = 0;
+        
         ShortName.Text = $"{ServerConstants.AuthorizationUser.LastName[indexOnFirstLetter]}{ServerConstants.AuthorizationUser.FirstName[indexOnFirstLetter]}";
         LongName.Text = $"{ServerConstants.AuthorizationUser.LastName} {ServerConstants.AuthorizationUser.FirstName}";
+        InitPages();
         Init();
     }
 
+    private void InitPages()
+    {
+        _hashtable.Add("крои", new PackagePage(Frame));
+        _hashtable.Add("модели", new ModelPage(Frame));
+        _hashtable.Add("персонал", new PersonPage(Frame));
+        _hashtable.Add("операции", new OperationPage(Frame));
+        _hashtable.Add("размеры", new SizePage(Frame));
+        _hashtable.Add("материалы", new MaterialsPage(Frame));
+        _hashtable.Add("история", new HistoryPage());
+    }
+    
     private void Init()
     {
-        var page = new PackagePage(Frame);
-        Frame.Content = page;
+        NavigateTo(PartyButton, null);
+        PartyButton.ActivateButton();
     }
-
-    private void NavigateToPartyPage(object? sender, RoutedEventArgs e)
-    {
-        Button button = sender as Button;
-        var page = new PackagePage(Frame);
-        Frame.Content = page;
-        
-        SwitchThemeButton(button);
-    }
-
+    
     private void ExitFromProfile(object? sender, RoutedEventArgs e)
     {
         AuthWindow authWindow = new AuthWindow();
         authWindow.Show();
         Close();
     }
-
-    private void NavigateToModelPage(object? sender, RoutedEventArgs e)
+    
+    
+    private void NavigateTo(object? sender, RoutedEventArgs e)
     {
-        Button button = sender as Button;
-        Frame.Content = new ModelPage(Frame);
+        var button = sender as MenuButton;
+        Frame.Content = _hashtable[button!.Text.ToLower().Trim()];
         SwitchThemeButton(button);
     }
 
-    private void NavigateToOperationPage(object? sender, RoutedEventArgs e)
-    {
-        Button button = sender as Button;
-        Frame.Content = new OperationPage(Frame);
-        SwitchThemeButton(button);
-    }
-
-    private void NavigateToSizePage(object? sender, RoutedEventArgs e)
-    {
-        Button button = sender as Button;
-        Frame.Content = new SizePage(Frame);
-        SwitchThemeButton(button);
-    }
-
-    private void NavigateToPersonalPage(object? sender, RoutedEventArgs e)
-    {
-        Button button = sender as Button;
-        Frame.Content = new PersonPage(Frame);
-        SwitchThemeButton(button);
-    }
-
-    private void SwitchThemeButton(Button button)
+    private void SwitchThemeButton(MenuButton button)
     {
         int index = NavPanel.Children.IndexOf(button);
         if (index == _currentIndexActive)
         {
             return;
         }
-        Button buttonActive = NavPanel.Children[_currentIndexActive] as Button;
-        StackPanel activePanel = buttonActive.Content as StackPanel;
-        StackPanel panel = button.Content as StackPanel;
-        
-        (panel.Children[0] as Border).Width = 5;
-        (panel.Children[1] as Border).Background = (activePanel.Children[1] as Border).Background;
-        (panel.Children[2] as TextBlock).Foreground = (activePanel.Children[2] as TextBlock).Foreground;
-        (activePanel.Children[0] as Border).Width = 0;
-        (activePanel.Children[1] as Border).Background = new SolidColorBrush(Color.FromRgb(136, 136, 136));
-        (activePanel.Children[2] as TextBlock).Foreground = new SolidColorBrush(Color.FromRgb(136, 136, 136));
+        MenuButton buttonActive = NavPanel.Children[_currentIndexActive] as MenuButton;
+        button.ActivateButton();
+        buttonActive.DisableButton();
         _currentIndexActive = index;
-    }
-
-    private void NavigateToHistoryPage(object? sender, RoutedEventArgs e)
-    {
-        Frame.Content = new HistoryPage();
-        SwitchThemeButton(sender as Button);
-    }
-
-    private void NavigateToMaterialPage(object? sender, RoutedEventArgs e)
-    {
-        Frame.Content = new MaterialsPage(Frame);
-        SwitchThemeButton(sender as Button);
     }
 }

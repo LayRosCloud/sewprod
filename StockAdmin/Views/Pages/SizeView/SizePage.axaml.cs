@@ -12,8 +12,8 @@ namespace StockAdmin.Views.Pages.SizeView;
 public partial class SizePage : UserControl
 {
     private readonly ContentControl _frame;
-    private readonly FinderController _finderSizeController;
-    private readonly FinderController _finderTypeOfSizeController;
+    private readonly DelayFinder _delayFinderSize;
+    private readonly DelayFinder _delayFinderTypeOfSize;
 
     private readonly List<AgeEntity> _ages;
     private readonly List<SizeEntity> _sizes;
@@ -24,8 +24,8 @@ public partial class SizePage : UserControl
         _ages = new List<AgeEntity>();
         _sizes = new List<SizeEntity>();
         
-        _finderSizeController = new FinderController(TimeConstants.Ticks, SortingArraySizes);
-        _finderTypeOfSizeController = new FinderController(TimeConstants.Ticks, SortingArrayTypes);
+        _delayFinderSize = new DelayFinder(TimeConstants.Ticks, SortingArraySizes);
+        _delayFinderTypeOfSize = new DelayFinder(TimeConstants.Ticks, SortingArrayTypes);
         
         _frame = frame;
         
@@ -136,11 +136,11 @@ public partial class SizePage : UserControl
 
     private void TextChangedSize(object? sender, TextChangedEventArgs e)
     {
-        _finderSizeController.ChangeText();
+        _delayFinderSize.ChangeText();
     }
 
     private void TextChangedTypeOfSize(object? sender, TextChangedEventArgs e)
     {
-        _finderTypeOfSizeController.ChangeText();
+        _delayFinderTypeOfSize.ChangeText();
     }
 }

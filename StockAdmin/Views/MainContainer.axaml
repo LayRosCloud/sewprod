@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControllers="clr-namespace:StockAdmin.Views.UserControllers"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         MinHeight="450" MinWidth="800"
         x:Class="StockAdmin.Views.MainContainer"
@@ -45,218 +46,35 @@
                     Grid.Column="0" 
                     Orientation="Vertical" 
                     Margin="0 20">
-            <Button 
-                    Background="Transparent"
-                    HorizontalAlignment="Stretch"
-                    Click="NavigateToPartyPage"
-                    Margin="0"
-                    CommandParameter="0"
-                    Padding="0"
-                >
-                    <StackPanel Orientation="Horizontal" Margin="0">
-                        <Border Background="#427D9D" 
-                                VerticalAlignment="Stretch" 
-                                Width="5" 
-                                CornerRadius="10"/>
-                        
-                        <Border CornerRadius="100" 
-                                Background="#427D9D" 
-                                Padding="5" 
-                                Margin="5 0 0 0">
-                            <Image Source="/Assets/cutter.png" 
-                                   Width="25"/>
-                        </Border>
-                        
-                        <TextBlock Text="Крои"
-                                   Margin="5 0 0 0" 
-                                   Foreground="#427D9D" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Bold" 
-                        />
-                    </StackPanel>
-                </Button>
             
-                <Button 
-                    Background="Transparent"
-                    HorizontalAlignment="Stretch"
-                    Click="NavigateToModelPage"
-                    Margin="0"
-                    CommandParameter="1"
-                    Padding="0"
-                    >
-                    <StackPanel Orientation="Horizontal" 
-                                Margin="0"
-                                >
-                        
-                        <Border Background="#427D9D" 
-                                VerticalAlignment="Stretch" 
-                                Width="0" 
-                                CornerRadius="10"
-                                />
-                        
-                        <Border CornerRadius="100" 
-                                Background="#888888" 
-                                Padding="5" 
-                                Margin="5 0 0 0"
-                                >
-                            <Image Source="/Assets/model.png" 
-                                   Width="25"
-                            />
-                            
-                        </Border>
-                        
-                        <TextBlock Text="Модели"
-                                   Margin="5 0 0 0" 
-                                   Foreground="#888888" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Bold" 
-                                />
-                        
-                    </StackPanel>
-                </Button>
-                
-                <Button 
-                        Background="Transparent"
-                        HorizontalAlignment="Stretch"
-                        Click="NavigateToOperationPage"
-                        Margin="0"
-                        CommandParameter="2"
-                        Padding="0"
-                    >
-                    <StackPanel Orientation="Horizontal" Margin="0">
-                        <Border Background="#427D9D" 
-                                VerticalAlignment="Stretch" 
-                                Width="0" 
-                                CornerRadius="10"/>
-                        <Border CornerRadius="100" 
-                                Background="#888888" 
-                                Padding="5" 
-                                Margin="5 0 0 0">
-                            <Image Source="/Assets/operation.png" 
-                                   Width="25"/>
-                        </Border>
-                        <TextBlock Text="Операции"
-                                   Margin="5 0 0 0" 
-                                   Foreground="#888888" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Bold" 
-                        />
-                    </StackPanel>
-                </Button>
-                
-                <Button 
-                    Background="Transparent"
-                    HorizontalAlignment="Stretch"
-                    Click="NavigateToPersonalPage"
-                    Margin="0"
-                    CommandParameter="3"
-                    Padding="0"
-                >
-                    <StackPanel Orientation="Horizontal" Margin="0">
-                        <Border Background="#427D9D" 
-                                VerticalAlignment="Stretch" 
-                                Width="0" 
-                                CornerRadius="10"/>
-                        <Border CornerRadius="100" 
-                                Background="#888888" 
-                                Padding="5" 
-                                Margin="5 0 0 0">
-                            <Image Source="/Assets/person.png" 
-                                   Width="25"/>
-                        </Border>
-                        <TextBlock Text="Персонал"
-                                   Margin="5 0 0 0" 
-                                   Foreground="#888888" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Bold" 
-                        />
-                    </StackPanel>
-                </Button>
-                
-                <Button 
-                    Background="Transparent"
-                    HorizontalAlignment="Stretch"
-                    Click="NavigateToSizePage"
-                    Margin="0"
-                    CommandParameter="4"
-                    Padding="0"
-                >
-                    <StackPanel Orientation="Horizontal" Margin="0">
-                        <Border Background="#427D9D" 
-                                VerticalAlignment="Stretch" 
-                                Width="0" 
-                                CornerRadius="10"/>
-                        <Border CornerRadius="100" 
-                                Background="#888888" 
-                                Padding="5" 
-                                Margin="5 0 0 0">
-                            <Image Source="/Assets/size.png" 
-                                   Width="25"/>
-                        </Border>
-                        <TextBlock Text="Размеры"
-                                   Margin="5 0 0 0" 
-                                   Foreground="#888888" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Bold" 
-                        />
-                    </StackPanel>
-                </Button>
-            <Button 
-                Background="Transparent"
-                HorizontalAlignment="Stretch"
-                Click="NavigateToMaterialPage"
-                Margin="0"
-                CommandParameter="5"
-                Padding="0"
-            >
-                <StackPanel Orientation="Horizontal" Margin="0">
-                    <Border Background="#427D9D" 
-                            VerticalAlignment="Stretch" 
-                            Width="0" 
-                            CornerRadius="10"/>
-                    <Border CornerRadius="100" 
-                            Background="#888888" 
-                            Padding="5" 
-                            Margin="5 0 0 0">
-                        <Image Source="/Assets/material.png" 
-                               Width="25"/>
-                    </Border>
-                    <TextBlock Text="Материалы"
-                               Margin="5 0 0 0" 
-                               Foreground="#888888" 
-                               VerticalAlignment="Center" 
-                               FontWeight="Bold" 
-                    />
-                </StackPanel>
-            </Button>
-            <Button 
-                Background="Transparent"
-                HorizontalAlignment="Stretch"
-                Click="NavigateToHistoryPage"
-                Margin="0"
-                CommandParameter="6"
-                Padding="0"
-            >
-                <StackPanel Orientation="Horizontal" Margin="0">
-                    <Border Background="#427D9D" 
-                            VerticalAlignment="Stretch" 
-                            Width="0" 
-                            CornerRadius="10"/>
-                    <Border CornerRadius="100" 
-                            Background="#888888" 
-                            Padding="5" 
-                            Margin="5 0 0 0">
-                        <Image Source="/Assets/history.png" 
-                               Width="25"/>
-                    </Border>
-                    <TextBlock Text="История"
-                               Margin="5 0 0 0" 
-                               Foreground="#888888" 
-                               VerticalAlignment="Center" 
-                               FontWeight="Bold" 
-                    />
-                </StackPanel>
-            </Button>
+            <userControllers:MenuButton x:Name="PartyButton" 
+                                        Source="/Assets/cutter.png" 
+                                        Text="Крои" 
+                                        OnClick="NavigateTo"/>
+            
+            <userControllers:MenuButton Source="/Assets/model.png" 
+                                        Text="Модели" 
+                                        OnClick="NavigateTo"/>
+            
+            <userControllers:MenuButton Source="/Assets/operation.png" 
+                                        Text="Операции"
+                                        OnClick="NavigateTo"/>
+            
+            <userControllers:MenuButton Source="/Assets/person.png" 
+                                        Text="Персонал" 
+                                        OnClick="NavigateTo"/>
+            
+            <userControllers:MenuButton Source="/Assets/size.png" 
+                                        Text="Размеры" 
+                                        OnClick="NavigateTo"/>
+            
+            <userControllers:MenuButton Source="/Assets/material.png" 
+                                        Text="Материалы" 
+                                        OnClick="NavigateTo"/>
+            
+            <userControllers:MenuButton Source="/Assets/history.png" 
+                                        Text="История" 
+                                        OnClick="NavigateTo"/>
         </StackPanel>
         
         <Button Grid.Row="1" Grid.Column="0" Content="Выйти" 

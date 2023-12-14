@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Avalonia.Media;
+using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Server;
 
@@ -84,20 +85,20 @@ public class PackageEntity : Entity
             
             if (IsEnded)
             {
-                return new Status("Закончена", Color.FromRgb(149, 192, 160));
+                return new Status("Закончена", ColorConstants.Completed);
             }
             
             if (IsRepeat)
             {
-                return new Status("Повтор", Color.FromRgb(244, 158, 49));
+                return new Status("Повтор", ColorConstants.Repeat);
             }
 
             try
             {
-                bool isAdmin = Person!.Posts.Contains(new PostEntity() { Name = "ADMIN" });
+                bool isAdmin = Person!.Posts.Contains(new PostEntity { Name = PostEntity.AdminName });
                 if (isAdmin)
                 {
-                    return new Status("Добавлена админом", Color.FromRgb(125, 181, 251));
+                    return new Status("Добавлена админом", ColorConstants.Admin);
                 }
             }
             catch (Exception)
@@ -108,11 +109,11 @@ public class PackageEntity : Entity
             
             if (IsUpdated)
             {
-                return new Status("Обновлена", Color.FromRgb(40, 40, 40));
+                return new Status("Обновлена", ColorConstants.Updated);
             }
             
 
-            return new Status("Добавлена кройщиком", Color.FromRgb(200, 200, 200));
+            return new Status("Добавлена кройщиком", ColorConstants.Cutter);
         }
         private set {}
     }

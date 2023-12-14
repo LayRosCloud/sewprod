@@ -38,20 +38,27 @@ public partial class StatisticPage : UserControl
         var packageRepository = new PackageRepository();
         var list = await repository.GetAllAsync(personId);
         double fullSum = 0;
+        DateTime now = DateTime.Now;
+        DateTime firstDay = new DateTime(now.Year, now.Month, 1);
+        DateTime lastDay = new DateTime(now.Year, now.Month, 1).AddMonths(1).AddDays(-1);
         foreach (var item in list)
         {
-            DateTime now = DateTime.Now;
-            DateTime firstDay = new DateTime(now.Year, now.Month, 1);
-            DateTime lastDay = new DateTime(now.Year, now.Month, 1).AddMonths(1).AddDays(-1);
             if (item.DateStart >= firstDay && item.DateStart <= lastDay && item.IsEnded)
             {
                 _clothOperationPersons.Add(item);
                 fullSum += item.ClothOperation.Price.Number;
             }
         }
-
+        var packageList = await packageRepository.GetAllAsync(personId);
+        foreach (var item in packageList)
+        {
+            if (item.CreatedAt >= firstDay && item.CreatedAt <= lastDay)
+            {
+                _packages.Add(item);
+            }
+        }
+        
         FullSum.Text = "Полная сумма: " + fullSum.ToString("F2");
-        _packages.AddRange(await packageRepository.GetAllAsync(DateTime.Now.Month, personId));
 
         SetClothOperations();
     }
@@ -89,7 +96,8 @@ public partial class StatisticPage : UserControl
 
     private void SetClothOperations()
     {
-        var entities = _clothOperationPersons.Where(x => x.IsEnded).GroupBy(x => x.DateStart.ToShortDateString()).ToList();
+        var entities = _clothOperationPersons.Where(x => x.IsEnded)
+            .GroupBy(x => x.DateStart.ToShortDateString()).ToList();
         
         var series = new ColumnSeries<IGrouping<string, ClothOperationPersonEntity>>()
         {
@@ -134,21 +142,25 @@ public partial class StatisticPage : UserControl
         }
 
         Result.Text = sum.ToString("F2") + " Р.";
-        List.ItemsSource =walletOperations;
+        List.ItemsSource = walletOperations;
         
     }
     
     private void SeriesOnChartPointPointerDown(IChartView chart, ChartPoint<IGrouping<string, PackageEntity>, RoundedRectangleGeometry, LabelGeometry>? point)
     {
         Title.Text = point.Model.Key;
-        var builder = new StringBuilder();
         double sum = 0;
+        var walletOperations =  new List<WalletOperation>();
         foreach (var entity in point.Model)
         {
-            sum += entity.Party.Price!.Number;
+            foreach (var item in entity.ClothOperations)
+            {
+                walletOperations.Add(new WalletOperation {Name = item.Operation.Name, Cost = item.Price.Number});
+                sum += item.Price.Number;
+            }
         }
         Result.Text = sum.ToString("F2") + " Р.";
-        //Description.Text = builder.ToString();
+        List.ItemsSource = walletOperations;
     }
 
     public override string ToString()

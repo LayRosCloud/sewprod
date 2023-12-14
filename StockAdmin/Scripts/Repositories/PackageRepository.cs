@@ -17,11 +17,11 @@ public class PackageRepository : IDataReader<PackageEntity>, IDataCreator<Packag
         HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
         return await httpHandler.GetListFromJsonAsync(EndPoint);
     }
-    public async Task<List<PackageEntity>?> GetAllAsync(int month)
+    public async Task<List<PackageEntity>?> GetAllAsync(int personId)
     {
         HttpHandler<PackageEntity> httpHandler = new HttpHandler<PackageEntity>();
 
-        return await httpHandler.GetListFromJsonAsync(EndPoint + $"?month={month}");
+        return await httpHandler.GetListFromJsonAsync(EndPoint + $"?personId={personId}");
     }
     public async Task<List<PackageEntity>?> GetAllAsync(int month, int personId)
     {

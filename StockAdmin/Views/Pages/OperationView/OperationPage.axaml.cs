@@ -15,13 +15,13 @@ public partial class OperationPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly List<OperationEntity> _operations;
-    private readonly FinderController _finderController;
+    private readonly DelayFinder _delayFinder;
     
     public OperationPage(ContentControl frame)
     {
         InitializeComponent();
         _operations = new List<OperationEntity>();
-        _finderController = new FinderController(TimeConstants.Ticks, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         _frame = frame;
         Init();
     }
@@ -70,7 +70,7 @@ public partial class OperationPage : UserControl
 
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _finderController.ChangeText();
+        _delayFinder.ChangeText();
     }
     
     public override string ToString()
