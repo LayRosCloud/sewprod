@@ -13,7 +13,7 @@ public abstract class PageTitles
     public const string Statistic = "статистика";
     public const string Size = "размеры";
     
-    //***константы на страницы добавления, редактировнаия***
+    //***константы на страницы добавления, редактирования***
     public const string EditPackage = "изменение пачки";
     public const string AddPackage = "добавление пачек";
     public const string AddModelOperation = "добавление операции в модель";
@@ -24,6 +24,7 @@ public abstract class PageTitles
     public const string AddOperation = "добавление / обновление операции";
     public const string AddPerson = "добавление / обновление персонала";
     public const string AddMaterial = "добавление / обновление материалов";
-    public const string AddClothOperation = "добавление / Обновление операций над одеждой";
-    public const string AddClothOperationPerson = "добавление / Обновление участника операции";
+    public const string AddClothOperation = "добавление / обновление операций над одеждой";
+    public const string AddClothOperationPerson = "добавление / обновление участника операции";
+    public const string AddParty = "добавление / обновление кроя";
 }

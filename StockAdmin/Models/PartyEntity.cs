@@ -25,6 +25,7 @@ public class PartyEntity : Entity
 
     [JsonPropertyName(ServerConstants.Party.FieldCutNumber)]
     public string CutNumber { get; set; } = "";
+    
     [JsonPropertyName(ServerConstants.Party.FieldPerson)] 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public PersonEntity? Person { get; set; }
@@ -40,4 +41,14 @@ public class PartyEntity : Entity
     [JsonPropertyName(ServerConstants.Party.FieldPackages)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<PackageEntity>? Packages { get; set; }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not PartyEntity party)
+        {
+            return false;
+        }
+
+        return party.Id == Id;
+    }
 }

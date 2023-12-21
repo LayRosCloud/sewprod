@@ -9,11 +9,7 @@
     <Grid>
         <TabControl>
         <TabItem Header="Размеры" x:DataType="models:SizeEntity">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <Grid RowDefinitions="35,*">
                 <StackPanel Grid.Row="0" 
                             Orientation="Horizontal">
                     <TextBox x:Name="FinderSize" 

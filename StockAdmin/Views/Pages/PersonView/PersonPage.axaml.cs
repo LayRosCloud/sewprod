@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -22,8 +23,8 @@ public partial class PersonPage : UserControl
         InitializeComponent();
         _persons = new List<PersonEntity>();
         _delayFinder = new DelayFinder(500, FilteringArrayOnText);
-        
         _frame = frame;
+        
         Init();
     }
     
@@ -36,34 +37,41 @@ public partial class PersonPage : UserControl
 
     private void FilteringArrayOnText()
     {
+        var text = Finder.Text!.ToLower().Trim();
         List.ItemsSource = 
-            _persons.Where(x => x.LastName.ToLower().Contains(Finder.Text.ToLower())).ToList();
+            _persons.Where(x => x.LastName.ToLower().Contains(text)).ToList();
     }
     private void NavigateToAddedPersonPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedPersonPage(_frame);
     }
-    
-    public override string ToString()
-    {
-        return PageTitles.Person;
-    }
 
     private void NavigateToEditPersonPage(object? sender, RoutedEventArgs e)
     {
-        PersonEntity personEntity = (sender as Button).DataContext as PersonEntity;
+        if (sender is not Button button)
+        {
+            throw new ArgumentException("Ошибка! Объект не может быть не кнопкой");
+        }
+
+        if (button.DataContext is not PersonEntity personEntity)
+        {
+            throw new ArgumentException("Ошибка! Объект не повешан на список");
+        }
+        
         _frame.Content = new AddedPersonPage(_frame, personEntity);
     }
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
         var repository = new PersonRepository();
-        
-        if (List.SelectedItem is PersonEntity person)
+
+        if (List.SelectedItem is not PersonEntity person)
         {
-            await repository.DeleteAsync(person.Id);
-            Init();
+            return;
         }
+        
+        await repository.DeleteAsync(person.Id);
+        Init();
     }
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
@@ -82,5 +90,10 @@ public partial class PersonPage : UserControl
     private void TextChanged(object? sender, TextChangedEventArgs e)
     {
         _delayFinder.ChangeText();
+    }
+    
+    public override string ToString()
+    {
+        return PageTitles.Person;
     }
 }

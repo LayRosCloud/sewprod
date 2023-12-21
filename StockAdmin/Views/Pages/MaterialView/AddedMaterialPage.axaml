@@ -6,13 +6,24 @@
              x:DataType="models:MaterialEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.MaterialView.AddedMaterialPage">
-    <StackPanel Width="250">
-        <TextBox x:Name="TbName" Text="{Binding Name}" 
-                 Watermark="Введите название"/>
-        <TextBox x:Name="TbDesc" Text="{Binding Description}" 
-                 Watermark="Введите описание"/>
-        <TextBox x:Name="TbCodeVendor" Text="{Binding Uid}" 
-                 Watermark="Введите артикул"/>
-        <Button Content="Отправить" Click="TrySaveChanges"/>
+    <StackPanel Width="250" 
+                Orientation="Vertical" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                >
+        <TextBox x:Name="TbName" 
+                 Text="{Binding Name}" 
+                 Watermark="Введите название"
+                 />
+        <TextBox x:Name="TbDesc" 
+                 Text="{Binding Description}" 
+                 Watermark="Введите описание"
+                 />
+        <TextBox x:Name="TbCodeVendor" 
+                 Text="{Binding Uid}" 
+                 Watermark="Введите артикул"
+                 />
+        <Button Content="Отправить" 
+                Click="TrySaveChanges"/>
     </StackPanel>
 </UserControl>

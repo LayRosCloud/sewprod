@@ -46,14 +46,14 @@ public partial class SizePage : UserControl
     private void SortingArraySizes()
     {
         ListSizes.ItemsSource = _sizes
-            .Where(x => x.Number.ToLower().Contains(FinderSize.Text.ToLower()))
+            .Where(x => x.Number.ToLower().Contains(FinderSize.Text!.ToLower()))
             .ToList();
     }
     
     private void SortingArrayTypes()
     {
         ListAges.ItemsSource = _ages
-            .Where(x => x.Name.ToLower().Contains(FinderTypeOfSizes.Text.ToLower()))
+            .Where(x => x.Name.ToLower().Contains(FinderTypeOfSizes.Text!.ToLower()))
             .ToList();
     }
     

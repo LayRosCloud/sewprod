@@ -14,14 +14,14 @@ public partial class MenuButton : UserControl
         InitializeComponent();
         DisableButton();
     }
-    public string Text
+    public String Text
     {
         get => GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
     
-    public static readonly StyledProperty<string> TextProperty =
-        AvaloniaProperty.Register<MenuButton, string>(nameof(Text));
+    public static readonly StyledProperty<String> TextProperty =
+        AvaloniaProperty.Register<MenuButton, String>(nameof(Text));
     
     public IImage? Source
     {

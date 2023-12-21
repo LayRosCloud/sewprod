@@ -126,7 +126,7 @@ public partial class StatisticPage : UserControl
     
     private void SeriesOnChartPointPointerDown(IChartView chart, ChartPoint<IGrouping<string, ClothOperationPersonEntity>, RoundedRectangleGeometry, LabelGeometry>? point)
     {
-        Title.Text = point.Model.Key;
+        Title.Text = point?.Model?.Key;
         
         double sum = 0;
         
@@ -138,6 +138,7 @@ public partial class StatisticPage : UserControl
                 Name = entity.ClothOperation.Operation.Name,
                 Cost = entity.ClothOperation.Price.Number
             });
+            
             sum += entity.ClothOperation.Price.Number;
         }
 

@@ -4,11 +4,10 @@ namespace StockAdmin.Scripts.Server;
 
 public abstract class ServerConstants
 {
-    public const string ServerAddress = "http://localhost:5000";
+    public const string ServerAddress = "http://188.225.77.116:5000";
     public static AuthEntity AuthorizationUser = new();
     public static string Login = "";
     public static string Password = "";
-
     public const string FieldId = "id";
     
     public abstract class Package
@@ -21,7 +20,6 @@ public abstract class ServerConstants
         public const string FieldIsEnded = "isEnded";
         public const string FieldIsRepeat = "isRepeat";
         public const string FieldIsUpdated = "isUpdated";
-        public const string FieldUid = "uid";
         public const string FieldSize = "size";
         public const string FieldParty = "party";
         public const string FieldPerson = "person";

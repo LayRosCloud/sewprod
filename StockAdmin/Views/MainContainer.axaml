@@ -14,12 +14,12 @@
         >
     <Grid Background="LightGray" 
           ColumnDefinitions="150, *" 
-          RowDefinitions="40, *">
-        
+          RowDefinitions="40, *"
+          >
         <StackPanel Grid.Row="0" 
                     Grid.Column="0" 
-                    Orientation="Horizontal">
-            
+                    Orientation="Horizontal"
+        >
             <Border  Background="#427D9D" 
                      Width="35" 
                      Height="35" 
@@ -27,54 +27,54 @@
                      HorizontalAlignment="Left" 
                      Margin="5 0"
             >
-                
                 <TextBlock Text="АП" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center" 
                            Foreground="White" 
                            FontWeight="Bold"
-                           />
+                />
             </Border>
             <TextBlock Text="Админ панель" 
                        VerticalAlignment="Center" 
                        Foreground="#888888" 
-                       FontWeight="Bold"/>
+                       FontWeight="Bold"
+                       />
         </StackPanel>
-        
         <StackPanel x:Name="NavPanel" 
                     Grid.Row="1" 
                     Grid.Column="0" 
                     Orientation="Vertical" 
-                    Margin="0 20">
-            
+                    Margin="0 20"
+        >
             <userControllers:MenuButton x:Name="PartyButton" 
                                         Source="/Assets/cutter.png" 
-                                        Text="Крои" 
-                                        OnClick="NavigateTo"/>
-            
+                                        Text="Пачки" 
+                                        OnClick="NavigateTo"
+            />
             <userControllers:MenuButton Source="/Assets/model.png" 
                                         Text="Модели" 
-                                        OnClick="NavigateTo"/>
-            
+                                        OnClick="NavigateTo"
+            />
             <userControllers:MenuButton Source="/Assets/operation.png" 
                                         Text="Операции"
-                                        OnClick="NavigateTo"/>
-            
+                                        OnClick="NavigateTo"
+            />
             <userControllers:MenuButton Source="/Assets/person.png" 
                                         Text="Персонал" 
-                                        OnClick="NavigateTo"/>
-            
+                                        OnClick="NavigateTo"
+            />
             <userControllers:MenuButton Source="/Assets/size.png" 
                                         Text="Размеры" 
-                                        OnClick="NavigateTo"/>
-            
+                                        OnClick="NavigateTo"
+            />
             <userControllers:MenuButton Source="/Assets/material.png" 
                                         Text="Материалы" 
-                                        OnClick="NavigateTo"/>
-            
+                                        OnClick="NavigateTo"
+            />
             <userControllers:MenuButton Source="/Assets/history.png" 
                                         Text="История" 
-                                        OnClick="NavigateTo"/>
+                                        OnClick="NavigateTo"
+            />
         </StackPanel>
         
         <Button Grid.Row="1" Grid.Column="0" Content="Выйти" 
@@ -84,55 +84,57 @@
                 Foreground="LightCoral"
                 Opacity="0.6" 
                 Background="Transparent"
-                Click="ExitFromProfile"/>
-        
-        
+                Click="ExitFromProfile"
+                />
         <Border Grid.Row="0" Grid.Column="1" 
                 CornerRadius="5" 
                 Background="White" 
                 Margin="40 5 0 5 " 
                 HorizontalAlignment="Left" 
-                Padding="5">
-            
+                Padding="5"
+        >
             <TextBlock Text="{Binding ElementName=Frame, Path=Content}" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
-                       FontWeight="Black"/>
+                       FontWeight="Black"
+            />
         </Border>
             <StackPanel Grid.Row="0" 
                         Grid.Column="1" 
                         Orientation="Horizontal" 
-                        HorizontalAlignment="Right">
+                        HorizontalAlignment="Right"
+                        >
                 <Border Background="White" 
                         CornerRadius="50" 
                         Width="35" 
-                        Height="35" >
+                        Height="35"
+                        >
                     <TextBlock x:Name="ShortName" 
                                Text="СВ" 
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
-                               FontWeight="Bold"/>
+                               FontWeight="Bold"
+                               />
                 </Border>
                 <TextBlock x:Name="LongName" 
                            Text="Степанов Виталий" 
                            VerticalAlignment="Center" 
-                           Margin="10 0"/>
+                           Margin="10 0"
+                           />
             </StackPanel>
         <ContentControl Grid.Column="1" 
                         Grid.Row="1" 
                         x:Name="Frame" 
                         Padding="5"
                         CornerRadius="10" 
-                        Background="White"/>
-        
-
-        
+                        Background="White"
+                        />
         <StackPanel HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
                     x:Name="ErrorContainer" 
                     Grid.Row="1" 
                     Width="200"
-                    Grid.Column="1" Margin="10">
-        </StackPanel>
+                    Grid.Column="1" Margin="10"
+                    />
     </Grid>
 </Window>

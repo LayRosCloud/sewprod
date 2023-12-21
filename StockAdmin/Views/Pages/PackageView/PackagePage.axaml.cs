@@ -10,6 +10,7 @@ using Avalonia.Media;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Exports;
 using StockAdmin.Scripts.Repositories;
 
 namespace StockAdmin.Views.Pages.PackageView;
@@ -52,10 +53,10 @@ public partial class PackagePage : UserControl
             var personRepository = new PersonRepository();
             
             var post = new PostEntity { Name = PostEntity.CutterName };
-            
-            CbPerson.ItemsSource = (await personRepository.GetAllAsync())
-                .Where(x => x.Posts.Contains(post))
-                .ToList();
+            var persons = new List<PersonEntity>();
+            persons.Add(new PersonEntity { LastName = "Все", FirstName = "закройщики"});
+            persons.AddRange((await personRepository.GetAllAsync()).Where(x => x.Posts.Contains(post)).ToList());
+            CbPerson.ItemsSource = persons;
             
             CbPerson.SelectedIndex = 0;
         });
@@ -83,11 +84,6 @@ public partial class PackagePage : UserControl
         }
         var page = new ClothOperationView.ClothOperationPage(package, _frame);
         _frame.Content = page;
-    }
-    
-    public override string ToString()
-    {
-        return PageTitles.Package;
     }
 
     private void NavigateToEditPage(object? sender, RoutedEventArgs e)
@@ -225,10 +221,19 @@ public partial class PackagePage : UserControl
     private async Task GetOnPersonIdParties()
     {
         var personEntity = CbPerson.SelectedItem as PersonEntity;
+            
         _partyEntities.Clear();
-        var repository = new PartyRepository();
         
-        var list = await repository.GetAllAsync(personEntity!.Id);
+        var repository = new PartyRepository();
+        var list = new List<PartyEntity>();
+        if (personEntity.LastName == "Все" && personEntity.FirstName == "закройщики")
+        {
+            list = await repository.GetAllAsync();
+        }
+        else
+        {
+            list = await repository.GetAllAsync(personEntity!.Id);
+        }
         var sortedArray = new List<PartyEntity> { new() {CutNumber = AllElements} };
 
         sortedArray.AddRange(FindBetweenDate(list));
@@ -237,8 +242,12 @@ public partial class PackagePage : UserControl
         {
             _partyEntities.Add(item.Id, item);
         }
+        
         CbParties.ItemsSource = sortedArray;
-        Parties.ItemsSource = sortedArray;
+        var listForPartiesGrid = new List<PartyEntity>();
+        listForPartiesGrid.AddRange(sortedArray);
+        listForPartiesGrid.RemoveAt(0);
+        Parties.ItemsSource = listForPartiesGrid;
             
         CbParties.SelectedIndex = 0;
     }
@@ -260,5 +269,61 @@ public partial class PackagePage : UserControl
     {
         PartiesGrid.IsVisible = !PartiesGrid.IsVisible;
         PartiesBackground.IsVisible = !PartiesBackground.IsVisible;
+    }
+
+    private void NavigateToAddPartyPage(object? sender, RoutedEventArgs e)
+    {
+        var page = new AddedPartyPage(_frame);
+        _frame.Content = page;
+    }
+
+    private void NavigateToEditPartyPage(object? sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button)
+        {
+            throw new ArgumentException("Ошибка! Объект не является кнопкой");
+        }
+
+        if (button.DataContext is not PartyEntity partyEntity)
+        {
+            throw new ArgumentException("Ошибка! Объект не привязан к партиям!");
+        }
+        var page = new AddedPartyPage(_frame, partyEntity);
+        _frame.Content = page;
+    }
+    
+    public override string ToString()
+    {
+        return PageTitles.Package;
+    }
+
+    [Obsolete("Obsolete")]
+    private async void ExportToWord(object? sender, RoutedEventArgs e)
+    {
+        SaveFileDialog dialog = new SaveFileDialog();
+        var filters = new List<FileDialogFilter>();
+        var filter = new FileDialogFilter();
+        filter.Name = "Word (.docx)";
+        filter.Extensions = new List<string>() { "docx" };
+        filters.Add(filter);
+        dialog.Filters = filters;
+        string? path = await dialog.ShowAsync(ElementConstants.MainContainer);
+        if (path == null)
+        {
+            return;
+        }
+        
+        dialog.Filters = filters;
+        var controller = new WordController();
+        IOutputTable outputTable = new PackagesOutput(_packages);
+        controller.ExportOnTemplateData(outputTable);
+        try
+        {
+            controller.Save(path);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Процесс занят другим. Закройте Word");
+        }
     }
 }

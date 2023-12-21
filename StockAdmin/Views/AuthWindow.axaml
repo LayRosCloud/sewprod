@@ -150,44 +150,9 @@
                 >
                 
                 <!--Место для лого-->
-                <Border Width="200" 
-                        Height="200" 
-                        CornerRadius="20"
-                >
-                    <Border.Background
-                        >
-                        <LinearGradientBrush 
-                            StartPoint="10 0" 
-                            EndPoint="0 180"
-                            >
-                            <GradientStop 
-                                Color="#1a1a1a" 
-                                Offset="0"
-                                />
-                            <GradientStop 
-                                Color="#1e1e1e" 
-                                Offset="1"
-                                />
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    
-                    <TextBlock
-                        Foreground="White"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        FontSize="70"
-                        >
-                        <Run 
-                            Text="а" 
-                             Foreground="Yellow" 
-                            />
-                        <Run 
-                            Text="т" 
-                             Foreground="White"/>
-                    </TextBlock>
-                    
-                </Border>
+                <Image Source="/Assets/logo_image.png" 
+                       Width="200" 
+                       Height="200"/>
                 <TextBlock
                     x:Name="LogoText"
                     Text="проверка подключения..."

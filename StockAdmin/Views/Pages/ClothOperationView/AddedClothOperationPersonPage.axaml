@@ -6,7 +6,7 @@
              x:DataType="models:ClothOperationPersonEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ClothOperationView.AddedClothOperationPersonPage">
-    <StackPanel Width="300">
+    <StackPanel Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
         <ComboBox 
             x:Name="CbClothOperationsPersons"
             DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=LastName}"

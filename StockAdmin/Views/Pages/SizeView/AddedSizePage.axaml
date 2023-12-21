@@ -6,7 +6,10 @@
              x:DataType="models:SizeEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.AddedSizePage">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+    <StackPanel Orientation="Vertical" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                Width="250">
         <TextBlock Text="Введите размер*" FontWeight="Bold"/>
         <TextBox x:Name="TbNumber" Text="{Binding Number}" 
                  Watermark="Введите числовой эквивалент*"

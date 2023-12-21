@@ -1,16 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using NPOI.Util;
-using NPOI.XWPF.Model;
+﻿using System.IO;
 using NPOI.XWPF.UserModel;
-using StockAdmin.Models;
-using Zen.Barcode;
 
 namespace StockAdmin.Scripts.Exports;
 
-public class WordController
+public class WordController : HelperExport
 {
     private readonly XWPFDocument _document;
     
@@ -19,43 +12,12 @@ public class WordController
         _document = new XWPFDocument();
     }
 
-    public XWPFParagraph AddText(string head)
+    public void ExportOnTemplateData(IOutputTable outputTable)
     {
-        var paragraph = _document.CreateParagraph();
-        var run = paragraph.CreateRun();
-        run.SetText(head);
-        return paragraph;
+        outputTable.ExportTable(_document);
     }
 
-    public void AddRange(List<string> codeVendors, PartyEntity partyEntity, List<PackageEntity> packages)
-    {
-        for (int i = 0; i < codeVendors.Count; i++)
-        {
-            string codeVendor = codeVendors[i];
-            PackageEntity packageEntity = packages[i];
-            var descriptionParagraph = AddText($"модель: {partyEntity.Model.Title}, материал: {packageEntity.Material.Name}");
-            descriptionParagraph.Alignment = ParagraphAlignment.CENTER;
-            Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
-            Image image = barcode.Draw(codeVendor, 200);
-        
-            using MemoryStream stream = new MemoryStream();
-        
-            image.Save(stream, ImageFormat.Jpeg);
-        
-            byte[] imageBytes = stream.ToArray();
-
-            var paragraph = _document.CreateParagraph();
-            paragraph.Alignment = ParagraphAlignment.CENTER;
-            var run = paragraph.CreateRun();
-            run.AddPicture(new MemoryStream(imageBytes), (int)PictureType.JPEG, codeVendor, Units.ToEMU(300),
-                Units.ToEMU(200));
-            var codeParagraph = AddText(codeVendor);
-            codeParagraph.Alignment = ParagraphAlignment.CENTER;
-        }
-        
-    }
-
-    public void Save(string filePath)
+    public void Save(string? filePath)
     {
         using FileStream stream = new FileStream(filePath, FileMode.Create);
         

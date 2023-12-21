@@ -1,0 +1,78 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.PackageView.AddedPartyPage" x:DataType="models:PartyEntity">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+        <TextBlock Text="Введите крой*" 
+                   FontWeight="Bold" 
+                   FontSize="18"
+                   />
+        <TextBox x:Name="TbCutNumber" Watermark="Введите крой*" 
+                 Text="{Binding CutNumber}"/>
+        
+        <TextBlock Text="Выберите, того, кто сделал*" 
+                   FontWeight="Bold" 
+                   FontSize="18"
+        />
+        <ComboBox x:Name="CbPersons"
+                  PlaceholderText="Выберите человека*"
+                  HorizontalAlignment="Stretch"
+                  DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
+                  SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
+                  SelectedValue="{Binding PersonId}"
+                  />
+        
+        <TextBlock Text="Выберите модель*" 
+                   FontWeight="Bold" 
+                   FontSize="18"
+        />
+        <ComboBox x:Name="CbModels"
+                  PlaceholderText="Выберите модель*"
+                  HorizontalAlignment="Stretch"
+                  DisplayMemberBinding="{Binding DataType=models:ModelEntity, Path=Title}"
+                  SelectedValueBinding="{Binding DataType=models:ModelEntity, Path=Id}"
+                  SelectedValue="{Binding ModelId}"
+                  SelectionChanged="SelectedModel"
+        />
+        
+        <TextBlock Text="Выберите цену*" 
+                   FontWeight="Bold" 
+                   FontSize="18"
+        />
+        <ComboBox x:Name="CbPrices"
+                  PlaceholderText="Выберите цену*"
+                  HorizontalAlignment="Stretch"
+                  DisplayMemberBinding="{Binding DataType=models:PriceEntity, Path=Number}"
+                  SelectedValueBinding="{Binding DataType=models:PriceEntity, Path=Id}"
+                  SelectedValue="{Binding PriceId}"
+        />
+        
+        
+        <TextBlock Text="Выберите дату начала - конца*" 
+                   FontWeight="Bold" 
+                   FontSize="18"
+        />
+        <Grid ColumnDefinitions="140,*,140">
+            <CalendarDatePicker x:Name="CdpDateStart" Grid.Column="0" 
+                Watermark="Введите дату начала*" 
+                HorizontalAlignment="Stretch"
+                SelectedDate="{Binding DateStart}"
+                />
+            <TextBlock Grid.Column="1"
+                       Text=" - " 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+            <CalendarDatePicker x:Name="CdpDateEnd" Grid.Column="2" 
+                                Watermark="Введите дату конца*" 
+                                HorizontalAlignment="Stretch"
+                                SelectedDate="{Binding DateEnd}"
+            />
+        </Grid>
+        <Button Content="Сохранить" 
+                Click="TrySaveChanges"
+                />
+    </StackPanel>
+</UserControl>

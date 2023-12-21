@@ -39,7 +39,7 @@ public partial class MainContainer : Window
 
     private void InitPages()
     {
-        _hashtable.Add("крои", new PackagePage(Frame));
+        _hashtable.Add("пачки", new PackagePage(Frame));
         _hashtable.Add("модели", new ModelPage(Frame));
         _hashtable.Add("персонал", new PersonPage(Frame));
         _hashtable.Add("операции", new OperationPage(Frame));

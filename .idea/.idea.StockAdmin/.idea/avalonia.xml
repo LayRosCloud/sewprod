@@ -30,6 +30,7 @@
         <entry key="StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/OperationView/OperationPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PackageView/AddedPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
+        <entry key="StockAdmin/Views/Pages/PackageView/AddedPartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PackageView/EditPackagesPage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PackageView/PackagePage.axaml" value="StockAdmin/StockAdmin.csproj" />
         <entry key="StockAdmin/Views/Pages/PartyPage.axaml" value="StockAdmin/StockAdmin.csproj" />
