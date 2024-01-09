@@ -1,21 +1,21 @@
-﻿using NPOI.OpenXmlFormats.Wordprocessing;
-using NPOI.XWPF.UserModel;
+﻿using NPOI.XWPF.UserModel;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Exports.TableBuilders.Interfaces;
 
-namespace StockAdmin.Scripts.Exports;
+namespace StockAdmin.Scripts.Exports.TableBuilders;
 
 public class PackagesTableBuilder : ITableBuilder<PackageEntity>
 {
     private readonly XWPFTable _table;
-    public PackagesTableBuilder(XWPFDocument document, int length)
+    public PackagesTableBuilder(XWPFDocument document, int rowsLength)
     {
-        _table = document.CreateTable(length, 8);
+        _table = document.CreateTable(rowsLength + 1, 8);
         _table.Width = 5000;
     }
     
     public void FillHeaders()
     {
-        string[] items = {
+        string[] headers = {
             "Размер", 
             "Ростовка", 
             "Человек",
@@ -26,10 +26,10 @@ public class PackagesTableBuilder : ITableBuilder<PackageEntity>
             "Закончена"
         };
         
-        for (int cellPos = 0; cellPos < items.Length; cellPos++)
+        for (var cellPosition = 0; cellPosition < headers.Length; cellPosition++)
         {
-            string item = items[cellPos];
-            FillHeader(cellPos, item);
+            string header = headers[cellPosition];
+            FillHeader(cellPosition, header);
         }
     }
 
@@ -43,9 +43,9 @@ public class PackagesTableBuilder : ITableBuilder<PackageEntity>
         run.IsBold = true;
     }
     
-    private void FillRow(int rowPos,int cellPos, string title)
+    private void FillRow(int rowPos,int cellPos, string text)
     {
-        _table.GetRow(rowPos).GetCell(cellPos).SetText(title);
+        _table.GetRow(rowPos).GetCell(cellPos).SetText(text);
     }
 
     public void FillBody(PackageEntity item, int rowPosition)
@@ -66,7 +66,7 @@ public class PackagesTableBuilder : ITableBuilder<PackageEntity>
             FillRow(rowPosition, cellPos, value);
         }
     }
-    
+
     private string ConvertBooleanToString(bool condition)
     {
         return ConvertBooleanToString(condition, "Да", "Нет");

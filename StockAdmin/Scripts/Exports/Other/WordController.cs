@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using NPOI.XWPF.UserModel;
+using StockAdmin.Scripts.Exports.Outputs;
+using StockAdmin.Scripts.Exports.Outputs.Interfaces;
 
-namespace StockAdmin.Scripts.Exports;
+namespace StockAdmin.Scripts.Exports.Other;
 
 public class WordController : HelperExport
 {

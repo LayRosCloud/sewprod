@@ -7,14 +7,15 @@ namespace StockAdmin.Views.UserControllers;
 
 public partial class DeletedBorder : UserControl
 {
+    private const string DefaultTitle = "Вы уверены?";
     public DeletedBorder()
     {
-        Title = "Вы уверены?";
+        Title = DefaultTitle;
         InitializeComponent();
     }
 
-    public event EventHandler<RoutedEventArgs> ClickOnAnswerYes;
-    public event EventHandler<RoutedEventArgs> ClickOnAnswerNo;
+    public event EventHandler<RoutedEventArgs>? ClickOnAnswerYes;
+    public event EventHandler<RoutedEventArgs>? ClickOnAnswerNo;
     public string Text
     {
         get => GetValue(TextProperty);

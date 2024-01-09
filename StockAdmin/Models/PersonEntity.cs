@@ -22,7 +22,7 @@ public class PersonEntity : Entity
     [JsonPropertyName(ServerConstants.Person.FieldUid)] public string Uid { get; set; } = "";
 
     [JsonIgnore]
-    public string FullName => $"{LastName} {FirstName?[0]}. {Patronymic?[0]}.";
+    public string FullName => $"{LastName} {FirstName[0]}. {(String.IsNullOrWhiteSpace(Patronymic) ? "" : Patronymic[0] + ".")}";
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName(ServerConstants.Person.FieldPosts)] public List<PostEntity> Posts { get; set; }

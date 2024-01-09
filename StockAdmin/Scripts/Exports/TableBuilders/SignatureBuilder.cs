@@ -2,14 +2,14 @@
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.UserModel;
 
-namespace StockAdmin.Scripts.Exports;
+namespace StockAdmin.Scripts.Exports.TableBuilders;
 
 public class SignatureBuilder
 {
     private readonly XWPFTable _table;
     private readonly int _rows;
     private readonly int _columns;
-    private readonly int _width;
+
     public SignatureBuilder(XWPFDocument document)
     {
         _rows = 2;
@@ -17,7 +17,6 @@ public class SignatureBuilder
         _table = document.CreateTable(_rows, _columns);
         var tblLayout1 = _table.GetCTTbl().tblPr.AddNewTblLayout();
         tblLayout1.type = ST_TblLayoutType.@fixed;
-        
     }
 
     public void Create()
@@ -31,22 +30,24 @@ public class SignatureBuilder
        Subscribe(_table.GetRow(1).GetCell(cellThird), "ФИО подписывающего");
        _table.GetRow(0).GetCell(cellSecond).SetText(DateTime.Now.ToShortDateString());
        
-       _table.SetColumnWidth(0, 5330);
-       _table.SetColumnWidth(1, 1200);
-       _table.SetColumnWidth(2, 100);
-       _table.SetColumnWidth(3, 1200);
-       _table.SetColumnWidth(4, 100);
-       _table.SetColumnWidth(5, 1500);
+       _table.SetColumnWidth(0, (ulong)WidthColumns.Blank);
+       _table.SetColumnWidth(1, (ulong)WidthColumns.Subscribe);
+       _table.SetColumnWidth(2, (ulong)WidthColumns.Space);
+       _table.SetColumnWidth(3, (ulong)WidthColumns.Date);
+       _table.SetColumnWidth(4, (ulong)WidthColumns.Space);
+       _table.SetColumnWidth(5, (ulong)WidthColumns.FullName);
 
        for (int rowIndex = 0; rowIndex < _rows; rowIndex++)
        {
            for (int columnIndex = 0; columnIndex < _columns; columnIndex++)
            {
                var cell = _table.GetRow(rowIndex).GetCell(columnIndex);
+               
                foreach (var paragraph in cell.Paragraphs)
                {
                    paragraph.SpacingAfter = 0;
                }
+               
                if (columnIndex == cellFirst || columnIndex == cellSecond || columnIndex == cellThird)
                {
                    if (rowIndex == 1)
@@ -62,7 +63,6 @@ public class SignatureBuilder
                {
                    ClearBorders(cell);
                }
-               
            }
        }
     }
@@ -76,6 +76,7 @@ public class SignatureBuilder
         run.IsBold = true;
         run.FontSize = 7;
     }
+    
     private void ClearBorders(XWPFTableCell cell, bool topClear = true, bool bottomClear = true, bool rightClear = true, bool leftClear = true)
     {
         var borders = cell.GetCTTc().AddNewTcPr().AddNewTcBorders();

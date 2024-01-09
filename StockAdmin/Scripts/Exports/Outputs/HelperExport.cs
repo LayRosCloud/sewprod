@@ -1,6 +1,6 @@
 ﻿using NPOI.XWPF.UserModel;
 
-namespace StockAdmin.Scripts.Exports;
+namespace StockAdmin.Scripts.Exports.Outputs;
 
 public class HelperExport
 {

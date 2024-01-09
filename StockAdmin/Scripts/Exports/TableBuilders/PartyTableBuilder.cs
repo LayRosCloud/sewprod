@@ -1,8 +1,8 @@
-﻿using NPOI.OpenXmlFormats.Wordprocessing;
-using NPOI.XWPF.UserModel;
+﻿using NPOI.XWPF.UserModel;
 using StockAdmin.Models;
+using StockAdmin.Scripts.Exports.TableBuilders.Interfaces;
 
-namespace StockAdmin.Scripts.Exports;
+namespace StockAdmin.Scripts.Exports.TableBuilders;
 
 public class PartyTableBuilder : ITableBuilder<PartyEntity>
 {

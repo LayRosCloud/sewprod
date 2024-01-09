@@ -4,11 +4,14 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Enums;
 
 namespace StockAdmin.Views.UserControllers;
 
 public partial class MenuButton : UserControl
 {
+    private const int ActivatedWidth = 5;
     public MenuButton()
     {
         InitializeComponent();
@@ -34,19 +37,20 @@ public partial class MenuButton : UserControl
 
     public void ActivateButton()
     {
-        var color = new SolidColorBrush(Color.Parse("#427D9D"));
-        LineSelected.Width = 5;
+        var color = ColorConstants.DarkBlue;
+        LineSelected.Width = (int)MenuStates.Activate;
         BorderImage.Background = color;
         ButtonText.Foreground = color;
     }
 
     public void DisableButton()
     {
-        var color = new SolidColorBrush(Color.FromRgb(136, 136, 136));
-        LineSelected.Width = 0;
+        var color = ColorConstants.Gray;
+        LineSelected.Width = (int)MenuStates.Deactivate;
         BorderImage.Background = color;
         ButtonText.Foreground = color;
     }
+    
     public EventHandler<RoutedEventArgs> OnClick { get; set; }
     private void ButtonClick(object? sender, RoutedEventArgs e)
     {
