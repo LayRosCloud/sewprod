@@ -49,31 +49,31 @@
             <userControllers:MenuButton x:Name="PartyButton" 
                                         Source="/Assets/cutter.png" 
                                         Text="Пачки" 
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToPackagesPage"
             />
             <userControllers:MenuButton Source="/Assets/model.png" 
                                         Text="Модели" 
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToModelsPage"
             />
             <userControllers:MenuButton Source="/Assets/operation.png" 
                                         Text="Операции"
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToOperationsPage"
             />
             <userControllers:MenuButton Source="/Assets/person.png" 
                                         Text="Персонал" 
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToPeoplePage"
             />
             <userControllers:MenuButton Source="/Assets/size.png" 
                                         Text="Размеры" 
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToSizesPage"
             />
             <userControllers:MenuButton Source="/Assets/material.png" 
                                         Text="Материалы" 
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToMaterialsPage"
             />
             <userControllers:MenuButton Source="/Assets/history.png" 
                                         Text="История" 
-                                        OnClick="NavigateTo"
+                                        OnClick="NavigateToHistoryPage"
             />
         </StackPanel>
         

@@ -26,10 +26,20 @@ public sealed class PersonsOutput : HelperExport, IOutputTable
         foreach (var groupedPerson in _personsGroups)
         {
             FillPersonTable(document, groupedPerson.Person);
+            AddText(document, ExportConstants.Enter);
             
-            CreateBreakPage(document);
-
             TryFillPackageTable(document, groupedPerson.Packages, groupedPerson.Person);
+            
+            AddText(document, ExportConstants.Enter);
+            
+            TryFillClothOperationsTable(document, groupedPerson.Operations, groupedPerson.Person);
+            
+            AddText(document, ExportConstants.Enter);
+            
+            AddSignature(document);
+            AddText(document, ExportConstants.Enter);
+            AddSignature(document);
+            CreateBreakPage(document);
         }
     }
 
@@ -38,6 +48,16 @@ public sealed class PersonsOutput : HelperExport, IOutputTable
         ITableBuilder<PersonEntity> persons = new PersonTableBuilder(document);
         persons.FillHeaders();
         persons.FillBody(person);
+    }
+    
+    private void AddSignature(XWPFDocument document)
+    {
+        var signatureBuilder = new SignatureBuilder(document);
+        signatureBuilder.Create();
+        AddText(document, ExportConstants.Enter);
+        
+        var paragraph = AddText(document, ExportConstants.PlaceOfPrinting);
+        paragraph.Alignment = ParagraphAlignment.RIGHT;
     }
     
     private void TryFillPackageTable(XWPFDocument document, IReadOnlyList<PackageEntity> packages, PersonEntity person)
@@ -73,7 +93,7 @@ public sealed class PersonsOutput : HelperExport, IOutputTable
             builder.FillBody(package, position + 1);
         }
 
-        string conclusion = String.Format(ExportConstants.PersonOutput.ConclusionCutters, packages.Count,
+        string conclusion = string.Format(ExportConstants.PersonOutput.ConclusionCutters, packages.Count,
             packages.Count(x => x.IsEnded));
         AddText(document, conclusion);
     }

@@ -20,37 +20,23 @@ namespace StockAdmin.Views;
 public partial class MainContainer : Window
 {
     private int _currentIndexActive = 0;
-    private readonly Hashtable _hashtable;
     
     public MainContainer()
     {
         InitializeComponent();
         ElementConstants.MainContainer = this;
         ElementConstants.ErrorController = new ErrorController(ErrorContainer);
-        _hashtable = new Hashtable();
 
         const int indexOnFirstLetter = 0;
         
         ShortName.Text = $"{ServerConstants.AuthorizationUser.LastName[indexOnFirstLetter]}{ServerConstants.AuthorizationUser.FirstName[indexOnFirstLetter]}";
         LongName.Text = $"{ServerConstants.AuthorizationUser.LastName} {ServerConstants.AuthorizationUser.FirstName}";
-        InitPages();
         Init();
     }
 
-    private void InitPages()
-    {
-        _hashtable.Add("пачки", new PackagePage(Frame));
-        _hashtable.Add("модели", new ModelPage(Frame));
-        _hashtable.Add("персонал", new PersonPage(Frame));
-        _hashtable.Add("операции", new OperationPage(Frame));
-        _hashtable.Add("размеры", new SizePage(Frame));
-        _hashtable.Add("материалы", new MaterialsPage(Frame));
-        _hashtable.Add("история", new HistoryPage());
-    }
-    
     private void Init()
     {
-        NavigateTo(PartyButton, null);
+        NavigateTo(PartyButton, new PackagePage(Frame));
         PartyButton.ActivateButton();
     }
     
@@ -60,15 +46,54 @@ public partial class MainContainer : Window
         authWindow.Show();
         Close();
     }
-    
-    
-    private void NavigateTo(object? sender, RoutedEventArgs e)
+    private void NavigateToPackagesPage(object? sender, RoutedEventArgs e)
     {
         var button = sender as MenuButton;
-        Frame.Content = _hashtable[button!.Text.ToLower().Trim()];
-        SwitchThemeButton(button);
+        NavigateTo(button, new PackagePage(Frame));
+    }
+    
+    private void NavigateToMaterialsPage(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as MenuButton;
+        NavigateTo(button, new MaterialsPage(Frame));
+    }
+    
+    private void NavigateToModelsPage(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as MenuButton;
+        NavigateTo(button, new ModelPage(Frame));
+    }
+    
+    private void NavigateToOperationsPage(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as MenuButton;
+        NavigateTo(button, new OperationPage(Frame));
+    }
+    
+    private void NavigateToPeoplePage(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as MenuButton;
+        NavigateTo(button, new PersonPage(Frame));
+    }
+    
+    private void NavigateToSizesPage(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as MenuButton;
+        NavigateTo(button, new SizePage(Frame));
+    }
+    
+    private void NavigateToHistoryPage(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as MenuButton;
+        NavigateTo(button, new HistoryPage());
     }
 
+    private void NavigateTo(MenuButton button, UserControl page)
+    {
+        Frame.Content = page;
+        SwitchThemeButton(button);
+    }
+    
     private void SwitchThemeButton(MenuButton button)
     {
         int index = NavPanel.Children.IndexOf(button);
@@ -76,9 +101,9 @@ public partial class MainContainer : Window
         {
             return;
         }
-        MenuButton buttonActive = NavPanel.Children[_currentIndexActive] as MenuButton;
+        var activeButton = (NavPanel.Children[_currentIndexActive] as MenuButton)!;
         button.ActivateButton();
-        buttonActive.DisableButton();
+        activeButton.DisableButton();
         _currentIndexActive = index;
     }
 }

@@ -40,15 +40,15 @@ public class PersonTableBuilder : ITableBuilder<PersonEntity>
             item.Email
         };
 
-        for (int columnIndex = 0; columnIndex < items.Length; columnIndex++)
+        for (int cellPos = 0; cellPos < items.Length; cellPos++)
         {
-            string itemString = items[columnIndex];
-            FillCell(index, columnIndex, itemString);
+            string itemString = items[cellPos];
+            FillCell(cellPos, itemString);
         }
     }
     private void FillHeader(int cellPos, string title)
     {
-        var cell =_table.GetRow(0).GetCell(cellPos);
+        var cell =_table.GetRow(cellPos).GetCell(0);
         
         var paragraph = cell.Paragraphs[0];
         paragraph.Alignment = ParagraphAlignment.CENTER;
@@ -57,8 +57,8 @@ public class PersonTableBuilder : ITableBuilder<PersonEntity>
         run.IsBold = true;
     }
     
-    private void FillCell(int rowPos,int cellPos, string text)
+    private void FillCell(int cellPos, string text)
     {
-        _table.GetRow(rowPos).GetCell(cellPos).SetText(text);
+        _table.GetRow(cellPos).GetCell(1).SetText(text);
     }
 }

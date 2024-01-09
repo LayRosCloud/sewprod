@@ -7,6 +7,9 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Exports.Other;
+using StockAdmin.Scripts.Exports.Outputs;
+using StockAdmin.Scripts.Exports.Outputs.Interfaces;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Views.Pages.StatisticPeople;
 
@@ -95,5 +98,79 @@ public partial class PersonPage : UserControl
     public override string ToString()
     {
         return PageTitles.Person;
+    }
+
+    [Obsolete("Obsolete")]
+    private async void ExportToWord(object? sender, RoutedEventArgs e)
+    {
+        SaveFileDialog dialog = new SaveFileDialog();
+        
+        var filters = new List<FileDialogFilter>();
+        var filter = new FileDialogFilter();
+        
+        filter.Name = "Word (.docx)";
+        
+        filter.Extensions = new List<string> { "docx" };
+        
+        filters.Add(filter);
+        
+        dialog.Filters = filters;
+        
+        string? path = await dialog.ShowAsync(ElementConstants.MainContainer);
+        if (path == null)
+        {
+            return;
+        }
+        
+        dialog.Filters = filters;
+        List<PersonGroup> groupedPersons = new List<PersonGroup>();
+
+        var repositoryOperations = new ClothOperationRepository();
+        var repositoryPackages = new PackageRepository();
+        
+        var operations = await repositoryOperations.GetAllAsync();
+        var packages = await repositoryPackages.GetAllAsync();
+
+        foreach (var item in _persons)
+        {
+            PersonGroup group = new PersonGroup
+            {
+                Person = item
+            };
+            foreach (var operation in operations)
+            {
+                foreach (var operationPerson in operation.ClothOperationPersons)
+                {
+                    if (operationPerson.PersonId == item.Id)
+                    {
+                        group.Operations.Add(operation);
+                        break;
+                    }
+                }
+            }
+
+            foreach (var package in packages)
+            {
+                if (package.PersonId == item.Id)
+                {
+                    group.Packages.Add(package);
+                }
+            }
+            groupedPersons.Add(group);
+        }
+        
+        var controller = new WordController();
+        
+        IOutputTable outputTable = new PersonsOutput(groupedPersons);
+        
+        controller.ExportOnTemplateData(outputTable);
+        try
+        {
+            controller.Save(path);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Процесс занят другим. Закройте Word");
+        }
     }
 }

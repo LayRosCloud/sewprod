@@ -21,6 +21,12 @@ public class ClothOperationTableBuilder : ITableBuilder<ClothOperationEntity>
             "цена",
             "закончена ли",
         };
+        
+        for (var cellPosition = 0; cellPosition < headers.Length; cellPosition++)
+        {
+            string header = headers[cellPosition];
+            FillHeader(cellPosition, header);
+        }
     }
 
     public void FillBody(ClothOperationEntity item, int index = 0)
@@ -37,6 +43,17 @@ public class ClothOperationTableBuilder : ITableBuilder<ClothOperationEntity>
             FillRow(index, cellIndex, field);
         }
     }
+    
+    private void FillHeader(int cellPos, string title)
+    {
+        var cell =_table.GetRow(0).GetCell(cellPos);
+        var paragraph = cell.Paragraphs[0];
+        paragraph.Alignment = ParagraphAlignment.CENTER;
+        var run = paragraph.CreateRun();
+        run.SetText(title);
+        run.IsBold = true;
+    }
+    
     private void FillRow(int rowPos,int cellPos, string text)
     {
         _table.GetRow(rowPos).GetCell(cellPos).SetText(text);

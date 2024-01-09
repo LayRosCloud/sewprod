@@ -13,7 +13,9 @@
                     Watermark="Поиск..." 
                      Width="200" 
                      Background="White" TextChanged="TextChanged"/>
+            
         </StackPanel>
+        <Button Grid.Row="0" HorizontalAlignment="Right" Content="Экспорт" Click="ExportToWord"/>
         <DataGrid Grid.Row="1" 
                   x:Name="List"
                   DoubleTapped="NavigateToMoreInformation">

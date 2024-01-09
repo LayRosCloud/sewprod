@@ -14,7 +14,7 @@
                    FontWeight="Bold"
                    HorizontalAlignment="Right"/>
         <ComboBox Grid.Column="0" Grid.Row="0" 
-            x:Name="GroupItems"
+            x:Name="Categories"
             SelectionChanged="GroupItems_OnSelectionChanged"/>
         
         <avalonia:CartesianChart Grid.Column="0" Grid.Row="1" 
@@ -33,9 +33,12 @@
                    Text=""
                    FontWeight="Bold"/>
         
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            
-            <DataGrid x:Name="List" AutoGenerateColumns="False">
+        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="40,*">
+            <TextBlock Grid.Row="0" x:Name="Result" 
+                       FontWeight="Bold"
+                       Text=""
+            />
+            <DataGrid Grid.Row="1" x:Name="List" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="Название"
@@ -47,11 +50,8 @@
                         IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBlock x:Name="Result" 
-                       FontWeight="Bold"
-                       Text=""
-            />
-        </StackPanel>
+            
+        </Grid>
         
     </Grid>
 </UserControl>
