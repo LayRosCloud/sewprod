@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
-using Avalonia.Media;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Server;
@@ -12,6 +12,7 @@ namespace StockAdmin.Models;
 public class PackageEntity : Entity
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [NotMapped]
     private List<ClothOperationEntity> _clothOperations;
     
     [JsonPropertyName(ServerConstants.Package.FieldPartyId)] 
@@ -66,8 +67,8 @@ public class PackageEntity : Entity
             {
                 string operationName = clothOperation.Operation?.Name!;
                 CompletedTasks.Add(clothOperation.IsEnded 
-                    ? OperationTaskEntity.GetCompleted(operationName) 
-                    : OperationTaskEntity.GetNotCompleted(operationName));
+                    ? OperationTask.GetCompleted(operationName) 
+                    : OperationTask.GetNotCompleted(operationName));
             }
 
             _clothOperations = value;
@@ -75,7 +76,7 @@ public class PackageEntity : Entity
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-    public List<OperationTaskEntity> CompletedTasks { get; set; } = new();
+    public List<OperationTask> CompletedTasks { get; set; } = new();
     
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public Status? Status
@@ -92,21 +93,19 @@ public class PackageEntity : Entity
             {
                 return new Status("Повтор", ColorConstants.Repeat);
             }
-
-            try
+            
+            if (Person!.Posts != null)
             {
-                bool isAdmin = Person!.Posts.Contains(new PostEntity { Name = PostEntity.AdminName });
-                if (isAdmin)
+                foreach (var post in Person.Posts)
                 {
-                    return new Status("Добавлена админом", ColorConstants.Admin);
+                    if (post.Name == PostEntity.AdminName)
+                    {
+                        return new Status("Добавлена админом", ColorConstants.Admin);
+                    }
                 }
             }
-            catch (Exception)
-            {
-                //ignored
-            }
-            
-            
+
+
             if (IsUpdated)
             {
                 return new Status("Обновлена", ColorConstants.Updated);
@@ -115,7 +114,7 @@ public class PackageEntity : Entity
 
             return new Status("Добавлена кройщиком", ColorConstants.Cutter);
         }
-        private set {}
+        private set{}
     }
     
 }

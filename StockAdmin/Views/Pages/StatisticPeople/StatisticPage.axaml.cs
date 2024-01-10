@@ -6,6 +6,9 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Statistic;
 
 namespace StockAdmin.Views.Pages.StatisticPeople;
@@ -17,11 +20,13 @@ public partial class StatisticPage : UserControl
     private readonly Dictionary<string, Action> _categories;
     private ClothOperationStatistic _clothOperationStatistic;
     private PackagesStatistic _packagesStatistic;
+    private readonly IRepositoryFactory _factory;
     
     public StatisticPage(PersonEntity person)
     {
         InitializeComponent();
-        _categories = new();
+        _factory = ServerConstants.GetRepository();
+        _categories = new Dictionary<string, Action>();
         
         _packages = new List<PackageEntity>();
         _clothOperationPersons = new List<ClothOperationPersonEntity>();
@@ -32,8 +37,8 @@ public partial class StatisticPage : UserControl
 
     private async void InitAsync(int personId)
     {
-        var repository = new ClothOperationPersonRepository();
-        var packageRepository = new PackageRepository();
+        var repository = _factory.CreateClothOperationPersonRepository();
+        var packageRepository = _factory.CreatePackagesRepository();
         
         double fullSum = 0;
         

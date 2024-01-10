@@ -5,6 +5,9 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.ClothOperationView;
 
@@ -13,6 +16,7 @@ public partial class AddedClothOperationPage : UserControl
     private readonly ClothOperationEntity _clothOperationEntity;
     private readonly ContentControl _frame;
     private readonly PackageEntity _packageEntity;
+    private readonly IRepositoryFactory _factory;
 
     public AddedClothOperationPage(PackageEntity packageEntity, ContentControl frame)
         : this(packageEntity, new ClothOperationEntity(), frame)
@@ -23,7 +27,7 @@ public partial class AddedClothOperationPage : UserControl
     public AddedClothOperationPage(PackageEntity packageEntity, ClothOperationEntity clothOperationEntity, ContentControl frame)
     {
         InitializeComponent();
-        
+        _factory = ServerConstants.GetRepository();
         _clothOperationEntity = clothOperationEntity;
         _clothOperationEntity.PackageId = packageEntity.Id;
         _frame = frame;
@@ -34,7 +38,7 @@ public partial class AddedClothOperationPage : UserControl
 
     private async void InitData()
     {
-        var operationRepository = new OperationRepository();
+        var operationRepository = _factory.CreateOperationRepository();
 
         CmbOperation.ItemsSource = await operationRepository.GetAllAsync();
         DataContext = _clothOperationEntity;
@@ -65,13 +69,13 @@ public partial class AddedClothOperationPage : UserControl
     
     private async Task SaveChanges()
     {
-        var clothOperationRepository = new ClothOperationRepository();
+        var clothOperationRepository = _factory.CreateClothOperationRepository();
         if (CmbOperation.SelectedItem is not OperationEntity operationEntity)
         {
             return;
         }
         double numberOnPrice = _packageEntity.Party.Price.Number * operationEntity.Percent / 100.0;
-        var price = await new PriceRepository().CreateAsync(new PriceEntity { Number = numberOnPrice });
+        var price = await _factory.CreatePriceRepository().CreateAsync(new PriceEntity { Number = numberOnPrice });
         _clothOperationEntity.PriceId = price.Id;
         if (_clothOperationEntity.Id == 0)
         {

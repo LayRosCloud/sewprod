@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Extensions;
-using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 using Zen.Barcode;
 using Image = System.Drawing.Image;
@@ -24,6 +23,7 @@ public partial class AddedPersonPage : UserControl
 {
     private readonly PersonEntity _personEntity;
     private readonly ContentControl _frame;
+    private readonly IRepositoryFactory _factory;
 
     public AddedPersonPage(ContentControl frame)
         : this(frame, new PersonEntity()) { }
@@ -31,6 +31,7 @@ public partial class AddedPersonPage : UserControl
     public AddedPersonPage(ContentControl frame, PersonEntity personEntity)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _personEntity = personEntity;
         _frame = frame;
         DataContext = _personEntity;
@@ -48,7 +49,7 @@ public partial class AddedPersonPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             ElementConstants.ErrorController.AddErrorMessage("Почта или индентификатор повторяются!");
         }
@@ -56,8 +57,8 @@ public partial class AddedPersonPage : UserControl
     
     private async Task SaveChanges()
     {
-        var personRepository = new PersonRepository();
-        var permissionRepository = new PermissionRepository();
+        var personRepository = _factory.CreatePersonRepository();
+        var permissionRepository = _factory.CreatePermissionRepository();
 
         if (_personEntity.Id == 0)
         {

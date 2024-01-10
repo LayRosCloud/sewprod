@@ -10,11 +10,11 @@ using Avalonia.Media;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
-using StockAdmin.Scripts.Exports;
 using StockAdmin.Scripts.Exports.Other;
 using StockAdmin.Scripts.Exports.Outputs;
 using StockAdmin.Scripts.Exports.Outputs.Interfaces;
-using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.PackageView;
 
@@ -28,13 +28,14 @@ public partial class PackagePage : UserControl
     private const string AllElements = "Все крои";
     private PackageEntity? _package;
     private int _currentIndexBtn = 0;
+    private readonly IRepositoryFactory _factory;
     
     public PackagePage(ContentControl frame)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         
         _partyEntities = new Hashtable();
-        
         _packages = new List<PackageEntity>();
         _delayFinder = new DelayFinder(TimeConstants.Ticks,  FilteringArray);
         _frame = frame;
@@ -53,11 +54,13 @@ public partial class PackagePage : UserControl
         var loadingController = new LoadingController<PartyEntity>(LoadingBorder);
         await loadingController.FetchDataAsync( async () =>
         {
-            var personRepository = new PersonRepository();
+            var personRepository = _factory.CreatePersonRepository();
             
             var post = new PostEntity { Name = PostEntity.CutterName };
-            var persons = new List<PersonEntity>();
-            persons.Add(new PersonEntity { LastName = "Все", FirstName = "закройщики"});
+            var persons = new List<PersonEntity>
+            {
+                new() { LastName = "Все", FirstName = "закройщики"}
+            };
             persons.AddRange((await personRepository.GetAllAsync()).Where(x => x.Posts.Contains(post)).ToList());
             CbPerson.ItemsSource = persons;
             
@@ -100,7 +103,7 @@ public partial class PackagePage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new PackageRepository();
+        var repository = _factory.CreatePackagesRepository();
         
         if (_package == null)
         {
@@ -180,7 +183,7 @@ public partial class PackagePage : UserControl
 
     private async Task<IEnumerable<PackageEntity>> GetPackagesListFromApiOnPartyCutNumber(PartyEntity partyEntity)
     {
-        var repository = new PackageRepository();
+        var repository = _factory.CreatePackagesRepository();
         var list = new List<PackageEntity>();
         
         if (partyEntity.CutNumber == AllElements)
@@ -227,7 +230,7 @@ public partial class PackagePage : UserControl
             
         _partyEntities.Clear();
         
-        var repository = new PartyRepository();
+        var repository = _factory.CreatePartyRepository();
         var list = new List<PartyEntity>();
         if (personEntity.LastName == "Все" && personEntity.FirstName == "закройщики")
         {

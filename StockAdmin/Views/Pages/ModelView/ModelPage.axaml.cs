@@ -7,6 +7,9 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.ModelView;
 
@@ -16,18 +19,21 @@ public partial class ModelPage : UserControl
     private readonly List<ModelEntity> _models;
     private readonly DelayFinder _delayFinder;
     private ListSelected _currentSelectedList;
+    private readonly IRepositoryFactory _factory;
     public ModelPage(ContentControl frame)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _models = new List<ModelEntity>();
         _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
+        
         InitData();
     }
 
     private async void InitData()
     {
-        var dataController = new DataController<ModelEntity>(new ModelRepository(), _models, List);
+        var dataController = new DataController<ModelEntity>(_factory.CreateModelRepository(), _models, List);
         var loadingController = new LoadingController<ModelEntity>(LoadingBorder, dataController);
         await loadingController.FetchDataAsync();
     }
@@ -60,9 +66,9 @@ public partial class ModelPage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new ModelRepository();
-        var modelPricesRepository = new ModelPriceRepository();
-        var modelOperationRepository = new ModelOperationRepository();
+        var repository = _factory.CreateModelRepository();
+        var modelPricesRepository = _factory.CreateModelPriceRepository();
+        var modelOperationRepository = _factory.CreateModelOperationRepository();
         switch (_currentSelectedList)
         {
             case ListSelected.First:

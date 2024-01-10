@@ -6,7 +6,8 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
-using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Validations;
 
 namespace StockAdmin.Views.Pages.ModelView;
@@ -15,9 +16,11 @@ public partial class AddedModelPricePage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly ModelEntity _model;
+    private readonly IRepositoryFactory _factory;
     public AddedModelPricePage(ContentControl frame, ModelEntity model)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _model = model;
     }
@@ -38,8 +41,8 @@ public partial class AddedModelPricePage : UserControl
 
     private async Task SaveChanges()
     {
-        var modelPriceRepository = new ModelPriceRepository();
-        var priceRepository = new PriceRepository();
+        var modelPriceRepository = _factory.CreateModelPriceRepository();
+        var priceRepository = _factory.CreatePriceRepository();
         string priceText = TbPrice.Text!;
 
         double number = Convert.ToDouble(priceText);
@@ -54,18 +57,18 @@ public partial class AddedModelPricePage : UserControl
             throw new ValidationException("Введите цену!");
         }
     }
-
-    public override string ToString()
-    {
-        return PageTitles.AddModelPrice;
-    }
-
+    
     private void InputSymbol(object? sender, KeyEventArgs e)
     {
-        NumberValidation validation = new NumberValidation();
+        var validation = new NumberValidation();
         if (validation.AddNumberValidation().AddPointValidation().Validate(e.Key))
         {
             e.Handled = true;
         }
+    }
+    
+    public override string ToString()
+    {
+        return PageTitles.AddModelPrice;
     }
 }

@@ -11,6 +11,9 @@ using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Validations;
 using StockAdmin.Scripts.Vectors;
 
@@ -20,8 +23,8 @@ public partial class AddedModelPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly ModelEntity _modelEntity;
-
     private readonly Hashtable _actionList;
+    private readonly IRepositoryFactory _factory;
     
     public AddedModelPage(ContentControl frame) : this(frame, new ModelEntity())
     {
@@ -31,7 +34,7 @@ public partial class AddedModelPage : UserControl
     public AddedModelPage(ContentControl frame, ModelEntity modelEntity)
     {
         InitializeComponent();
-        
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _modelEntity = modelEntity;
         
@@ -51,7 +54,7 @@ public partial class AddedModelPage : UserControl
     
     private async void Init()
     {
-        var repository = new OperationRepository();
+        var repository = _factory.CreateOperationRepository();
         CbOperations.ItemsSource = await repository.GetAllAsync();
         DataContext = _modelEntity;
     }
@@ -131,14 +134,14 @@ public partial class AddedModelPage : UserControl
     private async Task SaveChanges(List<OperationEntity> operations, List<PriceEntity> prices)
     {
         
-        var repository = new ModelRepository();
+        var repository = _factory.CreateModelRepository();
         LoadingBorder.IsVisible = true;
         if (_modelEntity.Id == 0)
         {
             var model = await repository.CreateAsync(_modelEntity);
-            var operationRepository = new ModelOperationRepository();
-            var priceRepository = new PriceRepository();
-            var modelPriceRepository = new ModelPriceRepository();
+            var operationRepository = _factory.CreateModelOperationRepository();
+            var priceRepository = _factory.CreatePriceRepository();
+            var modelPriceRepository = _factory.CreateModelPriceRepository();
             foreach (var operation in operations)
             {
                 var modelOperation = new ModelOperationEntity()

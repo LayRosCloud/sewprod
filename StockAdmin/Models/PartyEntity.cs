@@ -41,14 +41,4 @@ public class PartyEntity : Entity
     [JsonPropertyName(ServerConstants.Party.FieldPackages)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<PackageEntity>? Packages { get; set; }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is not PartyEntity party)
-        {
-            return false;
-        }
-
-        return party.Id == Id;
-    }
 }

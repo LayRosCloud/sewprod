@@ -1,23 +1,25 @@
 using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using StockAdmin.Models;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Exceptions;
-using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views;
 
 public partial class AuthWindow : Window
 {
+    private readonly IRepositoryFactory _factory;
     public AuthWindow()
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
+
         ReadFile();
+
         InitData();
     }
 
@@ -40,7 +42,7 @@ public partial class AuthWindow : Window
         const string networkException = "ошибка подключения...";
         const bool disableLogoBorder = false;
         
-        var linkRepository = new LinkRepository();
+        var linkRepository = _factory.CreateLinkRepository();
 
         try
         {

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Models;
@@ -12,5 +13,6 @@ public class SizeEntity : Entity
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public AgeEntity? Age { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [NotMapped]
     public string FullName => $"{Number} {Age?.Name}";
 }

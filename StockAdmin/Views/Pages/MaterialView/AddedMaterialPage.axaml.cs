@@ -9,6 +9,9 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.MaterialView;
@@ -17,15 +20,16 @@ public partial class AddedMaterialPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly MaterialEntity _materialEntity;
+    private readonly IRepositoryFactory _factory;
     
     public AddedMaterialPage(ContentControl frame) : this(frame, new MaterialEntity())
-    {
-        
-    }
+    { }
     
     public AddedMaterialPage(ContentControl frame, MaterialEntity materialEntity)
     {
         InitializeComponent();
+        
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _materialEntity = materialEntity;
         
@@ -51,7 +55,7 @@ public partial class AddedMaterialPage : UserControl
 
     private async Task SaveChanges()
     {
-        var repository = new MaterialRepository();
+        var repository = _factory.CreateMaterialRepository();
         
         if (_materialEntity.Id == 0)
         {

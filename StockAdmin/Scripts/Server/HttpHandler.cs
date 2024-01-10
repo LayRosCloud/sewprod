@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Server;
 
 namespace StockAdmin.Scripts.Server;
 

@@ -8,6 +8,9 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Views.Pages.PackageView;
 
 namespace StockAdmin.Views.Pages.ClothOperationView;
@@ -22,11 +25,12 @@ public partial class ClothOperationPage : UserControl
     
     private readonly List<ClothOperationEntity> _clothOperations;
     private readonly DelayFinder _delayFinder;
+    private readonly IRepositoryFactory _factory;
     
     public ClothOperationPage(PackageEntity packageEntity, ContentControl frame)
     {
         InitializeComponent();
-        
+        _factory = ServerConstants.GetRepository();
         _packageEntity = packageEntity;
         _clothOperations = new List<ClothOperationEntity>();
         
@@ -49,7 +53,7 @@ public partial class ClothOperationPage : UserControl
         var loadingController = new LoadingController<ClothOperationEntity>(LoadingBorder);
         await loadingController.FetchDataAsync(async () =>
         {
-            var repository = new ClothOperationRepository();
+            var repository = _factory.CreateClothOperationRepository();
             _clothOperations.Clear();
             _clothOperations.AddRange(await repository.GetAllAsync(packageEntity.Id));
             List.ItemsSource = _clothOperations;
@@ -95,8 +99,8 @@ public partial class ClothOperationPage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repositoryPerson = new ClothOperationPersonRepository();
-        var repositoryOperation = new ClothOperationRepository();
+        var repositoryPerson = _factory.CreateClothOperationPersonRepository();
+        var repositoryOperation = _factory.CreateClothOperationRepository();
         switch (_currentIndex)
         {
             case ListSelected.First:

@@ -9,6 +9,9 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Validations;
 using StockAdmin.Scripts.Vectors;
 
@@ -18,17 +21,19 @@ public partial class AddedOperationPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly OperationEntity _operationEntity;
+    private readonly IRepositoryFactory _factory;
 
-    public AddedOperationPage(ContentControl frame) : this(frame, new OperationEntity())
-    {
-        
-    }
+    public AddedOperationPage(ContentControl frame) 
+        : this(frame, new OperationEntity()) { }
     
     public AddedOperationPage(ContentControl frame, OperationEntity operationEntity)
     {
         InitializeComponent();
+        
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _operationEntity = operationEntity;
+        
         DataContext = _operationEntity;
     }
     
@@ -58,7 +63,7 @@ public partial class AddedOperationPage : UserControl
     
     private async Task SaveChanges()
     {
-        var operationRepository = new OperationRepository();
+        var operationRepository = _factory.CreateOperationRepository();
 
         if (_operationEntity.Id == 0)
         {
@@ -68,11 +73,6 @@ public partial class AddedOperationPage : UserControl
         {
             await operationRepository.UpdateAsync(_operationEntity);
         }
-    }
-    
-    public override string ToString()
-    {
-        return PageTitles.AddOperation;
     }
 
     private void KeyDownOnPercentField(object? sender, KeyEventArgs e)
@@ -84,5 +84,10 @@ public partial class AddedOperationPage : UserControl
         {
             e.Handled = true;
         }
+    }
+    
+    public override string ToString()
+    {
+        return PageTitles.AddOperation;
     }
 }

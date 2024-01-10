@@ -11,6 +11,8 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
@@ -21,10 +23,11 @@ public partial class AddedPackagesPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly Hashtable _actionList;
-    
+    private readonly IRepositoryFactory _factory;
     public AddedPackagesPage(ContentControl frame)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _actionList = new Hashtable();
         
@@ -43,12 +46,12 @@ public partial class AddedPackagesPage : UserControl
 
     private async void Init()
     {
-        var ageRepository = new AgeRepository();
-        var materialRepository = new MaterialRepository();
+        var ageRepository = _factory.CreateAgeRepository();
+        var materialRepository = _factory.CreatePackagesRepository();
 
-        var partyRepository = new PartyRepository();
-        var modelRepository = new ModelRepository();
-        var personRepository = new PersonRepository();
+        var partyRepository = _factory.CreatePartyRepository();
+        var modelRepository = _factory.CreateModelRepository();
+        var personRepository = _factory.CreatePersonRepository();
         
         CmbAges.ItemsSource = await ageRepository.GetAllAsync();
         CmbMaterials.ItemsSource = await materialRepository.GetAllAsync();
@@ -63,8 +66,10 @@ public partial class AddedPackagesPage : UserControl
     
     private async void TrySaveElements(object? sender, RoutedEventArgs e)
     {
-        var packageRepository = new PackageRepository();
-
+        var packageRepository = _factory.CreatePackagesRepository();
+        var priceRepository = _factory.CreatePriceRepository();
+        var clothOperationRepository = _factory.CreateClothOperationRepository();
+        var partyRepository = _factory.CreatePartyRepository();
         try
         {
             PartyEntity partyEntity;
@@ -74,7 +79,7 @@ public partial class AddedPackagesPage : UserControl
             {
                 partyEntity = CreateParty();
                 priceEntity = partyEntity.Price!;
-                partyEntity = await new PartyRepository().CreateAsync(partyEntity);
+                partyEntity = await partyRepository.CreateAsync(partyEntity);
             }
             else
             {
@@ -93,10 +98,8 @@ public partial class AddedPackagesPage : UserControl
             var packagesList = ReadAllPackagesTextBox(partyEntity);
 
             var packageEntities = await packageRepository.CreateAsync(packagesList);
+            
             var model = IsNewCut.IsChecked == true ? CbModels.SelectedItem as ModelEntity : partyEntity.Model;
-
-            var priceRepository = new PriceRepository();
-            var clothOperationRepository = new ClothOperationRepository();
 
             foreach (var package in packageEntities!)
             {
@@ -310,9 +313,12 @@ public partial class AddedPackagesPage : UserControl
 
     private async void SelectedTypeOfSize(object? sender, SelectionChangedEventArgs e)
     {
-        if (CmbAges.SelectedItem is not AgeEntity entity) return;
+        if (CmbAges.SelectedItem is not AgeEntity entity)
+        {
+            return;
+        }
         
-        var repository = new SizeRepository();
+        var repository = _factory.CreateSizeRepository();
         
         CmbSizes.ItemsSource = await repository.GetAllAsync(entity.Id);
 
@@ -327,7 +333,7 @@ public partial class AddedPackagesPage : UserControl
     {
         if(CmbPersons.SelectedItem is not PersonEntity personEntity) return;
         
-        var repository = new PartyRepository();
+        var repository = _factory.CreatePartyRepository();
         CbParties.ItemsSource = await repository.GetAllAsync(personEntity.Id);
     }
 

@@ -3,10 +3,10 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
-using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.MaterialView;
 
@@ -15,10 +15,12 @@ public partial class MaterialsPage : UserControl
     private readonly ContentControl _frame;
     private readonly DelayFinder _delayFinder;
     private readonly List<MaterialEntity> _materials;
+    private readonly IRepositoryFactory _factory;
     
     public MaterialsPage(ContentControl frame)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         
         _materials = new List<MaterialEntity>();
         _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
@@ -30,7 +32,7 @@ public partial class MaterialsPage : UserControl
     private async void Init()
     {
         var dataController =
-            new DataController<MaterialEntity>(new MaterialRepository(), _materials, ListMaterials);
+            new DataController<MaterialEntity>(_factory.CreateMaterialRepository(), _materials, ListMaterials);
         
         var loadingController = new LoadingController<MaterialEntity>(LoadingBorder, dataController);
         await loadingController.FetchDataAsync();
@@ -67,7 +69,7 @@ public partial class MaterialsPage : UserControl
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new MaterialRepository();
+        var repository = _factory.CreateMaterialRepository();
 
         if (ListMaterials.SelectedItem is not MaterialEntity material)
         {

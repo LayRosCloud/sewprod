@@ -11,6 +11,9 @@ using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using Color = Avalonia.Media.Color;
 
 namespace StockAdmin.Views.Pages.HistoryView;
@@ -20,11 +23,14 @@ public partial class HistoryPage : UserControl
     private readonly List<HistoryEntity> _histories;
     private readonly DelayFinder _delayFinder;
     private readonly Hashtable _colors;
+    private readonly IRepositoryFactory _factory;
     public HistoryPage()
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
+        
         _histories = new List<HistoryEntity>();
-        _delayFinder = new DelayFinder(500, FilteringArrayOnText);
+        _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         
         _colors = new Hashtable
         {
@@ -39,7 +45,7 @@ public partial class HistoryPage : UserControl
 
     private async void Init()
     {
-        var dataController = new DataController<HistoryEntity>(new HistoryRepository(), _histories, List);
+        var dataController = new DataController<HistoryEntity>(_factory.CreateHistoryRepository(), _histories, List);
         var loadingController = new LoadingController<HistoryEntity>(LoadingBorder, dataController);
         await loadingController.FetchDataAsync();
     }

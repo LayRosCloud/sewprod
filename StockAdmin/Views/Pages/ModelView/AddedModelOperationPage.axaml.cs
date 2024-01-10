@@ -5,6 +5,9 @@ using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.ModelView;
 
@@ -12,9 +15,11 @@ public partial class AddedModelOperationPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly ModelEntity _model;
+    private readonly IRepositoryFactory _factory;
     public AddedModelOperationPage(ContentControl frame, ModelEntity model)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _model = model;
         Init();
@@ -22,7 +27,7 @@ public partial class AddedModelOperationPage : UserControl
 
     private async void Init()
     {
-        var repository = new OperationRepository();
+        var repository = _factory.CreateOperationRepository();
         CbOperations.ItemsSource = await repository.GetAllAsync();
     }
     
@@ -42,7 +47,7 @@ public partial class AddedModelOperationPage : UserControl
 
     private async Task SaveChanges(OperationEntity operation)
     {
-        var modelOperationRepository = new ModelOperationRepository();
+        var modelOperationRepository = _factory.CreateModelOperationRepository();
         
         await modelOperationRepository.CreateAsync(new ModelOperationEntity{ModelId = _model.Id, OperationId = operation.Id});
     }

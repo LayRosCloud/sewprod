@@ -1,4 +1,6 @@
 ﻿using StockAdmin.Models;
+using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
 
 namespace StockAdmin.Scripts.Server;
 
@@ -6,6 +8,18 @@ public abstract class ServerConstants
 {
     public const string ServerAddress = "http://188.225.77.116:5000";
     public static AuthEntity AuthorizationUser = new();
+    private static IRepositoryFactory? _currentRepository;
+
+    public static IRepositoryFactory GetRepository()
+    {
+        if (_currentRepository == null)
+        {
+            _currentRepository = new ServerFactory();
+        }
+
+        return _currentRepository;
+    }
+    
     public static string Login = "";
     public static string Password = "";
     public const string FieldId = "id";

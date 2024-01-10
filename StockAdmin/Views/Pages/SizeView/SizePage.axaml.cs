@@ -6,6 +6,9 @@ using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.SizeView;
 
@@ -17,9 +20,11 @@ public partial class SizePage : UserControl
 
     private readonly List<AgeEntity> _ages;
     private readonly List<SizeEntity> _sizes;
+    private readonly IRepositoryFactory _factory;
     public SizePage(ContentControl frame)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         
         _ages = new List<AgeEntity>();
         _sizes = new List<SizeEntity>();
@@ -35,9 +40,9 @@ public partial class SizePage : UserControl
     private async void Init()
     {
         var loadingSizes = new LoadingController<SizeEntity>(LoadingBorder,
-            new DataController<SizeEntity>(new SizeRepository(), _sizes, ListSizes));
+            new DataController<SizeEntity>(_factory.CreateSizeRepository(), _sizes, ListSizes));
         var loadingTypes = new LoadingController<AgeEntity>(LoadingBorder,
-            new DataController<AgeEntity>(new AgeRepository(), _ages, ListAges));
+            new DataController<AgeEntity>(_factory.CreateAgeRepository(), _ages, ListAges));
         
         await loadingSizes.FetchDataAsync();
         await loadingTypes.FetchDataAsync();
@@ -104,7 +109,7 @@ public partial class SizePage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new SizeRepository();
+        var repository = _factory.CreateSizeRepository();
         
         if (ListSizes.SelectedItem is SizeEntity size)
         {
@@ -115,7 +120,7 @@ public partial class SizePage : UserControl
     
     private async void SendYesTypeSizeAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new AgeRepository();
+        var repository = _factory.CreateAgeRepository();
         
         if (ListAges.SelectedItem is AgeEntity age)
         {

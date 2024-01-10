@@ -3,7 +3,7 @@ using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Models;
 
-public class LinkEntity
+public class LinkEntity : Entity
 {
     [JsonPropertyName(ServerConstants.Link.FieldRel)]
     public string Rel { get; set; } = "";

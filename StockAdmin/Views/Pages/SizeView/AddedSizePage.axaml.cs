@@ -9,6 +9,9 @@ using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.SizeView;
@@ -17,6 +20,7 @@ public partial class AddedSizePage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly SizeEntity _sizeEntity;
+    private readonly IRepositoryFactory _factory;
     
     public AddedSizePage(ContentControl frame)
         : this(frame, new SizeEntity()){}
@@ -24,6 +28,7 @@ public partial class AddedSizePage : UserControl
     public AddedSizePage(ContentControl frame, SizeEntity sizeEntity)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _sizeEntity = sizeEntity;
         Init();
@@ -31,7 +36,7 @@ public partial class AddedSizePage : UserControl
 
     private async void Init()
     {
-        AgeRepository repository = new AgeRepository();
+        var repository = _factory.CreateAgeRepository();
         CbTypes.ItemsSource = (await repository.GetAllAsync()).OrderBy(x=>x.Name);
         DataContext = _sizeEntity;
     }
@@ -53,7 +58,7 @@ public partial class AddedSizePage : UserControl
 
     private async Task SaveChanges()
     {
-        SizeRepository sizeRepository = new SizeRepository();
+        var sizeRepository = _factory.CreateSizeRepository();
 
         if (_sizeEntity.Id == 0)
         {

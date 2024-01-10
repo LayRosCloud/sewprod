@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Scripts.Controllers;
@@ -12,8 +14,10 @@ public class AuthController
 {
     private readonly PersonAuth _auth;
     private const string FileName = "au_data.dat";
+    private readonly IRepositoryFactory _factory;
     public AuthController(string email, string password)
     {
+        _factory = ServerConstants.GetRepository();
         _auth = new PersonAuth
         {
             Email = email,
@@ -33,7 +37,7 @@ public class AuthController
         
         var personEntity = new PersonEntity { Email = _auth.Email, Password = _auth.Password };
 
-        var repository = new PersonRepository();
+        var repository = _factory.CreatePersonRepository();
         var authPerson = await repository.LoginAsync(personEntity);
         
         if (authPerson == null || authPerson.Token == null)

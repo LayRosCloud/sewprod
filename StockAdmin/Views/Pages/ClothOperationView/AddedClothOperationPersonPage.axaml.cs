@@ -7,6 +7,9 @@ using Avalonia.Markup.Xaml;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.ClothOperationView;
 
@@ -15,6 +18,7 @@ public partial class AddedClothOperationPersonPage : UserControl
     private readonly ContentControl _frame;
     private readonly ClothOperationPersonEntity _clothOperationPersonEntity;
     private readonly PackageEntity _packageEntity;
+    private readonly IRepositoryFactory _factory;
 
     public AddedClothOperationPersonPage(ContentControl frame, ClothOperationEntity clothOperationEntity, PackageEntity packageEntity)
     :this(frame, clothOperationEntity, new ClothOperationPersonEntity(), packageEntity)
@@ -28,6 +32,7 @@ public partial class AddedClothOperationPersonPage : UserControl
         PackageEntity packageEntity)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _clothOperationPersonEntity = clothOperationPersonEntity;
         _packageEntity = packageEntity;
@@ -37,7 +42,7 @@ public partial class AddedClothOperationPersonPage : UserControl
 
     private async void Init()
     {
-        var repository = new PersonRepository();
+        var repository = _factory.CreatePersonRepository();
         CbClothOperationsPersons.ItemsSource = await repository.GetAllAsync();
         DataContext = _clothOperationPersonEntity;
     }
@@ -71,7 +76,7 @@ public partial class AddedClothOperationPersonPage : UserControl
     
     private async Task SaveChanges()
     {
-        var repository = new ClothOperationPersonRepository();
+        var repository = _factory.CreateClothOperationPersonRepository();
 
         if (_clothOperationPersonEntity.Id == 0)
         {

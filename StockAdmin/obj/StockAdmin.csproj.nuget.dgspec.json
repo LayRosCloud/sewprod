@@ -76,6 +76,14 @@
               "target": "Package",
               "version": "[2.0.0-rc2, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "NPOI": {
               "target": "Package",
               "version": "[2.6.2, )"

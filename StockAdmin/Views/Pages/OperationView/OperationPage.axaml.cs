@@ -8,6 +8,8 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Views.Pages.OperationView;
 
@@ -16,28 +18,38 @@ public partial class OperationPage : UserControl
     private readonly ContentControl _frame;
     private readonly List<OperationEntity> _operations;
     private readonly DelayFinder _delayFinder;
+    private readonly IRepositoryFactory _factory;
     
     public OperationPage(ContentControl frame)
     {
         InitializeComponent();
+        
+        _factory = ServerConstants.GetRepository();
+        
         _operations = new List<OperationEntity>();
         _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         _frame = frame;
+        
         Init();
     }
 
     private async void Init()
     {
-        var dataController = new DataController<OperationEntity>(new OperationRepository(), _operations, List);
-        var loadingController = new LoadingController<OperationEntity>(LoadingBorder, dataController);
+        var dataController 
+            = new DataController<OperationEntity>(_factory.CreateOperationRepository(), _operations, List);
+        
+        var loadingController 
+            = new LoadingController<OperationEntity>(LoadingBorder, dataController);
+        
         await loadingController.FetchDataAsync();
     }
 
     private void FilteringArrayOnText()
     {
+        string text = Finder.Text.ToLower().Trim();
         List.ItemsSource = 
             _operations
-                .Where(x => x.Name.ToLower().Contains(Finder.Text.ToLower().Trim()))
+                .Where(x => x.Name.ToLower().Contains(text))
                 .ToList();
     }
     
@@ -54,7 +66,7 @@ public partial class OperationPage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new OperationRepository();
+        var repository = _factory.CreateOperationRepository();
         
         if (List.SelectedItem is OperationEntity operation)
         {

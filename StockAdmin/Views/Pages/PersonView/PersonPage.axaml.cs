@@ -11,6 +11,9 @@ using StockAdmin.Scripts.Exports.Other;
 using StockAdmin.Scripts.Exports.Outputs;
 using StockAdmin.Scripts.Exports.Outputs.Interfaces;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Views.Pages.StatisticPeople;
 
 namespace StockAdmin.Views.Pages.PersonView;
@@ -20,10 +23,12 @@ public partial class PersonPage : UserControl
     private readonly ContentControl _frame;
     private readonly DelayFinder _delayFinder;
     private readonly List<PersonEntity> _persons;
+    private readonly IRepositoryFactory _factory;
     
     public PersonPage(ContentControl frame)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _persons = new List<PersonEntity>();
         _delayFinder = new DelayFinder(500, FilteringArrayOnText);
         _frame = frame;
@@ -33,7 +38,7 @@ public partial class PersonPage : UserControl
     
     private async void Init()
     {
-        var dataController = new DataController<PersonEntity>(new PersonRepository(), _persons, List);
+        var dataController = new DataController<PersonEntity>(_factory.CreatePersonRepository(), _persons, List);
         var loadingController = new LoadingController<PersonEntity>(LoadingBorder, dataController);
         await loadingController.FetchDataAsync();
     }
@@ -66,7 +71,7 @@ public partial class PersonPage : UserControl
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = new PersonRepository();
+        var repository = _factory.CreatePersonRepository();
 
         if (List.SelectedItem is not PersonEntity person)
         {
@@ -125,8 +130,8 @@ public partial class PersonPage : UserControl
         dialog.Filters = filters;
         List<PersonGroup> groupedPersons = new List<PersonGroup>();
 
-        var repositoryOperations = new ClothOperationRepository();
-        var repositoryPackages = new PackageRepository();
+        var repositoryOperations = _factory.CreateClothOperationRepository();
+        var repositoryPackages = _factory.CreatePackagesRepository();
         
         var operations = await repositoryOperations.GetAllAsync();
         var packages = await repositoryPackages.GetAllAsync();

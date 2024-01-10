@@ -9,6 +9,9 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.SizeView;
@@ -17,12 +20,14 @@ public partial class AddedTypeOfSizePage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly AgeEntity _ageEntity;
+    private readonly IRepositoryFactory _factory;
     public AddedTypeOfSizePage(ContentControl frame)
         :this(frame, new AgeEntity()){}
     
     public AddedTypeOfSizePage(ContentControl frame, AgeEntity ageEntity)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _ageEntity = ageEntity;
         DataContext = _ageEntity;
@@ -45,7 +50,7 @@ public partial class AddedTypeOfSizePage : UserControl
 
     private async Task SaveChanges()
     {
-        var ageRepository = new AgeRepository();
+        var ageRepository = _factory.CreateAgeRepository();
         if (_ageEntity.Id == 0)
         {
             await ageRepository.CreateAsync(_ageEntity);

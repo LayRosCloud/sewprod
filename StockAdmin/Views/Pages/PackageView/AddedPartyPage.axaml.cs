@@ -7,6 +7,9 @@ using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
+using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
+using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
 namespace StockAdmin.Views.Pages.PackageView;
@@ -15,26 +18,30 @@ public partial class AddedPartyPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly PartyEntity _party;
+    private readonly IRepositoryFactory _factory;
     public AddedPartyPage(ContentControl frame):this(frame, new PartyEntity())
-    {
-    }
+    { }
     
     public AddedPartyPage(ContentControl frame, PartyEntity party)
     {
         InitializeComponent();
+        _factory = ServerConstants.GetRepository();
         _frame = frame;
         _party = party;
+        
         Init();
     }
 
     private async void Init()
     {
-        var repositoryPerson = new PersonRepository();
-        var repositoryModel = new ModelRepository();
+        var repositoryPerson = _factory.CreatePersonRepository();
+        var repositoryModel = _factory.CreateModelRepository();
+        
         var models = await repositoryModel.GetAllAsync();
         CbModels.ItemsSource = models;
-        CbPersons.ItemsSource = await repositoryPerson.GetAllAsync();
 
+        CbPersons.ItemsSource = await repositoryPerson.GetAllAsync();
+        
         var item = models.FirstOrDefault(x => x.Id == _party.ModelId);
         if (item != null)
         {
@@ -83,7 +90,7 @@ public partial class AddedPartyPage : UserControl
     
     private async Task SaveChanges()
     {
-        var partyRepository = new PartyRepository();
+        var partyRepository = _factory.CreatePartyRepository();
         if (_party.Id == 0)
         {
             await partyRepository.CreateAsync(_party);
