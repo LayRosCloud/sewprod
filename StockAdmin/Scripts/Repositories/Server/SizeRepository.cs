@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories.Interfaces;
@@ -8,33 +9,45 @@ namespace StockAdmin.Scripts.Repositories.Server;
 
 public class SizeRepository: ISizesRepository
 {
-    public Task<List<SizeEntity>> GetAllAsync()
+    private const string EndPoint = "/v1/sizes/";
+    public async Task<List<SizeEntity>> GetAllAsync()
     {
-        throw new System.NotImplementedException();
+        var httpHandler = new HttpHandler<SizeEntity>();
+        List<SizeEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
+        return response!;
     }
 
-    public Task<SizeEntity> GetAsync(int id)
+    public async Task<SizeEntity> GetAsync(int id)
     {
-        throw new System.NotImplementedException();
+        var httpHandler = new HttpHandler<SizeEntity>();
+        SizeEntity? response = await httpHandler.GetFromJsonAsync(EndPoint+id);
+        return response!;
     }
 
-    public Task<SizeEntity> CreateAsync(SizeEntity entity)
+    public async Task<SizeEntity> CreateAsync(SizeEntity entity)
     {
-        throw new System.NotImplementedException();
+        var httpHandler = new HttpHandler<SizeEntity>();
+        SizeEntity? response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
+        return response!;
     }
 
-    public Task<SizeEntity> UpdateAsync(SizeEntity entity)
+    public async Task<SizeEntity> UpdateAsync(SizeEntity entity)
     {
-        throw new System.NotImplementedException();
+        var httpHandler = new HttpHandler<SizeEntity>();
+        SizeEntity? response = await httpHandler.PutAsJsonAsync(EndPoint+entity.Id, entity);
+        return response!;
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new System.NotImplementedException();
+        var httpHandler = new HttpHandler<PriceEntity>();
+        await httpHandler.DeleteAsync(EndPoint + id);
     }
 
-    public Task<List<SizeEntity>> GetAllAsync(int ageId)
+    public async Task<List<SizeEntity>> GetAllAsync(int ageId)
     {
-        throw new System.NotImplementedException();
+        var httpHandler = new HttpHandler<SizeEntity>();
+        List<SizeEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint+"?ageId="+ageId);
+        return response!;
     }
 }

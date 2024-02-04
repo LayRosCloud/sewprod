@@ -56,7 +56,7 @@ public partial class PackagePage : UserControl
         {
             var personRepository = _factory.CreatePersonRepository();
             
-            var post = new PostEntity { Name = PostEntity.CutterName };
+            var post = new PostEntity { Name = PostEntity.CutterName, Id = 3};
             var persons = new List<PersonEntity>
             {
                 new() { LastName = "Все", FirstName = "закройщики"}

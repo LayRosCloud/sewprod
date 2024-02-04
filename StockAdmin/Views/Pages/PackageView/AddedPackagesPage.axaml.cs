@@ -47,7 +47,7 @@ public partial class AddedPackagesPage : UserControl
     private async void Init()
     {
         var ageRepository = _factory.CreateAgeRepository();
-        var materialRepository = _factory.CreatePackagesRepository();
+        var materialRepository = _factory.CreateMaterialRepository();
 
         var partyRepository = _factory.CreatePartyRepository();
         var modelRepository = _factory.CreateModelRepository();
@@ -59,6 +59,7 @@ public partial class AddedPackagesPage : UserControl
         
         CbPersons.ItemsSource = list;
         CmbPersons.ItemsSource = list;
+        CmPersons.ItemsSource = list;
         
         CbModels.ItemsSource = await modelRepository.GetAllAsync();
         CbParties.ItemsSource = await partyRepository.GetAllAsync();
@@ -70,6 +71,7 @@ public partial class AddedPackagesPage : UserControl
         var priceRepository = _factory.CreatePriceRepository();
         var clothOperationRepository = _factory.CreateClothOperationRepository();
         var partyRepository = _factory.CreatePartyRepository();
+        
         try
         {
             PartyEntity partyEntity;
@@ -86,7 +88,7 @@ public partial class AddedPackagesPage : UserControl
                 if (CbParties.SelectedItem is PartyEntity party)
                 {
                     partyEntity = party;
-                    priceEntity = party.Price;
+                    priceEntity = party.Price!;
                 }
                 else
                 {
@@ -197,18 +199,19 @@ public partial class AddedPackagesPage : UserControl
         foreach (var control in MainPanel.Children)
         {
             if (control is not StackPanel stackPanel) continue;
-            
-            var tbCount = (stackPanel.Children[0] as TextBox)!;
-            var cbMaterials = (stackPanel.Children[1] as ComboBox)!;
+            var cbPersons = (stackPanel.Children[0] as ComboBox)!;
+            var tbCount = (stackPanel.Children[1] as TextBox)!;
+            var cbMaterials = (stackPanel.Children[2] as ComboBox)!;
 
             var count = Convert.ToInt32(tbCount.Text);
             var materialEntity = cbMaterials.SelectedItem as MaterialEntity;
+            var person = cbPersons.SelectedItem as PersonEntity;
 
             var packageEntity = new PackageEntity
               { 
                 Count = count, 
                 SizeId = sizeEntity.Id, 
-                PersonId = ServerConstants.AuthorizationUser.Id, 
+                PersonId = person!.Id, 
                 MaterialId = materialEntity!.Id,
                 PartyId = party.Id
               };
@@ -248,14 +251,16 @@ public partial class AddedPackagesPage : UserControl
         var controller = new ItemControlController();
         
         var stack = (MainPanel.Children[^1] as StackPanel)!;
-        var lastText = stack.Children[0] as TextBox;
-        var cbComboMaterials = stack.Children[1] as ComboBox;
+        var cbComboPersons = stack.Children[0] as ComboBox;
+        var lastText = stack.Children[1] as TextBox;
+        var cbComboMaterials = stack.Children[2] as ComboBox;
         var countTextBox = controller.CreateTextBox(lastText!, InputSymbol);
         
         var containerController = new ContainerController(controller.CreateStackPanel(stack))
         {
             Controls =
             {
+                controller.CreateComboBox(cbComboPersons!),
                 countTextBox,
                 controller.CreateComboBox(cbComboMaterials!)
             }

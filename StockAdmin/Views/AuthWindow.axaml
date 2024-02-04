@@ -23,16 +23,16 @@
                                        Foreground="#FFF" 
                                        FontSize="35"/>
                         </Border>
-                        <TextBlock Text="административная панель" 
+                        <TextBlock Text="Административная панель" 
                                    HorizontalAlignment="Center" 
                                    FontSize="25" 
                                    FontWeight="Bold" 
                                    Foreground="#ececec" 
                                    TextWrapping="Wrap"/>
                         <TextBlock
-                            Text="Данное приложение необходимо для учета производственных стадии для швейного цеха в организации ООО «Абаканский трикотаж»" 
+                            Text="Данное приложение необходимо для учета производственных стадии швейного цеха в организации ООО «Абаканский трикотаж»" 
                             Foreground="White" 
-                            Margin="5 10" 
+                            Margin="10 10  0 10" 
                             TextWrapping="Wrap"
                             Opacity="0.9"/>
                     </StackPanel>

@@ -78,7 +78,18 @@ public partial class StatisticPage : UserControl
         
         Categories.ItemsSource = _categories.Keys;
         Categories.SelectedIndex = 1;
+        List<WalletOperation> walletOperations = new List<WalletOperation>();
+        foreach (var clothOperation in _clothOperationPersons)
+        {
+            walletOperations.Add(new WalletOperation()
+            {
+                Name = clothOperation.ClothOperation.Operation.Name,
+                Cost = clothOperation.ClothOperation.Price.Number
+            }
+            );
+        }
 
+        DataGrid.ItemsSource = walletOperations;
         FullSum.Text = "Полная сумма: " + fullSum.ToString("F2");
     }
     

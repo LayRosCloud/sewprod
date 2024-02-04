@@ -138,18 +138,27 @@
                 <TabItem Header="Пачки">
                         <Grid RowDefinitions="35,*">
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <TextBlock Text="Количество" Width="250" FontWeight="Bold"/>
-                                <TextBlock Text="Материал" Width="250" FontWeight="Bold"/>
+                                <TextBlock Text="Сотрудник" Width="166" FontWeight="Bold"/>
+                                <TextBlock Text="Количество" Width="166" FontWeight="Bold"/>
+                                <TextBlock Text="Материал" Width="166" FontWeight="Bold"/>
                             </StackPanel>
                             <ScrollViewer Grid.Row="1">
                                 <StackPanel x:Name="MainPanel" HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal" Width="500" Margin="0 5 0 0">
+                                        <ComboBox x:Name="CmPersons" 
+                                                  DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=Uid}"
+                                                  SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
+                                                  SelectedValue="{Binding DataType=models:PackageEntity, Path=PersonId}"
+                                                  PlaceholderText="Выберите сотрудника"
+                                                  Width="161"
+                                                  Margin="0 0 5 0"
+                                        />
                                         <TextBox x:Name="NudCount" 
                                                  KeyDown="InputSymbol"
                                                  Focusable="True"
                                                  Text=""
                                                  Watermark="Введите количество"
-                                                 Width="245"
+                                                 Width="161"
                                                  Margin="0 0 5 0"
                                         />
                                         <ComboBox x:Name="CmbMaterials" 
@@ -157,7 +166,7 @@
                                                   SelectedValueBinding="{Binding DataType=models:MaterialEntity, Path=Id}"
                                                   SelectedValue="{Binding DataType=models:PackageEntity, Path=MaterialId}"
                                                   PlaceholderText="Выберите материал"
-                                                  Width="250"
+                                                  Width="166"
                                         />
                                   
                                     </StackPanel>
