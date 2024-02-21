@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using StockAdmin.Models;
@@ -30,8 +31,9 @@ public partial class StatisticPage : UserControl
         
         _packages = new List<PackageEntity>();
         _clothOperationPersons = new List<ClothOperationPersonEntity>();
-        Text.Text = person.FullName;
-        
+        FullName.Text = person.FullName;
+        Title.Text = "Данные за день";
+
         InitAsync(person.Id);
     }
 
@@ -39,6 +41,7 @@ public partial class StatisticPage : UserControl
     {
         var repository = _factory.CreateClothOperationPersonRepository();
         var packageRepository = _factory.CreatePackagesRepository();
+        var partyRepository = _factory.CreatePartyRepository();
         
         double fullSum = 0;
         
@@ -47,29 +50,35 @@ public partial class StatisticPage : UserControl
         
         var list = await repository.GetAllAsync(personId);
         var packageList = await packageRepository.GetAllAsync(personId);
+
+        var partyList = await partyRepository.GetAllAsync();
+
+        var hashtable = new Hashtable();
+
+        foreach (var party in partyList)
+        {
+            hashtable.Add(party.Id, party);
+        }
         
         foreach (var item in list)
         {
             if (item.DateStart >= firstDay && item.DateStart <= lastDay && item.IsEnded)
             {
                 _clothOperationPersons.Add(item);
-                fullSum += item.ClothOperation?.Price?.Number ?? 0;
             }
         }
         
         foreach (var item in packageList!)
         {
+            item.Party = (PartyEntity)hashtable[item.PartyId];
             if (item.CreatedAt >= firstDay && item.CreatedAt <= lastDay)
             {
                 _packages.Add(item);
             }
         }
         
-        _clothOperationStatistic = new ClothOperationStatistic(Chart, _clothOperationPersons);
-        _packagesStatistic = new PackagesStatistic(Chart, _packages);
-        
-        _clothOperationStatistic.Subscribe(Initial);
-        _packagesStatistic.Subscribe(Initial);
+        _clothOperationStatistic = new ClothOperationStatistic(Chart, _clothOperationPersons, Initial);
+        _packagesStatistic = new PackagesStatistic(Chart, _packages, Initial);
         
         _clothOperationStatistic.Generate();
         
@@ -78,15 +87,28 @@ public partial class StatisticPage : UserControl
         
         Categories.ItemsSource = _categories.Keys;
         Categories.SelectedIndex = 1;
+        
         List<WalletOperation> walletOperations = new List<WalletOperation>();
         foreach (var clothOperation in _clothOperationPersons)
         {
             walletOperations.Add(new WalletOperation()
-            {
-                Name = clothOperation.ClothOperation.Operation.Name,
-                Cost = clothOperation.ClothOperation.Price.Number
-            }
+                {
+                    Name = clothOperation.ClothOperation.Operation.Name,
+                    Cost = clothOperation.ClothOperation.Price.Number
+                }
             );
+            fullSum += clothOperation.ClothOperation.Price.Number;
+        }
+
+        foreach (var item in _packages)
+        {
+            walletOperations.Add(new WalletOperation()
+                {
+                    Name = item.Party.CutNumber + " " + item.Size.Number,
+                    Cost = item.Party.Price.Number
+                }
+            );
+            fullSum += item.Party.Price.Number;
         }
 
         DataGrid.ItemsSource = walletOperations;
@@ -104,12 +126,10 @@ public partial class StatisticPage : UserControl
          {
              return;
          }
-         
-         _categories[item].Invoke();
-
-         Title.Text = "";
          List.ItemsSource = new List<WalletOperation>();
          Result.Text = "";
+         
+         _categories[item].Invoke();
     }
 
     private void Initial(List<WalletOperation> items, double sum)

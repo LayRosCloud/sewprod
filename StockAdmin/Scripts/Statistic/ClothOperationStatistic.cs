@@ -9,8 +9,8 @@ namespace StockAdmin.Scripts.Statistic;
 public class ClothOperationStatistic : Statistic<ClothOperationPersonEntity>
 {
     
-    public ClothOperationStatistic(CartesianChart chart, IEnumerable<ClothOperationPersonEntity> source)
-    :base(chart, source)
+    public ClothOperationStatistic(CartesianChart chart, IEnumerable<ClothOperationPersonEntity> source, Action<List<WalletOperation>, double> graphicClick)
+    :base(chart, source, graphicClick)
     { }
 
 

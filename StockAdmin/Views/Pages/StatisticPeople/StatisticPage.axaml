@@ -17,8 +17,9 @@
                 HorizontalAlignment="Right"
                 >
             <TextBlock 
-                       x:Name="Text" 
+                       x:Name="FullName" 
                        Margin="20 0"
+                       Text=""
                        FontWeight="Bold"
                        />
         </Border>
@@ -69,7 +70,7 @@
                 VerticalAlignment="Center"
         >
             <TextBlock x:Name="FullSum" 
-                       Text=""
+                       Text="Full Sum"
                        FontWeight="Bold"/>
         </Border>
         
@@ -83,7 +84,7 @@
                 VerticalAlignment="Center"
         >
             <TextBlock x:Name="Title" 
-                       Text=""
+                       Text="Title"
                        FontWeight="Bold"/>
         </Border>
         
@@ -98,7 +99,7 @@
             >
                 <TextBlock x:Name="Result" 
                            FontWeight="Bold"
-                           Text=""
+                           Text="Result"
                 />
             </Border>
             <Border
@@ -121,8 +122,6 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>
-            
-            
         </Grid>
         
     </Grid>

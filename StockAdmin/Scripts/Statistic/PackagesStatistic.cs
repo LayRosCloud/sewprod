@@ -8,7 +8,8 @@ namespace StockAdmin.Scripts.Statistic;
 
 public class PackagesStatistic : Statistic<PackageEntity>
 {
-    public PackagesStatistic(CartesianChart chart, IEnumerable<PackageEntity> source) : base(chart, source)
+    public PackagesStatistic(CartesianChart chart, IEnumerable<PackageEntity> source, Action<List<WalletOperation>, double> graphicClick
+    ) : base(chart, source, graphicClick)
     {
     }
 
@@ -25,13 +26,12 @@ public class PackagesStatistic : Statistic<PackageEntity>
 
     protected override WalletOperation CreateItem(PackageEntity item)
     {
-        var walletOperation = new WalletOperation();
-        foreach (var clothOperation in item.ClothOperations)
+        var walletOperation = new WalletOperation()
         {
-            double cost = clothOperation.Price?.Number ?? 0;
-            walletOperation.Name += $"{clothOperation.Operation?.Name} {cost}\n";
-            walletOperation.Cost += cost;
-        }
+            Name = item.Party?.CutNumber + " " + item.Size.FullName,
+            Cost = item.Party?.Price?.Number ?? 0
+        };
+        
         return walletOperation;
     }
 }

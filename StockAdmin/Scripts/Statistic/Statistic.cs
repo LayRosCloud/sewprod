@@ -16,20 +16,16 @@ namespace StockAdmin.Scripts.Statistic;
 public abstract class Statistic<TSource>
 {
     private readonly IEnumerable<TSource> _source;
-    private Action<List<WalletOperation>, double>? _onGraphicClick;
+    private readonly Action<List<WalletOperation>, double> _onGraphicClick;
     private readonly CartesianChart _chart;
 
-    protected Statistic(CartesianChart chart, IEnumerable<TSource> source)
+    protected Statistic(CartesianChart chart, IEnumerable<TSource> source, Action<List<WalletOperation>, double> graphicClick)
     {
         _source = source;
         _chart = chart;
-    }
-    
-    public void Subscribe(Action<List<WalletOperation>, double> graphicClick)
-    {
         _onGraphicClick = graphicClick;
     }
-    
+
     public void Generate()
     {
         var entities = GenerateArray();
@@ -51,14 +47,14 @@ public abstract class Statistic<TSource>
         double sum = 0;
         
         var walletOperations =  new List<WalletOperation>();
-        foreach (TSource entity in _source)
+        foreach (TSource entity in point.Model)
         {
             WalletOperation walletOperation = CreateItem(entity);
             walletOperations.Add(walletOperation);
 
             sum += walletOperation.Cost;
         }
-        _onGraphicClick?.Invoke(walletOperations, sum);
+        _onGraphicClick.Invoke(walletOperations, sum);
     }
 
 
