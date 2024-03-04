@@ -5,13 +5,11 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:DataType="models:PersonEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="StockAdmin.Views.Pages.PersonView.AddedPersonPage">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
+             x:Class="StockAdmin.Views.Pages.PersonView.AddedPersonPage"
+             
+             >
+    <Grid ColumnDefinitions="*,*">
+
         <StackPanel Grid.Column="0" 
                     Orientation="Vertical" 
                     HorizontalAlignment="Right" 
@@ -69,10 +67,21 @@
             <TextBox x:Name="TbUid" Text="{Binding Uid}" 
                      Watermark="Введите уник. индентификатор"
                      />
+            <TextBlock x:Name="TitleRoles" Text="Выберите все роли пользователя" FontWeight="Bold"/>
+            <StackPanel x:Name="RolesPanel">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <ComboBox x:Name="CutterRole"
+                              DisplayMemberBinding="{Binding DataType=models:PostEntity, Path=Description}"
+                              Width="200"
+                    />
+                    <Button Content="x" Click="DeleteCurrentPostRole"/>
+                </StackPanel>
+                
+                <Button Content="+" Click="AddNewPostField" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Center"/>
+            </StackPanel>
             
-            <CheckBox x:Name="IsCutter"
-                     Content="Кройщик"
-            />
         
             <Button Content="Отправить" Click="TrySaveChanges"/>
         </StackPanel>

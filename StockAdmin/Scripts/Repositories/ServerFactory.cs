@@ -76,12 +76,12 @@ public class ServerFactory : IRepositoryFactory
         return new SizeRepository();
     }
 
-    public ICrud<ModelPriceEntity> CreateModelPriceRepository()
+    public IModelPriceRepository CreateModelPriceRepository()
     {
         return new ModelPriceRepository();
     }
 
-    public ICrud<ModelOperationEntity> CreateModelOperationRepository()
+    public IModelOperationRepository CreateModelOperationRepository()
     {
         return new ModelOperationRepository();
     }

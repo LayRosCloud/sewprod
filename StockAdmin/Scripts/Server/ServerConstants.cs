@@ -52,6 +52,7 @@ public abstract class ServerConstants
         public const string FieldBirthDay = "birthDay";
         public const string FieldUid = "uid";
         public const string FieldPosts = "posts";
+        public const string FieldCreatedAt = "dateRegistration";
     }
     
     public abstract class Post

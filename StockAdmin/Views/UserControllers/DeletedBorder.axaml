@@ -5,8 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.UserControllers.DeletedBorder"
              x:Name="Root">
-    <Grid x:Name="DeletedContainer" 
-          >
+    <Grid x:Name="DeletedContainer">
             
         <Border 
             Classes="deleteBackground"

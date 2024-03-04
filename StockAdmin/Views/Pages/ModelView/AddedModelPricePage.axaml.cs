@@ -37,6 +37,10 @@ public partial class AddedModelPricePage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Непредвиденная ошибка");
+        }
     }
 
     private async Task SaveChanges()

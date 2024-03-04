@@ -18,7 +18,7 @@ public interface IRepositoryFactory
     public IDataReader<LinkEntity> CreateLinkRepository();
     public ICrud<PriceEntity> CreatePriceRepository();
     public ISizesRepository CreateSizeRepository();
-    public ICrud<ModelPriceEntity> CreateModelPriceRepository();
-    public ICrud<ModelOperationEntity> CreateModelOperationRepository();
+    public IModelPriceRepository CreateModelPriceRepository();
+    public IModelOperationRepository CreateModelOperationRepository();
     public IDataReader<HistoryEntity> CreateHistoryRepository();
 }

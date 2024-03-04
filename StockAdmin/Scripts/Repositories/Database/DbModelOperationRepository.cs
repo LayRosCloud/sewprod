@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Repositories.Interfaces;
+using StockAdmin.Scripts.Repositories.Server;
 
 namespace StockAdmin.Scripts.Repositories.Database;
 
-public class DbModelOperationRepository : ICrud<ModelOperationEntity>
+public class DbModelOperationRepository : IModelOperationRepository
 {
     private readonly DataContext _db = DataContext.Instance;
     
@@ -36,9 +37,11 @@ public class DbModelOperationRepository : ICrud<ModelOperationEntity>
         return response;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(ModelOperationEntity modelOperation)
     {
-        var item = await GetAsync(id);
+        var item = await _db.modelOperations
+            .FirstOrDefaultAsync(x => x.ModelId == modelOperation.ModelId
+                                      && modelOperation.OperationId == x.OperationId);
         _db.modelOperations.Remove(item);
         await _db.SaveChangesAsync();
     }

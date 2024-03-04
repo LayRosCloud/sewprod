@@ -21,13 +21,23 @@ public class DbPackageRepository : IPackagesRepository
 
     public async Task<List<PackageEntity>> GetAllAsync()
     {
-        var response = await _db.packages.ToListAsync();
+        var response = await _db.packages
+            .Include(x => x.Material)
+            .Include(x=> x.ClothOperations).ThenInclude(x=>x.Operation)
+            .Include(x=>x.Person)
+            .Include(x=>x.Size).ThenInclude(s=>s.Age)
+            .ToListAsync();
         return response;
     }
 
     public async Task<PackageEntity> GetAsync(int id)
     {
-        var response = await _db.packages.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.packages
+            .Include(x => x.Material)
+            .Include(x=>x.ClothOperations).ThenInclude(x=>x.Operation)
+            .Include(x=>x.Person)
+            .Include(x=>x.Size).ThenInclude(s=>s.Age)
+            .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
 
@@ -47,13 +57,23 @@ public class DbPackageRepository : IPackagesRepository
 
     public async Task<List<PackageEntity>> GetAllAsync(int personId)
     {
-        var response = await _db.packages.Where(x=>x.PersonId==personId).ToListAsync();
+        var response = await _db.packages
+            .Include(x => x.Material)
+            .Include(x=>x.ClothOperations).ThenInclude(x=>x.Operation)
+            .Include(x=>x.Person)
+            .Include(x=>x.Size).ThenInclude(s=>s.Age)
+            .Where(x=>x.PersonId==personId).ToListAsync();
         return response;
     }
 
     public async Task<List<PackageEntity>> GetAllOnPartyAsync(int partyId)
     {
-        var response = await _db.packages.Where(x=>x.PartyId==partyId).ToListAsync();
+        var response = await _db.packages
+            .Include(x => x.Material)
+            .Include(x=>x.ClothOperations).ThenInclude(x=>x.Operation)
+            .Include(x=>x.Person)
+            .Include(x=>x.Size).ThenInclude(s=>s.Age)
+            .Where(x=>x.PartyId==partyId).ToListAsync();
         return response;
     }
 

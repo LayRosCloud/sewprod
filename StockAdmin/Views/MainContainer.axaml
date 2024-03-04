@@ -71,7 +71,8 @@
                                         Text="Материалы" 
                                         OnClick="NavigateToMaterialsPage"
             />
-            <userControllers:MenuButton Source="/Assets/history.png" 
+            <userControllers:MenuButton x:Name="HistoryButton"
+                Source="/Assets/history.png" 
                                         Text="История" 
                                         OnClick="NavigateToHistoryPage"
             />

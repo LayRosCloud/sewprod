@@ -7,7 +7,6 @@ namespace StockAdmin.Models;
 
 public class PartyEntity : Entity
 {
-
     [JsonPropertyName(ServerConstants.Party.FieldModelId)] 
     public int ModelId { get; set; }
     
@@ -37,8 +36,4 @@ public class PartyEntity : Entity
     [JsonPropertyName(ServerConstants.Party.FieldPrice)] 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public PriceEntity? Price { get; set; }
-    
-    [JsonPropertyName(ServerConstants.Party.FieldPackages)]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public List<PackageEntity>? Packages { get; set; }
 }

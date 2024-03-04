@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using NPOI.SS.Formula.Atp;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
@@ -26,47 +27,59 @@ public partial class AddedPersonPage : UserControl
     private readonly IRepositoryFactory _factory;
 
     public AddedPersonPage(ContentControl frame)
-        : this(frame, new PersonEntity()) { }
+        : this(frame, new PersonEntity())
+    {
+    }
     
     public AddedPersonPage(ContentControl frame, PersonEntity personEntity)
     {
         InitializeComponent();
         _factory = ServerConstants.GetRepository();
+        
         _personEntity = personEntity;
+        if (_personEntity.Id != 0)
+        {
+            RolesPanel.IsVisible = false;
+            TitleRoles.IsVisible = false;
+        }
         _frame = frame;
         DataContext = _personEntity;
+        Initialize();
     }
 
+    private async void Initialize()
+    {
+        var postRepository = _factory.CreatePostRepository();
+        var list = await postRepository.GetAllAsync();
+        CutterRole.ItemsSource = list;
+    }
+    
     private async void TrySaveChanges(object? sender, RoutedEventArgs e)
     {
         try
         {
             CheckFields();
-            await SaveChanges();
+            var list = GetPosts();
+            await SaveChanges(list);
             _frame.Content = new PersonPage(_frame);
         }
         catch (ValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
-        catch (Exception)
-        {
-            ElementConstants.ErrorController.AddErrorMessage("Почта или индентификатор повторяются!");
-        }
     }
     
-    private async Task SaveChanges()
+    private async Task SaveChanges(List<PostEntity> posts)
     {
         var personRepository = _factory.CreatePersonRepository();
-        var permissionRepository = _factory.CreatePermissionRepository();
 
         if (_personEntity.Id == 0)
         {
-            var personEntity = await personRepository.CreateAsync(_personEntity);
-            
-            if (IsCutter.IsChecked == true)
+            _personEntity.Posts = null;
+            var person = await personRepository.CreateAsync(_personEntity);
+            if (_personEntity.Id == 0)
             {
-                await permissionRepository.CreateAsync(new PermissionEntity{PersonId = personEntity.Id, PostId = 3});
+                await SavePosts(posts, person);
             }
         }
         else
@@ -74,6 +87,49 @@ public partial class AddedPersonPage : UserControl
             await personRepository.UpdateAsync(_personEntity);
         }
 
+    }
+
+    private async Task SavePosts(List<PostEntity> posts, PersonEntity person)
+    {
+        var permissionRepository = _factory.CreatePermissionRepository();
+
+        foreach (var post in posts)
+        {
+            var item = new PermissionEntity
+            {
+                PersonId = person.Id,
+                PostId = post.Id
+            };
+            await permissionRepository.CreateAsync(item);
+        }
+        
+    }
+
+    private List<PostEntity> GetPosts()
+    {
+        List<PostEntity> posts = new List<PostEntity>();
+        if (_personEntity.Id != 0)
+        {
+            return posts;
+        }
+        var countItems = RolesPanel.Children.Count - 1;
+        const string exceptionValidationMessage = "Выберите роли!";
+        const int firstItem = 0;
+        
+        for (int indexChild = firstItem; indexChild < countItems; indexChild++)
+        {
+            var comboBox = (RolesPanel.Children[indexChild] as StackPanel)!.Children[firstItem] as ComboBox;
+            if (comboBox!.SelectedItem is PostEntity entity)
+            {
+                posts.Add(entity);
+            }
+            else
+            {
+                throw new ValidationException(exceptionValidationMessage);
+            }
+        }
+
+        return posts;
     }
 
     private void CheckFields()
@@ -158,5 +214,35 @@ public partial class AddedPersonPage : UserControl
         string? path = await dialog.ShowAsync(ElementConstants.MainContainer);
 
         return path;
+    }
+
+    private void AddNewPostField(object? sender, RoutedEventArgs e)
+    {
+        var parent = (sender as Button)?.Parent as StackPanel;
+        var insidePanel = parent!.Children[^2] as StackPanel;
+        
+        var controller = new ItemControlController();
+        var containerController = new ContainerController(controller.CreateStackPanel(insidePanel!))
+        {
+            Controls =
+            {
+                controller.CreateComboBox(insidePanel!.Children[0] as ComboBox),
+                controller.CreateButton(insidePanel.Children[1] as Button, DeleteCurrentPostRole)
+            }
+        };
+        
+        containerController.PushElementsToPanel();
+        
+        containerController.AddPanelToParent(parent, parent.Children.Count - 1);
+    }
+
+    private void DeleteCurrentPostRole(object? sender, RoutedEventArgs e)
+    {
+        var currentStackPanel = (sender as Button)?.Parent as StackPanel;
+        var parent = currentStackPanel!.Parent as StackPanel;
+        if (parent?.Children.Count - 1 > 1)
+        {
+            parent.Children.Remove(currentStackPanel);
+        }
     }
 }

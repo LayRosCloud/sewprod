@@ -6,7 +6,7 @@ using StockAdmin.Scripts.Repositories.Interfaces;
 
 namespace StockAdmin.Scripts.Repositories.Database;
 
-public class DbModelPriceRepository : ICrud<ModelPriceEntity>
+public class DbModelPriceRepository : IModelPriceRepository
 {
     private readonly DataContext _db = DataContext.Instance;
     
@@ -36,9 +36,9 @@ public class DbModelPriceRepository : ICrud<ModelPriceEntity>
         return response;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(ModelPriceEntity obj)
     {
-        var item = await GetAsync(id);
+        var item = await _db.modelPrices.FirstOrDefaultAsync(x => x.ModelId == obj.ModelId && x.PriceId == obj.PriceId);
         _db.modelPrices.Remove(item);
         await _db.SaveChangesAsync();
     }

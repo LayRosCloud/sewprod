@@ -20,13 +20,21 @@ public class DbClothOperationRepository : IClothOperationRepository
 
     public async Task<List<ClothOperationEntity>> GetAllAsync()
     {
-        var response = await _db.clothoperations.ToListAsync();
+        var response = await _db.clothoperations
+            .Include(x=> x.Operation)
+            .Include(x=> x.Price)
+            .Include(x=> x.ClothOperationPersons)
+            .ToListAsync();
         return response;
     }
 
     public async Task<ClothOperationEntity> GetAsync(int id)
     {
-        var response = await _db.clothoperations.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.clothoperations
+            .Include(x=>x.Operation)
+            .Include(x=>x.Price)
+            .Include(x=>x.ClothOperationPersons)
+            .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
 
@@ -46,7 +54,11 @@ public class DbClothOperationRepository : IClothOperationRepository
 
     public async Task<List<ClothOperationEntity>> GetAllAsync(int packageId)
     {
-        var response = await _db.clothoperations.Where(x=>x.PackageId == packageId).ToListAsync();
+        var response = await _db.clothoperations
+            .Include(x=> x.Operation)
+            .Include(x=> x.Price)
+            .Include(x=> x.ClothOperationPersons)
+            .Where(x=>x.PackageId == packageId).ToListAsync();
         return response;
     }
 }

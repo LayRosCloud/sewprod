@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
@@ -31,7 +32,7 @@ public partial class ModelPage : UserControl
         InitData();
     }
 
-    private async void InitData()
+    private async Task InitData()
     {
         var dataController = new DataController<ModelEntity>(_factory.CreateModelRepository(), _models, List);
         var loadingController = new LoadingController<ModelEntity>(LoadingBorder, dataController);
@@ -80,19 +81,27 @@ public partial class ModelPage : UserControl
             case ListSelected.Second:
                 if (Operations.SelectedItem is OperationEntity operation)
                 {
-                    await modelOperationRepository.DeleteAsync(operation.ModelOperation!.Id);
+                    await modelOperationRepository.DeleteAsync(operation.ModelOperation ?? new ModelOperationEntity
+                    {
+                        ModelId = (List.SelectedItem as ModelEntity).Id,
+                        OperationId = operation.Id
+                    });
                 }
                 break;
             case ListSelected.Third:
                 if (Prices.SelectedItem is PriceEntity price)
                 {
-                    await modelPricesRepository.DeleteAsync(price.ModelPrice!.Id);
+                    await modelPricesRepository.DeleteAsync(price.ModelPrice ?? new ModelPriceEntity
+                    {
+                        ModelId = (List.SelectedItem as ModelEntity).Id,
+                        PriceId = price.Id
+                    });
                 }
                 break;
         }
-        
-        InitData();
-        SendNoAnswerOnDeleteItem(sender, e);
+        DeletedContainer.IsVisible = false;
+
+        await InitData();
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
@@ -124,20 +133,22 @@ public partial class ModelPage : UserControl
 
     private void ShowDeleteWindowOperation(object? sender, RoutedEventArgs e)
     {
+        _currentSelectedList = ListSelected.Second;
+
         DeletedContainer.IsVisible = true;
         DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить операцию над моделью?" +
             " Восстановить операцию над моделью будет нельзя!";
-        _currentSelectedList = ListSelected.Second;
     }
 
     private void ShowDeleteWindowPrice(object? sender, RoutedEventArgs e)
     {
+        _currentSelectedList = ListSelected.Third;
+
         DeletedContainer.IsVisible = true;
         DeletedContainer.Text =
             "вы действительно уверены, что хотите удалить цену над моделью?" +
             " Восстановить цену над моделью будет нельзя!";
-        _currentSelectedList = ListSelected.Third;
     }
     
     public override string ToString()

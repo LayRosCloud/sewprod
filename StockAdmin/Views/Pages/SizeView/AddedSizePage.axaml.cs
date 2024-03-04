@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -47,12 +48,16 @@ public partial class AddedSizePage : UserControl
         {
             CheckFields();
             await SaveChanges();
-            
+
             _frame.Content = new SizePage(_frame);
         }
         catch (Scripts.Exceptions.ValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedExceptionMessage);
         }
     }
 
@@ -72,13 +77,15 @@ public partial class AddedSizePage : UserControl
 
     private void CheckFields()
     {
+        const string lengthException = "Число от 1 до 10 символов";
+        const string validationTypeMessage = "Выберите растовку!";
         string sizeName = TbNumber.Text!;
 
-        sizeName.ContainLengthBetweenValues(new LengthVector(1, 10), "Число от 1 до 10 символов");
+        sizeName.ContainLengthBetweenValues(new LengthVector(1, 10), lengthException);
         
         if (CbTypes.SelectedItem == null)
         {
-            throw new ValidationException("Выберите растовку!");
+            throw new ValidationException(validationTypeMessage);
         }
     }
     

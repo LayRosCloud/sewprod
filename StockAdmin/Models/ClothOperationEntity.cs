@@ -29,4 +29,10 @@ public class ClothOperationEntity : Entity
     [JsonPropertyName(ServerConstants.ClothOperation.FieldClothOperationPersons)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<ClothOperationPersonEntity> ClothOperationPersons { get; set; } = new();
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    public OperationTask OperationTask => this.IsEnded
+        ? OperationTask.GetCompleted(Operation?.Name!)
+        : OperationTask.GetNotCompleted(Operation?.Name!);
+
 }

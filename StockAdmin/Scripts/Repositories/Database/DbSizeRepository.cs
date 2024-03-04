@@ -20,13 +20,18 @@ public class DbSizeRepository : ISizesRepository
 
     public async Task<List<SizeEntity>> GetAllAsync()
     {
-        var response = await _db.sizes.ToListAsync();
+        var response = await _db.sizes
+            .Include(x=>x.Age)
+            .ToListAsync();
         return response;
     }
 
     public async Task<SizeEntity> GetAsync(int id)
     {
-        var response = await _db.sizes.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.sizes
+            .Include(x=>x.Age)
+            .FirstOrDefaultAsync(x=>x.Id == id);
+        
         return response;
     }
 

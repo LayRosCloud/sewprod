@@ -12,13 +12,19 @@ public class DbHistoryRepository : IDataReader<HistoryEntity>
     
     public async Task<List<HistoryEntity>> GetAllAsync()
     {
-        var response = await _db.histories.ToListAsync();
+        var response = await _db.histories
+            .Include(x=>x.Action)
+            .Include(x=>x.Person)
+            .ToListAsync();
         return response;
     }
 
     public async Task<HistoryEntity> GetAsync(int id)
     {
-        var response = await _db.histories.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.histories
+            .Include(x=>x.Action)
+            .Include(x=>x.Person)
+            .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
 }

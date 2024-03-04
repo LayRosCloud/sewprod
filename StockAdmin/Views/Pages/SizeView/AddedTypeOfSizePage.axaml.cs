@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -45,6 +46,10 @@ public partial class AddedTypeOfSizePage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedExceptionMessage);
+        }
 
     }
 
@@ -63,11 +68,13 @@ public partial class AddedTypeOfSizePage : UserControl
     
     private void CheckFields()
     {
+        const string lengthNameMessage = "Название от 1 до 30 символов";
+        const string lengthNameDescription = "Описание от 1 до 255 символов";
         string name = TbName.Text!;
         string description = TbDesc.Text!;
 
-        name.ContainLengthBetweenValues(new LengthVector(1, 30), "Название от 1 до 30 символов");
-        description.ContainLengthBetweenValues(new LengthVector(1, 255), "Описание от 1 до 255 символов");
+        name.ContainLengthBetweenValues(new LengthVector(1, 30), lengthNameMessage);
+        description.ContainLengthBetweenValues(new LengthVector(1, 255), lengthNameDescription);
     }
     
     public override string ToString()

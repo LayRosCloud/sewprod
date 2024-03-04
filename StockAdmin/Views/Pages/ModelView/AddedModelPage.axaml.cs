@@ -10,9 +10,7 @@ using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
-using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
-using StockAdmin.Scripts.Repositories.Server;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Validations;
 using StockAdmin.Scripts.Vectors;
@@ -34,6 +32,12 @@ public partial class AddedModelPage : UserControl
     public AddedModelPage(ContentControl frame, ModelEntity modelEntity)
     {
         InitializeComponent();
+
+        if (modelEntity.Id != 0)
+        {
+            TabPrices.IsVisible = false;
+        }
+        
         _factory = ServerConstants.GetRepository();
         _frame = frame;
         _modelEntity = modelEntity;
@@ -63,9 +67,8 @@ public partial class AddedModelPage : UserControl
     {
         try
         {
-            var operations = GetOperations();
-            var prices = GetPrices();
             CheckFields();
+            var (operations, prices) = GetFromInterfaceItems();
             await SaveChanges(operations, prices);
 
             _frame.Content = new ModelPage(_frame);
@@ -84,6 +87,19 @@ public partial class AddedModelPage : UserControl
         }
     }
 
+    private (IEnumerable<OperationEntity>, IEnumerable<PriceEntity>) GetFromInterfaceItems()
+    {
+        var operations = new List<OperationEntity>();
+        var prices = new List<PriceEntity>();
+        if (_modelEntity.Id == 0)
+        {
+            operations.AddRange(GetOperations());
+            prices.AddRange(GetPrices());
+        }
+
+        return (operations, prices);
+    }
+
     private void CheckFields()
     {
         var title = TbTitle.Text!;
@@ -92,85 +108,119 @@ public partial class AddedModelPage : UserControl
         codeVendor.ContainLengthBetweenValues( new LengthVector(1, 30), "Длина артикула от 1 до 30 символов!");
     }
     
-    private List<PriceEntity> GetPrices()
+    private IEnumerable<PriceEntity> GetPrices()
     {
+        var countItems = PricePanel.Children.Count - 1;
+        const string exceptionValidationMessage = "Введите в каждое поле цену!";
         var prices = new List<PriceEntity>();
             
-        for (int i = 0; i < PricePanel.Children.Count - 1; i++)
+        for (int indexChild = 0; indexChild < countItems; indexChild++)
         {
-            if(PricePanel.Children[i] is TextBox textBox)
+            if(PricePanel.Children[indexChild + 1] is TextBox textBox)
             {
                 prices.Add(new PriceEntity{Number = Convert.ToDouble(textBox.Text)});
             }
             else
             {
-                throw new ValidationException("Введите в каждое поле цену");
+                throw new ValidationException(exceptionValidationMessage);
             }
         }
 
         return prices;
         }
     
-    private List<OperationEntity> GetOperations()
+    private IEnumerable<OperationEntity> GetOperations()
     {
+        var countItems = OperationsPanel.Children.Count - 1;
+        const string exceptionValidationMessage = "Выберите все операции!";
+        const int firstItem = 0;
+
         var operations = new List<OperationEntity>();
         
-        for (int index = 0; index < OperationsPanel.Children.Count - 1; index++)
+        for (int indexChild = firstItem; indexChild < countItems; indexChild++)
         {
-            ComboBox comboBox = (OperationsPanel.Children[index] as StackPanel).Children[0] as ComboBox;
-            if (comboBox.SelectedItem is OperationEntity entity)
+            var comboBox = (OperationsPanel.Children[indexChild] as StackPanel)!.Children[firstItem] as ComboBox;
+            if (comboBox!.SelectedItem is OperationEntity entity)
             {
                 operations.Add(entity);
             }
             else
             {
-                throw new ValidationException("Выберите все операции!");
+                throw new ValidationException(exceptionValidationMessage);
             }
         }
 
         return operations;
-        }
+    }
 
-    private async Task SaveChanges(List<OperationEntity> operations, List<PriceEntity> prices)
+    private async Task SaveChanges(IEnumerable<OperationEntity> operations, IEnumerable<PriceEntity> prices)
     {
-        
-        var repository = _factory.CreateModelRepository();
         LoadingBorder.IsVisible = true;
         if (_modelEntity.Id == 0)
         {
-            var model = await repository.CreateAsync(_modelEntity);
-            var operationRepository = _factory.CreateModelOperationRepository();
-            var priceRepository = _factory.CreatePriceRepository();
-            var modelPriceRepository = _factory.CreateModelPriceRepository();
-            foreach (var operation in operations)
-            {
-                var modelOperation = new ModelOperationEntity()
-                {
-                    ModelId = model.Id,
-                    OperationId = operation.Id
-                };
-                
-                await operationRepository.CreateAsync(modelOperation);
-            }
+            var model = await SaveModel();
 
-            foreach (var price in prices)
-            {
-                var createdPrice = await priceRepository.CreateAsync(price);
-                var modelPrice = new ModelPriceEntity()
-                {
-                    PriceId = createdPrice.Id,
-                    ModelId = model.Id
-                };
+            await SaveOperations(operations, model);
 
-                await modelPriceRepository.CreateAsync(modelPrice);
-            }
+            await SavePrices(prices, model);
         }
         else
         {
-            await repository.UpdateAsync(_modelEntity);
+            await UpdateModel();
+        }
+    }
+
+    private async Task<ModelEntity> SaveModel()
+    {
+        var repository = _factory.CreateModelRepository();
+        var model = await repository.CreateAsync(_modelEntity);
+        return model;
+    }
+
+    private async Task SaveOperations(IEnumerable<OperationEntity> operations, ModelEntity model)
+    {
+        var operationRepository = _factory.CreateModelOperationRepository();
+        
+        foreach (var operation in operations)
+        {
+            var modelOperation = new ModelOperationEntity()
+            {
+                ModelId = model.Id,
+                OperationId = operation.Id
+            };
+                
+            await operationRepository.CreateAsync(modelOperation);
         }
     }
     
+    private async Task SavePrices(IEnumerable<PriceEntity> prices, ModelEntity model)
+    {
+        var priceRepository = _factory.CreatePriceRepository();
+        var modelPriceRepository = _factory.CreateModelPriceRepository();
+        foreach (var price in prices)
+        {
+            var createdPrice = await priceRepository.CreateAsync(price);
+            var modelPrice = new ModelPriceEntity()
+            {
+                PriceId = createdPrice.Id,
+                ModelId = model.Id
+            };
+
+            await modelPriceRepository.CreateAsync(modelPrice);
+        }
+    }
+    
+    
+
+    private async Task<ModelEntity> UpdateModel()
+    {
+        var repository = _factory.CreateModelRepository();
+        _modelEntity.Prices = null;
+        _modelEntity.Operations = null;
+        return await repository.UpdateAsync(_modelEntity);
+    }
+
+
     public override string ToString()
     {
         return PageTitles.AddModel;

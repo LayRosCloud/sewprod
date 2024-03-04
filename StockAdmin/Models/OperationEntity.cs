@@ -19,6 +19,9 @@ public class OperationEntity : Entity
     
     [JsonPropertyName(ServerConstants.Operation.FieldModelOperation)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] 
-    public ModelPriceEntity? ModelOperation { get; set; }
+    public ModelOperationEntity? ModelOperation { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    public List<ModelEntity> Models { get; set; }
 
 }

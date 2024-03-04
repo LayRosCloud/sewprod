@@ -20,7 +20,9 @@ public class DbOperationRepository : ICrud<OperationEntity>
 
     public async Task<List<OperationEntity>> GetAllAsync()
     {
-        var response = await _db.operations.ToListAsync();
+        var response = await _db
+            .operations
+            .ToListAsync();
         return response;
     }
 

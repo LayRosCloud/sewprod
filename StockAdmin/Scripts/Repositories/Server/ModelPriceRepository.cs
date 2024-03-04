@@ -6,7 +6,7 @@ using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Scripts.Repositories.Server;
 
-public class ModelPriceRepository : ICrud<ModelPriceEntity>
+public class ModelPriceRepository : IModelPriceRepository
 {
     private readonly HttpHandler<ModelPriceEntity> _handler = new();
 
@@ -36,8 +36,8 @@ public class ModelPriceRepository : ICrud<ModelPriceEntity>
         return response!;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(ModelPriceEntity item)
     {
-        await _handler.DeleteAsync(EndPoint+id);
+        await _handler.DeleteAsync(EndPoint + item.Id);
     }
 }

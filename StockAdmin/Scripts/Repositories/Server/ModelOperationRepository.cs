@@ -6,7 +6,7 @@ using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Scripts.Repositories.Server;
 
-public class ModelOperationRepository : ICrud<ModelOperationEntity>
+public class ModelOperationRepository : IModelOperationRepository
 {
     private readonly HttpHandler<ModelOperationEntity> _handler = new();
 
@@ -36,8 +36,8 @@ public class ModelOperationRepository : ICrud<ModelOperationEntity>
         return response!;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(ModelOperationEntity item)
     {
-        await _handler.DeleteAsync(EndPoint+id);
+        await _handler.DeleteAsync(EndPoint+item.Id);
     }
 }

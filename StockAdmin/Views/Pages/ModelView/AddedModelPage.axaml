@@ -41,7 +41,7 @@
             />
         </StackPanel>
         
-        <TabControl Grid.Row="1">
+        <TabControl Grid.Row="1" x:Name="TabPrices">
             
             <TabItem Header="Цены">
                 <ScrollViewer>

@@ -16,6 +16,7 @@ public partial class DeletedBorder : UserControl
 
     public event EventHandler<RoutedEventArgs>? ClickOnAnswerYes;
     public event EventHandler<RoutedEventArgs>? ClickOnAnswerNo;
+
     public string Text
     {
         get => GetValue(TextProperty);
@@ -37,12 +38,11 @@ public partial class DeletedBorder : UserControl
     private void SendYesOnAnswerDelete(object? sender, RoutedEventArgs e)
     {
         ClickOnAnswerYes?.Invoke(this, e);
-        DeletedContainer.IsVisible = false;
     }
-
+    
     private void SendNoOnAnswerDelete(object? sender, RoutedEventArgs e)
     {
-        DeletedContainer.IsVisible = false;
         ClickOnAnswerNo?.Invoke(this, e);
+        IsVisible = false;
     }
 }

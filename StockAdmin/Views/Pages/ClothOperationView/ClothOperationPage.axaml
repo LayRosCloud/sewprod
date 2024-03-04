@@ -40,7 +40,7 @@
                 
                 <DataGridTextColumn 
                     Header="Цена" 
-                    Binding="{Binding Price.Number}" 
+                    Binding="{Binding Price.Number, StringFormat={}{0:f2}}" 
                     IsReadOnly="True"/>
                 
                 <DataGridCheckBoxColumn Header="Окончена ли" 

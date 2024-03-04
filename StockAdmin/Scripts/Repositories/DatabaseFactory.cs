@@ -77,12 +77,12 @@ public class DatabaseFactory : IRepositoryFactory
         return new DbSizeRepository();
     }
 
-    public ICrud<ModelPriceEntity> CreateModelPriceRepository()
+    public IModelPriceRepository CreateModelPriceRepository()
     {
         return new DbModelPriceRepository();
     }
 
-    public ICrud<ModelOperationEntity> CreateModelOperationRepository()
+    public IModelOperationRepository CreateModelOperationRepository()
     {
         return new DbModelOperationRepository();
     }

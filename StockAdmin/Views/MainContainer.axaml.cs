@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Views.Pages.HistoryView;
 using StockAdmin.Views.Pages.MaterialView;
@@ -28,6 +29,10 @@ public partial class MainContainer : Window
         ElementConstants.ErrorController = new ErrorController(ErrorContainer);
 
         const int indexOnFirstLetter = 0;
+        if (ServerConstants.GetRepository() is DatabaseFactory)
+        {
+            HistoryButton.IsVisible = false;
+        }
         
         ShortName.Text = $"{ServerConstants.AuthorizationUser.LastName[indexOnFirstLetter]}{ServerConstants.AuthorizationUser.FirstName[indexOnFirstLetter]}";
         LongName.Text = $"{ServerConstants.AuthorizationUser.LastName} {ServerConstants.AuthorizationUser.FirstName}";

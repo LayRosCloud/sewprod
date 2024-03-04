@@ -20,13 +20,71 @@ public class DbPartyRepository : IPartiesRepository
 
     public async Task<List<PartyEntity>> GetAllAsync()
     {
-        var response = await _db.parties.ToListAsync();
+        var response = await _db.parties
+            .Include(x=>x.Model)
+            .Include(x=>x.Price)
+            .Select(
+                p => new PartyEntity()
+                {
+                    Id = p.Id,
+                    CutNumber = p.CutNumber,
+                    PriceId = p.PriceId,
+                    PersonId = p.PersonId,
+                    DateStart = p.DateStart,
+                    DateEnd = p.DateEnd,
+                    ModelId = p.ModelId,
+                    Price = new PriceEntity()
+                    {
+                        Id = p.Price.Id,
+                        Number = p.Price.Number,
+                        Date = p.Price.Date
+                    },
+                    Person = p.Person,
+                    Model = new ModelEntity()
+                    {
+                        Id = p.Model.Id,
+                        Title = p.Model.Title,
+                        CodeVendor = p.Model.CodeVendor
+                    }
+                }
+                
+            )
+            .ToListAsync();
         return response;
     }
 
     public async Task<PartyEntity> GetAsync(int id)
     {
-        var response = await _db.parties.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.parties
+            .Include(x=>x.Model)
+            .Include(x=>x.Price)
+            .Select(
+                p => new PartyEntity()
+                {
+                    Id = p.Id,
+                    CutNumber = p.CutNumber,
+                    PriceId = p.PriceId,
+                    PersonId = p.PersonId,
+                    DateStart = p.DateStart,
+                    DateEnd = p.DateEnd,
+                    ModelId = p.ModelId,
+                    Price = new PriceEntity()
+                    {
+                        Id = p.Price.Id,
+                        Number = p.Price.Number,
+                        Date = p.Price.Date
+                    },
+                    Person = p.Person,
+                    Model = new ModelEntity()
+                    {
+                        Id = p.Model.Id,
+                        Title = p.Model.Title,
+                        CodeVendor = p.Model.CodeVendor
+                    }
+                }
+                
+            )
+            .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
 
@@ -46,7 +104,36 @@ public class DbPartyRepository : IPartiesRepository
 
     public async Task<List<PartyEntity>> GetAllAsync(int personId)
     {
-        var response = await _db.parties.Where(x=>x.PersonId == personId).ToListAsync();
+        var response = await _db.parties
+            .Include(x=>x.Model)
+            .Include(x=>x.Price)
+            .Select(
+                p => new PartyEntity()
+                {
+                    Id = p.Id,
+                    CutNumber = p.CutNumber,
+                    PriceId = p.PriceId,
+                    PersonId = p.PersonId,
+                    DateStart = p.DateStart,
+                    DateEnd = p.DateEnd,
+                    ModelId = p.ModelId,
+                    Price = new PriceEntity()
+                    {
+                        Id = p.Price.Id,
+                        Number = p.Price.Number,
+                        Date = p.Price.Date
+                    },
+                    Person = p.Person,
+                    Model = new ModelEntity()
+                    {
+                        Id = p.Model.Id,
+                        Title = p.Model.Title,
+                        CodeVendor = p.Model.CodeVendor
+                    }
+                }
+                
+            )
+            .Where(x=>x.PersonId == personId).ToListAsync();
         return response;
     }
 }

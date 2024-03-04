@@ -24,6 +24,7 @@ public partial class AddedPackagesPage : UserControl
     private readonly ContentControl _frame;
     private readonly Hashtable _actionList;
     private readonly IRepositoryFactory _factory;
+    
     public AddedPackagesPage(ContentControl frame)
     {
         InitializeComponent();
@@ -81,6 +82,7 @@ public partial class AddedPackagesPage : UserControl
             {
                 partyEntity = CreateParty();
                 priceEntity = partyEntity.Price!;
+                partyEntity.Price = null;
                 partyEntity = await partyRepository.CreateAsync(partyEntity);
             }
             else

@@ -19,6 +19,14 @@
                   SelectedValue="{Binding SizeId}"
                   HorizontalAlignment="Stretch"
         />
+        <ComboBox 
+            x:Name="CbPersons"
+            PlaceholderText="Выберите личнсоть"
+            SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
+            SelectedValue="{Binding PersonId}"
+            HorizontalAlignment="Stretch"
+            DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
+            Margin="0 5 0 0"/>
         
         <NumericUpDown Text="{Binding Count}"
                        Minimum="1"

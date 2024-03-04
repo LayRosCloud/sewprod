@@ -13,26 +13,32 @@ public class DbClothOperationPersonRepository : IClothOperationPersonRepository
 
     public async Task<ClothOperationPersonEntity> CreateAsync(ClothOperationPersonEntity entity)
     {
-        var response = _db.clothOperationPersons.Add(entity).Entity;
+        var response = _db.clothOperationsPersons.Add(entity).Entity;
         await _db.SaveChangesAsync();
         return response;
     }
 
     public async Task<List<ClothOperationPersonEntity>> GetAllAsync()
     {
-        var response = await _db.clothOperationPersons.ToListAsync();
+        var response = await _db.clothOperationsPersons
+            .Include(x=>x.Person)
+            .Include(x=>x.ClothOperation)
+            .ToListAsync();
         return response;
     }
 
     public async Task<ClothOperationPersonEntity> GetAsync(int id)
     {
-        var response = await _db.clothOperationPersons.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.clothOperationsPersons
+            .Include(x=>x.Person)
+            .Include(x=>x.ClothOperation)
+            .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
 
     public async Task<ClothOperationPersonEntity> UpdateAsync(ClothOperationPersonEntity entity)
     {
-        var response = _db.clothOperationPersons.Update(entity).Entity;
+        var response = _db.clothOperationsPersons.Update(entity).Entity;
         await _db.SaveChangesAsync();
         return response;
     }
@@ -40,13 +46,13 @@ public class DbClothOperationPersonRepository : IClothOperationPersonRepository
     public async Task DeleteAsync(int id)
     {
         var item = await GetAsync(id);
-        _db.clothOperationPersons.Remove(item);
+        _db.clothOperationsPersons.Remove(item);
         await _db.SaveChangesAsync();
     }
 
     public async Task<List<ClothOperationPersonEntity>> GetAllAsync(int personId)
     {
-        var response = await _db.clothOperationPersons.Where(x=>x.PersonId == personId).ToListAsync();
+        var response = await _db.clothOperationsPersons.Where(x=>x.PersonId == personId).ToListAsync();
         return response;
     }
 }

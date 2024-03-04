@@ -24,13 +24,15 @@ public class DbPersonRepository : IPerson
 
     public async Task<List<PersonEntity>> GetAllAsync()
     {
-        var response = await _db.persons.ToListAsync();
+        var response = await _db.persons.Include(x => x.Posts).ToListAsync();
         return response;
     }
 
     public async Task<PersonEntity> GetAsync(int id)
     {
-        var response = await _db.persons.FirstOrDefaultAsync(x=>x.Id == id);
+        var response = await _db.persons
+            .Include(x => x.Posts)
+            .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
 
@@ -50,7 +52,9 @@ public class DbPersonRepository : IPerson
 
     public async Task<AuthEntity?> LoginAsync(PersonEntity entity)
     {
-        var item = await _db.persons.FirstOrDefaultAsync(x => x.Email == entity.Email);
+        var item = await _db.persons
+            .Include(x => x.Posts)
+            .FirstOrDefaultAsync(x => x.Email == entity.Email);
         if (item == null)
         {
             throw new AuthException();
@@ -72,7 +76,7 @@ public class DbPersonRepository : IPerson
         };
     }
 
-    public static string HashPassword(string password)
+    private static string HashPassword(string password)
     {
         using (SHA256 sha256 = SHA256.Create())
         {
@@ -87,7 +91,7 @@ public class DbPersonRepository : IPerson
         }
     }
 
-    public static bool VerifyPassword(string hashedPasswordFromDatabase, string hashedPassword)
+    private static bool VerifyPassword(string hashedPasswordFromDatabase, string hashedPassword)
     {
         return hashedPassword.Equals(hashedPasswordFromDatabase, StringComparison.OrdinalIgnoreCase);
     }

@@ -68,7 +68,9 @@
             <DataGrid Grid.Row="0" x:Name="Prices">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="цена" 
-                                        Binding="{Binding DataType=models:PriceEntity, Path=Number}"/>
+                                        Binding="{Binding DataType=models:PriceEntity, Path=Number, StringFormat={}{0:f2}}"
+                                        IsReadOnly="True"
+                                        />
                     <DataGridTemplateColumn>
                         <DataTemplate DataType="models:PriceEntity">
                             <StackPanel>
@@ -168,20 +170,21 @@
             </Grid>
         </Grid>
         
-        <userControllers:DeletedBorder x:Name="DeletedContainer" 
-                                       Grid.Column="0" 
-                                       Grid.ColumnSpan="2" 
-                                       Grid.Row="0" 
-                                       Grid.RowSpan="2" 
-                                       IsVisible="False" 
-                                       ClickOnAnswerYes="SendYesAnswerOnDeleteItem"
-                                       />
+        
+        
+        <userControllers:DeletedBorder x:Name="DeletedContainer"
+              Grid.Column="0" 
+              Grid.ColumnSpan="2" 
+              Grid.Row="0" 
+              IsVisible="False"
+              Grid.RowSpan="2" 
+              ClickOnAnswerYes="SendYesAnswerOnDeleteItem"/>
 
-        <userControllers:LoadingBorder x:Name="LoadingBorder" 
-                                       Grid.Column="0" 
-                                       Grid.ColumnSpan="2" 
-                                       Grid.Row="0" 
-                                       Grid.RowSpan="2"
-                                       />
+            <userControllers:LoadingBorder x:Name="LoadingBorder" 
+                                           Grid.Column="0" 
+                                           Grid.ColumnSpan="2" 
+                                           Grid.Row="0" 
+                                           Grid.RowSpan="2"
+            />
     </Grid>
 </UserControl>

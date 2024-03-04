@@ -27,9 +27,11 @@ public partial class EditPackagesPage : UserControl
     {
         var repository = _factory.CreateSizeRepository();
         var repositoryMaterials = _factory.CreateMaterialRepository();
+        var repositoryPersons = _factory.CreatePersonRepository();
         
         CbSizes.ItemsSource = await repository.GetAllAsync();
         CbMaterials.ItemsSource = await repositoryMaterials.GetAllAsync();
+        CbPersons.ItemsSource = await repositoryPersons.GetAllAsync();
         
         DataContext = _packageEntity;
     }

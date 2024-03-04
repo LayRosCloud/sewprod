@@ -109,8 +109,10 @@ public partial class PackagePage : UserControl
         {
             return;
         }
+        
         await repository.DeleteAsync(_package.Id);
         Init();
+        DeletedContainer.IsVisible = false;
     }
     
 
@@ -188,7 +190,8 @@ public partial class PackagePage : UserControl
         
         if (partyEntity.CutNumber == AllElements)
         {
-            list.AddRange(await repository.GetAllAsync());
+            var addedList = await repository.GetAllAsync();
+            list.AddRange(addedList);
         }
         else
         {
@@ -226,12 +229,15 @@ public partial class PackagePage : UserControl
 
     private async Task GetOnPersonIdParties()
     {
-        var personEntity = CbPerson.SelectedItem as PersonEntity;
-            
+        var list = new List<PartyEntity>();
+        if (CbPerson.SelectedItem is not PersonEntity personEntity)
+        {
+            return;
+        }
+        
         _partyEntities.Clear();
         
         var repository = _factory.CreatePartyRepository();
-        var list = new List<PartyEntity>();
         if (personEntity.LastName == "Все" && personEntity.FirstName == "закройщики")
         {
             list = await repository.GetAllAsync();
@@ -331,5 +337,10 @@ public partial class PackagePage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage("Процесс занят другим. Закройте Word");
         }
+    }
+
+    private void SendNoOnAnswer(object? sender, RoutedEventArgs e)
+    {
+        DeletedContainer.IsVisible = false;
     }
 }

@@ -101,14 +101,14 @@
                                         IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="Этап">
                     <DataTemplate DataType="models:PackageEntity">
-                        <ListBox ItemsSource="{Binding CompletedTasks}">
+                        <ListBox ItemsSource="{Binding ClothOperations}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding Name}" 
-                                                   Opacity="{Binding Opacity}"
-                                                   Foreground="{Binding Foreground}"
-                                                   FontWeight="{Binding StyleFont}"/>
+                                        <TextBlock Text="{Binding OperationTask.Name}" 
+                                                   Opacity="{Binding OperationTask.Opacity}"
+                                                   Foreground="{Binding OperationTask.Foreground}"
+                                                   FontWeight="{Binding OperationTask.StyleFont}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -265,12 +265,15 @@
             </Grid>
             
         </Border>
+        
         <userControllers:DeletedBorder x:Name="DeletedContainer" 
-                                       IsVisible="False" 
                                        Grid.Row="0" 
-                                       Text="Вы действительно хотите удалить эту пачку? Восстановить будет невозможно!"
                                        Grid.RowSpan="3" 
-                                       ClickOnAnswerYes="SendYesAnswerOnDeleteItem"/>
+                                       ClickOnAnswerYes="SendYesAnswerOnDeleteItem"
+                                       IsVisible="False"
+                                       Text="Вы уверены, что хотите удалить эту пачку?"
+                                       />
+            
         <userControllers:LoadingBorder x:Name="LoadingBorder" 
                                        Grid.Row="0" 
                                        Grid.RowSpan="3"/>

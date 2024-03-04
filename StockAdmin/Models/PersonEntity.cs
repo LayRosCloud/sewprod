@@ -20,6 +20,8 @@ public class PersonEntity : Entity
     [JsonPropertyName(ServerConstants.Person.FieldBirthDay)] public DateTime BirthDay { get; set; } = DateTime.Now;
     
     [JsonPropertyName(ServerConstants.Person.FieldUid)] public string Uid { get; set; } = "";
+    [JsonPropertyName(ServerConstants.Person.FieldCreatedAt)] 
+    public DateTime DateRegistration { get; set; } = DateTime.Now;
 
     [JsonIgnore]
     public string FullName => $"{LastName} {FirstName[0]}. {(String.IsNullOrWhiteSpace(Patronymic) ? "" : Patronymic[0] + ".")}";

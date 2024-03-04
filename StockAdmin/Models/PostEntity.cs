@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using StockAdmin.Scripts.Server;
 
 namespace StockAdmin.Models;
@@ -17,4 +18,7 @@ public class PostEntity : Entity
 
     [JsonPropertyName(ServerConstants.Post.FieldDescription)] 
     public string Description { get; set; } = "";
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    public List<PersonEntity> Persons { get; set; }
 }
