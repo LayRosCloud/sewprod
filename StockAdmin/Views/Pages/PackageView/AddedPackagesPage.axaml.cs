@@ -338,10 +338,28 @@ public partial class AddedPackagesPage : UserControl
 
     private async void SelectedPerson(object? sender, SelectionChangedEventArgs e)
     {
-        if(CmbPersons.SelectedItem is not PersonEntity personEntity) return;
+        if (CmbPersons.SelectedItem is not PersonEntity personEntity)
+        {
+            return;
+        }
         
         var repository = _factory.CreatePartyRepository();
-        CbParties.ItemsSource = await repository.GetAllAsync(personEntity.Id);
+        var list = await repository.GetAllAsync(personEntity.Id);
+        var filterList = new List<PartyEntity>(list);
+
+        var now = DateTime.Now;
+
+        var start = new DateTime(now.Year, now.Month, 1).AddMonths(-1);
+        var end = new DateTime(now.Year, now.Month, 1).AddMonths(2).AddDays(-1);
+        
+        foreach (var party in list)
+        {
+            if (party.DateStart > start && party.DateStart < end)
+            {
+                filterList.Add(party);
+            }
+        }
+        CbParties.ItemsSource = filterList;
     }
 
     private void Back(object? sender, RoutedEventArgs e)

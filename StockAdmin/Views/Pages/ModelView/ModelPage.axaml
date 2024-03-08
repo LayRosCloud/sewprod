@@ -7,8 +7,14 @@
              x:DataType="models:ModelEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.ModelPage">
-    <Grid RowDefinitions="35,*" ColumnDefinitions="*, *">
-        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" CornerRadius="10" BorderBrush="#427D9D" BorderThickness="1"/>
+    <Grid RowDefinitions="35, *" ColumnDefinitions="*, *">
+        <Border Grid.Column="0" 
+                Grid.Row="0" 
+                Grid.RowSpan="2" 
+                CornerRadius="10" 
+                BorderBrush="#427D9D" 
+                BorderThickness="1"
+                />
         <StackPanel Grid.Column="0" Grid.Row="0"
                     Margin="5"
                     Orientation="Horizontal">
@@ -152,10 +158,10 @@
                         Click="NavigateToAddedOperationPage"/>
                 
                 <Border x:Name="DisplayedOperations" 
-                        IsVisible="{Binding ElementName=List, Path=SelectedItem, 
-                        Converter={StaticResource ExistConverter}}" 
                         Grid.Row="0" 
                         Grid.RowSpan="2" 
+                        IsVisible="{Binding ElementName=List, Path=SelectedItem, 
+                        Converter={StaticResource ExistConverter}}" 
                         Background="White" 
                         BorderThickness="1" 
                         BorderBrush="Black" 
@@ -170,21 +176,20 @@
             </Grid>
         </Grid>
         
-        
-        
         <userControllers:DeletedBorder x:Name="DeletedContainer"
-              Grid.Column="0" 
-              Grid.ColumnSpan="2" 
-              Grid.Row="0" 
-              IsVisible="False"
-              Grid.RowSpan="2" 
-              ClickOnAnswerYes="SendYesAnswerOnDeleteItem"/>
+                                       Grid.Column="0" 
+                                       Grid.Row="0" 
+                                       Grid.ColumnSpan="2" 
+                                       Grid.RowSpan="2" 
+                                       IsVisible="False"
+                                       ClickOnAnswerYes="SendYesAnswerOnDeleteItem"
+                                       />
 
             <userControllers:LoadingBorder x:Name="LoadingBorder" 
                                            Grid.Column="0" 
                                            Grid.ColumnSpan="2" 
                                            Grid.Row="0" 
                                            Grid.RowSpan="2"
-            />
+                                           />
     </Grid>
 </UserControl>

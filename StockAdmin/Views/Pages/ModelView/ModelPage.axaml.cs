@@ -28,7 +28,6 @@ public partial class ModelPage : UserControl
         _frame = frame;
         _models = new List<ModelEntity>();
         _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
-        
         InitData();
     }
 

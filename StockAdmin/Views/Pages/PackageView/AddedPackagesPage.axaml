@@ -71,8 +71,6 @@
                         DisplayMemberBinding="{Binding DataType=models:PriceEntity, Path=Number}"
                         Margin="0 5 0 0"/>
                     
-                    
-                    
                     <WrapPanel Margin="0 5 0 0">
                         <CalendarDatePicker 
                             x:Name="CdpDateStart"
