@@ -30,7 +30,8 @@ public partial class PersonPage : UserControl
         InitializeComponent();
         _factory = ServerConstants.GetRepository();
         _persons = new List<PersonEntity>();
-        _delayFinder = new DelayFinder(500, FilteringArrayOnText);
+        
+        _delayFinder = new DelayFinder(TimeConstants.Ticks, FilteringArrayOnText);
         _frame = frame;
         
         Init();
@@ -49,6 +50,7 @@ public partial class PersonPage : UserControl
         List.ItemsSource = 
             _persons.Where(x => x.LastName.ToLower().Contains(text)).ToList();
     }
+    
     private void NavigateToAddedPersonPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new AddedPersonPage(_frame);
@@ -108,7 +110,7 @@ public partial class PersonPage : UserControl
     [Obsolete("Obsolete")]
     private async void ExportToWord(object? sender, RoutedEventArgs e)
     {
-        SaveFileDialog dialog = new SaveFileDialog();
+        var dialog = new SaveFileDialog();
         
         var filters = new List<FileDialogFilter>();
         var filter = new FileDialogFilter();

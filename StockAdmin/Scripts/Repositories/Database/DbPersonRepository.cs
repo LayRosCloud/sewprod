@@ -17,6 +17,7 @@ public class DbPersonRepository : IPerson
     
     public async Task<PersonEntity> CreateAsync(PersonEntity entity)
     {
+        entity.Password = HashPassword(entity.Password);
         var response = _db.persons.Add(entity).Entity;
         await _db.SaveChangesAsync();
         return response;
@@ -38,6 +39,7 @@ public class DbPersonRepository : IPerson
 
     public async Task<PersonEntity> UpdateAsync(PersonEntity entity)
     {
+        entity.Password = HashPassword(entity.Password);
         var response = _db.persons.Update(entity).Entity;
         await _db.SaveChangesAsync();
         return response;
@@ -57,14 +59,14 @@ public class DbPersonRepository : IPerson
             .FirstOrDefaultAsync(x => x.Email == entity.Email);
         if (item == null)
         {
-            throw new AuthException();
+            throw new AuthException("Неверная почта или пароль!");
         }
 
         string hash = HashPassword(entity.Password);
         bool isVerified = VerifyPassword(item.Password, hash);
         if (!isVerified)
         {
-            throw new AuthException();
+            throw new AuthException("Неверная почта или пароль!");
         }
 
         return new AuthEntity()

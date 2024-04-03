@@ -20,7 +20,6 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgZen_Barcode_Rendering_Framework Condition=" '$(PkgZen_Barcode_Rendering_Framework)' == '' ">C:\Users\betrayal\.nuget\packages\zen.barcode.rendering.framework\3.1.10729.1</PkgZen_Barcode_Rendering_Framework>
-    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.analyzers\3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
     <PkgAvalonia_BuildServices Condition=" '$(PkgAvalonia_BuildServices)' == '' ">C:\Users\betrayal\.nuget\packages\avalonia.buildservices\0.0.28</PkgAvalonia_BuildServices>
     <PkgAvalonia Condition=" '$(PkgAvalonia)' == '' ">C:\Users\betrayal\.nuget\packages\avalonia\11.0.0</PkgAvalonia>
   </PropertyGroup>

@@ -15,13 +15,13 @@
                     Width="250">
             <WrapPanel>
                 <Button
-                    Content="Сохранить"
-                    Margin="0 5"
-                    Click="TrySaveChanges"/>
-                <Button
-                    Content="Закрыть"
+                    Classes="back"
                     Margin="0 5"
                     Click="CloseCurrentPage"/>
+                <Button
+                    Margin="0 5"
+                    Classes="save"
+                    Click="TrySaveChanges"/>
             </WrapPanel>
             
             <TextBox 
@@ -46,10 +46,15 @@
             <TabItem Header="Цены">
                 <ScrollViewer>
                     <StackPanel x:Name="PricePanel" Width="300" HorizontalAlignment="Left">
-                        <TextBox Watermark="Введите цену" Text="" 
-                                 KeyDown="InputSymbol" 
-                                 Margin="0 2 0 0" 
-                                 TextChanged="ReplaceOnNormalDoubleDigit"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Watermark="Введите цену" Text="" 
+                                     KeyDown="InputSymbol" 
+                                     Width="270"
+                                     Margin="0 2 5 0" 
+                                     TextChanged="ReplaceOnNormalDoubleDigit"/>
+                            <Button Content="x" Background="Transparent" Foreground="DarkRed" Click="RemoveField"/>
+                        </StackPanel>
+                        <Button Content="+ добавить" Click="AddField"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -66,7 +71,7 @@
                                       Width="280"/>
                             <Button Content="x" Click="DeleteCurrentOperationItem"/>
                         </StackPanel>
-                        <Button Content="Добавить" Click="AddOperationControl"/>
+                        <Button Content="+ добавить" Click="AddOperationControl"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

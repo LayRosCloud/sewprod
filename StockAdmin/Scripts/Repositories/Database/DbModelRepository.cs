@@ -50,38 +50,28 @@ public class DbModelRepository : ICrud<ModelEntity>
     public async Task<ModelEntity> GetAsync(int id)
     {
         var response = await _db.models
-            .Include(x=>x.Operations)
-            .Include(x=>x.Prices)
-            .Select(model => new ModelEntity()
+            .Include(x => x.Operations)
+            .Include(x => x.Prices)
+            .Select(model => new ModelEntity
             {
                 Id = model.Id,
                 CodeVendor = model.CodeVendor,
                 Title = model.Title,
-                Operations = model.Operations.Select(operation=> new OperationEntity()
+                Operations = model.Operations.Select(operation => new OperationEntity()
                 {
                     Id = operation.Id,
                     Percent = operation.Percent,
                     Description = operation.Description,
                     Name = operation.Name,
-                    ModelOperation = new ModelOperationEntity()
-                    {
-                        ModelId = model.Id,
-                        OperationId = operation.Id
-                    }
+
                 }).ToList(),
                 Prices = model.Prices.Select(price => new PriceEntity()
                 {
                     Id = price.Id,
                     Number = price.Number,
                     Date = price.Date,
-                    ModelPrice = new ModelPriceEntity()
-                    {
-                        PriceId = price.Id,
-                        ModelId = model.Id
-                    }
                 }).ToList()
-            })
-            .FirstOrDefaultAsync(x=>x.Id == id);
+            }).FirstOrDefaultAsync(x => x.Id == id);
         return response;
     }
 
@@ -94,7 +84,7 @@ public class DbModelRepository : ICrud<ModelEntity>
 
     public async Task DeleteAsync(int id)
     {
-        var item = await GetAsync(id);
+        var item = await _db.models.FirstOrDefaultAsync(x => x.Id == id);
         _db.models.Remove(item);
         await _db.SaveChangesAsync();
     }

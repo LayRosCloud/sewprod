@@ -50,8 +50,6 @@ public partial class AddedModelPage : UserControl
 
     private void InitActions()
     {
-        _actionList.Add(Key.Up, "");
-        _actionList.Add(Key.Down, "");
         _actionList.Add(Key.Enter, CreateNewElement);
         _actionList.Add(Key.Decimal, DestroyPriceTextBox);
     }
@@ -79,7 +77,7 @@ public partial class AddedModelPage : UserControl
         }
         catch (Exception)
         {
-            ElementConstants.ErrorController.AddErrorMessage("Непредвиденная ошибка");
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
         }
         finally
         {
@@ -116,7 +114,7 @@ public partial class AddedModelPage : UserControl
             
         for (int indexChild = 0; indexChild < countItems; indexChild++)
         {
-            if(PricePanel.Children[indexChild + 1] is TextBox textBox)
+            if(PricePanel.Children[indexChild] is StackPanel stackPanel && stackPanel.Children[0] is TextBox textBox)
             {
                 prices.Add(new PriceEntity{Number = Convert.ToDouble(textBox.Text)});
             }
@@ -246,18 +244,22 @@ public partial class AddedModelPage : UserControl
     {
         var controller = new ItemControlController();
         
-        var lastText = PricePanel.Children[^1] as TextBox;
+        var stackPanel = PricePanel.Children[^2] as StackPanel;
+        var lastText = stackPanel.Children[0] as TextBox;
+        var removeButton = stackPanel.Children[1] as Button;
         var countTextBox = controller.CreateTextBox(lastText!, InputSymbol);
         
-        var containerController = new ContainerController(PricePanel)
+        var containerController = new ContainerController(controller.CreateStackPanel(stackPanel))
         {
             Controls =
             {
                 countTextBox,
+                controller.CreateButton(removeButton, RemoveField) //TODO: Event
             }
         };
         countTextBox.TextChanged += ReplaceOnNormalDoubleDigit;
         containerController.PushElementsToPanel();
+        containerController.AddPanelToParent(PricePanel, PricePanel.Children.Count - 1);
         
         countTextBox.Focus();
         countTextBox.SelectionStart = countTextBox.Text!.Length;
@@ -265,12 +267,21 @@ public partial class AddedModelPage : UserControl
 
     private void DestroyPriceTextBox(object? sender)
     {
-        if (PricePanel.Children.Count <= 1)
+        if (PricePanel.Children.Count - 1 <= 1)
         {
             return;
         }
-        PricePanel.Children.Remove(sender as TextBox);
-        (PricePanel.Children[^1] as TextBox).Focus();
+
+        if (sender is TextBox textBox)
+        {
+            PricePanel.Children.Remove(textBox.Parent as StackPanel);
+            (PricePanel.Children[^2] as StackPanel).Children[0].Focus();
+        }
+        else if (sender is Button button)
+        {
+            PricePanel.Children.Remove(button.Parent as StackPanel);
+            (PricePanel.Children[^2] as StackPanel).Children[0].Focus();
+        }
     }
     
     private void AddOperationControl(object? sender, RoutedEventArgs e)
@@ -323,5 +334,15 @@ public partial class AddedModelPage : UserControl
     private void CloseCurrentPage(object? sender, RoutedEventArgs e)
     {
         _frame.Content = new ModelPage(_frame);
+    }
+
+    private void RemoveField(object? sender, RoutedEventArgs e)
+    {
+        DestroyPriceTextBox(sender);
+    }
+
+    private void AddField(object? sender, RoutedEventArgs e)
+    {
+        CreateNewElement(sender);
     }
 }

@@ -25,7 +25,7 @@
         
         <Button Grid.Column="1" Grid.Row="0" 
                                HorizontalAlignment="Right" 
-                               Content="⬅️" 
+                               Classes="back"
                                Click="BackToPackagePage"/>
         
         <DataGrid Grid.Column="0" 
@@ -39,14 +39,14 @@
                     IsReadOnly="True"/>
                 
                 <DataGridTextColumn 
-                    Header="Цена" 
+                    Header="Стоимость" 
                     Binding="{Binding Price.Number, StringFormat={}{0:f2}}" 
                     IsReadOnly="True"/>
                 
                 <DataGridCheckBoxColumn Header="Окончена ли" 
                                         Binding="{Binding IsEnded}" 
                                         IsReadOnly="True"/>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Управление">
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
                             <Button Content="✏️" 

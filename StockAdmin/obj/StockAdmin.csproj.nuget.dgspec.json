@@ -52,10 +52,6 @@
               "target": "Package",
               "version": "[11.0.0, )"
             },
-            "Avalonia.Diagnostics": {
-              "target": "Package",
-              "version": "[11.0.0, )"
-            },
             "Avalonia.Fonts.Inter": {
               "target": "Package",
               "version": "[11.0.0, )"
@@ -79,6 +75,10 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite.Core": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",

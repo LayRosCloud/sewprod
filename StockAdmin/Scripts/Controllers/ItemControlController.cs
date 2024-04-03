@@ -33,7 +33,9 @@ public class ItemControlController
             Width = template.Width,
             Height = template.Height,
             Margin = template.Margin,
-            Content = template.Content
+            Content = template.Content,
+            Background = template.Background,
+            Foreground = template.Foreground
         };
         button.Click += onClickEvent;
         

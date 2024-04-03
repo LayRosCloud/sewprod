@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -48,9 +49,10 @@ public partial class AddedMaterialPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
-        CheckFields();
-        
-
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
 
     private async Task SaveChanges()
@@ -73,13 +75,18 @@ public partial class AddedMaterialPage : UserControl
         string description = TbDesc.Text!;
         string codeVendor = TbCodeVendor.Text!;
 
-        name.ContainLengthBetweenValues(new LengthVector(1, 30), "Наименовнаие от 1 до 30 символов");
-        description.ContainLengthBetweenValues(new LengthVector(1, 255), "Описание от 1 до 255 символов");
-        codeVendor.ContainLengthBetweenValues(new LengthVector(1, 10), "Артикул от 1 до 10 символов");
+        name.ContainLengthBetweenValues(new LengthVector(1, 30), "Наименование должно быть от 1 до 30 символов");
+        description.ContainLengthBetweenValues(new LengthVector(1, 255), "Описание должно быть от 1 до 255 символов");
+        codeVendor.ContainLengthBetweenValues(new LengthVector(1, 10), "Артикул должен быть от 1 до 10 символов");
     }
 
     public override string ToString()
     {
         return PageTitles.AddMaterial;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new MaterialsPage(_frame);
     }
 }

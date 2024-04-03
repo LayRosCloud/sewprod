@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -59,6 +60,10 @@ public partial class AddedClothOperationPersonPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
 
     private void CheckFields()
@@ -77,7 +82,7 @@ public partial class AddedClothOperationPersonPage : UserControl
     private async Task SaveChanges()
     {
         var repository = _factory.CreateClothOperationPersonRepository();
-
+        var clothOperationRepo = _factory.CreateClothOperationRepository();
         if (_clothOperationPersonEntity.Id == 0)
         {
             await repository.CreateAsync(_clothOperationPersonEntity);
@@ -85,6 +90,21 @@ public partial class AddedClothOperationPersonPage : UserControl
         else
         {
             await repository.UpdateAsync(_clothOperationPersonEntity);
+            var clothOperation = await clothOperationRepo.GetAsync(_clothOperationPersonEntity.ClothOperationId);
+            bool allIsEnded = true;
+            clothOperation.ClothOperationPersons.ForEach(item =>
+            {
+                if (!item.IsEnded)
+                {
+                    allIsEnded = false;
+                }
+            });
+
+            if (allIsEnded)
+            {
+                clothOperation.IsEnded = true;
+                await clothOperationRepo.UpdateAsync(clothOperation);
+            }
         }
 
     }
@@ -92,5 +112,10 @@ public partial class AddedClothOperationPersonPage : UserControl
     public override string ToString()
     {
         return PageTitles.AddClothOperationPerson;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new ClothOperationPage(_packageEntity, _frame);
     }
 }

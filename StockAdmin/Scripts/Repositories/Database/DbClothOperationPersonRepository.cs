@@ -22,7 +22,7 @@ public class DbClothOperationPersonRepository : IClothOperationPersonRepository
     {
         var response = await _db.clothOperationsPersons
             .Include(x=>x.Person)
-            .Include(x=>x.ClothOperation)
+            .Include(x=>x.ClothOperation).ThenInclude(t=>t.Price)
             .ToListAsync();
         return response;
     }
@@ -31,7 +31,7 @@ public class DbClothOperationPersonRepository : IClothOperationPersonRepository
     {
         var response = await _db.clothOperationsPersons
             .Include(x=>x.Person)
-            .Include(x=>x.ClothOperation)
+            .Include(x=>x.ClothOperation).ThenInclude(t=>t.Price)
             .FirstOrDefaultAsync(x=>x.Id == id);
         return response;
     }
@@ -52,7 +52,10 @@ public class DbClothOperationPersonRepository : IClothOperationPersonRepository
 
     public async Task<List<ClothOperationPersonEntity>> GetAllAsync(int personId)
     {
-        var response = await _db.clothOperationsPersons.Where(x=>x.PersonId == personId).ToListAsync();
+        var response = await _db.clothOperationsPersons
+            .Include(x=>x.ClothOperation).ThenInclude(t=>t.Price)
+            .Where(x=>x.PersonId == personId)
+            .ToListAsync();
         return response;
     }
 }

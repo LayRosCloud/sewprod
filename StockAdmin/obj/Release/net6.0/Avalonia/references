@@ -19,17 +19,37 @@ C:\Users\betrayal\.nuget\packages\avalonia.skia\11.0.0\lib\net6.0\Avalonia.Skia.
 C:\Users\betrayal\.nuget\packages\avalonia.themes.fluent\11.0.0\lib\net6.0\Avalonia.Themes.Fluent.dll
 C:\Users\betrayal\.nuget\packages\avalonia.win32\11.0.0\lib\net6.0\Avalonia.Win32.dll
 C:\Users\betrayal\.nuget\packages\avalonia.x11\11.0.0\lib\net6.0\Avalonia.X11.dll
+C:\Users\betrayal\.nuget\packages\bouncycastle.netcore\1.8.5\lib\netstandard2.0\BouncyCastle.Crypto.dll
 C:\Users\betrayal\.nuget\packages\bouncycastle.cryptography\2.2.1\lib\net6.0\BouncyCastle.Cryptography.dll
 C:\Users\betrayal\.nuget\packages\dynamicdata\7.9.5\lib\net6.0\DynamicData.dll
 C:\Users\betrayal\.nuget\packages\enums.net\4.0.1\lib\netcoreapp3.0\Enums.NET.dll
+C:\Users\betrayal\.nuget\packages\google.protobuf\3.14.0\lib\netstandard2.0\Google.Protobuf.dll
 C:\Users\betrayal\.nuget\packages\harfbuzzsharp\7.3.0\lib\net6.0\HarfBuzzSharp.dll
 C:\Users\betrayal\.nuget\packages\sharpziplib\1.3.3\lib\netstandard2.1\ICSharpCode.SharpZipLib.dll
+C:\Users\betrayal\.nuget\packages\k4os.compression.lz4\1.2.6\lib\netstandard2.0\K4os.Compression.LZ4.dll
+C:\Users\betrayal\.nuget\packages\k4os.compression.lz4.streams\1.2.6\lib\netstandard2.1\K4os.Compression.LZ4.Streams.dll
+C:\Users\betrayal\.nuget\packages\k4os.hash.xxhash\1.0.6\lib\netstandard2.0\K4os.Hash.xxHash.dll
 C:\Users\betrayal\.nuget\packages\livechartscore\2.0.0-rc2\lib\net6.0\LiveChartsCore.dll
 C:\Users\betrayal\.nuget\packages\livechartscore.skiasharpview.avalonia\2.0.0-rc2\lib\net6.0\LiveChartsCore.SkiaSharpView.Avalonia.dll
 C:\Users\betrayal\.nuget\packages\livechartscore.skiasharpview\2.0.0-rc2\lib\net6.0\LiveChartsCore.SkiaSharpView.dll
 C:\Users\betrayal\.nuget\packages\mathnet.numerics.signed\4.15.0\lib\netstandard2.0\MathNet.Numerics.dll
 C:\Users\betrayal\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\Microsoft.CSharp.dll
+C:\Users\betrayal\.nuget\packages\microsoft.data.sqlite.core\6.0.0\lib\net6.0\Microsoft.Data.Sqlite.dll
+C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore.abstractions\6.0.9\lib\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore\6.0.9\lib\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore.relational\6.0.0\lib\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore.sqlite.core\6.0.0\lib\net6.0\Microsoft.EntityFrameworkCore.Sqlite.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.caching.abstractions\6.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.caching.memory\6.0.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.configuration.abstractions\6.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\6.0.0\lib\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.dependencyinjection\6.0.0\lib\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.dependencymodel\6.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.logging.abstractions\6.0.0\lib\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.logging\6.0.0\lib\netstandard2.1\Microsoft.Extensions.Logging.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.options\6.0.0\lib\netstandard2.1\Microsoft.Extensions.Options.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.primitives\6.0.0\lib\net6.0\Microsoft.Extensions.Primitives.dll
 C:\Users\betrayal\.nuget\packages\microsoft.io.recyclablememorystream\2.3.2\lib\net5.0\Microsoft.IO.RecyclableMemoryStream.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\Microsoft.VisualBasic.Core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\Microsoft.VisualBasic.dll
@@ -37,6 +57,8 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\Micros
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\Microsoft.Win32.Registry.dll
 C:\Users\betrayal\.nuget\packages\microsoft.win32.systemevents\6.0.0\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\mscorlib.dll
+C:\Users\betrayal\.nuget\packages\mysql.data\8.0.28\lib\net6.0\MySql.Data.dll
+C:\Users\betrayal\.nuget\packages\mysql.entityframeworkcore\6.0.0\lib\net6.0\MySql.EntityFrameworkCore.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\netstandard.dll
 C:\Users\betrayal\.nuget\packages\npoi\2.6.2\lib\net6.0\NPOI.Core.dll
 C:\Users\betrayal\.nuget\packages\npoi\2.6.2\lib\net6.0\NPOI.OOXML.dll
@@ -48,6 +70,7 @@ C:\Users\betrayal\.nuget\packages\sixlabors.imagesharp\2.1.4\lib\netcoreapp3.1\S
 C:\Users\betrayal\.nuget\packages\skiasharp\2.88.6\lib\net6.0\SkiaSharp.dll
 C:\Users\betrayal\.nuget\packages\skiasharp.harfbuzz\2.88.6\lib\net6.0\SkiaSharp.HarfBuzz.dll
 C:\Users\betrayal\.nuget\packages\splat\14.4.1\lib\net6.0\Splat.dll
+C:\Users\betrayal\.nuget\packages\sqlitepclraw.core\2.0.6\lib\netstandard2.0\SQLitePCLRaw.core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.AppContext.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.Buffers.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.Collections.Concurrent.dll
@@ -209,5 +232,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.Xml.XPath.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.Xml.XPath.XDocument.dll
 C:\Users\betrayal\.nuget\packages\tmds.dbus.protocol\0.15.0\lib\net6.0\Tmds.DBus.Protocol.dll
+C:\Users\betrayal\.nuget\packages\mysql.data\8.0.28\lib\net6.0\Ubiety.Dns.Core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\WindowsBase.dll
 C:\Users\betrayal\.nuget\packages\zen.barcode.rendering.framework\3.1.10729.1\lib\Zen.Barcode.Core.dll
+C:\Users\betrayal\.nuget\packages\mysql.data\8.0.28\lib\net6.0\ZstdNet.dll

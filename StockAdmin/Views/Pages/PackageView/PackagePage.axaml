@@ -8,7 +8,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.PackagePage">
     <Grid RowDefinitions="35,*,35">
-        
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBox x:Name="Finder" 
                      Watermark="Поиск..." 
@@ -198,7 +197,7 @@
                 Classes="plus"
                 Click="NavigateToAddedPackagesPage"/>
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
-            <Button Content="Экспорт Word"
+            <Button Content="Отчет по выкройкам"
                     Click="ExportToWord"/>
             <Button Content="Крои" 
                     Click="ChangeVisibilityParties"/>

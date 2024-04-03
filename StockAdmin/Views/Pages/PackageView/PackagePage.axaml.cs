@@ -312,7 +312,7 @@ public partial class PackagePage : UserControl
     [Obsolete("Obsolete")]
     private async void ExportToWord(object? sender, RoutedEventArgs e)
     {
-        SaveFileDialog dialog = new SaveFileDialog();
+        var dialog = new SaveFileDialog();
         var filters = new List<FileDialogFilter>();
         var filter = new FileDialogFilter();
         filter.Name = "Word (.docx)";
@@ -327,7 +327,7 @@ public partial class PackagePage : UserControl
         
         dialog.Filters = filters;
         var controller = new WordController();
-        IOutputTable outputTable = new PackagesOutput(_packages);
+        var outputTable = new PackagesOutput(_packages);
         controller.ExportOnTemplateData(outputTable);
         try
         {

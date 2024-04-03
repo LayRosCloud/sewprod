@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Extensions;
@@ -22,23 +24,27 @@ public partial class StatisticPage : UserControl
     private ClothOperationStatistic _clothOperationStatistic;
     private PackagesStatistic _packagesStatistic;
     private readonly IRepositoryFactory _factory;
+    private readonly PersonEntity _person;
     
     public StatisticPage(PersonEntity person)
     {
         InitializeComponent();
         _factory = ServerConstants.GetRepository();
         _categories = new Dictionary<string, Action>();
+        _person = person;
         
         _packages = new List<PackageEntity>();
         _clothOperationPersons = new List<ClothOperationPersonEntity>();
         FullName.Text = person.FullName;
-        Title.Text = "Данные за день";
 
         InitAsync(person.Id);
     }
 
     private async void InitAsync(int personId)
     {
+        _packages.Clear();
+        _clothOperationPersons.Clear();
+        _categories.Clear();
         var repository = _factory.CreateClothOperationPersonRepository();
         var packageRepository = _factory.CreatePackagesRepository();
         var partyRepository = _factory.CreatePartyRepository();
@@ -93,26 +99,43 @@ public partial class StatisticPage : UserControl
         {
             walletOperations.Add(new WalletOperation()
                 {
-                    Name = clothOperation.ClothOperation.Operation.Name,
-                    Cost = clothOperation.ClothOperation.Price.Number
+                    Name = clothOperation.ClothOperation?.Operation?.Name ?? "",
+                    Cost = clothOperation.ClothOperation?.Price?.Number ?? 0
                 }
             );
-            fullSum += clothOperation.ClothOperation.Price.Number;
+            fullSum += clothOperation.ClothOperation?.Price?.Number ?? 0;
         }
 
-        foreach (var item in _packages)
+        if (PartyOnly.IsChecked == true)
         {
-            walletOperations.Add(new WalletOperation()
-                {
-                    Name = item.Party.CutNumber + " " + item.Size.Number,
-                    Cost = item.Party.Price.Number
-                }
-            );
-            fullSum += item.Party.Price.Number;
+            foreach (var item in _packages)
+            {
+                walletOperations.Add(new WalletOperation()
+                    {
+                        Name = item.Party?.CutNumber + " " + item.Size?.Number,
+                        Cost = item.Party?.Price?.Number ?? 0
+                    }
+                );
+                fullSum += item.Party?.Price?.Number ?? 0;
+            }
         }
+        else
+        {
+            foreach (var item in partyList)
+            {
+                walletOperations.Add(new WalletOperation()
+                    {
+                        Name = item.CutNumber,
+                        Cost = item.Price?.Number ?? 0
+                    }
+                );
+                fullSum += item.Price?.Number ?? 0;
+            }
+        }
+        
 
         DataGrid.ItemsSource = walletOperations;
-        FullSum.Text = "Полная сумма: " + fullSum.ToString("F2");
+        FullSum.Text = fullSum.ToString("F2");
     }
     
     public override string ToString()
@@ -128,13 +151,19 @@ public partial class StatisticPage : UserControl
          }
          List.ItemsSource = new List<WalletOperation>();
          Result.Text = "";
-         
+         Count.Text = "";
          _categories[item].Invoke();
     }
 
     private void Initial(List<WalletOperation> items, double sum)
     {
         Result.Text = sum.ToString("F2") + " Р.";
+        Count.Text = items.Count.ToString();
         List.ItemsSource = items;
+    }
+
+    private void Refresh(object? sender, RoutedEventArgs e)
+    {
+        InitAsync(_person.Id);
     }
 }

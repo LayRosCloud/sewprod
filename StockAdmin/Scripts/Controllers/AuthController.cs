@@ -29,6 +29,7 @@ public class AuthController
     {
         ServerConstants.Login = _auth.Email;
         ServerConstants.Password = _auth.Password;
+
     }
     
     public async Task CheckEmailAndPasswordAsync()
@@ -44,7 +45,6 @@ public class AuthController
         {
             throw new AuthException(authMessageError);
         }
-
         ServerConstants.AuthorizationUser = authPerson;
     }
 

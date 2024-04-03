@@ -6,23 +6,32 @@
              x:DataType="models:SizeEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.SizeView.AddedSizePage">
-    <StackPanel Orientation="Vertical" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"
-                Width="250">
-        <TextBlock Text="Введите размер*" FontWeight="Bold"/>
-        <TextBox x:Name="TbNumber" Text="{Binding Number}" 
-                 Watermark="Введите числовой эквивалент*"
+    <Grid>
+        <Button 
+            Classes="back"
+            Click="CloseCurrentPage"
         />
         
-        <TextBlock Text="Выберите ростовку*" FontWeight="Bold" Margin="0 10 0 0 "/>
-        <ComboBox x:Name="CbTypes"
-                  DisplayMemberBinding="{Binding DataType=models:AgeEntity, Path=FullName}"
-                  SelectedValue="{Binding AgeId}"
-                  SelectedValueBinding="{Binding DataType=models:AgeEntity, Path=Id}"
-                  HorizontalAlignment="Stretch"
-        />
+        <StackPanel Orientation="Vertical" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    Width="250">
+            <TextBlock Text="Введите размер*" FontWeight="Bold"/>
+            <TextBox x:Name="TbNumber" Text="{Binding Number}" 
+                     Watermark="Введите числовой эквивалент*"
+            />
         
-        <Button Content="Отправить" Click="TrySaveChanges"/>
-    </StackPanel>
+            <TextBlock Text="Выберите ростовку*" FontWeight="Bold" Margin="0 10 0 0 "/>
+        
+            <ComboBox x:Name="CbTypes"
+                      DisplayMemberBinding="{Binding DataType=models:AgeEntity, Path=FullName}"
+                      SelectedValue="{Binding AgeId}"
+                      SelectedValueBinding="{Binding DataType=models:AgeEntity, Path=Id}"
+                      HorizontalAlignment="Stretch"
+            />
+        
+            <Button Classes="save" Click="TrySaveChanges"/>
+        </StackPanel>
+    </Grid>
+    
 </UserControl>

@@ -42,7 +42,7 @@ public partial class AddedPackagesPage : UserControl
         _actionList.Add(Key.Enter, CreateNewElement);
         _actionList.Add(Key.Up, NavigateToUp);
         _actionList.Add(Key.Down, NavigateToDown);
-        _actionList.Add(Key.Decimal, RemoveSelectedTextBox);
+        _actionList.Add(Key.Decimal, RemoveSelectedField);
     }
 
     private async void Init()
@@ -135,7 +135,7 @@ public partial class AddedPackagesPage : UserControl
         }
         catch (Exception)
         {
-            ElementConstants.ErrorController.AddErrorMessage("Ошибка! проверьте все поля на ввод");
+            ElementConstants.ErrorController.AddErrorMessage("Проверьте все поля на корректность данных или " + Constants.UnexpectedAdminExceptionMessage);
         }
         finally
         {
@@ -152,7 +152,7 @@ public partial class AddedPackagesPage : UserControl
         {
             CutNumber = cutNumber,
             DateStart = dateStart,
-            DateEnd = CdpDateStart.SelectedDate!.Value,
+            DateEnd = CdpDateEnd.SelectedDate,
             PersonId = person.Id,
             PriceId = price.Id,
             ModelId = model.Id,
@@ -239,12 +239,21 @@ public partial class AddedPackagesPage : UserControl
         }
     }
 
-    private void RemoveSelectedTextBox(object sender)
+    private void RemoveSelectedField(object sender)
     {
-        if (MainPanel.Children.Count > 1 && sender is TextBox textBox)
+        if (MainPanel.Children.Count - 1 <= 1)
+        {
+            return;
+        }
+        
+        if (sender is TextBox textBox)
         {
             MainPanel.Children.Remove(textBox.Parent as StackPanel);
-            (MainPanel.Children[^1] as StackPanel).Children[0].Focus();
+            (MainPanel.Children[^2] as StackPanel).Children[1].Focus();
+        }
+        else if (sender is Button button)
+        {
+            MainPanel.Children.Remove(button.Parent as StackPanel);
         }
     }
     
@@ -252,10 +261,11 @@ public partial class AddedPackagesPage : UserControl
     {
         var controller = new ItemControlController();
         
-        var stack = (MainPanel.Children[^1] as StackPanel)!;
+        var stack = (MainPanel.Children[^2] as StackPanel)!;
         var cbComboPersons = stack.Children[0] as ComboBox;
         var lastText = stack.Children[1] as TextBox;
         var cbComboMaterials = stack.Children[2] as ComboBox;
+        var removeButton = stack.Children[3] as Button;
         var countTextBox = controller.CreateTextBox(lastText!, InputSymbol);
         
         var containerController = new ContainerController(controller.CreateStackPanel(stack))
@@ -264,12 +274,13 @@ public partial class AddedPackagesPage : UserControl
             {
                 controller.CreateComboBox(cbComboPersons!),
                 countTextBox,
-                controller.CreateComboBox(cbComboMaterials!)
+                controller.CreateComboBox(cbComboMaterials!),
+                controller.CreateButton(removeButton, RemoveField)
             }
         };
         
         containerController.PushElementsToPanel();
-        containerController.AddPanelToParent(MainPanel);
+        containerController.AddPanelToParent(MainPanel, MainPanel.Children.Count - 1);
         
         countTextBox.Focus();
         countTextBox.SelectionStart = countTextBox.Text!.Length;
@@ -370,5 +381,15 @@ public partial class AddedPackagesPage : UserControl
     private void SelectedModel(object? sender, SelectionChangedEventArgs e)
     {
         CbPrices.ItemsSource = (CbModels.SelectedItem as ModelEntity).Prices;
+    }
+
+    private void AddField(object? sender, RoutedEventArgs e)
+    {
+        CreateNewElement(sender);
+    }
+
+    private void RemoveField(object? sender, RoutedEventArgs e)
+    {
+        RemoveSelectedField(sender);
     }
 }

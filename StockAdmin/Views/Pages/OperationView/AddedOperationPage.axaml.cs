@@ -50,7 +50,10 @@ public partial class AddedOperationPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
-
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
 
     private void CheckFields()
@@ -89,5 +92,10 @@ public partial class AddedOperationPage : UserControl
     public override string ToString()
     {
         return PageTitles.AddOperation;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new OperationPage(_frame);
     }
 }

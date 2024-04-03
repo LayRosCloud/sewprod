@@ -5,7 +5,9 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.AddedPartyPage" x:DataType="models:PartyEntity">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+    <Grid>
+        <Button Classes="back" Click="CloseCurrentPage"/>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
         <TextBlock Text="Введите крой*" 
                    FontWeight="Bold" 
                    FontSize="18"
@@ -13,7 +15,7 @@
         <TextBox x:Name="TbCutNumber" Watermark="Введите крой*" 
                  Text="{Binding CutNumber}"/>
         
-        <TextBlock Text="Выберите, того, кто сделал*" 
+        <TextBlock Text="Выберите, того, кто сделал крой*" 
                    FontWeight="Bold" 
                    FontSize="18"
         />
@@ -71,8 +73,11 @@
                                 SelectedDate="{Binding DateEnd}"
             />
         </Grid>
-        <Button Content="Сохранить" 
+        <Button 
                 Click="TrySaveChanges"
+                Classes="save"
                 />
     </StackPanel>
+    </Grid>
+    
 </UserControl>

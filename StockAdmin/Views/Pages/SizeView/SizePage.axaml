@@ -29,11 +29,11 @@
                             IsReadOnly="True"/>
                         
                         <DataGridTextColumn 
-                            Header="Растовка" 
+                            Header="Ростовка" 
                             Binding="{Binding Age.Name}" 
                             IsReadOnly="True"/>
                         
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Управление">
                             <DataTemplate>
                                 <WrapPanel Orientation="Horizontal">
                                     <Button Content="✏️" 

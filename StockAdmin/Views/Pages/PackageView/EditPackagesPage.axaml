@@ -6,40 +6,51 @@
              x:DataType="models:PackageEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.PackageView.EditPackagesPage">
-    <StackPanel Width="300">
-        <ComboBox x:Name="CbMaterials" 
-                  DisplayMemberBinding="{Binding DataType=models:MaterialEntity, Path=Name}"
-                  SelectedValueBinding="{Binding DataType=models:MaterialEntity, Path=Id}"
-                  SelectedValue="{Binding MaterialId}"
-                  HorizontalAlignment="Stretch"
-        />
-        <ComboBox x:Name="CbSizes" 
-                  DisplayMemberBinding="{Binding DataType=models:SizeEntity, Path=Number}"
-                  SelectedValueBinding="{Binding DataType=models:SizeEntity, Path=Id}"
-                  SelectedValue="{Binding SizeId}"
-                  HorizontalAlignment="Stretch"
-        />
-        <ComboBox 
-            x:Name="CbPersons"
-            PlaceholderText="Выберите личнсоть"
-            SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
-            SelectedValue="{Binding PersonId}"
-            HorizontalAlignment="Stretch"
-            DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
-            Margin="0 5 0 0"/>
-        
-        <NumericUpDown Text="{Binding Count}"
-                       Minimum="1"
-                       Maximum="10000"
-                       FormatString="0"
-                       Watermark="Введите количество"/>
-        
-        <CheckBox IsChecked="{Binding IsEnded}" 
-                  Content="Закончена операция"/>
-        
-        <CheckBox IsChecked="{Binding IsRepeat}" 
-                  Content="Повтор?"/>
-        <Button Click="SaveChanges" 
-                Content="Отправить"/>
-    </StackPanel>
+    <Grid>
+        <Button Classes="back" Click="CloseCurrentPage"/>
+        <StackPanel Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Выберите материал*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <ComboBox x:Name="CbMaterials" 
+                      DisplayMemberBinding="{Binding DataType=models:MaterialEntity, Path=Name}"
+                      SelectedValueBinding="{Binding DataType=models:MaterialEntity, Path=Id}"
+                      SelectedValue="{Binding MaterialId}"
+                      HorizontalAlignment="Stretch"
+            />
+            
+            <TextBlock Text="Выберите размер*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <ComboBox x:Name="CbSizes" 
+                      DisplayMemberBinding="{Binding DataType=models:SizeEntity, Path=Number}"
+                      SelectedValueBinding="{Binding DataType=models:SizeEntity, Path=Id}"
+                      SelectedValue="{Binding SizeId}"
+                      HorizontalAlignment="Stretch"
+            />
+            
+            <TextBlock Text="Выберите человека, который сделал пачку*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <ComboBox 
+                x:Name="CbPersons"
+                PlaceholderText="Выберите личнсоть"
+                SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
+                SelectedValue="{Binding PersonId}"
+                HorizontalAlignment="Stretch"
+                DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
+                Margin="0 5 0 0"/>
+            
+            <TextBlock Text="Введите количество*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <NumericUpDown Text="{Binding Count}"
+                           Minimum="1"
+                           Maximum="10000"
+                           FormatString="0"
+                           Watermark="Введите количество"/>
+            
+            <CheckBox IsChecked="{Binding IsEnded}" 
+                      Content="Закончена ли операция"/>
+            
+            <CheckBox IsChecked="{Binding IsRepeat}" 
+                      Content="Считается ли она повтором"/>
+            
+            <Button Click="SaveChanges"
+                    Classes="save"/>
+        </StackPanel>
+    </Grid>
+    
 </UserControl>

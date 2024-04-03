@@ -14,7 +14,7 @@ public abstract class ServerConstants
     {
         if (_currentRepository == null)
         {
-            _currentRepository = new ServerFactory();
+            _currentRepository = new DatabaseFactory();
         }
 
         return _currentRepository;

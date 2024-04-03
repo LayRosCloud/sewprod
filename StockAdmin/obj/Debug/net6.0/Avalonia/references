@@ -42,14 +42,17 @@ C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.csharp.scripting\3.8.0\
 C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.dll
 C:\Users\betrayal\.nuget\packages\microsoft.codeanalysis.scripting.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.Scripting.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\Microsoft.CSharp.dll
+C:\Users\betrayal\.nuget\packages\microsoft.data.sqlite.core\6.0.0\lib\net6.0\Microsoft.Data.Sqlite.dll
 C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore.abstractions\6.0.9\lib\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore\6.0.9\lib\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore.relational\6.0.0\lib\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\betrayal\.nuget\packages\microsoft.entityframeworkcore.sqlite.core\6.0.0\lib\net6.0\Microsoft.EntityFrameworkCore.Sqlite.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.caching.abstractions\6.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.caching.memory\6.0.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.configuration.abstractions\6.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\6.0.0\lib\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.dependencyinjection\6.0.0\lib\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\betrayal\.nuget\packages\microsoft.extensions.dependencymodel\6.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.logging.abstractions\6.0.0\lib\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.logging\6.0.0\lib\netstandard2.1\Microsoft.Extensions.Logging.dll
 C:\Users\betrayal\.nuget\packages\microsoft.extensions.options\6.0.0\lib\netstandard2.1\Microsoft.Extensions.Options.dll
@@ -74,6 +77,7 @@ C:\Users\betrayal\.nuget\packages\sixlabors.imagesharp\2.1.4\lib\netcoreapp3.1\S
 C:\Users\betrayal\.nuget\packages\skiasharp\2.88.6\lib\net6.0\SkiaSharp.dll
 C:\Users\betrayal\.nuget\packages\skiasharp.harfbuzz\2.88.6\lib\net6.0\SkiaSharp.HarfBuzz.dll
 C:\Users\betrayal\.nuget\packages\splat\14.4.1\lib\net6.0\Splat.dll
+C:\Users\betrayal\.nuget\packages\sqlitepclraw.core\2.0.6\lib\netstandard2.0\SQLitePCLRaw.core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.AppContext.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.Buffers.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.24\ref\net6.0\System.Collections.Concurrent.dll

@@ -6,22 +6,27 @@
              x:DataType="models:ClothOperationPersonEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ClothOperationView.AddedClothOperationPersonPage">
-    <StackPanel Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <ComboBox 
-            x:Name="CbClothOperationsPersons"
-            DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=LastName}"
-            SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
-            SelectedValue="{Binding Path=PersonId}"
-            HorizontalAlignment="Stretch"
+    <Grid>
+        <Button Classes="back" Click="CloseCurrentPage"/>
+        <StackPanel Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Выберите человека*" FontWeight="Bold"/>
+            <ComboBox 
+                x:Name="CbClothOperationsPersons"
+                DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=LastName}"
+                SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
+                SelectedValue="{Binding Path=PersonId}"
+                HorizontalAlignment="Stretch"
             />
-        
-        <CalendarDatePicker x:Name="CbDateStart"
-            SelectedDate="{Binding DateStart}"/>
+            <TextBlock Text="Выберите дату начала операции*" FontWeight="Bold"/>
+            <CalendarDatePicker x:Name="CbDateStart"
+                                SelectedDate="{Binding DateStart}"/>
+            <CheckBox x:Name="CbEnded"
+                      IsChecked="{Binding IsEnded}"
+                      Content="Закончил ли работу?"/>
 		
-		<CheckBox x:Name="CbEnded"
-                IsChecked="{Binding IsEnded}"
-                Content="Окончена ли?"/>
-		
-        <Button Content="Отправить" Click="TrySaveChanges"/>
-    </StackPanel>
+            <Button
+                    Classes="save"
+                    Click="TrySaveChanges"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
@@ -43,6 +44,10 @@ public partial class AddedModelOperationPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
 
     private async Task SaveChanges(OperationEntity operation)
@@ -65,5 +70,10 @@ public partial class AddedModelOperationPage : UserControl
     public override string ToString()
     {
         return PageTitles.AddModelOperation;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new ModelPage(_frame);
     }
 }

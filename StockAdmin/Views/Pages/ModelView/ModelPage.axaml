@@ -21,15 +21,10 @@
             <TextBox x:Name="Finded"
                 Watermark="Поиск..."
                      Width="200" 
-                     Background="White" TextChanged="TextChanged"/>
+                     Background="White" 
+                TextChanged="TextChanged"/>
         </StackPanel>
         
-        <TextBox Grid.Row="0" Grid.Column="1"
-                 Watermark="Поиск..."
-                 HorizontalAlignment="Left"
-                 IsVisible="{Binding ElementName=List, Path=SelectedItem, Converter={StaticResource NotExistConverter}}"
-                 Margin="10 0"
-                 Width="200"/>
         <TextBlock Grid.Column="1" Grid.Row="0"
                    FontSize="18"
                    IsVisible="{Binding ElementName=List, Path=SelectedItem, Converter={StaticResource NotExistConverter}}"
@@ -53,7 +48,7 @@
                     IsReadOnly="True"
                     />
                 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Управление">
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
                             <Button Content="✏️" 
@@ -118,14 +113,6 @@
                         BorderBrush="#427D9D" 
                         BorderThickness="1"
                         />
-
-                <TextBox Watermark="Поиск..." 
-                         Grid.Row="0" 
-                         Width="200" 
-                         IsVisible="{Binding ElementName=List, Path=SelectedItem, 
-                         Converter={StaticResource NotExistConverter}}"
-                         HorizontalAlignment="Left"
-                         />
                 
                 <TextBlock Grid.Row="0" HorizontalAlignment="Center" 
                            Text="Операции"

@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
@@ -39,16 +40,28 @@ public partial class EditPackagesPage : UserControl
 
     private async void SaveChanges(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreatePackagesRepository();
-        _packageEntity.IsUpdated = true;
+        try
+        {
+            var repository = _factory.CreatePackagesRepository();
+            _packageEntity.IsUpdated = true;
         
-        await repository.UpdateAsync(_packageEntity);
+            await repository.UpdateAsync(_packageEntity);
         
-        _frame.Content = new PackagePage(_frame);
+            _frame.Content = new PackagePage(_frame);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
 
     public override string ToString()
     {
         return PageTitles.EditPackage;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new PackagePage(_frame);
     }
 }

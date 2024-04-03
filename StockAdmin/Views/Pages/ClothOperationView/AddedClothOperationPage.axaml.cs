@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -56,6 +57,10 @@ public partial class AddedClothOperationPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
 
     }
 
@@ -90,5 +95,10 @@ public partial class AddedClothOperationPage : UserControl
     public override string ToString()
     {
         return PageTitles.AddClothOperation;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new ClothOperationPage(_packageEntity, _frame);
     }
 }

@@ -6,37 +6,110 @@
              xmlns:avalonia="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.StatisticPeople.StatisticPage">
-    <Grid RowDefinitions="60, *" ColumnDefinitions="*, 350" Background="LightGray">
-        <Border Grid.Column="0" 
-                Grid.Row="0" 
-                Padding="5" 
-                Background="White" 
-                CornerRadius="10" 
-                Margin="5" 
-                VerticalAlignment="Center"
-                HorizontalAlignment="Right"
-                >
-            <TextBlock 
-                       x:Name="FullName" 
-                       Margin="20 0"
-                       Text=""
-                       FontWeight="Bold"
-                       />
+    <Grid RowDefinitions="80, *" ColumnDefinitions="*, 350" Background="LightGray">
+        
+        <Border 
+            Grid.Row="0" 
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Padding="5"
+            CornerRadius="5"
+            Height="80">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                    <GradientStop Color="#41C9E2" Offset="0"/>
+                    <GradientStop Color="#008DDA" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel>
+                <TextBlock Text="фильтры" Foreground="White" Opacity="0.6"/>
+                <CheckBox x:Name="PartyOnly" IsChecked="True" Content="считать выкройки?" Foreground="White" FontWeight="Bold"/>
+                <Button Content="Перерасчитать" Click="Refresh" Background="Transparent" Foreground="White"/>
+            </StackPanel>
         </Border>
         
-        <Border Grid.Column="0" 
-                Grid.Row="0" 
-                Padding="5" 
-                Background="White" 
-                CornerRadius="10" 
-                Margin="5" 
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left"
-        >
-            <ComboBox x:Name="Categories"
-                      SelectionChanged="GroupItems_OnSelectionChanged"/>
-        </Border>
-        
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="0" 
+                    Margin="5 0 0 0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+            <Border CornerRadius="5" 
+                    Padding="5"
+                    Height="60"
+                    Width="200"
+                    VerticalAlignment="Center"
+                    Margin="0 0 5 0"
+            >
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                        <GradientStop Color="#41C9E2" Offset="0"/>
+                        <GradientStop Color="#008DDA" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="фильтровать по: " Foreground="White" Opacity="0.6"/>
+                    <ComboBox x:Name="Categories"
+                              SelectionChanged="GroupItems_OnSelectionChanged"
+                              HorizontalContentAlignment="Stretch"
+                              Foreground="White"
+                              BorderBrush="Transparent"
+                              FontWeight="Bold"
+                              BorderThickness="0"
+                              Background="#0F1035"
+                    />
+                </StackPanel>
+                
+            </Border>
+            <Border Height="60"
+                    Width="200"
+                    Padding="5" 
+                    CornerRadius="5" 
+                    VerticalAlignment="Center"
+                    Margin="0 0 5 0"
+            >
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                        <GradientStop Color="#67C6E3" Offset="0"/>
+                        <GradientStop Color="#378CE7" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="полная сумма" Foreground="White" Opacity="0.6"/>
+                    <TextBlock x:Name="FullSum" 
+                               Text=""
+                               FontSize="25"
+                               Foreground="White"
+                               FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+            
+            <Border
+                    Padding="5" 
+                    Height="60"
+                    CornerRadius="5" 
+                    VerticalAlignment="Center"
+                    Margin="0 0 5 0"
+            >
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                        <GradientStop Color="#9AD0C2" Offset="0"/>
+                        <GradientStop Color="#2D9596" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="сотрудник" Foreground="White" Opacity="0.6"/>
+                    <TextBlock 
+                        x:Name="FullName" 
+                        FontSize="25"
+                        Foreground="White"
+                        FontWeight="Bold"
+                    />
+                </StackPanel>
+                
+            </Border>
+        </StackPanel>
         
         <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="*,*">
             <Border Grid.Row="0" Padding="5" Background="White" CornerRadius="10" Margin="5">
@@ -58,49 +131,66 @@
                                          x:Name="Chart" 
                 />
             </Border>
-            
         </Grid>
-        <Border Grid.Column="0" 
-                Grid.Row="0" 
-                Padding="5" 
-                Background="White" 
-                CornerRadius="10" 
-                Margin="5" 
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-        >
-            <TextBlock x:Name="FullSum" 
-                       Text="Full Sum"
-                       FontWeight="Bold"/>
-        </Border>
+        
+       
         
         <Border Grid.Column="1" 
                 Grid.Row="0" 
                 Padding="5" 
-                Background="White" 
                 CornerRadius="10" 
                 Margin="5" 
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
         >
-            <TextBlock x:Name="Title" 
-                       Text="Title"
-                       FontWeight="Bold"/>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                    <GradientStop Color="#3887BE" Offset="0"/>
+                    <GradientStop Color="#38419D" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="Title" 
+                           Text="данные за день"
+                           Foreground="White"
+                           FontWeight="Bold"
+                           FontSize="25"
+                           Opacity="0.8"
+                           />
+            </StackPanel>
+            
         </Border>
         
         
-        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="40,*">
+        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="80,*">
             <Border
                     Grid.Row="0" 
                     Padding="5" 
-                    Background="White" 
-                    CornerRadius="10" 
+                    CornerRadius="5" 
                     Margin="5" 
             >
-                <TextBlock x:Name="Result" 
-                           FontWeight="Bold"
-                           Text="Result"
-                />
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                        <GradientStop Color="#80B3FF" Offset="0"/>
+                        <GradientStop Color="#98E4FF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid ColumnDefinitions="*, *">
+                    <StackPanel>
+                        <TextBlock Text="сумма за день" FontSize="18" Opacity="0.6" Foreground="White"/>
+                        <TextBlock x:Name="Result" 
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   FontSize="25"
+                                   Text="Result"
+                        />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Количество" FontSize="18" Opacity="0.6" Foreground="White"/>
+                        <TextBlock x:Name="Count" Text="" FontSize="25" Foreground="White" FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+                
             </Border>
             <Border
                 Grid.Row="1" 

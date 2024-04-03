@@ -38,6 +38,7 @@ public partial class DeletedBorder : UserControl
     private void SendYesOnAnswerDelete(object? sender, RoutedEventArgs e)
     {
         ClickOnAnswerYes?.Invoke(this, e);
+        IsVisible = false;
     }
     
     private void SendNoOnAnswerDelete(object? sender, RoutedEventArgs e)

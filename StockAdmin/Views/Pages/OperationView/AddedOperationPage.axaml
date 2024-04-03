@@ -6,25 +6,28 @@
              x:DataType="models:OperationEntity"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.OperationView.AddedOperationPage">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+    <Grid>
+        <Button Classes="back" Click="CloseCurrentPage"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+            <TextBlock Text="Введите название*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <TextBox x:Name="TbName" Text="{Binding Name}" 
+                     Watermark="Введите название"
+            />
+            <TextBlock Text="Введите описание*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <TextBox x:Name="TbDescription" Text="{Binding Description}" 
+                     Watermark="Введите описание"
+            />
+            <TextBlock Text="Введите артикул*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <TextBox x:Name="TbUid" Text="{Binding Uid}" 
+                     Watermark="Введите артикул"
+            />
+            <TextBlock Text="Введите процент*" FontWeight="Bold" Margin="0 5 0 0"/>
+            <TextBox x:Name="TbPercent" Watermark="Введите процент"
+                     Text="{Binding  Path=Percent}"
+                     KeyDown="KeyDownOnPercentField"
+            />
         
-        <TextBox x:Name="TbName" Text="{Binding Name}" 
-                 Watermark="Введите название"
-        />
-        
-        <TextBox x:Name="TbDescription" Text="{Binding Description}" 
-                 Watermark="Введите описание"
-        />
-        
-        <TextBox x:Name="TbUid" Text="{Binding Uid}" 
-                 Watermark="Введите артикул"
-        />
-        
-        <TextBox x:Name="TbPercent" Watermark="Введите процент"
-                 Text="{Binding  Path=Percent}"
-                 KeyDown="KeyDownOnPercentField"
-                 />
-        
-        <Button Click="TrySaveChanges" Content="Отправить"/>
-    </StackPanel>
+            <Button Click="TrySaveChanges" Classes="save"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

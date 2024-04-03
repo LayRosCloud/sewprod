@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
@@ -29,7 +30,7 @@ public partial class MaterialsPage : UserControl
         Init();
     }
 
-    private async void Init()
+    private async Task Init()
     {
         var dataController =
             new DataController<MaterialEntity>(_factory.CreateMaterialRepository(), _materials, ListMaterials);
@@ -77,7 +78,7 @@ public partial class MaterialsPage : UserControl
         }
         
         await repository.DeleteAsync(material.Id);
-        Init();
+        await Init();
     }
     
     private void ShowDeleteWindowMaterial(object? sender, RoutedEventArgs e)

@@ -30,6 +30,19 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
+        <Style Selector="Button.save">
+            <Setter Property="Content" Value="Сохранить"/>
+            <Setter Property="Background" Value="PaleGreen"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="Button.back">
+            <Setter Property="Content" Value="⬅️ назад"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="DarkRed"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
         
         <Style Selector="Button.background">
             <Setter Property="Content" Value=""/>

@@ -10,31 +10,39 @@ namespace StockAdmin.Scripts.Repositories.Server;
 public class SizeRepository: ISizesRepository
 {
     private const string EndPoint = "/v1/sizes/";
+    
     public async Task<List<SizeEntity>> GetAllAsync()
     {
         var httpHandler = new HttpHandler<SizeEntity>();
-        List<SizeEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint);
+        var response = await httpHandler.GetListFromJsonAsync(EndPoint);
         return response!;
     }
-
+    
+    public async Task<List<SizeEntity>> GetAllAsync(int ageId)
+    {
+        var httpHandler = new HttpHandler<SizeEntity>();
+        var response = await httpHandler.GetListFromJsonAsync(EndPoint + $"?ageId={ageId}");
+        return response!;
+    }
+    
     public async Task<SizeEntity> GetAsync(int id)
     {
         var httpHandler = new HttpHandler<SizeEntity>();
-        SizeEntity? response = await httpHandler.GetFromJsonAsync(EndPoint+id);
+        var response = await httpHandler.GetFromJsonAsync(EndPoint + id);
         return response!;
     }
 
     public async Task<SizeEntity> CreateAsync(SizeEntity entity)
     {
         var httpHandler = new HttpHandler<SizeEntity>();
-        SizeEntity? response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
+        var response = await httpHandler.PostAsJsonAsync(EndPoint, entity);
         return response!;
     }
 
     public async Task<SizeEntity> UpdateAsync(SizeEntity entity)
     {
         var httpHandler = new HttpHandler<SizeEntity>();
-        SizeEntity? response = await httpHandler.PutAsJsonAsync(EndPoint+entity.Id, entity);
+        var response = await httpHandler.PutAsJsonAsync(EndPoint + entity.Id, entity);
         return response!;
     }
 
@@ -42,12 +50,5 @@ public class SizeRepository: ISizesRepository
     {
         var httpHandler = new HttpHandler<PriceEntity>();
         await httpHandler.DeleteAsync(EndPoint + id);
-    }
-
-    public async Task<List<SizeEntity>> GetAllAsync(int ageId)
-    {
-        var httpHandler = new HttpHandler<SizeEntity>();
-        List<SizeEntity>? response = await httpHandler.GetListFromJsonAsync(EndPoint+"?ageId="+ageId);
-        return response!;
     }
 }

@@ -5,23 +5,14 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:models="clr-namespace:StockAdmin.Models"
              x:Class="StockAdmin.Views.Pages.PackageView.AddedPackagesPage">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0.5*"/>
-        </Grid.ColumnDefinitions>
+    <Grid ColumnDefinitions="*,0.5*" RowDefinitions="400,*">
+
         <StackPanel Grid.Column="0" Grid.Row="0">
             <WrapPanel HorizontalAlignment="Left" Margin="0 0 0 20">
-                <Button Content="Сохранить" 
+                <Button 
                         Click="TrySaveElements" 
-                        Background="PaleGreen"
-                        FontWeight="Bold"/>
-                <Button Content="Закрыть" 
+                        Classes="save"/>
+                <Button Classes="back"
                         Margin="5 0"
                         Click="Back"/>
             </WrapPanel>
@@ -43,7 +34,7 @@
                         Text=""
                         />
                     
-                    <TextBlock Text="Выберите человека:" FontWeight="Bold"/>
+                    <TextBlock Text="Выберите человека*" FontWeight="Bold"/>
                     
                     <ComboBox
                         x:Name="CbPersons"
@@ -51,7 +42,7 @@
                         HorizontalAlignment="Stretch"
                         DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=FullName}"
                         Margin="0 5 0 0"/>
-                    <TextBlock Text="Выберите модель:" FontWeight="Bold"/>
+                    <TextBlock Text="Выберите модель*" FontWeight="Bold"/>
                     <ComboBox 
                         x:Name="CbModels"
                         PlaceholderText="Выберите модель" 
@@ -60,7 +51,7 @@
                         Margin="0 5 0 0"
                         SelectionChanged="SelectedModel"/>
                     
-                    <TextBlock Text="Выберите цену модели:" 
+                    <TextBlock Text="Выберите цену модели*" 
                                IsVisible="{Binding ElementName=CbModels, Path=SelectedItem, Converter={StaticResource NotExistConverter}}"
                                FontWeight="Bold"/>
                     <ComboBox 
@@ -144,7 +135,7 @@
                             </StackPanel>
                             <ScrollViewer Grid.Row="1">
                                 <StackPanel x:Name="MainPanel" HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal" Width="500" Margin="0 5 0 0">
+                                    <StackPanel Orientation="Horizontal" Width="530" Margin="0 5 0 0">
                                         <ComboBox x:Name="CmPersons" 
                                                   DisplayMemberBinding="{Binding DataType=models:PersonEntity, Path=Uid}"
                                                   SelectedValueBinding="{Binding DataType=models:PersonEntity, Path=Id}"
@@ -168,8 +159,16 @@
                                                   PlaceholderText="Выберите материал"
                                                   Width="166"
                                         />
-                                  
+                                    <Button
+                                        Classes="back"
+                                        Content="x"
+                                        Background="Transparent"
+                                        Foreground="DarkRed"
+                                        Width="30"
+                                        Click="RemoveField"
+                                    />
                                     </StackPanel>
+                                    <Button Content="+ добавить" Click="AddField"/>
                                 </StackPanel>
                             </ScrollViewer>
                         </Grid>

@@ -5,13 +5,18 @@
              xmlns:models="clr-namespace:StockAdmin.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="StockAdmin.Views.Pages.ModelView.AddedModelOperationPage">
-    <StackPanel HorizontalAlignment="Center" 
-                VerticalAlignment="Center" 
-                Width="250">
-        <ComboBox x:Name="CbOperations" 
-                  DisplayMemberBinding="{Binding DataType=models:OperationEntity, Path=Name}" 
-                  HorizontalAlignment="Stretch"/>
-        <Button Content="Добавить" 
-                Click="TrySaveChanges"/>
-    </StackPanel>
+    <Grid>
+        <Button Classes="back" Click="CloseCurrentPage"/>
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Width="250">
+            <TextBlock Text="Выберите операцию*" FontWeight="Bold"/>
+            <ComboBox x:Name="CbOperations" 
+                      DisplayMemberBinding="{Binding DataType=models:OperationEntity, Path=Name}" 
+                      HorizontalAlignment="Stretch"/>
+            <Button Classes="save"
+                    Click="TrySaveChanges"/>
+        </StackPanel>
+    </Grid>
+    
 </UserControl>

@@ -42,7 +42,7 @@
                                     IsReadOnly="True"
                 />
                 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Управление">
                     <DataTemplate>
                         <WrapPanel 
                             Orientation="Horizontal"

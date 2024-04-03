@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using StockAdmin.Scripts.Constants;
 
 namespace StockAdmin.Scripts.Controllers;
 
@@ -29,9 +30,16 @@ public class LoadingController<TEntity>
         {
             throw new ArgumentException("Error! DataController is empty!");
         }
-        
-        await _dataController.FetchDataAsync();
-        _panel.IsVisible = false;
+
+        try
+        {
+            await _dataController.FetchDataAsync();
+            _panel.IsVisible = false;
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Возникла ошибка с получением данных");
+        }
     }
     
     public async Task FetchDataAsync(Func<Task> action)

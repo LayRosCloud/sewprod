@@ -3,15 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Extensions;
-using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
-using StockAdmin.Scripts.Repositories.Server;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
@@ -57,7 +53,7 @@ public partial class AddedSizePage : UserControl
         }
         catch (Exception)
         {
-            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedExceptionMessage);
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
         }
     }
 
@@ -93,5 +89,9 @@ public partial class AddedSizePage : UserControl
     {
         return PageTitles.AddSize;
     }
-    
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new SizePage(_frame);
+    }
 }

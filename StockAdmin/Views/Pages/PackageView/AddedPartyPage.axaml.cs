@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -6,9 +7,7 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Extensions;
-using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
-using StockAdmin.Scripts.Repositories.Server;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
@@ -63,6 +62,10 @@ public partial class AddedPartyPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
 
     private void CheckFields()
@@ -73,10 +76,12 @@ public partial class AddedPartyPage : UserControl
         {
             throw new ValidationException("Выберите модель!");
         }
+        
         if (CbPrices.SelectedItem == null)
         {
             throw new ValidationException("Выберите цену!");
         }
+        
         if (CbPersons.SelectedItem == null)
         {
             throw new ValidationException("Выберите человека!");
@@ -91,6 +96,9 @@ public partial class AddedPartyPage : UserControl
     private async Task SaveChanges()
     {
         var partyRepository = _factory.CreatePartyRepository();
+        _party.Model = null;
+        _party.Price = null;
+        _party.Person = null;
         if (_party.Id == 0)
         {
             await partyRepository.CreateAsync(_party);
@@ -114,5 +122,10 @@ public partial class AddedPartyPage : UserControl
     public override string ToString()
     {
         return PageTitles.AddParty;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new PackagePage(_frame);
     }
 }

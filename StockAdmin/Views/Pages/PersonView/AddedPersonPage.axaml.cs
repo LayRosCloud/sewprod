@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
-using NPOI.SS.Formula.Atp;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
@@ -16,7 +15,6 @@ using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 using Zen.Barcode;
-using Image = System.Drawing.Image;
 
 namespace StockAdmin.Views.Pages.PersonView;
 
@@ -42,6 +40,8 @@ public partial class AddedPersonPage : UserControl
             RolesPanel.IsVisible = false;
             TitleRoles.IsVisible = false;
         }
+
+        personEntity.Password = "";
         _frame = frame;
         DataContext = _personEntity;
         Initialize();
@@ -66,6 +66,10 @@ public partial class AddedPersonPage : UserControl
         catch (ValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
         }
     }
     
@@ -153,28 +157,13 @@ public partial class AddedPersonPage : UserControl
 
     private void GenerateCode(object? sender, RoutedEventArgs e)
     {
-        Bitmap avaloniaBitmap = CreateAvaloniaBitmap(CreateBitmap());
+        var bitmap = CreateAvaloniaBitmap(CreateBitmap());
         
-        BarCodeImage.Source = avaloniaBitmap;
+        BarCodeImage.Source = bitmap;
 
         SaveButton.IsVisible = true;
     }
-
-    private System.Drawing.Bitmap CreateBitmap()
-    {
-        CryptoController controller = new CryptoController();
-        string exportJson = "{\n\r" +
-                            $"\"email\": \"{TbEmail.Text}\",\n\r" +
-                            $"\"password\": \"{controller.EncryptText(TbPassword.Text!)}\"\n\r" +
-                            "}\n\r";
-        
-        CodeQrBarcodeDraw qrCode = BarcodeDrawFactory.CodeQr;
-        Image image = qrCode.Draw(exportJson, 100);
-        System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)image;
-        return bitmap;
-    }
     
-   
     private Bitmap CreateAvaloniaBitmap(System.Drawing.Bitmap bitmap)
     {
         using var stream = new MemoryStream();
@@ -186,12 +175,31 @@ public partial class AddedPersonPage : UserControl
         return new Bitmap(stream);
     }
 
+    private System.Drawing.Bitmap CreateBitmap()
+    {
+        var controller = new CryptoController();
+        var exportJson = "{\n\r" +
+                            $"\"email\": \"{TbEmail.Text}\",\n\r" +
+                            $"\"password\": \"{controller.EncryptText(TbPassword.Text!)}\"\n\r" +
+                            "}\n\r";
+        
+        var qrCode = BarcodeDrawFactory.CodeQr;
+        var image = qrCode.Draw(exportJson, 100);
+        var bitmap = (System.Drawing.Bitmap) image;
+        return bitmap;
+    }
+
     [Obsolete("Method used on only Windows, because he is old")]
     private async void SaveCode(object? sender, RoutedEventArgs e)
     {
-        string? path = await GetPathToSaveQrCode();
-
-        System.Drawing.Bitmap bitmap = CreateBitmap();
+        var path = await GetPathToSaveQrCode();
+        
+        if (path == null)
+        {
+            return;
+        }
+        
+        var bitmap = CreateBitmap();
 
         bitmap.Save(path, ImageFormat.Png);
     }
@@ -244,5 +252,10 @@ public partial class AddedPersonPage : UserControl
         {
             parent.Children.Remove(currentStackPanel);
         }
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new PersonPage(_frame);
     }
 }

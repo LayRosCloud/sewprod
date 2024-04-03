@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using StockAdmin.Models;
-using StockAdmin.Scripts;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
-using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
-using StockAdmin.Scripts.Repositories.Server;
 using StockAdmin.Scripts.Server;
 using StockAdmin.Scripts.Vectors;
 
@@ -48,7 +43,7 @@ public partial class AddedTypeOfSizePage : UserControl
         }
         catch (Exception)
         {
-            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedExceptionMessage);
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
         }
 
     }
@@ -80,5 +75,10 @@ public partial class AddedTypeOfSizePage : UserControl
     public override string ToString()
     {
         return PageTitles.AddAge;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new SizePage(_frame);
     }
 }

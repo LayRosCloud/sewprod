@@ -39,7 +39,7 @@ public partial class AddedModelPricePage : UserControl
         }
         catch (Exception)
         {
-            ElementConstants.ErrorController.AddErrorMessage("Непредвиденная ошибка");
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
         }
     }
 
@@ -74,5 +74,10 @@ public partial class AddedModelPricePage : UserControl
     public override string ToString()
     {
         return PageTitles.AddModelPrice;
+    }
+
+    private void CloseCurrentPage(object? sender, RoutedEventArgs e)
+    {
+        _frame.Content = new ModelPage(_frame);
     }
 }

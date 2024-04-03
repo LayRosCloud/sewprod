@@ -25,6 +25,7 @@
         <PackageReference Include="LiveChartsCore" Version="2.0.0-rc2" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.0" />
         <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.0" />
         <PackageReference Include="NPOI" Version="2.6.2" />
         <PackageReference Include="Zen.Barcode.Rendering.Framework" Version="3.1.10729.1" />
