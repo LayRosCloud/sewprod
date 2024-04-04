@@ -40,7 +40,7 @@ public partial class AddedModelOperationPage : UserControl
             await SaveChanges(operation);
             _frame.Content = new ModelPage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
@@ -61,7 +61,7 @@ public partial class AddedModelOperationPage : UserControl
     {
         if (CbOperations.SelectedItem is not OperationEntity operationEntity)
         {
-            throw new ValidationException("Выберите операцию!");
+            throw new MyValidationException("Выберите операцию!");
         }
 
         return operationEntity;

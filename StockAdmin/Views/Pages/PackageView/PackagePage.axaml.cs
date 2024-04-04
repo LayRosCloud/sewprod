@@ -26,9 +26,11 @@ public partial class PackagePage : UserControl
     private readonly Hashtable _partyEntities;
 
     private const string AllElements = "Все крои";
+    private const string AllEmployees = "Все закройщики";
     private PackageEntity? _package;
     private int _currentIndexBtn = 0;
     private readonly IRepositoryFactory _factory;
+    private bool isFirstStart = false;
     
     public PackagePage(ContentControl frame)
     {
@@ -43,7 +45,7 @@ public partial class PackagePage : UserControl
         Init();
     }
 
-    private async void Init()
+    private async Task Init()
     {
         SelectButton(DateTime.Now.Month - 1);
         await InitAsync();
@@ -59,7 +61,7 @@ public partial class PackagePage : UserControl
             var post = new PostEntity { Name = PostEntity.CutterName, Id = 3};
             var persons = new List<PersonEntity>
             {
-                new() { LastName = "Все", FirstName = "закройщики"}
+                new() { LastName = AllEmployees}
             };
             persons.AddRange((await personRepository.GetAllAsync()).Where(x => x.Posts.Contains(post)).ToList());
             CbPerson.ItemsSource = persons;
@@ -111,7 +113,7 @@ public partial class PackagePage : UserControl
         }
         
         await repository.DeleteAsync(_package.Id);
-        Init();
+        await Init();
         DeletedContainer.IsVisible = false;
     }
     
@@ -174,7 +176,6 @@ public partial class PackagePage : UserControl
         var loadingController = new LoadingController<PackageEntity>(LoadingBorder);
         await loadingController.FetchDataAsync(async () =>
         {
-            
             _packages.Clear();
             var list = await GetPackagesListFromApiOnPartyCutNumber(partyEntity);
             
@@ -238,13 +239,13 @@ public partial class PackagePage : UserControl
         _partyEntities.Clear();
         
         var repository = _factory.CreatePartyRepository();
-        if (personEntity.LastName == "Все" && personEntity.FirstName == "закройщики")
+        if (personEntity.LastName == AllEmployees)
         {
-            list = await repository.GetAllAsync();
+            list.AddRange(await repository.GetAllAsync());
         }
         else
         {
-            list = await repository.GetAllAsync(personEntity!.Id);
+            list.AddRange(await repository.GetAllAsync(personEntity!.Id));
         }
         var sortedArray = new List<PartyEntity> { new() {CutNumber = AllElements} };
 
@@ -256,12 +257,17 @@ public partial class PackagePage : UserControl
         }
         
         CbParties.ItemsSource = sortedArray;
+        
         var listForPartiesGrid = new List<PartyEntity>();
         listForPartiesGrid.AddRange(sortedArray);
         listForPartiesGrid.RemoveAt(0);
+        
         Parties.ItemsSource = listForPartiesGrid;
-            
-        CbParties.SelectedIndex = 0;
+        if (isFirstStart == false)
+        {
+            CbParties.SelectedIndex = 0;
+            isFirstStart = true;
+        }
     }
     
     private IEnumerable<PartyEntity> FindBetweenDate(IEnumerable<PartyEntity> parties)
@@ -309,7 +315,7 @@ public partial class PackagePage : UserControl
         return PageTitles.Package;
     }
 
-    [Obsolete("Obsolete")]
+    [Obsolete("Only Windows method")]
     private async void ExportToWord(object? sender, RoutedEventArgs e)
     {
         var dialog = new SaveFileDialog();

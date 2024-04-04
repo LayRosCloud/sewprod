@@ -47,7 +47,7 @@ public partial class AddedSizePage : UserControl
 
             _frame.Content = new SizePage(_frame);
         }
-        catch (Scripts.Exceptions.ValidationException ex)
+        catch (Scripts.Exceptions.MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }

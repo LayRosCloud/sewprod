@@ -46,7 +46,7 @@ public partial class AddedOperationPage : UserControl
             _frame.Content = new OperationPage(_frame);
 
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }

@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Server;
@@ -58,7 +59,7 @@ public partial class AddedPartyPage : UserControl
             await SaveChanges();
             _frame.Content = new PackagePage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }

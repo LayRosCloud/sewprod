@@ -45,7 +45,7 @@ public partial class AddedMaterialPage : UserControl
             await SaveChanges();
             _frame.Content = new MaterialsPage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }

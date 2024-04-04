@@ -9,6 +9,7 @@ using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
 using StockAdmin.Scripts.Controllers;
+using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
@@ -94,7 +95,7 @@ public partial class AddedPackagesPage : UserControl
                 }
                 else
                 {
-                    throw new Scripts.Exceptions.ValidationException("Ошибка! Крой не выбран");
+                    throw new Scripts.Exceptions.MyValidationException("Ошибка! Крой не выбран");
                 }
             }
 
@@ -129,7 +130,7 @@ public partial class AddedPackagesPage : UserControl
 
             _frame.Content = new PackagePage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }

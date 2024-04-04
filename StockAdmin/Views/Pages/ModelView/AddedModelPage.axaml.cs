@@ -71,7 +71,7 @@ public partial class AddedModelPage : UserControl
 
             _frame.Content = new ModelPage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
@@ -120,7 +120,7 @@ public partial class AddedModelPage : UserControl
             }
             else
             {
-                throw new ValidationException(exceptionValidationMessage);
+                throw new MyValidationException(exceptionValidationMessage);
             }
         }
 
@@ -144,7 +144,7 @@ public partial class AddedModelPage : UserControl
             }
             else
             {
-                throw new ValidationException(exceptionValidationMessage);
+                throw new MyValidationException(exceptionValidationMessage);
             }
         }
 

@@ -24,7 +24,7 @@ public class PersonEntity : Entity
     public DateTime DateRegistration { get; set; } = DateTime.Now;
 
     [JsonIgnore]
-    public string FullName => $"{LastName} {FirstName[0]}. {(String.IsNullOrWhiteSpace(Patronymic) ? "" : Patronymic[0] + ".")}";
+    public string FullName => $"{LastName} {(String.IsNullOrWhiteSpace(FirstName) ? "" : FirstName[0] + ".")} {(String.IsNullOrWhiteSpace(Patronymic) ? "" : Patronymic[0] + ".")}";
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [JsonPropertyName(ServerConstants.Person.FieldPosts)] public List<PostEntity> Posts { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia.Controls;
 using LiveChartsCore;
 using LiveChartsCore.Kernel;
 using LiveChartsCore.Kernel.Sketches;
@@ -10,6 +11,7 @@ using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Records;
+using StockAdmin.Scripts.Statistic.Records;
 
 namespace StockAdmin.Scripts.Statistic;
 
@@ -18,18 +20,20 @@ public abstract class Statistic<TSource>
     private readonly IEnumerable<TSource> _source;
     private readonly Action<List<WalletOperation>, double> _onGraphicClick;
     private readonly CartesianChart _chart;
+    private readonly TextBlock _currentMonth;
 
-    protected Statistic(CartesianChart chart, IEnumerable<TSource> source, Action<List<WalletOperation>, double> graphicClick)
+    protected Statistic(StatisticOptions<TSource> options)
     {
-        _source = source;
-        _chart = chart;
-        _onGraphicClick = graphicClick;
+        _source = options.Source;
+        _chart = options.Chart;
+        _onGraphicClick = options.OnGraphicClick;
+        _currentMonth = options.CurrentFilterMonthText;
     }
 
     public void Generate()
     {
-        var entities = GenerateArray();
-
+        (var entities, var sum) = GenerateArray();
+        
         var series = CreateSeries(entities);
         _chart.Series = new []
         {
@@ -39,6 +43,7 @@ public abstract class Statistic<TSource>
         var xAxes = CreateLabels(entities);
         
         _chart.XAxes = xAxes;
+        _currentMonth.Text = sum.ToString();
         series.ChartPointPointerDown += SeriesOnChartPointPointerDown;
     }
 
@@ -49,7 +54,7 @@ public abstract class Statistic<TSource>
         var walletOperations =  new List<WalletOperation>();
         foreach (TSource entity in point.Model)
         {
-            WalletOperation walletOperation = CreateItem(entity);
+            WalletOperation walletOperation = ConvertToOperation(entity);
             walletOperations.Add(walletOperation);
 
             sum += walletOperation.Cost;
@@ -58,13 +63,13 @@ public abstract class Statistic<TSource>
     }
 
 
-    private List<Group<TSource>> GenerateArray()
+    private (List<Group<TSource>>, double) GenerateArray()
     {
         var list = new List<Group<TSource>>();
         DateTime date;
         if (_source.Any())
         {
-            date = _source.Min(FilterOnAttribute);
+            date = _source.Min(GetAttribute);
         }
         else
         {
@@ -72,15 +77,17 @@ public abstract class Statistic<TSource>
         }
         
         (DateTime first, DateTime last) = date.GetTwoDates();
+        double fullSum = 0;
         while (first <= last)
         {
             var group = new Group<TSource>(first.ToShortDateString(), new List<TSource>());
 
             foreach (TSource item in _source)
             {
-                if (FilterForAddedItem(first, item))
+                if (FilterByDate(first, item))
                 {
                     group.Entities.Add(item);
+                    fullSum += GetPrice(item);
                 }
             }
             list.Add(group);
@@ -88,7 +95,7 @@ public abstract class Statistic<TSource>
             first = first.AddDays(1);
         }
         
-        return list;
+        return (list, fullSum);
     }
     
     private List<Axis> CreateLabels(IEnumerable<IGrouping<string, TSource>> entities)
@@ -122,8 +129,9 @@ public abstract class Statistic<TSource>
         return series;
     }
 
-    protected abstract DateTime FilterOnAttribute(TSource item);
-    protected abstract bool FilterForAddedItem(DateTime currentDate, TSource item);
-    protected abstract WalletOperation CreateItem(TSource item);
+    protected abstract DateTime GetAttribute(TSource item);
+    protected abstract bool FilterByDate(DateTime currentDate, TSource item);
+    protected abstract WalletOperation ConvertToOperation(TSource item);
+    protected abstract double GetPrice(TSource item);
 
 }

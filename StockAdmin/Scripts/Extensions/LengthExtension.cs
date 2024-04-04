@@ -10,7 +10,7 @@ public static class LengthExtension
         
         if(field.Length <= vector.Minimum - 1 || field.Length >= vector.Maximum + 1)
         {
-            throw new ValidationException(message);
+            throw new MyValidationException(message);
         }
 
         return true;

@@ -63,11 +63,11 @@ public partial class AddedPersonPage : UserControl
             await SaveChanges(list);
             _frame.Content = new PersonPage(_frame);
         }
-        catch (ValidationException ex)
+        catch (Scripts.Exceptions.MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
         }
@@ -81,10 +81,7 @@ public partial class AddedPersonPage : UserControl
         {
             _personEntity.Posts = null;
             var person = await personRepository.CreateAsync(_personEntity);
-            if (_personEntity.Id == 0)
-            {
-                await SavePosts(posts, person);
-            }
+            await SavePosts(posts, person);
         }
         else
         {
@@ -157,11 +154,19 @@ public partial class AddedPersonPage : UserControl
 
     private void GenerateCode(object? sender, RoutedEventArgs e)
     {
-        var bitmap = CreateAvaloniaBitmap(CreateBitmap());
-        
-        BarCodeImage.Source = bitmap;
+        try
+        {
+            var bitmap = CreateAvaloniaBitmap(CreateBitmap());
 
-        SaveButton.IsVisible = true;
+            BarCodeImage.Source = bitmap;
+
+            SaveButton.IsVisible = true;
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage("Ошибка! В вашем email или пароле содержатся русские символы");
+        }
+        
     }
     
     private Bitmap CreateAvaloniaBitmap(System.Drawing.Bitmap bitmap)

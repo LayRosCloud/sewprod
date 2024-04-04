@@ -37,7 +37,7 @@ public partial class AddedTypeOfSizePage : UserControl
             await SaveChanges();
             _frame.Content = new SizePage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }

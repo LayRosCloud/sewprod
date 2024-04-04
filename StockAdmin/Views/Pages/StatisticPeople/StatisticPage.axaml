@@ -24,7 +24,7 @@
             </Border.Background>
             <StackPanel>
                 <TextBlock Text="фильтры" Foreground="White" Opacity="0.6"/>
-                <CheckBox x:Name="PartyOnly" IsChecked="True" Content="считать выкройки?" Foreground="White" FontWeight="Bold"/>
+                <CheckBox x:Name="PackageAndPartyOnly" IsChecked="True" Content="считать выкройки?" Foreground="White" FontWeight="Bold"/>
                 <Button Content="Перерасчитать" Click="Refresh" Background="Transparent" Foreground="White"/>
             </StackPanel>
         </Border>
@@ -59,6 +59,29 @@
                               BorderThickness="0"
                               Background="#0F1035"
                     />
+                </StackPanel>
+                
+            </Border>
+            <Border CornerRadius="5" 
+                    Padding="5"
+                    Height="60"
+                    Width="200"
+                    VerticalAlignment="Center"
+                    Margin="0 0 5 0"
+            >
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%, 50%" EndPoint="50%,100%">
+                        <GradientStop Color="#41C9E2" Offset="0"/>
+                        <GradientStop Color="#008DDA" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="сумма по фильтру " Foreground="White" Opacity="0.6"/>
+                    <TextBlock x:Name="FilterSum" 
+                               Text=""
+                               FontSize="25"
+                               Foreground="White"
+                               FontWeight="Bold"/>
                 </StackPanel>
                 
             </Border>

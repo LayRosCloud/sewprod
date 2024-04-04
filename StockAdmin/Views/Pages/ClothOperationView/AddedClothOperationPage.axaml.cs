@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Repositories;
 using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Repositories.Server;
@@ -53,7 +54,7 @@ public partial class AddedClothOperationPage : UserControl
             await SaveChanges();
             _frame.Content = new ClothOperationPage(_packageEntity, _frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
@@ -68,7 +69,7 @@ public partial class AddedClothOperationPage : UserControl
     {
         if (CmbOperation.SelectedItem == null)
         {
-            throw new ValidationException("Выберите операцию");
+            throw new MyValidationException("Выберите операцию");
         }
     }
     

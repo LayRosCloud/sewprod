@@ -33,7 +33,7 @@ public partial class AddedModelPricePage : UserControl
             await SaveChanges();
             _frame.Content = new ModelPage(_frame);
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
@@ -58,7 +58,7 @@ public partial class AddedModelPricePage : UserControl
     {
         if (TbPrice.Text.Length == 0)
         {
-            throw new ValidationException("Введите цену!");
+            throw new MyValidationException("Введите цену!");
         }
     }
     
