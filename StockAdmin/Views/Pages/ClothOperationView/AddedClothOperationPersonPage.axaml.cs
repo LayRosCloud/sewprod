@@ -19,6 +19,7 @@ public partial class AddedClothOperationPersonPage : UserControl
 {
     private readonly ContentControl _frame;
     private readonly ClothOperationPersonEntity _clothOperationPersonEntity;
+    private readonly ClothOperationEntity _clothOPeration;
     private readonly PackageEntity _packageEntity;
     private readonly IRepositoryFactory _factory;
 
@@ -37,6 +38,7 @@ public partial class AddedClothOperationPersonPage : UserControl
         _factory = ServerConstants.GetRepository();
         _frame = frame;
         _clothOperationPersonEntity = clothOperationPersonEntity;
+        _clothOPeration = clothOperationEntity;
         _packageEntity = packageEntity;
         _clothOperationPersonEntity.ClothOperationId = clothOperationEntity.Id;
         Init();
@@ -91,15 +93,24 @@ public partial class AddedClothOperationPersonPage : UserControl
         else
         {
             await repository.UpdateAsync(_clothOperationPersonEntity);
-            var clothOperation = await clothOperationRepo.GetAsync(_clothOperationPersonEntity.ClothOperationId);
+            ClothOperationEntity clothOperation = null;
+            if (_factory is ServerFactory)
+            {
+                clothOperation = _clothOPeration;
+            }
+            else
+            {
+                clothOperation = await clothOperationRepo.GetAsync(_clothOperationPersonEntity.ClothOperationId);
+            }
             bool allIsEnded = true;
-            clothOperation.ClothOperationPersons.ForEach(item =>
+
+            foreach (var item in clothOperation.ClothOperationPersons)
             {
                 if (!item.IsEnded)
                 {
                     allIsEnded = false;
                 }
-            });
+            }
 
             if (allIsEnded)
             {

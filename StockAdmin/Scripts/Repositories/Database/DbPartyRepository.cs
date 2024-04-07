@@ -128,7 +128,8 @@ public class DbPartyRepository : IPartiesRepository
                     {
                         Id = p.Model.Id,
                         Title = p.Model.Title,
-                        CodeVendor = p.Model.CodeVendor
+                        CodeVendor = p.Model.CodeVendor,
+                        Operations = p.Model.Operations
                     }
                 }
                 

@@ -11,7 +11,7 @@ public abstract class ColorConstants
     
     public static readonly Color Completed = Color.FromRgb(149, 192, 160);
     public static readonly Color Repeat = Color.FromRgb(244, 158, 49);
-    public static readonly Color Updated = Color.FromRgb(40, 40, 40);
+    public static readonly Color Updated = Color.FromRgb(255, 0, 150);
     public static readonly Color Admin =  Color.FromRgb(125, 181, 251);
     public static readonly Color Cutter =  Color.FromRgb(200, 200, 200);
 }

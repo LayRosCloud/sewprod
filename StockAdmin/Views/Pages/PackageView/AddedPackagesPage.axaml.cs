@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -51,7 +52,6 @@ public partial class AddedPackagesPage : UserControl
         var ageRepository = _factory.CreateAgeRepository();
         var materialRepository = _factory.CreateMaterialRepository();
 
-        var partyRepository = _factory.CreatePartyRepository();
         var modelRepository = _factory.CreateModelRepository();
         var personRepository = _factory.CreatePersonRepository();
         
@@ -64,7 +64,7 @@ public partial class AddedPackagesPage : UserControl
         CmPersons.ItemsSource = list;
         
         CbModels.ItemsSource = await modelRepository.GetAllAsync();
-        CbParties.ItemsSource = await partyRepository.GetAllAsync();
+        //CbParties.ItemsSource = await partyRepository.GetAllAsync();
     }
     
     private async void TrySaveElements(object? sender, RoutedEventArgs e)
@@ -95,7 +95,7 @@ public partial class AddedPackagesPage : UserControl
                 }
                 else
                 {
-                    throw new Scripts.Exceptions.MyValidationException("Ошибка! Крой не выбран");
+                    throw new MyValidationException("Ошибка! Крой не выбран");
                 }
             }
 
@@ -103,9 +103,9 @@ public partial class AddedPackagesPage : UserControl
             var packagesList = ReadAllPackagesTextBox(partyEntity);
 
             var packageEntities = await packageRepository.CreateAsync(packagesList);
-            
-            var model = IsNewCut.IsChecked == true ? CbModels.SelectedItem as ModelEntity : partyEntity.Model;
 
+            var model = IsNewCut.IsChecked == true ? CbModels.SelectedItem as ModelEntity : partyEntity.Model;
+            
             foreach (var package in packageEntities!)
             {
                 foreach (var operation in model!.Operations!)
@@ -363,14 +363,8 @@ public partial class AddedPackagesPage : UserControl
 
         var start = new DateTime(now.Year, now.Month, 1).AddMonths(-1);
         var end = new DateTime(now.Year, now.Month, 1).AddMonths(2).AddDays(-1);
-        
-        foreach (var party in list)
-        {
-            if (party.DateStart > start && party.DateStart < end)
-            {
-                filterList.Add(party);
-            }
-        }
+
+        filterList = list.Where(party => party.DateStart > start && party.DateStart < end).ToList();
         CbParties.ItemsSource = filterList;
     }
 

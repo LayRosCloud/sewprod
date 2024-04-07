@@ -180,7 +180,6 @@ C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\MySql.Dat
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\Ubiety.Dns.Core.dll
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\ZstdNet.dll
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\MySql.EntityFrameworkCore.dll
-C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\app.db
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\Microsoft.Data.Sqlite.dll
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Sqlite.dll
 C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll

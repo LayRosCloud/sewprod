@@ -165,11 +165,16 @@ public partial class StatisticPage : UserControl
     private double GetSumAndAddOnListParties(List<WalletOperation> walletOperations, List<PartyEntity> parties)
     {
         double fullSum = 0;
+        DateTime now = DateTime.Now;
+        (DateTime firstDay, DateTime lastDay) = now.GetTwoDates();
         
         foreach (var item in parties)
         {
-            walletOperations.Add(ConvertToDisplayData(item));
-            fullSum += GetPrice(item);
+            if (item.DateStart >= firstDay && item.DateStart <= lastDay && item.Person.Id == _person.Id)
+            {
+                walletOperations.Add(ConvertToDisplayData(item));
+                fullSum += GetPrice(item);
+            }
         }
 
         return fullSum;
