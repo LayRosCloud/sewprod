@@ -36,10 +36,7 @@
                 Margin="0 5 0 0"/>
             
             <TextBlock Text="Введите количество*" FontWeight="Bold" Margin="0 5 0 0"/>
-            <NumericUpDown Text="{Binding Count}"
-                           Minimum="1"
-                           Maximum="10000"
-                           FormatString="0"
+            <TextBox Text="{Binding Count}"
                            Watermark="Введите количество"/>
             
             <CheckBox IsChecked="{Binding IsEnded}" 

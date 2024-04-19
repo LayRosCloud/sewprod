@@ -116,6 +116,10 @@ public partial class AddedModelPage : UserControl
         {
             if(PricePanel.Children[indexChild] is StackPanel stackPanel && stackPanel.Children[0] is TextBox textBox)
             {
+                if (String.IsNullOrEmpty(textBox.Text!.Trim()))
+                {
+                    continue;
+                }
                 prices.Add(new PriceEntity{Number = Convert.ToDouble(textBox.Text)});
             }
             else
@@ -130,7 +134,6 @@ public partial class AddedModelPage : UserControl
     private IEnumerable<OperationEntity> GetOperations()
     {
         var countItems = OperationsPanel.Children.Count - 1;
-        const string exceptionValidationMessage = "Выберите все операции!";
         const int firstItem = 0;
 
         var operations = new List<OperationEntity>();
@@ -141,10 +144,6 @@ public partial class AddedModelPage : UserControl
             if (comboBox!.SelectedItem is OperationEntity entity)
             {
                 operations.Add(entity);
-            }
-            else
-            {
-                throw new MyValidationException(exceptionValidationMessage);
             }
         }
 

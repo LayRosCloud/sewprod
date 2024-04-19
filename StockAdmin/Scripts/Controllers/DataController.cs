@@ -30,6 +30,10 @@ public class DataController<TEntity>
         _entities.Clear();
         _entities.AddRange(await _repository.GetAllAsync());
         _control.ItemsSource = _entities;
-        _control.SelectedIndex = 0;
+        
+        if (_entities.Count > 0) 
+        {
+            _control.SelectedIndex = 0;
+        }
     }
 }

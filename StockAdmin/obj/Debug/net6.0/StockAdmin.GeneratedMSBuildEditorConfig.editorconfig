@@ -10,94 +10,93 @@ build_property.UsingMicrosoftNETSdkWeb =
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
-build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = StockAdmin
-build_property.ProjectDir = C:\Users\betrayal\RiderProjects\StockAdmin\StockAdmin\
+build_property.ProjectDir = /home/betrayal/projects/sewprod/StockAdmin/
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/App.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/AuthWindow.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/AuthWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/MainContainer.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/MainContainer.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPersonPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ClothOperationView/AddedClothOperationPersonPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ClothOperationView/ClothOperationPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ClothOperationView/ClothOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/HistoryView/HistoryPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/HistoryView/HistoryPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/MaterialView/AddedMaterialPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/MaterialView/AddedMaterialPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/MaterialView/MaterialsPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/MaterialView/MaterialsPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelView/AddedModelOperationPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ModelView/AddedModelOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelView/AddedModelPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ModelView/AddedModelPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelView/AddedModelPricePage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ModelView/AddedModelPricePage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/ModelView/ModelPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/ModelView/ModelPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/OperationView/AddedOperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/OperationView/OperationPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/OperationView/OperationPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PackageView/AddedPackagesPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/PackageView/AddedPackagesPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PackageView/AddedPartyPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/PackageView/AddedPartyPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PackageView/EditPackagesPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/PackageView/EditPackagesPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PackageView/PackagePage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/PackageView/PackagePage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PersonView/AddedPersonPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/PersonView/AddedPersonPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/PersonView/PersonPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/PersonView/PersonPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/SizeView/AddedSizePage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/SizeView/AddedSizePage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/SizeView/AddedTypeOfSizePage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/SizeView/AddedTypeOfSizePage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/SizeView/SizePage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/SizeView/SizePage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/Pages/StatisticPeople/StatisticPage.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/Pages/StatisticPeople/StatisticPage.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/DeletedBorder.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/UserControllers/DeletedBorder.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/LimitedTextBox.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/UserControllers/LimitedTextBox.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/LoadingBorder.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/UserControllers/LoadingBorder.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/betrayal/RiderProjects/StockAdmin/StockAdmin/Views/UserControllers/MenuButton.axaml]
+[/home/betrayal/projects/sewprod/StockAdmin/Views/UserControllers/MenuButton.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

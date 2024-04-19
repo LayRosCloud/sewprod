@@ -23,7 +23,7 @@ internal class DataContext : DbContext
     
     public DbSet<ActionEntity> actions { get; set; } = null!;
     public DbSet<AgeEntity> ages { get; set; } = null!;
-    public DbSet<ClothOperationEntity> clothoperations { get; set; } = null!;
+    public DbSet<ClothOperationEntity> clothOperations { get; set; } = null!;
     public DbSet<ClothOperationPersonEntity> clothOperationsPersons { get; set; } = null!;
     public DbSet<HistoryEntity> histories { get; set; } = null!;
     public DbSet<LinkEntity> links { get; set; } = null!;
