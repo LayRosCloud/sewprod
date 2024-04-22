@@ -73,15 +73,22 @@ public partial class PersonPage : UserControl
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreatePersonRepository();
-
-        if (List.SelectedItem is not PersonEntity person)
+        try
         {
-            return;
+            var repository = _factory.CreatePersonRepository();
+
+            if (List.SelectedItem is not PersonEntity person)
+            {
+                return;
+            }
+
+            await repository.DeleteAsync(person.Id);
+            Init();
         }
-        
-        await repository.DeleteAsync(person.Id);
-        Init();
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
+        }
     }
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -66,6 +67,19 @@ public partial class ModelPage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
+        try
+        {
+            await RemoveModelItems();
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
+        }
+        
+    }
+
+    private async Task RemoveModelItems()
+    {
         var repository = _factory.CreateModelRepository();
         var modelPricesRepository = _factory.CreateModelPriceRepository();
         var modelOperationRepository = _factory.CreateModelOperationRepository();
@@ -76,6 +90,7 @@ public partial class ModelPage : UserControl
                 {
                     await repository.DeleteAsync(model.Id);
                 }
+
                 break;
             case ListSelected.Second:
                 if (Operations.SelectedItem is OperationEntity operation)
@@ -86,6 +101,7 @@ public partial class ModelPage : UserControl
                         OperationId = operation.Id
                     });
                 }
+
                 break;
             case ListSelected.Third:
                 if (Prices.SelectedItem is PriceEntity price)
@@ -96,8 +112,10 @@ public partial class ModelPage : UserControl
                         PriceId = price.Id
                     });
                 }
+
                 break;
         }
+
         DeletedContainer.IsVisible = false;
 
         await InitData();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -90,11 +91,16 @@ public partial class StatisticPage : UserControl
         }
         else
         {
+            var now = DateTime.Now;
+            (var firstDay, var lastDay) = now.GetTwoDates();
+            var list = parties.Where(item =>
+                item.DateStart >= firstDay && item.DateStart <= lastDay && item.Person.Id == _person.Id).ToList();
+            
             var options = new StatisticOptions<PartyEntity>
             {
                 Chart = Chart,
                 OnGraphicClick = Initial,
-                Source = parties,
+                Source = list,
                 CurrentFilterMonthText = FilterSum
             };
             var packagesStatistic = new PartyStatistic(options);

@@ -66,15 +66,7 @@ public abstract class Statistic<TSource>
     private (List<Group<TSource>>, double) GenerateArray()
     {
         var list = new List<Group<TSource>>();
-        DateTime date;
-        if (_source.Any())
-        {
-            date = _source.Min(GetAttribute);
-        }
-        else
-        {
-            date = DateTime.Now;
-        }
+        var date = DateTime.Now;
         
         (DateTime first, DateTime last) = date.GetTwoDates();
         double fullSum = 0;

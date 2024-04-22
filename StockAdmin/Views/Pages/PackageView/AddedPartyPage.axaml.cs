@@ -63,9 +63,9 @@ public partial class AddedPartyPage : UserControl
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage + ex.Message);
         }
     }
 

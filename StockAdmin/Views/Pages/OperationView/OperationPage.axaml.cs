@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -66,12 +67,19 @@ public partial class OperationPage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreateOperationRepository();
-        
-        if (List.SelectedItem is OperationEntity operation)
+        try
         {
-            await repository.DeleteAsync(operation.Id);
-            Init();
+            var repository = _factory.CreateOperationRepository();
+
+            if (List.SelectedItem is OperationEntity operation)
+            {
+                await repository.DeleteAsync(operation.Id);
+                Init();
+            }
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
         }
     }
 

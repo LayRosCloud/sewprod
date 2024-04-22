@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using LiveChartsCore.SkiaSharpView.Avalonia;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Records;
 using StockAdmin.Scripts.Statistic.Records;

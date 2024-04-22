@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -109,24 +110,38 @@ public partial class SizePage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreateSizeRepository();
-        
-        if (ListSizes.SelectedItem is SizeEntity size)
+        try
         {
-            await repository.DeleteAsync(size.Id);
+            var repository = _factory.CreateSizeRepository();
+        
+            if (ListSizes.SelectedItem is SizeEntity size)
+            {
+                await repository.DeleteAsync(size.Id);
+            }
+            Init();
         }
-        Init();
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
+        }
     }
     
     private async void SendYesTypeSizeAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreateAgeRepository();
-        
-        if (ListAges.SelectedItem is AgeEntity age)
+        try
         {
-            await repository.DeleteAsync(age.Id);
+            var repository = _factory.CreateAgeRepository();
+        
+            if (ListAges.SelectedItem is AgeEntity age)
+            {
+                await repository.DeleteAsync(age.Id);
+            }
+            Init();
         }
-        Init();
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.UnexpectedAdminExceptionMessage);
+        }
     }
     
     private void ShowDeleteWindowSize(object? sender, RoutedEventArgs e)

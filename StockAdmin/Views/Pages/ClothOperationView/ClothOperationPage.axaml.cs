@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -99,6 +100,21 @@ public partial class ClothOperationPage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
+        try
+        {
+            await RemoveItem();
+
+            SendNoAnswerOnDeleteItem(sender, e);
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
+        }
+        
+    }
+
+    private async Task RemoveItem()
+    {
         var repositoryPerson = _factory.CreateClothOperationPersonRepository();
         var repositoryOperation = _factory.CreateClothOperationRepository();
         switch (_currentIndex)
@@ -119,17 +135,14 @@ public partial class ClothOperationPage : UserControl
                 if (List.SelectedItem is ClothOperationEntity operation)
                 {
                     await repositoryOperation.DeleteAsync(operation.Id);
-                
+
                     await InitAsync(_packageEntity);
                     List.SelectAll();
-
                 }
 
                 break;
             }
         }
-        
-        SendNoAnswerOnDeleteItem(sender, e);
     }
 
     private void SendNoAnswerOnDeleteItem(object? sender, RoutedEventArgs e)

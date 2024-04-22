@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/betrayal/projects/sewprod/StockAdmin/StockAdmin.csproj": {}
+    "C:\\Users\\betrayal\\RiderProjects\\StockAdmin\\StockAdmin\\StockAdmin.csproj": {}
   },
   "projects": {
-    "/home/betrayal/projects/sewprod/StockAdmin/StockAdmin.csproj": {
+    "C:\\Users\\betrayal\\RiderProjects\\StockAdmin\\StockAdmin\\StockAdmin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/betrayal/projects/sewprod/StockAdmin/StockAdmin.csproj",
+        "projectUniqueName": "C:\\Users\\betrayal\\RiderProjects\\StockAdmin\\StockAdmin\\StockAdmin.csproj",
         "projectName": "StockAdmin",
-        "projectPath": "/home/betrayal/projects/sewprod/StockAdmin/StockAdmin.csproj",
-        "packagesPath": "/home/betrayal/.nuget/packages/",
-        "outputPath": "/home/betrayal/projects/sewprod/StockAdmin/obj/",
+        "projectPath": "C:\\Users\\betrayal\\RiderProjects\\StockAdmin\\StockAdmin\\StockAdmin.csproj",
+        "packagesPath": "C:\\Users\\betrayal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\betrayal\\RiderProjects\\StockAdmin\\StockAdmin\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/betrayal/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\betrayal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -47,10 +49,6 @@
               "version": "[11.0.0, )"
             },
             "Avalonia.Desktop": {
-              "target": "Package",
-              "version": "[11.0.0, )"
-            },
-            "Avalonia.Diagnostics": {
               "target": "Package",
               "version": "[11.0.0, )"
             },
@@ -101,7 +99,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -110,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/var/run/host/usr/lib/dotnet/sdk/6.0.128/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

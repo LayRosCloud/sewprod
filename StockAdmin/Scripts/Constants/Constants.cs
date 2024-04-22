@@ -1,7 +1,7 @@
 ﻿namespace StockAdmin.Scripts.Constants;
 
-public class Constants
+public abstract class Constants
 {
-    public const string UnexpectedExceptionMessage = "Неожиданная ошибка";
+    public const string DeletedExceptionMessage = "Ошибка! У удаляемой сущности есть зависимые элементы";
     public const string UnexpectedAdminExceptionMessage = "Неожиданная ошибка! Обратитесь к разработчику приложения: vogistv@gmail.com";
 }

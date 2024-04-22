@@ -105,18 +105,23 @@ public partial class PackagePage : UserControl
     
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreatePackagesRepository();
-        
-        if (_package == null)
+        try
         {
-            return;
+            var repository = _factory.CreatePackagesRepository();
+
+            if (_package == null)
+            {
+                return;
+            }
+
+            await repository.DeleteAsync(_package.Id);
+            await Init();
         }
-        
-        await repository.DeleteAsync(_package.Id);
-        await Init();
-        DeletedContainer.IsVisible = false;
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
+        }
     }
-    
 
     private void ShowDeleteWindow(object? sender, RoutedEventArgs e)
     {
@@ -348,5 +353,23 @@ public partial class PackagePage : UserControl
     private void SendNoOnAnswer(object? sender, RoutedEventArgs e)
     {
         DeletedContainer.IsVisible = false;
+    }
+
+    private async void RemoveParty(object? sender, RoutedEventArgs e)
+    {
+        var repo = _factory.CreatePartyRepository();
+        
+        try
+        {
+            var party = (sender as Button).DataContext as PartyEntity;
+            await repo.DeleteAsync(party.Id);
+            await Init();
+
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
+        }
+
     }
 }

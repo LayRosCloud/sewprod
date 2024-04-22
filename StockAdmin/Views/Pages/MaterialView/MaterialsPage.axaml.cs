@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -70,15 +71,23 @@ public partial class MaterialsPage : UserControl
 
     private async void SendYesAnswerOnDeleteItem(object? sender, RoutedEventArgs e)
     {
-        var repository = _factory.CreateMaterialRepository();
-
-        if (ListMaterials.SelectedItem is not MaterialEntity material)
+        try
         {
-            return;
+            var repository = _factory.CreateMaterialRepository();
+
+            if (ListMaterials.SelectedItem is not MaterialEntity material)
+            {
+                return;
+            }
+
+            await repository.DeleteAsync(material.Id);
+            await Init();
+        }
+        catch (Exception)
+        {
+            ElementConstants.ErrorController.AddErrorMessage(Constants.DeletedExceptionMessage);
         }
         
-        await repository.DeleteAsync(material.Id);
-        await Init();
     }
     
     private void ShowDeleteWindowMaterial(object? sender, RoutedEventArgs e)
