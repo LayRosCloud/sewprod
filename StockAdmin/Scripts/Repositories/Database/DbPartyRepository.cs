@@ -90,6 +90,7 @@ public class DbPartyRepository : IPartiesRepository
 
     public async Task<PartyEntity> UpdateAsync(PartyEntity entity)
     {
+        _db.ChangeTracker.Clear();
         var response = _db.parties.Update(entity).Entity;
         await _db.SaveChangesAsync();
         return response;
@@ -97,7 +98,13 @@ public class DbPartyRepository : IPartiesRepository
 
     public async Task DeleteAsync(int id)
     {
-        var item = await GetAsync(id);
+        var item = await _db.parties.FirstOrDefaultAsync(x=> x.Id == id);
+        
+        if (item == null)
+        {
+            return;
+        }
+        
         _db.parties.Remove(item);
         await _db.SaveChangesAsync();
     }
