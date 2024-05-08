@@ -187,4 +187,13 @@ public partial class PersonPage : UserControl
             ElementConstants.ErrorController.AddErrorMessage("Процесс занят другим. Закройте Word");
         }
     }
+
+    private void NavigateToRolePage(object? sender, RoutedEventArgs e)
+    {
+        if (List.SelectedItem is PersonEntity person)
+        {
+            _frame.Content = new RolePage(_frame, person);
+
+        }
+    }
 }

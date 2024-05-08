@@ -19,6 +19,11 @@
         <DataGrid Grid.Row="1" 
                   x:Name="List"
                   DoubleTapped="NavigateToMoreInformation">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Роли" Click="NavigateToRolePage"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Почта" 

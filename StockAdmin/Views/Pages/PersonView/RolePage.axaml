@@ -1,0 +1,36 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:StockAdmin.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="StockAdmin.Views.Pages.PersonView.RolePage"
+             
+             >
+    <Grid RowDefinitions="60, *">
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <TextBlock Text="роли сотрудника " FontSize="20"/>
+            <TextBlock x:Name="FullName" FontSize="20" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel>
+                <ComboBox x:Name="Posts" DisplayMemberBinding="{Binding DataType=models:PostEntity, Path=Description}" Width="200"/>
+                <Button Content="Добавить" Click="AddPost"/>
+            </StackPanel>
+            <Button Classes="back" Click="Back"/>
+        </StackPanel>
+        
+        <DataGrid x:Name="PersonPosts" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" 
+                                    Binding="{Binding DataType=models:PostEntity, Path=Description}"
+                                    />
+                <DataGridTemplateColumn Header="Удалить">
+                    <DataTemplate>
+                        <Button Content="🗑️" Click="DeleteRole"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

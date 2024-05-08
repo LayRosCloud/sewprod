@@ -79,7 +79,7 @@ public partial class AddedPersonPage : UserControl
 
         if (_personEntity.Id == 0)
         {
-            _personEntity.Posts = null;
+            _personEntity.Posts = null!;
             var person = await personRepository.CreateAsync(_personEntity);
             await SavePosts(posts, person);
         }
@@ -108,11 +108,13 @@ public partial class AddedPersonPage : UserControl
 
     private List<PostEntity> GetPosts()
     {
-        List<PostEntity> posts = new List<PostEntity>();
+        var posts = new List<PostEntity>();
+        
         if (_personEntity.Id != 0)
         {
             return posts;
         }
+        
         var countItems = RolesPanel.Children.Count - 1;
         const string exceptionValidationMessage = "Выберите роли!";
         const int firstItem = 0;
@@ -144,7 +146,7 @@ public partial class AddedPersonPage : UserControl
             throw new ValidationException("Выберите дату рождения!");
         }
 
-        TbUid.Text!.ContainLengthBetweenValues(new LengthVector(1, 20), "Индентификатор от 1 до 20 символов");
+        TbUid.Text!.ContainLengthBetweenValues(new LengthVector(1, 20), "Идентификатор от 1 до 20 символов");
     }
     
     public override string ToString()
