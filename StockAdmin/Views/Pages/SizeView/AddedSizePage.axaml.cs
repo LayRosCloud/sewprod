@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using StockAdmin.Models;
 using StockAdmin.Scripts.Constants;
+using StockAdmin.Scripts.Exceptions;
 using StockAdmin.Scripts.Extensions;
 using StockAdmin.Scripts.Repositories.Interfaces;
 using StockAdmin.Scripts.Server;
@@ -47,7 +48,7 @@ public partial class AddedSizePage : UserControl
 
             _frame.Content = new SizePage(_frame);
         }
-        catch (Scripts.Exceptions.MyValidationException ex)
+        catch (MyValidationException ex)
         {
             ElementConstants.ErrorController.AddErrorMessage(ex.Message);
         }
@@ -81,7 +82,7 @@ public partial class AddedSizePage : UserControl
         
         if (CbTypes.SelectedItem == null)
         {
-            throw new ValidationException(validationTypeMessage);
+            throw new MyValidationException(validationTypeMessage);
         }
     }
     

@@ -61,7 +61,7 @@ public partial class AddedOperationPage : UserControl
         TbName.Text!.ContainLengthBetweenValues(new LengthVector(1, 30), "Название от 1 до 30 символов");
         TbDescription.Text!.ContainLengthBetweenValues(new LengthVector(1, 255), "Описание от 1 до 255 символов");
         TbUid.Text!.ContainLengthBetweenValues(new LengthVector(1, 5), "Артикул от 1 до 5 символов");
-        TbPercent.Text!.ContainLengthBetweenValues(new LengthVector(1, 10), "Введите процент!");
+        TbPercent.Text!.ContainLengthBetweenValues(new LengthVector(1, 30), "Введите процент!");
     }
     
     private async Task SaveChanges()

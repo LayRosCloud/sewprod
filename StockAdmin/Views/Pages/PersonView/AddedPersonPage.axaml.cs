@@ -86,6 +86,11 @@ public partial class AddedPersonPage : UserControl
         else
         {
             await personRepository.UpdateAsync(_personEntity);
+            if (_personEntity.Id == ServerConstants.AuthorizationUser.Id)
+            {
+                ServerConstants.Login = _personEntity.Email;
+                ServerConstants.Password = _personEntity.Password;
+            }
         }
 
     }
@@ -137,8 +142,8 @@ public partial class AddedPersonPage : UserControl
 
     private void CheckFields()
     {
-        TbEmail.Text!.ContainLengthBetweenValues(new LengthVector(1, 50), "Почта от 1 до 50 символов");
-        TbPassword.Text!.ContainLengthBetweenValues(new LengthVector(1, 30), "Пароль от 1 до 30 символов");
+        TbEmail.Text!.ContainLengthBetweenValues(new LengthVector(6, 50), "Почта от 6 до 50 символов");
+        TbPassword.Text!.ContainLengthBetweenValues(new LengthVector(4, 30), "Пароль от 4 до 30 символов");
         TbLastName.Text!.ContainLengthBetweenValues(new LengthVector(1, 40), "Фамилия от 1 до 40 символов");
         TbFirstName.Text!.ContainLengthBetweenValues(new LengthVector(1, 40), "Имя от 1 до 40 символов");
         if (CdpBirthDay.SelectedDate == null)
@@ -166,7 +171,7 @@ public partial class AddedPersonPage : UserControl
         }
         catch (Exception)
         {
-            ElementConstants.ErrorController.AddErrorMessage("Ошибка! В вашем email или пароле содержатся русские символы");
+            ElementConstants.ErrorController.AddErrorMessage("Ошибка! В вашей почте или пароле содержатся русские символы");
         }
         
     }

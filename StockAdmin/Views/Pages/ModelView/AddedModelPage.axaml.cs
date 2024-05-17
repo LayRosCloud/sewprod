@@ -253,7 +253,7 @@ public partial class AddedModelPage : UserControl
             Controls =
             {
                 countTextBox,
-                controller.CreateButton(removeButton, RemoveField) //TODO: Event
+                controller.CreateButton(removeButton, RemoveField)
             }
         };
         countTextBox.TextChanged += ReplaceOnNormalDoubleDigit;

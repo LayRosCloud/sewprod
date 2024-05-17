@@ -23,7 +23,10 @@ public partial class AddedClothOperationPage : UserControl
     public AddedClothOperationPage(PackageEntity packageEntity, ContentControl frame)
         : this(packageEntity, new ClothOperationEntity(), frame)
     {
-        CbEnded.IsVisible = false;
+        if (ServerConstants.GetRepository() is ServerFactory)
+        {
+            CbEnded.IsVisible = false;
+        }
     }
     
     public AddedClothOperationPage(PackageEntity packageEntity, ClothOperationEntity clothOperationEntity, ContentControl frame)
